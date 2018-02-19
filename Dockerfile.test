@@ -1,0 +1,20 @@
+FROM nchannelqa/base-nodejs-image:1.0.6
+MAINTAINER nchanneldeveloper <developers@nchannel.com>
+
+# Create app directory
+RUN mkdir -p /sdk
+WORKDIR /sdk
+
+# Create VOLUME for source
+COPY . /sdk
+COPY .npmrc /sdk
+
+RUN chown -R node:node /sdk
+
+RUN chmod +x ./hooks/*.sh
+
+RUN npm install
+
+USER root
+
+CMD [ "./channel_tests/runTest.sh" ]

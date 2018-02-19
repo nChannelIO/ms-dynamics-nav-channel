@@ -1,0 +1,53 @@
+#!/bin/bash
+#set -x			# activate debugging from here
+#set +x			# stop debugging from here
+
+###########################################################
+# publish_packages
+###########################################################
+function publish_packages {
+  echo "**********************************************"
+  echo "Start publish_packages "
+  echo "**********************************************"
+
+  VERSION=`node -pe "require('./package.json').version"` && \
+  NAME=`node -pe "require('./package.json').name"` && \
+
+  echo Publishing: $NAME
+  echo Publish Version: $VERSION
+
+  echo "npm publish @nchannel/$NAME --tag" $1
+  npm publish --tag $1
+
+  echo "**********************************************"
+  echo "End publish_packages "
+  echo "**********************************************"
+}
+
+
+
+################################################################################
+###                            mainline code
+################################################################################
+
+echo
+echo "************************************************************************"
+echo "***          S T A R T   N P M   P U B L I S H   H O O K             ***"
+echo "************************************************************************"
+echo
+
+if [ $SOURCE_BRANCH == "development" ]; then
+  echo "The SOURCE_BRANCH=[${SOURCE_BRANCH}] attempting to publish as notcertified";
+  publish_packages "notcertified";
+elif [ $SOURCE_BRANCH == "qa" ]; then
+  echo "The SOURCE_BRANCH=[${SOURCE_BRANCH}] attempting to publish as certified";
+  publish_packages "certified";
+else
+  echo "Nothing to do for SOURCE_BRANCH=[${SOURCE_BRANCH}]."
+fi
+
+echo
+echo "************************************************************************"
+echo "***             E N D    N P M   P U B L I S H   H O O K             ***"
+echo "************************************************************************"
+echo
