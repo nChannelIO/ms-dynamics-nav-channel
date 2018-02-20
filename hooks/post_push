@@ -39,9 +39,6 @@ echo
 if [ $SOURCE_BRANCH == "development" ]; then
   echo "The SOURCE_BRANCH=[${SOURCE_BRANCH}] attempting to publish as notcertified";
   publish_packages "notcertified";
-elif [ $SOURCE_BRANCH == "qa" ]; then
-  echo "The SOURCE_BRANCH=[${SOURCE_BRANCH}] attempting to publish as certified";
-  publish_packages "certified";
 else
   echo "Nothing to do for SOURCE_BRANCH=[${SOURCE_BRANCH}]."
 fi
