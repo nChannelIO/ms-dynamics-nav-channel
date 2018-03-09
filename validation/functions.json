@@ -1,0 +1,77 @@
+{
+  "CheckForCustomer": {
+    "statusCodes": [200, 204, 409, 400, 429, 500]
+  },
+  "CheckForCustomerAddress": {
+    "statusCodes": [200, 204, 409, 400, 429, 500]
+  },
+  "CheckForCustomerContact": {
+    "statusCodes": [200, 204, 409, 400, 429, 500]
+  },
+  "CheckForFulfillment": {
+    "statusCodes": [200, 204, 409, 400, 429, 500]
+  },
+  "CheckForSalesOrder": {
+    "statusCodes": [200, 204, 409, 400, 429, 500]
+  },
+  "ExtractCustomerAddressesFromCustomer": {
+    "statusCodes": [200, 204, 400, 429, 500]
+  },
+  "ExtractCustomerFromSalesOrder": {
+    "statusCodes": [200, 204, 400, 429, 500]
+  },
+  "ExtractCustomerContactsFromCustomer": {
+    "statusCodes": [200, 204, 400, 429, 500]
+  },
+  "ExtractBillingAddressFromSalesOrder": {
+    "statusCodes": [200, 204, 400, 429, 500]
+  },
+  "ExtractShippingAddressFromSalesOrder": {
+    "statusCodes": [200, 204, 400, 429, 500]
+  },
+  "GetCustomerFromQuery": {
+    "statusCodes": [200, 204, 206, 400, 429, 500]
+  },
+  "GetFulfillmentFromQuery": {
+    "statusCodes": [200, 204, 206, 400, 429, 500]
+  },
+  "GetSalesOrderFromQuery": {
+    "statusCodes": [200, 204, 206, 400, 429, 500]
+  },
+  "InsertProduct": {
+    "statusCodes": [201, 400, 429, 500]
+  },
+  "InsertCustomer": {
+    "statusCodes": [201, 400, 429, 500]
+  },
+  "InsertCustomerAddress": {
+    "statusCodes": [201, 400, 429, 500]
+  },
+  "InsertCustomerContact": {
+    "statusCodes": [201, 400, 429, 500]
+  },
+  "InsertFulfillment": {
+    "statusCodes": [201, 400, 429, 500]
+  },
+  "InsertSalesOrder": {
+    "statusCodes": [201, 400, 429, 500]
+  },
+  "UpdateProduct": {
+    "statusCodes": [200, 400, 429, 500]
+  },
+  "UpdateCustomer": {
+    "statusCodes": [200, 400, 429, 500]
+  },
+  "UpdateCustomerAddress": {
+    "statusCodes": [200, 400, 429, 500]
+  },
+  "UpdateCustomerContact": {
+    "statusCodes": [200, 400, 429, 500]
+  },
+  "UpdateFulfillment": {
+    "statusCodes": [200, 400, 429, 500]
+  },
+  "UpdateSalesOrder": {
+    "statusCodes": [200, 400, 429, 500]
+  }
+}
