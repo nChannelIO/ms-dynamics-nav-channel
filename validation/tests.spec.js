@@ -6,10 +6,11 @@ let fs = require('fs');
 let nock = require('nock');
 let functionCodes = require('./functions.json');
 
-if (fs.existsSync('/sdk/config/channel-settings.json')) {
+if (fs.existsSync('config/channel-settings.json')) {
+  console.log("test");
 
-  let channel_settings = require('/sdk/config/channel-settings.json');
-  let docsFile = require('/sdk/config/docs.json');
+  let channel_settings = require('../config/channel-settings.json');
+  let docsFile = require('../config/docs.json');
   let docs = docsFile.docs;
 
   let baseChannelProfile = {
@@ -19,7 +20,7 @@ if (fs.existsSync('/sdk/config/channel-settings.json')) {
   let ncUtil = docs.ncUtil;
 
   // Check if functions exist
-  if (fs.existsSync('/sdk/functions')) {
+  if (fs.existsSync('functions')) {
 
     // Get the functions for the current channel
     function getFunctions(path) {
@@ -29,7 +30,7 @@ if (fs.existsSync('/sdk/config/channel-settings.json')) {
     }
 
     let untestedFunction = false;
-    let functions = getFunctions('/sdk/functions');
+    let functions = getFunctions('functions');
 
     // Itereate through each function in the channel
     for (let j = 0; j < functions.length; j++) {
@@ -46,7 +47,7 @@ if (fs.existsSync('/sdk/config/channel-settings.json')) {
           let channelProfile = _.merge(docsFile.channelProfile, baseChannelProfile);
 
           // Require function
-          let file = require('/sdk/functions/' + functionName);
+          let file = require('../functions/' + functionName);
 
           // Evaluate status codes
           let statusCodes = functionCodes[functionName].statusCodes;
