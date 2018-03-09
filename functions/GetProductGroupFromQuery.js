@@ -65,8 +65,7 @@ let GetProductGroupFromQuery = function (ncUtil,
     // The `soap` module can be used in place of `request` but the logic and data being sent will be different
     let request = require('request');
 
-    let endPoint = "";
-    let url = "";
+    let url = "https://localhost/";
 
     // Add any headers for the request
     let headers = {
@@ -79,7 +78,7 @@ let GetProductGroupFromQuery = function (ncUtil,
     // Set options
     let options = {
       url: url,
-      method: "POST",
+      method: "GET",
       headers: headers,
       body: payload.doc,
       json: true
@@ -90,8 +89,53 @@ let GetProductGroupFromQuery = function (ncUtil,
       request(options, function (error, response, body) {
         if (!error) {
           // If no errors, process results here
+          log("Do GetProductGroupFromQuery Callback", ncUtil);
+          out.response.endpointStatusCode = response.statusCode;
+          out.response.endpointStatusMessage = response.statusMessage;
+
+          let docs = [];
+          let data = body;
+
+          if (response.statusCode === 200) {
+            if (data.products && data.products.length > 0) {
+              for (let i = 0; i < data.products.length; i++) {
+                let product = {
+                  product: body.products[i]
+                };
+                docs.push({
+                  doc: product,
+                  productGroupRemoteID: product.product.id,
+                  productGroupBusinessReference: product.product.id
+                });
+              }
+              if (docs.length === payload.doc.pageSize) {
+                out.ncStatusCode = 206;
+              } else {
+                out.ncStatusCode = 200;
+              }
+              out.payload = docs;
+            } else {
+              out.ncStatusCode = 204;
+              out.payload = data;
+            }
+          } else if (response.statusCode === 429) {
+            out.ncStatusCode = 429;
+            out.payload.error = data;
+          } else if (response.statusCode === 500) {
+            out.ncStatusCode = 500;
+            out.payload.error = data;
+          } else {
+            out.ncStatusCode = 400;
+            out.payload.error = data;
+          }
+
+          callback(out);
         } else {
           // If an error occurs, log the error here
+          logError("Do GetProductGroupFromQuery Callback error - " + error, ncUtil);
+          out.ncStatusCode = 500;
+          out.payload.error = {err: error};
+          callback(out);
         }
       });
     } catch (err) {

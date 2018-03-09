@@ -15,19 +15,22 @@
     "statusCodes": [200, 204, 409, 400, 429, 500]
   },
   "ExtractCustomerAddressesFromCustomer": {
-    "statusCodes": [200, 204, 400, 429, 500]
+    "statusCodes": [200, 204]
   },
   "ExtractCustomerFromSalesOrder": {
-    "statusCodes": [200, 204, 400, 429, 500]
+    "statusCodes": [200, 204]
   },
   "ExtractCustomerContactsFromCustomer": {
-    "statusCodes": [200, 204, 400, 429, 500]
+    "statusCodes": [200, 204]
   },
   "ExtractBillingAddressFromSalesOrder": {
-    "statusCodes": [200, 204, 400, 429, 500]
+    "statusCodes": [200, 204]
   },
   "ExtractShippingAddressFromSalesOrder": {
-    "statusCodes": [200, 204, 400, 429, 500]
+    "statusCodes": [200, 204]
+  },
+  "ExtractProductFromProductGroup": {
+    "statusCodes": [200, 204]
   },
   "GetCustomerFromQuery": {
     "statusCodes": [200, 204, 206, 400, 429, 500]

@@ -65,8 +65,7 @@ let GetFulfillmentFromQuery = function (ncUtil,
     // The `soap` module can be used in place of `request` but the logic and data being sent will be different
     let request = require('request');
 
-    let endPoint = "";
-    let url = "";
+    let url = "https://localhost/";
 
     // Add any headers for the request
     let headers = {
@@ -79,7 +78,7 @@ let GetFulfillmentFromQuery = function (ncUtil,
     // Set options
     let options = {
       url: url,
-      method: "POST",
+      method: "GET",
       headers: headers,
       body: payload.doc,
       json: true
@@ -90,8 +89,55 @@ let GetFulfillmentFromQuery = function (ncUtil,
       request(options, function (error, response, body) {
         if (!error) {
           // If no errors, process results here
+          log("Do GetFulfillmentFromQuery Callback", ncUtil);
+          out.response.endpointStatusCode = response.statusCode;
+          out.response.endpointStatusMessage = response.statusMessage;
+
+          // Parse data
+          let docs = [];
+          let data = body;
+
+          if (response.statusCode === 200) {
+            if (data.fulfillments && data.fulfillments.length > 0) {
+              for (let i = 0; i < data.fulfillments.length; i++) {
+                let fulfillment = {
+                  fulfillment: data.fulfillments[i]
+                };
+                docs.push({
+                  doc: fulfillment,
+                  fulfillmentRemoteID: fulfillment.fulfillment.id,
+                  fulfillmentBusinessReference: fulfillment.fulfillment.id,
+                  salesOrderRemoteID: payload.salesOrderRemoteID
+                });
+              }
+              if (docs.length === payload.doc.pageSize) {
+                out.ncStatusCode = 206;
+              } else {
+                out.ncStatusCode = 200;
+              }
+              out.payload = docs;
+            } else {
+              out.ncStatusCode = 204;
+              out.payload = data;
+            }
+          } else if (response.statusCode === 429) {
+            out.ncStatusCode = 429;
+            out.payload.error = data;
+          } else if (response.statusCode === 500) {
+            out.ncStatusCode = 500;
+            out.payload.error = data;
+          } else {
+            out.ncStatusCode = 400;
+            out.payload.error = data;
+          }
+
+          callback(out);
         } else {
           // If an error occurs, log the error here
+          logError("Do GetFulfillmentFromQuery Callback error - " + error, ncUtil);
+          out.ncStatusCode = 500;
+          out.payload.error = {err: error};
+          callback(out);
         }
       });
     } catch (err) {

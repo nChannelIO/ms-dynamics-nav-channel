@@ -65,8 +65,7 @@ let UpdateSalesOrder = function (ncUtil,
     // The `soap` module can be used in place of `request` but the logic and data being sent will be different
     let request = require('request');
 
-    let endPoint = "";
-    let url = "";
+    let url = "https://localhost/";
 
     // Add any headers for the request
     let headers = {
@@ -79,7 +78,7 @@ let UpdateSalesOrder = function (ncUtil,
     // Set options
     let options = {
       url: url,
-      method: "POST",
+      method: "PUT",
       headers: headers,
       body: payload.doc,
       json: true
@@ -90,8 +89,30 @@ let UpdateSalesOrder = function (ncUtil,
       request(options, function (error, response, body) {
         if (!error) {
           // If no errors, process results here
+          if (response.statusCode === 200 && body.order) {
+            out.payload = {
+              doc: body,
+              salesOrderBusinessReference: body.order.id
+            };
+
+            out.ncStatusCode = 200;
+          } else if (response.statusCode == 429) {
+            out.ncStatusCode = 429;
+            out.payload.error = body;
+          } else if (response.statusCode == 500) {
+            out.ncStatusCode = 500;
+            out.payload.error = body;
+          } else {
+            out.ncStatusCode = 400;
+            out.payload.error = body;
+          }
+          callback(out);
         } else {
           // If an error occurs, log the error here
+          logError("Do UpdateSalesOrder Callback error - " + error, ncUtil);
+          out.ncStatusCode = 500;
+          out.payload.error = error;
+          callback(out);
         }
       });
     } catch (err) {
