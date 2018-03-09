@@ -5,7 +5,7 @@ function run_tests {
   echo "Begin Running Tests "
   echo "**********************************************"
 
-  mocha --timeout 10000 validation/*.spec.js
+  /sdk/node_modules/mocha/bin/mocha --timeout 10000 validation/*.spec.js
 
   echo "**********************************************"
   echo "End Running Tests "

@@ -7,8 +7,6 @@ let nock = require('nock');
 let functionCodes = require('./functions.json');
 
 if (fs.existsSync('config/channel-settings.json')) {
-  console.log("test");
-
   let channel_settings = require('../config/channel-settings.json');
   let docsFile = require('../config/docs.json');
   let docs = docsFile.docs;

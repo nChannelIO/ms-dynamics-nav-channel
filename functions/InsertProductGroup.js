@@ -134,4 +134,4 @@ function log(msg, ncUtil) {
   console.log("[info] " + msg);
 }
 
-module.exports.InsertProduct = InsertProduct;
+module.exports.InsertProductGroup = InsertProductGroup;

@@ -164,6 +164,157 @@
       ]
     },
     {
+      "functionName": "CheckForProduct",
+      "tests": [
+        {
+          "ncStatusCode": 200,
+          "payload": {
+            "doc": {}
+          },
+          "baseUri": "https://localhost",
+          "defaultHeaders": {},
+          "links": [
+            {
+              "uri": "/",
+              "method": "GET",
+              "replyHeaders": {},
+              "statusCode": 200,
+              "responsePayload": {
+                "products": [
+                  {
+                    "id": 1073339459,
+                    "sku": "test"
+                  }
+                ]
+              }
+            }
+          ],
+          "channelProfile": {
+            "productBusinessReferences": ["productid"]
+          }
+        },
+        {
+          "ncStatusCode": 204,
+          "payload": {
+            "doc": {}
+          },
+          "baseUri": "https://localhost",
+          "defaultHeaders": {},
+          "links": [
+            {
+              "uri": "/",
+              "method": "GET",
+              "replyHeaders": {},
+              "statusCode": 200,
+              "responsePayload": {
+                "products": []
+              }
+            }
+          ],
+          "channelProfile": {
+            "productBusinessReferences": ["productid"]
+          }
+        },
+        {
+          "ncStatusCode": 409,
+          "payload": {
+            "doc": {}
+          },
+          "baseUri": "https://localhost",
+          "defaultHeaders": {},
+          "links": [
+            {
+              "uri": "/",
+              "method": "GET",
+              "replyHeaders": {},
+              "statusCode": 200,
+              "responsePayload": {
+                "products": [
+                  {
+                    "id": 1073339459,
+                    "sku": "test"
+                  },
+                  {
+                    "id": 1073339459,
+                    "sku": "test"
+                  }
+                ]
+              }
+            }
+          ],
+          "channelProfile": {
+            "productBusinessReferences": ["productid"]
+          }
+        },
+        {
+          "ncStatusCode": 400,
+          "payload": {
+            "doc": {}
+          },
+          "baseUri": "https://localhost",
+          "defaultHeaders": {},
+          "links": [
+            {
+              "uri": "/",
+              "method": "GET",
+              "replyHeaders": {},
+              "statusCode": 401,
+              "responsePayload": {
+                "products": []
+              }
+            }
+          ],
+          "channelProfile": {
+            "productBusinessReferences": ["productid"]
+          }
+        },
+        {
+          "ncStatusCode": 429,
+          "payload": {
+            "doc": {}
+          },
+          "baseUri": "https://localhost",
+          "defaultHeaders": {},
+          "links": [
+            {
+              "uri": "/",
+              "method": "GET",
+              "replyHeaders": {},
+              "statusCode": 429,
+              "responsePayload": {
+                "products": []
+              }
+            }
+          ],
+          "channelProfile": {
+            "productBusinessReferences": ["productid"]
+          }
+        },
+        {
+          "ncStatusCode": 500,
+          "payload": {
+            "doc": {}
+          },
+          "baseUri": "https://localhost",
+          "defaultHeaders": {},
+          "links": [
+            {
+              "uri": "/",
+              "method": "GET",
+              "replyHeaders": {},
+              "statusCode": 500,
+              "responsePayload": {
+                "products": []
+              }
+            }
+          ],
+          "channelProfile": {
+            "productBusinessReferences": ["productid"]
+          }
+        }
+      ]
+    },
+    {
       "functionName": "CheckForProductGroup",
       "tests": [
         {
