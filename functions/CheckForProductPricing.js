@@ -65,8 +65,7 @@ let CheckForProductPricing = function (ncUtil,
     // The `soap` module can be used in place of `request` but the logic and data being sent will be different
     let request = require('request');
 
-    let endPoint = "";
-    let url = "";
+    let url = "https://localhost/";
 
     // Add any headers for the request
     let headers = {
@@ -79,7 +78,7 @@ let CheckForProductPricing = function (ncUtil,
     // Set options
     let options = {
       url: url,
-      method: "POST",
+      method: "GET",
       headers: headers,
       body: payload.doc,
       json: true
@@ -90,8 +89,36 @@ let CheckForProductPricing = function (ncUtil,
       request(options, function (error, response, body) {
         if (!error) {
           // If no errors, process results here
+          if (response.statusCode == 200) {
+            if (body.products && body.products.length == 1) {
+              out.ncStatusCode = 200;
+              out.payload = {
+                productPricingRemoteID: "1",
+                productPricingBusinessReference: "sku"
+              };
+            } else if (body.products.length > 1) {
+              out.ncStatusCode = 409;
+              out.payload.error = body;
+            } else {
+              out.ncStatusCode = 204;
+            }
+          } else if (response.statusCode == 429) {
+            out.ncStatusCode = 429;
+            out.payload.error = body;
+          } else if (response.statusCode == 500) {
+            out.ncStatusCode = 500;
+            out.payload.error = body;
+          } else {
+            out.ncStatusCode = 400;
+            out.payload.error = body;
+          }
+          callback(out);
         } else {
           // If an error occurs, log the error here
+          logError("Do CheckForProductPricing Callback error - " + error, ncUtil);
+          out.ncStatusCode = 500;
+          out.payload.error = error;
+          callback(out);
         }
       });
     } catch (err) {

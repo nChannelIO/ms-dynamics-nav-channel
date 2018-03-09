@@ -65,8 +65,7 @@ let InsertProductGroup = function (ncUtil,
     // The `soap` module can be used in place of `request` but the logic and data being sent will be different
     let request = require('request');
 
-    let endPoint = "";
-    let url = "";
+    let url = "https://localhost/";
 
     // Add any headers for the request
     let headers = {
@@ -90,13 +89,30 @@ let InsertProductGroup = function (ncUtil,
       request(options, function (error, response, body) {
         if (!error) {
           // If no errors, process results here
+          if (response.statusCode === 201) {
+            out.ncStatusCode = 201;
+          } else if (response.statusCode == 429) {
+            out.ncStatusCode = 429;
+            out.payload.error = body;
+          } else if (response.statusCode == 500) {
+            out.ncStatusCode = 500;
+            out.payload.error = body;
+          } else {
+            out.ncStatusCode = 400;
+            out.payload.error = body;
+          }
+          callback(out);
         } else {
           // If an error occurs, log the error here
+          logError("Do InsertProductGroup Callback error - " + error, ncUtil);
+          out.ncStatusCode = 500;
+          out.payload.error = {err: error};
+          callback(out);
         }
       });
     } catch (err) {
       // Exception Handling
-      logError("Exception occurred in InsertProduct - " + err, ncUtil);
+      logError("Exception occurred in InsertProductGroup - " + err, ncUtil);
       out.ncStatusCode = 500;
       out.payload.error = {err: err, stack: err.stackTrace};
       callback(out);
@@ -118,4 +134,4 @@ function log(msg, ncUtil) {
   console.log("[info] " + msg);
 }
 
-module.exports.InsertProduct = InsertProduct;
+module.exports.InsertProductGroup = InsertProductGroup;

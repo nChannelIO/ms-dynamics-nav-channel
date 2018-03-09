@@ -5,15 +5,6 @@
     "logger": null
   },
   "channelProfile": {
-    "customerBusinessReferences": ["email"],
-    "customerAddressBusinessReferences": ["address1", "address2", "state", "city", "zip"],
-    "customerContactBusinessReferences": ["phone"],
-    "salesOrderBusinessReferences": ["orderid"],
-    "fulfillmentBusinessReferences": ["fulfillmentid"],
-    "productBusinessReferences": ["productid"],
-    "productGroupBusinessReferences": ["productgroupid"],
-    "productPricingBusinessReferences": ["productpricingid"],
-    "productQuantityBusinessReferences": ["productquantityid"],
     "channelAuthValues": {}
   },
   "docs": [
@@ -23,11 +14,7 @@
         {
           "ncStatusCode": 200,
           "payload": {
-            "doc": {
-              "customer": {
-                "email": "derek.boytim@nchannel.com"
-              }
-            }
+            "doc": {}
           },
           "baseUri": "https://localhost",
           "defaultHeaders": {},
@@ -41,63 +28,7 @@
                 "customers": [
                   {
                     "id": 1073339459,
-                    "email": "derek.boytim@nchannel.com",
-                    "accepts_marketing": false,
-                    "created_at": "2017-07-17T19:07:33-04:00",
-                    "updated_at": "2017-07-17T19:07:33-04:00",
-                    "first_name": "Derek",
-                    "last_name": "Boytim",
-                    "orders_count": 0,
-                    "state": "disabled",
-                    "total_spent": "0.00",
-                    "last_order_id": null,
-                    "note": null,
-                    "verified_email": true,
-                    "multipass_identifier": null,
-                    "tax_exempt": false,
-                    "phone": "+5551234567",
-                    "tags": "",
-                    "last_order_name": null,
-                    "addresses": [
-                      {
-                        "id": 1053317289,
-                        "customer_id": 1073339459,
-                        "first_name": "Derek",
-                        "last_name": "Boytim",
-                        "company": null,
-                        "address1": "123 Fake St",
-                        "address2": null,
-                        "city": "Columbus",
-                        "province": "Ohio",
-                        "country": "United States",
-                        "zip": "43235",
-                        "phone": "5551234567",
-                        "name": "Derek Boytim",
-                        "province_code": "OH",
-                        "country_code": "US",
-                        "country_name": "United States",
-                        "default": true
-                      }
-                    ],
-                    "default_address": {
-                      "id": 1053317289,
-                      "customer_id": 1073339459,
-                      "first_name": "Derek",
-                      "last_name": "Boytim",
-                      "company": null,
-                      "address1": "123 Fake St",
-                      "address2": null,
-                      "city": "Columbus",
-                      "province": "Ohio",
-                      "country": "United States",
-                      "zip": "43235",
-                      "phone": "5551234567",
-                      "name": "Derek Boytim",
-                      "province_code": "OH",
-                      "country_code": "US",
-                      "country_name": "United States",
-                      "default": true
-                    }
+                    "email": "derek.boytim@nchannel.com"
                   }
                 ]
               }
@@ -136,11 +67,7 @@
         {
           "ncStatusCode": 409,
           "payload": {
-            "doc": {
-              "customer": {
-                "email": "derek.boytim@nchannel.com"
-              }
-            }
+            "doc": {}
           },
           "baseUri": "https://localhost",
           "defaultHeaders": {},
@@ -154,123 +81,11 @@
                 "customers": [
                   {
                     "id": 1073339459,
-                    "email": "derek.boytim@nchannel.com",
-                    "accepts_marketing": false,
-                    "created_at": "2017-07-17T19:07:33-04:00",
-                    "updated_at": "2017-07-17T19:07:33-04:00",
-                    "first_name": "Derek",
-                    "last_name": "Boytim",
-                    "orders_count": 0,
-                    "state": "disabled",
-                    "total_spent": "0.00",
-                    "last_order_id": null,
-                    "note": null,
-                    "verified_email": true,
-                    "multipass_identifier": null,
-                    "tax_exempt": false,
-                    "phone": "+5551234567",
-                    "tags": "",
-                    "last_order_name": null,
-                    "addresses": [
-                      {
-                        "id": 1053317289,
-                        "customer_id": 1073339459,
-                        "first_name": "Derek",
-                        "last_name": "Boytim",
-                        "company": null,
-                        "address1": "123 Fake St",
-                        "address2": null,
-                        "city": "Columbus",
-                        "province": "Ohio",
-                        "country": "United States",
-                        "zip": "43235",
-                        "phone": "5551234567",
-                        "name": "Derek Boytim",
-                        "province_code": "OH",
-                        "country_code": "US",
-                        "country_name": "United States",
-                        "default": true
-                      }
-                    ],
-                    "default_address": {
-                      "id": 1053317289,
-                      "customer_id": 1073339459,
-                      "first_name": "Derek",
-                      "last_name": "Boytim",
-                      "company": null,
-                      "address1": "123 Fake St",
-                      "address2": null,
-                      "city": "Columbus",
-                      "province": "Ohio",
-                      "country": "United States",
-                      "zip": "43235",
-                      "phone": "5551234567",
-                      "name": "Derek Boytim",
-                      "province_code": "OH",
-                      "country_code": "US",
-                      "country_name": "United States",
-                      "default": true
-                    }
+                    "email": "derek.boytim@nchannel.com"
                   },
                   {
                     "id": 1073339459,
-                    "email": "derek.boytim@nchannel.com",
-                    "accepts_marketing": false,
-                    "created_at": "2017-07-17T19:07:33-04:00",
-                    "updated_at": "2017-07-17T19:07:33-04:00",
-                    "first_name": "Derek",
-                    "last_name": "Boytim",
-                    "orders_count": 0,
-                    "state": "disabled",
-                    "total_spent": "0.00",
-                    "last_order_id": null,
-                    "note": null,
-                    "verified_email": true,
-                    "multipass_identifier": null,
-                    "tax_exempt": false,
-                    "phone": "+5551234567",
-                    "tags": "",
-                    "last_order_name": null,
-                    "addresses": [
-                      {
-                        "id": 1053317289,
-                        "customer_id": 1073339459,
-                        "first_name": "Derek",
-                        "last_name": "Boytim",
-                        "company": null,
-                        "address1": "123 Fake St",
-                        "address2": null,
-                        "city": "Columbus",
-                        "province": "Ohio",
-                        "country": "United States",
-                        "zip": "43235",
-                        "phone": "5551234567",
-                        "name": "Derek Boytim",
-                        "province_code": "OH",
-                        "country_code": "US",
-                        "country_name": "United States",
-                        "default": true
-                      }
-                    ],
-                    "default_address": {
-                      "id": 1053317289,
-                      "customer_id": 1073339459,
-                      "first_name": "Derek",
-                      "last_name": "Boytim",
-                      "company": null,
-                      "address1": "123 Fake St",
-                      "address2": null,
-                      "city": "Columbus",
-                      "province": "Ohio",
-                      "country": "United States",
-                      "zip": "43235",
-                      "phone": "5551234567",
-                      "name": "Derek Boytim",
-                      "province_code": "OH",
-                      "country_code": "US",
-                      "country_name": "United States",
-                      "default": true
-                    }
+                    "email": "derek.boytim@nchannel.com"
                   }
                 ]
               }
@@ -283,11 +98,7 @@
         {
           "ncStatusCode": 400,
           "payload": {
-            "doc": {
-              "customer": {
-                "email": "derek.boytim@nchannel.com"
-              }
-            }
+            "doc": {}
           },
           "baseUri": "https://localhost",
           "defaultHeaders": {},
@@ -309,11 +120,7 @@
         {
           "ncStatusCode": 429,
           "payload": {
-            "doc": {
-              "customer": {
-                "email": "derek.boytim@nchannel.com"
-              }
-            }
+            "doc": {}
           },
           "baseUri": "https://localhost",
           "defaultHeaders": {},
@@ -335,11 +142,7 @@
         {
           "ncStatusCode": 500,
           "payload": {
-            "doc": {
-              "customer": {
-                "email": "derek.boytim@nchannel.com"
-              }
-            }
+            "doc": {}
           },
           "baseUri": "https://localhost",
           "defaultHeaders": {},
@@ -361,18 +164,1431 @@
       ]
     },
     {
+      "functionName": "CheckForProduct",
+      "tests": [
+        {
+          "ncStatusCode": 200,
+          "payload": {
+            "doc": {}
+          },
+          "baseUri": "https://localhost",
+          "defaultHeaders": {},
+          "links": [
+            {
+              "uri": "/",
+              "method": "GET",
+              "replyHeaders": {},
+              "statusCode": 200,
+              "responsePayload": {
+                "products": [
+                  {
+                    "id": 1073339459,
+                    "sku": "test"
+                  }
+                ]
+              }
+            }
+          ],
+          "channelProfile": {
+            "productBusinessReferences": ["productid"]
+          }
+        },
+        {
+          "ncStatusCode": 204,
+          "payload": {
+            "doc": {}
+          },
+          "baseUri": "https://localhost",
+          "defaultHeaders": {},
+          "links": [
+            {
+              "uri": "/",
+              "method": "GET",
+              "replyHeaders": {},
+              "statusCode": 200,
+              "responsePayload": {
+                "products": []
+              }
+            }
+          ],
+          "channelProfile": {
+            "productBusinessReferences": ["productid"]
+          }
+        },
+        {
+          "ncStatusCode": 409,
+          "payload": {
+            "doc": {}
+          },
+          "baseUri": "https://localhost",
+          "defaultHeaders": {},
+          "links": [
+            {
+              "uri": "/",
+              "method": "GET",
+              "replyHeaders": {},
+              "statusCode": 200,
+              "responsePayload": {
+                "products": [
+                  {
+                    "id": 1073339459,
+                    "sku": "test"
+                  },
+                  {
+                    "id": 1073339459,
+                    "sku": "test"
+                  }
+                ]
+              }
+            }
+          ],
+          "channelProfile": {
+            "productBusinessReferences": ["productid"]
+          }
+        },
+        {
+          "ncStatusCode": 400,
+          "payload": {
+            "doc": {}
+          },
+          "baseUri": "https://localhost",
+          "defaultHeaders": {},
+          "links": [
+            {
+              "uri": "/",
+              "method": "GET",
+              "replyHeaders": {},
+              "statusCode": 401,
+              "responsePayload": {
+                "products": []
+              }
+            }
+          ],
+          "channelProfile": {
+            "productBusinessReferences": ["productid"]
+          }
+        },
+        {
+          "ncStatusCode": 429,
+          "payload": {
+            "doc": {}
+          },
+          "baseUri": "https://localhost",
+          "defaultHeaders": {},
+          "links": [
+            {
+              "uri": "/",
+              "method": "GET",
+              "replyHeaders": {},
+              "statusCode": 429,
+              "responsePayload": {
+                "products": []
+              }
+            }
+          ],
+          "channelProfile": {
+            "productBusinessReferences": ["productid"]
+          }
+        },
+        {
+          "ncStatusCode": 500,
+          "payload": {
+            "doc": {}
+          },
+          "baseUri": "https://localhost",
+          "defaultHeaders": {},
+          "links": [
+            {
+              "uri": "/",
+              "method": "GET",
+              "replyHeaders": {},
+              "statusCode": 500,
+              "responsePayload": {
+                "products": []
+              }
+            }
+          ],
+          "channelProfile": {
+            "productBusinessReferences": ["productid"]
+          }
+        }
+      ]
+    },
+    {
+      "functionName": "CheckForProductGroup",
+      "tests": [
+        {
+          "ncStatusCode": 200,
+          "payload": {
+            "doc": {}
+          },
+          "baseUri": "https://localhost",
+          "defaultHeaders": {},
+          "links": [
+            {
+              "uri": "/",
+              "method": "GET",
+              "replyHeaders": {},
+              "statusCode": 200,
+              "responsePayload": {
+                "products": [
+                  {
+                    "id": 1073339459,
+                    "sku": "test"
+                  }
+                ]
+              }
+            }
+          ],
+          "channelProfile": {
+            "productGroupBusinessReferences": ["productgroupid"]
+          }
+        },
+        {
+          "ncStatusCode": 204,
+          "payload": {
+            "doc": {}
+          },
+          "baseUri": "https://localhost",
+          "defaultHeaders": {},
+          "links": [
+            {
+              "uri": "/",
+              "method": "GET",
+              "replyHeaders": {},
+              "statusCode": 200,
+              "responsePayload": {
+                "products": []
+              }
+            }
+          ],
+          "channelProfile": {
+            "productGroupBusinessReferences": ["productgroupid"]
+          }
+        },
+        {
+          "ncStatusCode": 409,
+          "payload": {
+            "doc": {}
+          },
+          "baseUri": "https://localhost",
+          "defaultHeaders": {},
+          "links": [
+            {
+              "uri": "/",
+              "method": "GET",
+              "replyHeaders": {},
+              "statusCode": 200,
+              "responsePayload": {
+                "products": [
+                  {
+                    "id": 1073339459,
+                    "sku": "test"
+                  },
+                  {
+                    "id": 1073339459,
+                    "sku": "test"
+                  }
+                ]
+              }
+            }
+          ],
+          "channelProfile": {
+            "productGroupBusinessReferences": ["productgroupid"]
+          }
+        },
+        {
+          "ncStatusCode": 400,
+          "payload": {
+            "doc": {}
+          },
+          "baseUri": "https://localhost",
+          "defaultHeaders": {},
+          "links": [
+            {
+              "uri": "/",
+              "method": "GET",
+              "replyHeaders": {},
+              "statusCode": 401,
+              "responsePayload": {
+                "products": []
+              }
+            }
+          ],
+          "channelProfile": {
+            "productGroupBusinessReferences": ["productgroupid"]
+          }
+        },
+        {
+          "ncStatusCode": 429,
+          "payload": {
+            "doc": {}
+          },
+          "baseUri": "https://localhost",
+          "defaultHeaders": {},
+          "links": [
+            {
+              "uri": "/",
+              "method": "GET",
+              "replyHeaders": {},
+              "statusCode": 429,
+              "responsePayload": {
+                "products": []
+              }
+            }
+          ],
+          "channelProfile": {
+            "productGroupBusinessReferences": ["productgroupid"]
+          }
+        },
+        {
+          "ncStatusCode": 500,
+          "payload": {
+            "doc": {}
+          },
+          "baseUri": "https://localhost",
+          "defaultHeaders": {},
+          "links": [
+            {
+              "uri": "/",
+              "method": "GET",
+              "replyHeaders": {},
+              "statusCode": 500,
+              "responsePayload": {
+                "products": []
+              }
+            }
+          ],
+          "channelProfile": {
+            "productGroupBusinessReferences": ["productgroupid"]
+          }
+        }
+      ]
+    },
+    {
+      "functionName": "CheckForProductPricing",
+      "tests": [
+        {
+          "ncStatusCode": 200,
+          "payload": {
+            "doc": {}
+          },
+          "baseUri": "https://localhost",
+          "defaultHeaders": {},
+          "links": [
+            {
+              "uri": "/",
+              "method": "GET",
+              "replyHeaders": {},
+              "statusCode": 200,
+              "responsePayload": {
+                "products": [
+                  {
+                    "id": 1073339459,
+                    "sku": "test"
+                  }
+                ]
+              }
+            }
+          ],
+          "channelProfile": {
+            "productPricingBusinessReferences": ["productpricingid"]
+          }
+        },
+        {
+          "ncStatusCode": 204,
+          "payload": {
+            "doc": {}
+          },
+          "baseUri": "https://localhost",
+          "defaultHeaders": {},
+          "links": [
+            {
+              "uri": "/",
+              "method": "GET",
+              "replyHeaders": {},
+              "statusCode": 200,
+              "responsePayload": {
+                "products": []
+              }
+            }
+          ],
+          "channelProfile": {
+            "productPricingBusinessReferences": ["productpricingid"]
+          }
+        },
+        {
+          "ncStatusCode": 409,
+          "payload": {
+            "doc": {}
+          },
+          "baseUri": "https://localhost",
+          "defaultHeaders": {},
+          "links": [
+            {
+              "uri": "/",
+              "method": "GET",
+              "replyHeaders": {},
+              "statusCode": 200,
+              "responsePayload": {
+                "products": [
+                  {
+                    "id": 1073339459,
+                    "sku": "test"
+                  },
+                  {
+                    "id": 1073339459,
+                    "sku": "test"
+                  }
+                ]
+              }
+            }
+          ],
+          "channelProfile": {
+            "productPricingBusinessReferences": ["productpricingid"]
+          }
+        },
+        {
+          "ncStatusCode": 400,
+          "payload": {
+            "doc": {}
+          },
+          "baseUri": "https://localhost",
+          "defaultHeaders": {},
+          "links": [
+            {
+              "uri": "/",
+              "method": "GET",
+              "replyHeaders": {},
+              "statusCode": 401,
+              "responsePayload": {
+                "products": []
+              }
+            }
+          ],
+          "channelProfile": {
+            "productPricingBusinessReferences": ["productpricingid"]
+          }
+        },
+        {
+          "ncStatusCode": 429,
+          "payload": {
+            "doc": {}
+          },
+          "baseUri": "https://localhost",
+          "defaultHeaders": {},
+          "links": [
+            {
+              "uri": "/",
+              "method": "GET",
+              "replyHeaders": {},
+              "statusCode": 429,
+              "responsePayload": {
+                "products": []
+              }
+            }
+          ],
+          "channelProfile": {
+            "productPricingBusinessReferences": ["productpricingid"]
+          }
+        },
+        {
+          "ncStatusCode": 500,
+          "payload": {
+            "doc": {}
+          },
+          "baseUri": "https://localhost",
+          "defaultHeaders": {},
+          "links": [
+            {
+              "uri": "/",
+              "method": "GET",
+              "replyHeaders": {},
+              "statusCode": 500,
+              "responsePayload": {
+                "products": []
+              }
+            }
+          ],
+          "channelProfile": {
+            "productPricingBusinessReferences": ["productpricingid"]
+          }
+        }
+      ]
+    },
+    {
+      "functionName": "CheckForProductQuantity",
+      "tests": [
+        {
+          "ncStatusCode": 200,
+          "payload": {
+            "doc": {}
+          },
+          "baseUri": "https://localhost",
+          "defaultHeaders": {},
+          "links": [
+            {
+              "uri": "/",
+              "method": "GET",
+              "replyHeaders": {},
+              "statusCode": 200,
+              "responsePayload": {
+                "products": [
+                  {
+                    "id": 1073339459,
+                    "sku": "test"
+                  }
+                ]
+              }
+            }
+          ],
+          "channelProfile": {
+            "productQuantityBusinessReferences": ["productquantityid"]
+          }
+        },
+        {
+          "ncStatusCode": 204,
+          "payload": {
+            "doc": {}
+          },
+          "baseUri": "https://localhost",
+          "defaultHeaders": {},
+          "links": [
+            {
+              "uri": "/",
+              "method": "GET",
+              "replyHeaders": {},
+              "statusCode": 200,
+              "responsePayload": {
+                "products": []
+              }
+            }
+          ],
+          "channelProfile": {
+            "productQuantityBusinessReferences": ["productquantityid"]
+          }
+        },
+        {
+          "ncStatusCode": 409,
+          "payload": {
+            "doc": {}
+          },
+          "baseUri": "https://localhost",
+          "defaultHeaders": {},
+          "links": [
+            {
+              "uri": "/",
+              "method": "GET",
+              "replyHeaders": {},
+              "statusCode": 200,
+              "responsePayload": {
+                "products": [
+                  {
+                    "id": 1073339459,
+                    "sku": "test"
+                  },
+                  {
+                    "id": 1073339459,
+                    "sku": "test"
+                  }
+                ]
+              }
+            }
+          ],
+          "channelProfile": {
+            "productQuantityBusinessReferences": ["productquantityid"]
+          }
+        },
+        {
+          "ncStatusCode": 400,
+          "payload": {
+            "doc": {}
+          },
+          "baseUri": "https://localhost",
+          "defaultHeaders": {},
+          "links": [
+            {
+              "uri": "/",
+              "method": "GET",
+              "replyHeaders": {},
+              "statusCode": 401,
+              "responsePayload": {
+                "products": []
+              }
+            }
+          ],
+          "channelProfile": {
+            "productQuantityBusinessReferences": ["productquantityid"]
+          }
+        },
+        {
+          "ncStatusCode": 429,
+          "payload": {
+            "doc": {}
+          },
+          "baseUri": "https://localhost",
+          "defaultHeaders": {},
+          "links": [
+            {
+              "uri": "/",
+              "method": "GET",
+              "replyHeaders": {},
+              "statusCode": 429,
+              "responsePayload": {
+                "products": []
+              }
+            }
+          ],
+          "channelProfile": {
+            "productQuantityBusinessReferences": ["productquantityid"]
+          }
+        },
+        {
+          "ncStatusCode": 500,
+          "payload": {
+            "doc": {}
+          },
+          "baseUri": "https://localhost",
+          "defaultHeaders": {},
+          "links": [
+            {
+              "uri": "/",
+              "method": "GET",
+              "replyHeaders": {},
+              "statusCode": 500,
+              "responsePayload": {
+                "products": []
+              }
+            }
+          ],
+          "channelProfile": {
+            "productQuantityBusinessReferences": ["productquantityid"]
+          }
+        }
+      ]
+    },
+    {
+      "functionName": "ExtractBillingAddressFromSalesOrder",
+      "tests": [
+        {
+          "ncStatusCode": 200,
+          "payload": {
+            "doc": {
+              "BillingAddress": {}
+            }
+          },
+          "baseUri": "https://localhost",
+          "defaultHeaders": {},
+          "links": [],
+          "channelProfile": {
+            "salesOrderBusinessReferences": ["orderid"]
+          }
+        },
+        {
+          "ncStatusCode": 204,
+          "payload": {
+            "doc": {}
+          },
+          "baseUri": "https://localhost",
+          "defaultHeaders": {},
+          "links": [],
+          "channelProfile": {
+            "salesOrderBusinessReferences": ["orderid"]
+          }
+        }
+      ]
+    },
+    {
+      "functionName": "ExtractCustomerFromSalesOrder",
+      "tests": [
+        {
+          "ncStatusCode": 200,
+          "payload": {
+            "doc": {
+              "BillingCustomer": {}
+            }
+          },
+          "baseUri": "https://localhost",
+          "defaultHeaders": {},
+          "links": [],
+          "channelProfile": {
+            "salesOrderBusinessReferences": ["orderid"]
+          }
+        },
+        {
+          "ncStatusCode": 204,
+          "payload": {
+            "doc": {}
+          },
+          "baseUri": "https://localhost",
+          "defaultHeaders": {},
+          "links": [],
+          "channelProfile": {
+            "salesOrderBusinessReferences": ["orderid"]
+          }
+        }
+      ]
+    },
+    {
+      "functionName": "ExtractCustomerAddressesFromCustomer",
+      "tests": [
+        {
+          "ncStatusCode": 200,
+          "payload": {
+            "doc": {
+              "Addresses": [
+                {}
+              ]
+            }
+          },
+          "baseUri": "https://localhost",
+          "defaultHeaders": {},
+          "links": [],
+          "channelProfile": {
+            "customerBusinessReferences": ["email"]
+          }
+        },
+        {
+          "ncStatusCode": 204,
+          "payload": {
+            "doc": {}
+          },
+          "baseUri": "https://localhost",
+          "defaultHeaders": {},
+          "links": [],
+          "channelProfile": {
+            "customerBusinessReferences": ["email"]
+          }
+        }
+      ]
+    },
+    {
+      "functionName": "ExtractCustomerContactsFromCustomer",
+      "tests": [
+        {
+          "ncStatusCode": 200,
+          "payload": {
+            "doc": {
+              "ContactMethods": [
+                {}
+              ]
+            }
+          },
+          "baseUri": "https://localhost",
+          "defaultHeaders": {},
+          "links": [],
+          "channelProfile": {
+            "customerBusinessReferences": ["email"]
+          }
+        },
+        {
+          "ncStatusCode": 204,
+          "payload": {
+            "doc": {}
+          },
+          "baseUri": "https://localhost",
+          "defaultHeaders": {},
+          "links": [],
+          "channelProfile": {
+            "customerBusinessReferences": ["email"]
+          }
+        }
+      ]
+    },
+    {
+      "functionName": "ExtractProductFromProductGroup",
+      "tests": [
+        {
+          "ncStatusCode": 200,
+          "payload": {
+            "doc": {
+              "product": {
+                "id": 12020548676,
+                "title": "2asdfs45",
+                "vendor": "ci-sales-01",
+                "variants": [
+                  {
+                    "id": 52668187844,
+                    "product_id": 12020548676
+                  }
+                ]
+              }
+            }
+          },
+          "baseUri": "https://localhost",
+          "defaultHeaders": {},
+          "links": [],
+          "channelProfile": {
+            "productGroupBusinessReferences": ["productgroupid"]
+          }
+        },
+        {
+          "ncStatusCode": 204,
+          "payload": {
+            "doc": {
+              "product": {
+                "id": 12020548676,
+                "title": "2asdfs45",
+                "vendor": "ci-sales-01",
+                "variants": []
+              }
+            }
+          },
+          "baseUri": "https://localhost",
+          "defaultHeaders": {},
+          "links": [],
+          "channelProfile": {
+            "productGroupBusinessReferences": ["productgroupid"]
+          }
+        }
+      ]
+    },
+    {
+      "functionName": "ExtractShippingAddressFromSalesOrder",
+      "tests": [
+        {
+          "ncStatusCode": 200,
+          "payload": {
+            "doc": {
+              "ShippingAddress": {}
+            }
+          },
+          "baseUri": "https://localhost",
+          "defaultHeaders": {},
+          "links": [],
+          "channelProfile": {
+            "salesOrderBusinessReferences": ["orderid"]
+          }
+        },
+        {
+          "ncStatusCode": 204,
+          "payload": {
+            "doc": {}
+          },
+          "baseUri": "https://localhost",
+          "defaultHeaders": {},
+          "links": [],
+          "channelProfile": {
+            "salesOrderBusinessReferences": ["orderid"]
+          }
+        }
+      ]
+    },
+    {
+      "functionName": "GetCustomerFromQuery",
+      "tests": [
+        {
+          "ncStatusCode": 200,
+          "payload": {
+            "doc": {}
+          },
+          "baseUri": "https://localhost",
+          "defaultHeaders": {},
+          "links": [
+            {
+              "uri": "/",
+              "method": "GET",
+              "replyHeaders": {},
+              "statusCode": 200,
+              "responsePayload": {
+                "customers": [
+                  {
+                    "id": 1073339459,
+                    "email": "derek.boytim@nchannel.com"
+                  }
+                ]
+              }
+            }
+          ],
+          "channelProfile": {
+            "customerBusinessReferences": ["email"]
+          }
+        },
+        {
+          "ncStatusCode": 204,
+          "payload": {
+            "doc": {
+              "customer": {
+                "email": "derek.boytim@nchannel.com"
+              }
+            }
+          },
+          "baseUri": "https://localhost",
+          "defaultHeaders": {},
+          "links": [
+            {
+              "uri": "/",
+              "method": "GET",
+              "replyHeaders": {},
+              "statusCode": 200,
+              "responsePayload": {
+                "customers": []
+              }
+            }
+          ],
+          "channelProfile": {
+            "customerBusinessReferences": ["email"]
+          }
+        },
+        {
+          "ncStatusCode": 206,
+          "payload": {
+            "doc": {
+              "pageSize": 2
+            }
+          },
+          "baseUri": "https://localhost",
+          "defaultHeaders": {},
+          "links": [
+            {
+              "uri": "/",
+              "method": "GET",
+              "replyHeaders": {},
+              "statusCode": 200,
+              "responsePayload": {
+                "customers": [
+                  {
+                    "id": 1073339459,
+                    "email": "derek.boytim@nchannel.com"
+                  },
+                  {
+                    "id": 1073339459,
+                    "email": "derek.boytim@nchannel.com"
+                  }
+                ]
+              }
+            }
+          ],
+          "channelProfile": {
+            "customerBusinessReferences": ["email"]
+          }
+        },
+        {
+          "ncStatusCode": 400,
+          "payload": {
+            "doc": {}
+          },
+          "baseUri": "https://localhost",
+          "defaultHeaders": {},
+          "links": [
+            {
+              "uri": "/",
+              "method": "GET",
+              "replyHeaders": {},
+              "statusCode": 401,
+              "responsePayload": {
+                "customers": []
+              }
+            }
+          ],
+          "channelProfile": {
+            "customerBusinessReferences": ["email"]
+          }
+        },
+        {
+          "ncStatusCode": 429,
+          "payload": {
+            "doc": {}
+          },
+          "baseUri": "https://localhost",
+          "defaultHeaders": {},
+          "links": [
+            {
+              "uri": "/",
+              "method": "GET",
+              "replyHeaders": {},
+              "statusCode": 429,
+              "responsePayload": {
+                "customers": []
+              }
+            }
+          ],
+          "channelProfile": {
+            "customerBusinessReferences": ["email"]
+          }
+        },
+        {
+          "ncStatusCode": 500,
+          "payload": {
+            "doc": {}
+          },
+          "baseUri": "https://localhost",
+          "defaultHeaders": {},
+          "links": [
+            {
+              "uri": "/",
+              "method": "GET",
+              "replyHeaders": {},
+              "statusCode": 500,
+              "responsePayload": {
+                "customers": []
+              }
+            }
+          ],
+          "channelProfile": {
+            "customerBusinessReferences": ["email"]
+          }
+        }
+      ]
+    },
+    {
+      "functionName": "GetFulfillmentFromQuery",
+      "tests": [
+        {
+          "ncStatusCode": 200,
+          "payload": {
+            "doc": {}
+          },
+          "baseUri": "https://localhost",
+          "defaultHeaders": {},
+          "links": [
+            {
+              "uri": "/",
+              "method": "GET",
+              "replyHeaders": {},
+              "statusCode": 200,
+              "responsePayload": {
+                "fulfillments": [
+                  {
+                    "id": 1073339459
+                  }
+                ]
+              }
+            }
+          ],
+          "channelProfile": {
+            "fulfillmentBusinessReferences": ["fulfillmentid"]
+          }
+        },
+        {
+          "ncStatusCode": 204,
+          "payload": {
+            "doc": {}
+          },
+          "baseUri": "https://localhost",
+          "defaultHeaders": {},
+          "links": [
+            {
+              "uri": "/",
+              "method": "GET",
+              "replyHeaders": {},
+              "statusCode": 200,
+              "responsePayload": {
+                "fulfillments": []
+              }
+            }
+          ],
+          "channelProfile": {
+            "fulfillmentBusinessReferences": ["fulfillmentid"]
+          }
+        },
+        {
+          "ncStatusCode": 206,
+          "payload": {
+            "doc": {
+              "pageSize": 2
+            }
+          },
+          "baseUri": "https://localhost",
+          "defaultHeaders": {},
+          "links": [
+            {
+              "uri": "/",
+              "method": "GET",
+              "replyHeaders": {},
+              "statusCode": 200,
+              "responsePayload": {
+                "fulfillments": [
+                  {
+                    "id": 1073339459
+                  },
+                  {
+                    "id": 1073339459
+                  }
+                ]
+              }
+            }
+          ],
+          "channelProfile": {
+            "fulfillmentBusinessReferences": ["fulfillmentid"]
+          }
+        },
+        {
+          "ncStatusCode": 400,
+          "payload": {
+            "doc": {}
+          },
+          "baseUri": "https://localhost",
+          "defaultHeaders": {},
+          "links": [
+            {
+              "uri": "/",
+              "method": "GET",
+              "replyHeaders": {},
+              "statusCode": 401,
+              "responsePayload": {
+                "fulfillments": []
+              }
+            }
+          ],
+          "channelProfile": {
+            "fulfillmentBusinessReferences": ["fulfillmentid"]
+          }
+        },
+        {
+          "ncStatusCode": 429,
+          "payload": {
+            "doc": {}
+          },
+          "baseUri": "https://localhost",
+          "defaultHeaders": {},
+          "links": [
+            {
+              "uri": "/",
+              "method": "GET",
+              "replyHeaders": {},
+              "statusCode": 429,
+              "responsePayload": {
+                "fulfillments": []
+              }
+            }
+          ],
+          "channelProfile": {
+            "fulfillmentBusinessReferences": ["fulfillmentid"]
+          }
+        },
+        {
+          "ncStatusCode": 500,
+          "payload": {
+            "doc": {}
+          },
+          "baseUri": "https://localhost",
+          "defaultHeaders": {},
+          "links": [
+            {
+              "uri": "/",
+              "method": "GET",
+              "replyHeaders": {},
+              "statusCode": 500,
+              "responsePayload": {
+                "fulfillments": []
+              }
+            }
+          ],
+          "channelProfile": {
+            "fulfillmentBusinessReferences": ["fulfillmentid"]
+          }
+        }
+      ]
+    },
+    {
+      "functionName": "GetProductGroupFromQuery",
+      "tests": [
+        {
+          "ncStatusCode": 200,
+          "payload": {
+            "doc": {}
+          },
+          "baseUri": "https://localhost",
+          "defaultHeaders": {},
+          "links": [
+            {
+              "uri": "/",
+              "method": "GET",
+              "replyHeaders": {},
+              "statusCode": 200,
+              "responsePayload": {
+                "products": [
+                  {
+                    "id": 1073339459,
+                    "sku": "test"
+                  }
+                ]
+              }
+            }
+          ],
+          "channelProfile": {
+            "productGroupBusinessReferences": ["productgroupid"]
+          }
+        },
+        {
+          "ncStatusCode": 204,
+          "payload": {
+            "doc": {}
+          },
+          "baseUri": "https://localhost",
+          "defaultHeaders": {},
+          "links": [
+            {
+              "uri": "/",
+              "method": "GET",
+              "replyHeaders": {},
+              "statusCode": 200,
+              "responsePayload": {
+                "products": []
+              }
+            }
+          ],
+          "channelProfile": {
+            "productGroupBusinessReferences": ["productgroupid"]
+          }
+        },
+        {
+          "ncStatusCode": 204,
+          "payload": {
+            "doc": {}
+          },
+          "baseUri": "https://localhost",
+          "defaultHeaders": {},
+          "links": [
+            {
+              "uri": "/",
+              "method": "GET",
+              "replyHeaders": {},
+              "statusCode": 204,
+              "responsePayload": {
+                "products": [
+                  {
+                    "id": 1073339459,
+                    "sku": "test"
+                  },
+                  {
+                    "id": 1073339459,
+                    "sku": "test"
+                  }
+                ]
+              }
+            }
+          ],
+          "channelProfile": {
+            "productGroupBusinessReferences": ["productgroupid"]
+          }
+        },
+        {
+          "ncStatusCode": 400,
+          "payload": {
+            "doc": {}
+          },
+          "baseUri": "https://localhost",
+          "defaultHeaders": {},
+          "links": [
+            {
+              "uri": "/",
+              "method": "GET",
+              "replyHeaders": {},
+              "statusCode": 401,
+              "responsePayload": {
+                "products": []
+              }
+            }
+          ],
+          "channelProfile": {
+            "productGroupBusinessReferences": ["productgroupid"]
+          }
+        },
+        {
+          "ncStatusCode": 429,
+          "payload": {
+            "doc": {}
+          },
+          "baseUri": "https://localhost",
+          "defaultHeaders": {},
+          "links": [
+            {
+              "uri": "/",
+              "method": "GET",
+              "replyHeaders": {},
+              "statusCode": 429,
+              "responsePayload": {
+                "products": []
+              }
+            }
+          ],
+          "channelProfile": {
+            "productGroupBusinessReferences": ["productgroupid"]
+          }
+        },
+        {
+          "ncStatusCode": 500,
+          "payload": {
+            "doc": {}
+          },
+          "baseUri": "https://localhost",
+          "defaultHeaders": {},
+          "links": [
+            {
+              "uri": "/",
+              "method": "GET",
+              "replyHeaders": {},
+              "statusCode": 500,
+              "responsePayload": {
+                "products": []
+              }
+            }
+          ],
+          "channelProfile": {
+            "productGroupBusinessReferences": ["productgroupid"]
+          }
+        }
+      ]
+    },
+    {
+      "functionName": "GetSalesOrderFromQuery",
+      "tests": [
+        {
+          "ncStatusCode": 200,
+          "payload": {
+            "doc": {}
+          },
+          "baseUri": "https://localhost",
+          "defaultHeaders": {},
+          "links": [
+            {
+              "uri": "/",
+              "method": "GET",
+              "replyHeaders": {},
+              "statusCode": 200,
+              "responsePayload": {
+                "orders": [
+                  {
+                    "id": 1073339459
+                  }
+                ]
+              }
+            }
+          ],
+          "channelProfile": {
+            "salesOrderBusinessReferences": ["orderid"]
+          }
+        },
+        {
+          "ncStatusCode": 204,
+          "payload": {
+            "doc": {}
+          },
+          "baseUri": "https://localhost",
+          "defaultHeaders": {},
+          "links": [
+            {
+              "uri": "/",
+              "method": "GET",
+              "replyHeaders": {},
+              "statusCode": 200,
+              "responsePayload": {
+                "orders": []
+              }
+            }
+          ],
+          "channelProfile": {
+            "salesOrderBusinessReferences": ["orderid"]
+          }
+        },
+        {
+          "ncStatusCode": 206,
+          "payload": {
+            "doc": {
+              "pageSize": 2
+            }
+          },
+          "baseUri": "https://localhost",
+          "defaultHeaders": {},
+          "links": [
+            {
+              "uri": "/",
+              "method": "GET",
+              "replyHeaders": {},
+              "statusCode": 200,
+              "responsePayload": {
+                "orders": [
+                  {
+                    "id": 1073339459
+                  },
+                  {
+                    "id": 1073339459
+                  }
+                ]
+              }
+            }
+          ],
+          "channelProfile": {
+            "salesOrderBusinessReferences": ["orderid"]
+          }
+        },
+        {
+          "ncStatusCode": 400,
+          "payload": {
+            "doc": {}
+          },
+          "baseUri": "https://localhost",
+          "defaultHeaders": {},
+          "links": [
+            {
+              "uri": "/",
+              "method": "GET",
+              "replyHeaders": {},
+              "statusCode": 401,
+              "responsePayload": {
+                "orders": []
+              }
+            }
+          ],
+          "channelProfile": {
+            "salesOrderBusinessReferences": ["orderid"]
+          }
+        },
+        {
+          "ncStatusCode": 429,
+          "payload": {
+            "doc": {}
+          },
+          "baseUri": "https://localhost",
+          "defaultHeaders": {},
+          "links": [
+            {
+              "uri": "/",
+              "method": "GET",
+              "replyHeaders": {},
+              "statusCode": 429,
+              "responsePayload": {
+                "orders": []
+              }
+            }
+          ],
+          "channelProfile": {
+            "salesOrderBusinessReferences": ["orderid"]
+          }
+        },
+        {
+          "ncStatusCode": 500,
+          "payload": {
+            "doc": {}
+          },
+          "baseUri": "https://localhost",
+          "defaultHeaders": {},
+          "links": [
+            {
+              "uri": "/",
+              "method": "GET",
+              "replyHeaders": {},
+              "statusCode": 500,
+              "responsePayload": {
+                "orders": []
+              }
+            }
+          ],
+          "channelProfile": {
+            "salesOrderBusinessReferences": ["orderid"]
+          }
+        }
+      ]
+    },
+    {
       "functionName": "InsertCustomer",
       "tests": [
         {
           "ncStatusCode": 201,
           "payload": {
-            "doc": {
-              "customer": {
-                "email": "derek.boytim@nchannel.com",
-                "first_name": "Derek",
-                "last_name": "Boytim"
-              }
-            }
+            "doc": {}
           },
           "baseUri": "https://localhost",
           "defaultHeaders": {},
@@ -385,63 +1601,7 @@
               "responsePayload": {
                 "customer": {
                   "id": 1073339459,
-                  "email": "derek.boytim@nchannel.com",
-                  "accepts_marketing": false,
-                  "created_at": "2017-07-17T19:07:33-04:00",
-                  "updated_at": "2017-07-17T19:07:33-04:00",
-                  "first_name": "Derek",
-                  "last_name": "Boytim",
-                  "orders_count": 0,
-                  "state": "disabled",
-                  "total_spent": "0.00",
-                  "last_order_id": null,
-                  "note": null,
-                  "verified_email": true,
-                  "multipass_identifier": null,
-                  "tax_exempt": false,
-                  "phone": "+5551234567",
-                  "tags": "",
-                  "last_order_name": null,
-                  "addresses": [
-                    {
-                      "id": 1053317289,
-                      "customer_id": 1073339459,
-                      "first_name": "Derek",
-                      "last_name": "Boytim",
-                      "company": null,
-                      "address1": "123 Fake St",
-                      "address2": null,
-                      "city": "Columbus",
-                      "province": "Ohio",
-                      "country": "United States",
-                      "zip": "43235",
-                      "phone": "5551234567",
-                      "name": "Derek Boytim",
-                      "province_code": "OH",
-                      "country_code": "US",
-                      "country_name": "United States",
-                      "default": true
-                    }
-                  ],
-                  "default_address": {
-                    "id": 1053317289,
-                    "customer_id": 1073339459,
-                    "first_name": "Derek",
-                    "last_name": "Boytim",
-                    "company": null,
-                    "address1": "123 Fake St",
-                    "address2": null,
-                    "city": "Columbus",
-                    "province": "Ohio",
-                    "country": "United States",
-                    "zip": "43235",
-                    "phone": "5551234567",
-                    "name": "Derek Boytim",
-                    "province_code": "OH",
-                    "country_code": "US",
-                    "country_name": "United States",
-                    "default": true
-                  }
+                  "email": "derek.boytim@nchannel.com"
                 }
               }
             }
@@ -453,13 +1613,7 @@
         {
           "ncStatusCode": 400,
           "payload": {
-            "doc": {
-              "customer": {
-                "email": "derek.boytim@nchannel.com",
-                "first_name": "Derek",
-                "last_name": "Boytim"
-              }
-            }
+            "doc": {}
           },
           "baseUri": "https://localhost",
           "defaultHeaders": {},
@@ -479,13 +1633,7 @@
         {
           "ncStatusCode": 429,
           "payload": {
-            "doc": {
-              "customer": {
-                "email": "derek.boytim@nchannel.com",
-                "first_name": "Derek",
-                "last_name": "Boytim"
-              }
-            }
+            "doc": {}
           },
           "baseUri": "https://localhost",
           "defaultHeaders": {},
@@ -505,13 +1653,7 @@
         {
           "ncStatusCode": 500,
           "payload": {
-            "doc": {
-              "customer": {
-                "email": "derek.boytim@nchannel.com",
-                "first_name": "Derek",
-                "last_name": "Boytim"
-              }
-            }
+            "doc": {}
           },
           "baseUri": "https://localhost",
           "defaultHeaders": {},
@@ -526,6 +1668,903 @@
           ],
           "channelProfile": {
             "customerBusinessReferences": ["email"]
+          }
+        }
+      ]
+    },
+    {
+      "functionName": "InsertFulfillment",
+      "tests": [
+        {
+          "ncStatusCode": 201,
+          "payload": {
+            "doc": {}
+          },
+          "baseUri": "https://localhost",
+          "defaultHeaders": {},
+          "links": [
+            {
+              "uri": "/",
+              "method": "POST",
+              "replyHeaders": {},
+              "statusCode": 201,
+              "responsePayload": {
+                "fulfillment": {
+                  "id": 1073339459
+                }
+              }
+            }
+          ],
+          "channelProfile": {
+            "fulfillmentBusinessReferences": ["fulfillmentid"]
+          }
+        },
+        {
+          "ncStatusCode": 400,
+          "payload": {
+            "doc": {}
+          },
+          "baseUri": "https://localhost",
+          "defaultHeaders": {},
+          "links": [
+            {
+              "uri": "/",
+              "method": "POST",
+              "replyHeaders": {},
+              "statusCode": 400,
+              "responsePayload": {}
+            }
+          ],
+          "channelProfile": {
+            "fulfillmentBusinessReferences": ["fulfillmentid"]
+          }
+        },
+        {
+          "ncStatusCode": 429,
+          "payload": {
+            "doc": {}
+          },
+          "baseUri": "https://localhost",
+          "defaultHeaders": {},
+          "links": [
+            {
+              "uri": "/",
+              "method": "POST",
+              "replyHeaders": {},
+              "statusCode": 429,
+              "responsePayload": {}
+            }
+          ],
+          "channelProfile": {
+            "fulfillmentBusinessReferences": ["fulfillmentid"]
+          }
+        },
+        {
+          "ncStatusCode": 500,
+          "payload": {
+            "doc": {}
+          },
+          "baseUri": "https://localhost",
+          "defaultHeaders": {},
+          "links": [
+            {
+              "uri": "/",
+              "method": "POST",
+              "replyHeaders": {},
+              "statusCode": 500,
+              "responsePayload": {}
+            }
+          ],
+          "channelProfile": {
+            "fulfillmentBusinessReferences": ["fulfillmentid"]
+          }
+        }
+      ]
+    },
+    {
+      "functionName": "InsertProduct",
+      "tests": [
+        {
+          "ncStatusCode": 201,
+          "payload": {
+            "doc": {}
+          },
+          "baseUri": "https://localhost",
+          "defaultHeaders": {},
+          "links": [
+            {
+              "uri": "/",
+              "method": "POST",
+              "replyHeaders": {},
+              "statusCode": 201,
+              "responsePayload": {
+                "product": {
+                  "id": 1073339459,
+                  "sku": "test"
+                }
+              }
+            }
+          ],
+          "channelProfile": {
+            "productBusinessReferences": ["productid"]
+          }
+        },
+        {
+          "ncStatusCode": 400,
+          "payload": {
+            "doc": {}
+          },
+          "baseUri": "https://localhost",
+          "defaultHeaders": {},
+          "links": [
+            {
+              "uri": "/",
+              "method": "POST",
+              "replyHeaders": {},
+              "statusCode": 400,
+              "responsePayload": {}
+            }
+          ],
+          "channelProfile": {
+            "productBusinessReferences": ["productid"]
+          }
+        },
+        {
+          "ncStatusCode": 429,
+          "payload": {
+            "doc": {}
+          },
+          "baseUri": "https://localhost",
+          "defaultHeaders": {},
+          "links": [
+            {
+              "uri": "/",
+              "method": "POST",
+              "replyHeaders": {},
+              "statusCode": 429,
+              "responsePayload": {}
+            }
+          ],
+          "channelProfile": {
+            "productBusinessReferences": ["productid"]
+          }
+        },
+        {
+          "ncStatusCode": 500,
+          "payload": {
+            "doc": {}
+          },
+          "baseUri": "https://localhost",
+          "defaultHeaders": {},
+          "links": [
+            {
+              "uri": "/",
+              "method": "POST",
+              "replyHeaders": {},
+              "statusCode": 500,
+              "responsePayload": {}
+            }
+          ],
+          "channelProfile": {
+            "productBusinessReferences": ["productid"]
+          }
+        }
+      ]
+    },
+    {
+      "functionName": "InsertProductGroup",
+      "tests": [
+        {
+          "ncStatusCode": 201,
+          "payload": {
+            "doc": {}
+          },
+          "baseUri": "https://localhost",
+          "defaultHeaders": {},
+          "links": [
+            {
+              "uri": "/",
+              "method": "POST",
+              "replyHeaders": {},
+              "statusCode": 201,
+              "responsePayload": {
+                "product": {
+                  "id": 1073339459,
+                  "sku": "test"
+                }
+              }
+            }
+          ],
+          "channelProfile": {
+            "productGroupBusinessReferences": ["productgroupid"]
+          }
+        },
+        {
+          "ncStatusCode": 400,
+          "payload": {
+            "doc": {}
+          },
+          "baseUri": "https://localhost",
+          "defaultHeaders": {},
+          "links": [
+            {
+              "uri": "/",
+              "method": "POST",
+              "replyHeaders": {},
+              "statusCode": 400,
+              "responsePayload": {}
+            }
+          ],
+          "channelProfile": {
+            "productGroupBusinessReferences": ["productgroupid"]
+          }
+        },
+        {
+          "ncStatusCode": 429,
+          "payload": {
+            "doc": {}
+          },
+          "baseUri": "https://localhost",
+          "defaultHeaders": {},
+          "links": [
+            {
+              "uri": "/",
+              "method": "POST",
+              "replyHeaders": {},
+              "statusCode": 429,
+              "responsePayload": {}
+            }
+          ],
+          "channelProfile": {
+            "productGroupBusinessReferences": ["productgroupid"]
+          }
+        },
+        {
+          "ncStatusCode": 500,
+          "payload": {
+            "doc": {}
+          },
+          "baseUri": "https://localhost",
+          "defaultHeaders": {},
+          "links": [
+            {
+              "uri": "/",
+              "method": "POST",
+              "replyHeaders": {},
+              "statusCode": 500,
+              "responsePayload": {}
+            }
+          ],
+          "channelProfile": {
+            "productGroupBusinessReferences": ["productgroupid"]
+          }
+        }
+      ]
+    },
+    {
+      "functionName": "InsertSalesOrder",
+      "tests": [
+        {
+          "ncStatusCode": 201,
+          "payload": {
+            "doc": {}
+          },
+          "baseUri": "https://localhost",
+          "defaultHeaders": {},
+          "links": [
+            {
+              "uri": "/",
+              "method": "POST",
+              "replyHeaders": {},
+              "statusCode": 201,
+              "responsePayload": {
+                "order": {
+                  "id": 1073339459
+                }
+              }
+            }
+          ],
+          "channelProfile": {
+            "salesOrderBusinessReferences": ["orderid"]
+          }
+        },
+        {
+          "ncStatusCode": 400,
+          "payload": {
+            "doc": {}
+          },
+          "baseUri": "https://localhost",
+          "defaultHeaders": {},
+          "links": [
+            {
+              "uri": "/",
+              "method": "POST",
+              "replyHeaders": {},
+              "statusCode": 400,
+              "responsePayload": {}
+            }
+          ],
+          "channelProfile": {
+            "salesOrderBusinessReferences": ["orderid"]
+          }
+        },
+        {
+          "ncStatusCode": 429,
+          "payload": {
+            "doc": {}
+          },
+          "baseUri": "https://localhost",
+          "defaultHeaders": {},
+          "links": [
+            {
+              "uri": "/",
+              "method": "POST",
+              "replyHeaders": {},
+              "statusCode": 429,
+              "responsePayload": {}
+            }
+          ],
+          "channelProfile": {
+            "salesOrderBusinessReferences": ["orderid"]
+          }
+        },
+        {
+          "ncStatusCode": 500,
+          "payload": {
+            "doc": {}
+          },
+          "baseUri": "https://localhost",
+          "defaultHeaders": {},
+          "links": [
+            {
+              "uri": "/",
+              "method": "POST",
+              "replyHeaders": {},
+              "statusCode": 500,
+              "responsePayload": {}
+            }
+          ],
+          "channelProfile": {
+            "salesOrderBusinessReferences": ["orderid"]
+          }
+        }
+      ]
+    },
+    {
+      "functionName": "UpdateCustomer",
+      "tests": [
+        {
+          "ncStatusCode": 200,
+          "payload": {
+            "doc": {}
+          },
+          "baseUri": "https://localhost",
+          "defaultHeaders": {},
+          "links": [
+            {
+              "uri": "/",
+              "method": "PUT",
+              "replyHeaders": {},
+              "statusCode": 200,
+              "responsePayload": {
+                "customer": {
+                  "id": 1073339459,
+                  "email": "derek.boytim@nchannel.com"
+                }
+              }
+            }
+          ],
+          "channelProfile": {
+            "customerBusinessReferences": ["email"]
+          }
+        },
+        {
+          "ncStatusCode": 400,
+          "payload": {
+            "doc": {}
+          },
+          "baseUri": "https://localhost",
+          "defaultHeaders": {},
+          "links": [
+            {
+              "uri": "/",
+              "method": "PUT",
+              "replyHeaders": {},
+              "statusCode": 400,
+              "responsePayload": {}
+            }
+          ],
+          "channelProfile": {
+            "customerBusinessReferences": ["email"]
+          }
+        },
+        {
+          "ncStatusCode": 429,
+          "payload": {
+            "doc": {}
+          },
+          "baseUri": "https://localhost",
+          "defaultHeaders": {},
+          "links": [
+            {
+              "uri": "/",
+              "method": "PUT",
+              "replyHeaders": {},
+              "statusCode": 429,
+              "responsePayload": {}
+            }
+          ],
+          "channelProfile": {
+            "customerBusinessReferences": ["email"]
+          }
+        },
+        {
+          "ncStatusCode": 500,
+          "payload": {
+            "doc": {}
+          },
+          "baseUri": "https://localhost",
+          "defaultHeaders": {},
+          "links": [
+            {
+              "uri": "/",
+              "method": "PUT",
+              "replyHeaders": {},
+              "statusCode": 500,
+              "responsePayload": {}
+            }
+          ],
+          "channelProfile": {
+            "customerBusinessReferences": ["email"]
+          }
+        }
+      ]
+    },
+    {
+      "functionName": "UpdateProduct",
+      "tests": [
+        {
+          "ncStatusCode": 200,
+          "payload": {
+            "doc": {}
+          },
+          "baseUri": "https://localhost",
+          "defaultHeaders": {},
+          "links": [
+            {
+              "uri": "/",
+              "method": "PUT",
+              "replyHeaders": {},
+              "statusCode": 200,
+              "responsePayload": {
+                "product": {
+                  "id": 1073339459,
+                  "sku": "test"
+                }
+              }
+            }
+          ],
+          "channelProfile": {
+            "productBusinessReferences": ["productid"]
+          }
+        },
+        {
+          "ncStatusCode": 400,
+          "payload": {
+            "doc": {}
+          },
+          "baseUri": "https://localhost",
+          "defaultHeaders": {},
+          "links": [
+            {
+              "uri": "/",
+              "method": "PUT",
+              "replyHeaders": {},
+              "statusCode": 400,
+              "responsePayload": {}
+            }
+          ],
+          "channelProfile": {
+            "productBusinessReferences": ["productid"]
+          }
+        },
+        {
+          "ncStatusCode": 429,
+          "payload": {
+            "doc": {}
+          },
+          "baseUri": "https://localhost",
+          "defaultHeaders": {},
+          "links": [
+            {
+              "uri": "/",
+              "method": "PUT",
+              "replyHeaders": {},
+              "statusCode": 429,
+              "responsePayload": {}
+            }
+          ],
+          "channelProfile": {
+            "productBusinessReferences": ["productid"]
+          }
+        },
+        {
+          "ncStatusCode": 500,
+          "payload": {
+            "doc": {}
+          },
+          "baseUri": "https://localhost",
+          "defaultHeaders": {},
+          "links": [
+            {
+              "uri": "/",
+              "method": "PUT",
+              "replyHeaders": {},
+              "statusCode": 500,
+              "responsePayload": {}
+            }
+          ],
+          "channelProfile": {
+            "productBusinessReferences": ["productid"]
+          }
+        }
+      ]
+    },
+    {
+      "functionName": "UpdateProductGroup",
+      "tests": [
+        {
+          "ncStatusCode": 200,
+          "payload": {
+            "doc": {}
+          },
+          "baseUri": "https://localhost",
+          "defaultHeaders": {},
+          "links": [
+            {
+              "uri": "/",
+              "method": "PUT",
+              "replyHeaders": {},
+              "statusCode": 200,
+              "responsePayload": {
+                "product": {
+                  "id": 1073339459,
+                  "sku": "test"
+                }
+              }
+            }
+          ],
+          "channelProfile": {
+            "productGroupBusinessReferences": ["productgroupid"]
+          }
+        },
+        {
+          "ncStatusCode": 400,
+          "payload": {
+            "doc": {}
+          },
+          "baseUri": "https://localhost",
+          "defaultHeaders": {},
+          "links": [
+            {
+              "uri": "/",
+              "method": "PUT",
+              "replyHeaders": {},
+              "statusCode": 400,
+              "responsePayload": {}
+            }
+          ],
+          "channelProfile": {
+            "productGroupBusinessReferences": ["productgroupid"]
+          }
+        },
+        {
+          "ncStatusCode": 429,
+          "payload": {
+            "doc": {}
+          },
+          "baseUri": "https://localhost",
+          "defaultHeaders": {},
+          "links": [
+            {
+              "uri": "/",
+              "method": "PUT",
+              "replyHeaders": {},
+              "statusCode": 429,
+              "responsePayload": {}
+            }
+          ],
+          "channelProfile": {
+            "productGroupBusinessReferences": ["productgroupid"]
+          }
+        },
+        {
+          "ncStatusCode": 500,
+          "payload": {
+            "doc": {}
+          },
+          "baseUri": "https://localhost",
+          "defaultHeaders": {},
+          "links": [
+            {
+              "uri": "/",
+              "method": "PUT",
+              "replyHeaders": {},
+              "statusCode": 500,
+              "responsePayload": {}
+            }
+          ],
+          "channelProfile": {
+            "productGroupBusinessReferences": ["productgroupid"]
+          }
+        }
+      ]
+    },
+    {
+      "functionName": "UpdateProductPricing",
+      "tests": [
+        {
+          "ncStatusCode": 200,
+          "payload": {
+            "doc": {}
+          },
+          "baseUri": "https://localhost",
+          "defaultHeaders": {},
+          "links": [
+            {
+              "uri": "/",
+              "method": "PUT",
+              "replyHeaders": {},
+              "statusCode": 200,
+              "responsePayload": {
+                "product": {
+                  "id": 1073339459,
+                  "sku": "test"
+                }
+              }
+            }
+          ],
+          "channelProfile": {
+            "productPricingBusinessReferences": ["productpricingid"]
+          }
+        },
+        {
+          "ncStatusCode": 400,
+          "payload": {
+            "doc": {}
+          },
+          "baseUri": "https://localhost",
+          "defaultHeaders": {},
+          "links": [
+            {
+              "uri": "/",
+              "method": "PUT",
+              "replyHeaders": {},
+              "statusCode": 400,
+              "responsePayload": {}
+            }
+          ],
+          "channelProfile": {
+            "productPricingBusinessReferences": ["productpricingid"]
+          }
+        },
+        {
+          "ncStatusCode": 429,
+          "payload": {
+            "doc": {}
+          },
+          "baseUri": "https://localhost",
+          "defaultHeaders": {},
+          "links": [
+            {
+              "uri": "/",
+              "method": "PUT",
+              "replyHeaders": {},
+              "statusCode": 429,
+              "responsePayload": {}
+            }
+          ],
+          "channelProfile": {
+            "productPricingBusinessReferences": ["productpricingid"]
+          }
+        },
+        {
+          "ncStatusCode": 500,
+          "payload": {
+            "doc": {}
+          },
+          "baseUri": "https://localhost",
+          "defaultHeaders": {},
+          "links": [
+            {
+              "uri": "/",
+              "method": "PUT",
+              "replyHeaders": {},
+              "statusCode": 500,
+              "responsePayload": {}
+            }
+          ],
+          "channelProfile": {
+            "productPricingBusinessReferences": ["productpricingid"]
+          }
+        }
+      ]
+    },
+    {
+      "functionName": "UpdateProductQuantity",
+      "tests": [
+        {
+          "ncStatusCode": 200,
+          "payload": {
+            "doc": {}
+          },
+          "baseUri": "https://localhost",
+          "defaultHeaders": {},
+          "links": [
+            {
+              "uri": "/",
+              "method": "PUT",
+              "replyHeaders": {},
+              "statusCode": 200,
+              "responsePayload": {
+                "product": {
+                  "id": 1073339459,
+                  "sku": "test"
+                }
+              }
+            }
+          ],
+          "channelProfile": {
+            "productQuantityBusinessReferences": ["productquantityid"]
+          }
+        },
+        {
+          "ncStatusCode": 400,
+          "payload": {
+            "doc": {}
+          },
+          "baseUri": "https://localhost",
+          "defaultHeaders": {},
+          "links": [
+            {
+              "uri": "/",
+              "method": "PUT",
+              "replyHeaders": {},
+              "statusCode": 400,
+              "responsePayload": {}
+            }
+          ],
+          "channelProfile": {
+            "productQuantityBusinessReferences": ["productquantityid"]
+          }
+        },
+        {
+          "ncStatusCode": 429,
+          "payload": {
+            "doc": {}
+          },
+          "baseUri": "https://localhost",
+          "defaultHeaders": {},
+          "links": [
+            {
+              "uri": "/",
+              "method": "PUT",
+              "replyHeaders": {},
+              "statusCode": 429,
+              "responsePayload": {}
+            }
+          ],
+          "channelProfile": {
+            "productQuantityBusinessReferences": ["productquantityid"]
+          }
+        },
+        {
+          "ncStatusCode": 500,
+          "payload": {
+            "doc": {}
+          },
+          "baseUri": "https://localhost",
+          "defaultHeaders": {},
+          "links": [
+            {
+              "uri": "/",
+              "method": "PUT",
+              "replyHeaders": {},
+              "statusCode": 500,
+              "responsePayload": {}
+            }
+          ],
+          "channelProfile": {
+            "productQuantityBusinessReferences": ["productquantityid"]
+          }
+        }
+      ]
+    },
+    {
+      "functionName": "UpdateSalesOrder",
+      "tests": [
+        {
+          "ncStatusCode": 200,
+          "payload": {
+            "doc": {}
+          },
+          "baseUri": "https://localhost",
+          "defaultHeaders": {},
+          "links": [
+            {
+              "uri": "/",
+              "method": "PUT",
+              "replyHeaders": {},
+              "statusCode": 200,
+              "responsePayload": {
+                "order": {
+                  "id": 1073339459
+                }
+              }
+            }
+          ],
+          "channelProfile": {
+            "salesOrderBusinessReferences": ["orderid"]
+          }
+        },
+        {
+          "ncStatusCode": 400,
+          "payload": {
+            "doc": {}
+          },
+          "baseUri": "https://localhost",
+          "defaultHeaders": {},
+          "links": [
+            {
+              "uri": "/",
+              "method": "PUT",
+              "replyHeaders": {},
+              "statusCode": 400,
+              "responsePayload": {}
+            }
+          ],
+          "channelProfile": {
+            "salesOrderBusinessReferences": ["orderid"]
+          }
+        },
+        {
+          "ncStatusCode": 429,
+          "payload": {
+            "doc": {}
+          },
+          "baseUri": "https://localhost",
+          "defaultHeaders": {},
+          "links": [
+            {
+              "uri": "/",
+              "method": "PUT",
+              "replyHeaders": {},
+              "statusCode": 429,
+              "responsePayload": {}
+            }
+          ],
+          "channelProfile": {
+            "salesOrderBusinessReferences": ["orderid"]
+          }
+        },
+        {
+          "ncStatusCode": 500,
+          "payload": {
+            "doc": {}
+          },
+          "baseUri": "https://localhost",
+          "defaultHeaders": {},
+          "links": [
+            {
+              "uri": "/",
+              "method": "PUT",
+              "replyHeaders": {},
+              "statusCode": 500,
+              "responsePayload": {}
+            }
+          ],
+          "channelProfile": {
+            "salesOrderBusinessReferences": ["orderid"]
           }
         }
       ]

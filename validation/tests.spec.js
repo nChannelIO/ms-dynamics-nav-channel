@@ -7,8 +7,6 @@ let nock = require('nock');
 let functionCodes = require('./functions.json');
 
 if (fs.existsSync('config/channel-settings.json')) {
-  console.log("test");
-
   let channel_settings = require('../config/channel-settings.json');
   let docsFile = require('../config/docs.json');
   let docs = docsFile.docs;
@@ -44,7 +42,7 @@ if (fs.existsSync('config/channel-settings.json')) {
         if (stubFunction == docs[i].functionName && docs[i].tests && functionCodes[stubFunction]) {
           tested = true;
           let functionName = docs[i].functionName;
-          let channelProfile = _.merge(docsFile.channelProfile, baseChannelProfile);
+          let topChannelProfile = _.merge(docsFile.channelProfile, baseChannelProfile);
 
           // Require function
           let file = require('../functions/' + functionName);
@@ -72,6 +70,8 @@ if (fs.existsSync('config/channel-settings.json')) {
           }
 
           for (let t = 0; t < docs[i].tests.length; t++) {
+            let channelProfile = _.merge(docs[i].tests[t].channelProfile, topChannelProfile);
+
             describe(functionName, () => {
 
               afterEach((done) => {
@@ -89,9 +89,10 @@ if (fs.existsSync('config/channel-settings.json')) {
                   let scope = executeTest(docsFile.unitTestPackage, docs[i].tests[t]);
 
                   file[functionName](docsFile.ncUtil, channelProfile, null, docs[i].tests[t].payload, (response) => {
-                    assertPackage(scope);
+                    if (scope != null) {
+                      assertPackage(scope);
+                    }
                     expect(response.ncStatusCode).to.be.equal(200);
-                    expect(response.payload).to.be.a('Object');
                     done();
                   });
                 });
@@ -103,9 +104,10 @@ if (fs.existsSync('config/channel-settings.json')) {
                   let scope = executeTest(docsFile.unitTestPackage, docs[i].tests[t]);
 
                   file[functionName](docsFile.ncUtil, channelProfile, null, docs[i].tests[t].payload, (response) => {
-                    assertPackage(scope);
+                    if (scope != null) {
+                      assertPackage(scope);
+                    }
                     expect(response.ncStatusCode).to.be.equal(201);
-                    expect(response.payload).to.be.a('Object');
                     done();
                   });
                 });
@@ -118,9 +120,10 @@ if (fs.existsSync('config/channel-settings.json')) {
                   let scope = executeTest(docsFile.unitTestPackage, docs[i].tests[t]);
 
                   file[functionName](docsFile.ncUtil, channelProfile, null, docs[i].tests[t].payload, (response) => {
-                    assertPackage(scope);
+                    if (scope != null) {
+                      assertPackage(scope);
+                    }
                     expect(response.ncStatusCode).to.be.equal(204);
-                    expect(response.payload).to.be.a('Object');
                     done();
                   });
                 });
@@ -133,9 +136,10 @@ if (fs.existsSync('config/channel-settings.json')) {
                   let scope = executeTest(docsFile.unitTestPackage, docs[i].tests[t]);
 
                   file[functionName](docsFile.ncUtil, channelProfile, null, docs[i].tests[t].payload, (response) => {
-                    assertPackage(scope);
+                    if (scope != null) {
+                      assertPackage(scope);
+                    }
                     expect(response.ncStatusCode).to.be.equal(409);
-                    expect(response.payload).to.be.a('Object');
                     done();
                   });
                 });
@@ -148,9 +152,10 @@ if (fs.existsSync('config/channel-settings.json')) {
                   let scope = executeTest(docsFile.unitTestPackage, docs[i].tests[t]);
 
                   file[functionName](docsFile.ncUtil, channelProfile, null, docs[i].tests[t].payload, (response) => {
-                    assertPackage(scope);
+                    if (scope != null) {
+                      assertPackage(scope);
+                    }
                     expect(response.ncStatusCode).to.be.equal(206);
-                    expect(response.payload).to.be.a('Object');
                     done();
                   });
                 });
@@ -162,9 +167,10 @@ if (fs.existsSync('config/channel-settings.json')) {
                   let scope = executeTest(docsFile.unitTestPackage, docs[i].tests[t], 401);
 
                   file[functionName](docsFile.ncUtil, channelProfile, null, docs[i].tests[t].payload, (response) => {
-                    assertPackage(scope);
+                    if (scope != null) {
+                      assertPackage(scope);
+                    }
                     expect(response.ncStatusCode).to.be.equal(400);
-                    expect(response.payload).to.be.a('Object');
                     done();
                   });
                 });
@@ -175,9 +181,10 @@ if (fs.existsSync('config/channel-settings.json')) {
                   let scope = executeTest(docsFile.unitTestPackage, docs[i].tests[t], 429);
 
                   file[functionName](docsFile.ncUtil, channelProfile, null, docs[i].tests[t].payload, (response) => {
-                    assertPackage(scope);
+                    if (scope != null) {
+                      assertPackage(scope);
+                    }
                     expect(response.ncStatusCode).to.be.equal(429);
-                    expect(response.payload).to.be.a('Object');
                     done();
                   });
                 });
@@ -188,9 +195,10 @@ if (fs.existsSync('config/channel-settings.json')) {
                   let scope = executeTest(docsFile.unitTestPackage, docs[i].tests[t], 500, true);
 
                   file[functionName](docsFile.ncUtil, channelProfile, null, docs[i].tests[t].payload, (response) => {
-                    assertPackage(scope);
+                    if (scope != null) {
+                      assertPackage(scope);
+                    }
                     expect(response.ncStatusCode).to.be.equal(500);
-                    expect(response.payload).to.be.a('Object');
                     done();
                   });
                 });
@@ -201,9 +209,10 @@ if (fs.existsSync('config/channel-settings.json')) {
                   let scope = executeTest(docsFile.unitTestPackage, docs[i].tests[t], 500);
 
                   file[functionName](docsFile.ncUtil, channelProfile, null, docs[i].tests[t].payload, (response) => {
-                    assertPackage(scope);
+                    if (scope != null) {
+                      assertPackage(scope);
+                    }
                     expect(response.ncStatusCode).to.be.equal(500);
-                    expect(response.payload).to.be.a('Object');
                     done();
                   });
                 });

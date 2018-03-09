@@ -31,20 +31,45 @@ let ExtractBillingAddressFromSalesOrder = function(
             invalidMsg = "ExtractBillingAddressFromSalesOrder - Invalid Request: ncUtil was not passed into the function";
         }
 
+        if (!channelProfile) {
+          invalid = true;
+          invalidMsg = "channelProfile was not provided"
+        } else if (!channelProfile.channelSettingsValues) {
+          invalid = true;
+          invalidMsg = "channelProfile.channelSettingsValues was not provided"
+        } else if (!channelProfile.channelSettingsValues.protocol) {
+          invalid = true;
+          invalidMsg = "channelProfile.channelSettingsValues.protocol was not provided"
+        } else if (!channelProfile.channelAuthValues) {
+          invalid = true;
+          invalidMsg = "channelProfile.channelAuthValues was not provided"
+        } else if (!channelProfile.salesOrderBusinessReferences) {
+          invalid = true;
+          invalidMsg = "channelProfile.salesOrderBusinessReferences was not provided"
+        } else if (!Array.isArray(channelProfile.salesOrderBusinessReferences)) {
+          invalid = true;
+          invalidMsg = "channelProfile.salesOrderBusinessReferences is not an array"
+        } else if (channelProfile.salesOrderBusinessReferences.length === 0) {
+          invalid = true;
+          invalidMsg = "channelProfile.salesOrderBusinessReferences is empty"
+        }
+
         // Check Payload
-        if (payload) {
-            if (!payload.doc) {
-                invalidMsg = "Extract Billing Address From Sales Order - Invalid Request: payload.doc was not provided";
-                invalid = true;
-            } else if (!payload.doc.BillingAddress) {
-                notFound = true;
-                invalidMsg = "Extract Billing Address From Sales Order - Address Not Found: The order has no billing address (payload.doc.BillingAddress)";
-            } else {
-                data = payload.doc.BillingAddress;
-            }
-        } else {
-            invalidMsg = "Extract Billing Address From Sales Order - Invalid Request: payload was not provided";
-            invalid = true;
+        if (!invalid) {
+          if (payload) {
+              if (!payload.doc) {
+                  invalidMsg = "Extract Billing Address From Sales Order - Invalid Request: payload.doc was not provided";
+                  invalid = true;
+              } else if (!payload.doc.BillingAddress) {
+                  notFound = true;
+                  invalidMsg = "Extract Billing Address From Sales Order - Address Not Found: The order has no billing address (payload.doc.BillingAddress)";
+              } else {
+                  data = payload.doc.BillingAddress;
+              }
+          } else {
+              invalidMsg = "Extract Billing Address From Sales Order - Invalid Request: payload was not provided";
+              invalid = true;
+          }
         }
 
         if (!invalid && !notFound) {

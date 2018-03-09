@@ -2,32 +2,35 @@
   "CheckForCustomer": {
     "statusCodes": [200, 204, 409, 400, 429, 500]
   },
-  "CheckForCustomerAddress": {
+  "CheckForProduct": {
     "statusCodes": [200, 204, 409, 400, 429, 500]
   },
-  "CheckForCustomerContact": {
+  "CheckForProductGroup": {
     "statusCodes": [200, 204, 409, 400, 429, 500]
   },
-  "CheckForFulfillment": {
+  "CheckForProductPricing": {
     "statusCodes": [200, 204, 409, 400, 429, 500]
   },
-  "CheckForSalesOrder": {
+  "CheckForProductQuantity": {
     "statusCodes": [200, 204, 409, 400, 429, 500]
   },
   "ExtractCustomerAddressesFromCustomer": {
-    "statusCodes": [200, 204, 400, 429, 500]
+    "statusCodes": [200, 204]
   },
   "ExtractCustomerFromSalesOrder": {
-    "statusCodes": [200, 204, 400, 429, 500]
+    "statusCodes": [200, 204]
   },
   "ExtractCustomerContactsFromCustomer": {
-    "statusCodes": [200, 204, 400, 429, 500]
+    "statusCodes": [200, 204]
   },
   "ExtractBillingAddressFromSalesOrder": {
-    "statusCodes": [200, 204, 400, 429, 500]
+    "statusCodes": [200, 204]
   },
   "ExtractShippingAddressFromSalesOrder": {
-    "statusCodes": [200, 204, 400, 429, 500]
+    "statusCodes": [200, 204]
+  },
+  "ExtractProductFromProductGroup": {
+    "statusCodes": [200, 204]
   },
   "GetCustomerFromQuery": {
     "statusCodes": [200, 204, 206, 400, 429, 500]
@@ -41,13 +44,10 @@
   "InsertProduct": {
     "statusCodes": [201, 400, 429, 500]
   },
+  "InsertProductGroup": {
+    "statusCodes": [201, 400, 429, 500]
+  },
   "InsertCustomer": {
-    "statusCodes": [201, 400, 429, 500]
-  },
-  "InsertCustomerAddress": {
-    "statusCodes": [201, 400, 429, 500]
-  },
-  "InsertCustomerContact": {
     "statusCodes": [201, 400, 429, 500]
   },
   "InsertFulfillment": {
@@ -59,13 +59,16 @@
   "UpdateProduct": {
     "statusCodes": [200, 400, 429, 500]
   },
+  "UpdateProductGroup": {
+    "statusCodes": [200, 400, 429, 500]
+  },
+  "UpdateProductPricing": {
+    "statusCodes": [200, 400, 429, 500]
+  },
+  "UpdateProductQuantity": {
+    "statusCodes": [200, 400, 429, 500]
+  },
   "UpdateCustomer": {
-    "statusCodes": [200, 400, 429, 500]
-  },
-  "UpdateCustomerAddress": {
-    "statusCodes": [200, 400, 429, 500]
-  },
-  "UpdateCustomerContact": {
     "statusCodes": [200, 400, 429, 500]
   },
   "UpdateFulfillment": {
