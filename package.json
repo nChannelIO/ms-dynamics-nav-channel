@@ -1,13 +1,16 @@
 {
-  "name": "",
+  "name": "@nchannel/nc-template-channel",
   "author": "",
   "description": "",
-  "dependencies": {},
+  "dependencies": {
+    "request": "2.83.0"
+  },
   "devDependencies": {
+    "nock": "9.2.3",
     "lodash": "^4.17.4",
     "chai": "^3.5.0",
     "mocha": "^3.1.2"
   },
   "scripts": {},
-  "version": "0.0.1"
+  "version": "0.0.2"
 }

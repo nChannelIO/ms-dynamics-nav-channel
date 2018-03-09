@@ -1,0 +1,534 @@
+{
+  "unitTestPackage": "nock",
+  "ncUtil": {
+    "request": {},
+    "logger": null
+  },
+  "channelProfile": {
+    "customerBusinessReferences": ["email"],
+    "customerAddressBusinessReferences": ["address1", "address2", "state", "city", "zip"],
+    "customerContactBusinessReferences": ["phone"],
+    "salesOrderBusinessReferences": ["orderid"],
+    "fulfillmentBusinessReferences": ["fulfillmentid"],
+    "productBusinessReferences": ["productid"],
+    "productGroupBusinessReferences": ["productgroupid"],
+    "productPricingBusinessReferences": ["productpricingid"],
+    "productQuantityBusinessReferences": ["productquantityid"],
+    "channelAuthValues": {}
+  },
+  "docs": [
+    {
+      "functionName": "CheckForCustomer",
+      "tests": [
+        {
+          "ncStatusCode": 200,
+          "payload": {
+            "doc": {
+              "customer": {
+                "email": "derek.boytim@nchannel.com"
+              }
+            }
+          },
+          "baseUri": "https://localhost",
+          "defaultHeaders": {},
+          "links": [
+            {
+              "uri": "/",
+              "method": "GET",
+              "replyHeaders": {},
+              "statusCode": 200,
+              "responsePayload": {
+                "customers": [
+                  {
+                    "id": 1073339459,
+                    "email": "derek.boytim@nchannel.com",
+                    "accepts_marketing": false,
+                    "created_at": "2017-07-17T19:07:33-04:00",
+                    "updated_at": "2017-07-17T19:07:33-04:00",
+                    "first_name": "Derek",
+                    "last_name": "Boytim",
+                    "orders_count": 0,
+                    "state": "disabled",
+                    "total_spent": "0.00",
+                    "last_order_id": null,
+                    "note": null,
+                    "verified_email": true,
+                    "multipass_identifier": null,
+                    "tax_exempt": false,
+                    "phone": "+5551234567",
+                    "tags": "",
+                    "last_order_name": null,
+                    "addresses": [
+                      {
+                        "id": 1053317289,
+                        "customer_id": 1073339459,
+                        "first_name": "Derek",
+                        "last_name": "Boytim",
+                        "company": null,
+                        "address1": "123 Fake St",
+                        "address2": null,
+                        "city": "Columbus",
+                        "province": "Ohio",
+                        "country": "United States",
+                        "zip": "43235",
+                        "phone": "5551234567",
+                        "name": "Derek Boytim",
+                        "province_code": "OH",
+                        "country_code": "US",
+                        "country_name": "United States",
+                        "default": true
+                      }
+                    ],
+                    "default_address": {
+                      "id": 1053317289,
+                      "customer_id": 1073339459,
+                      "first_name": "Derek",
+                      "last_name": "Boytim",
+                      "company": null,
+                      "address1": "123 Fake St",
+                      "address2": null,
+                      "city": "Columbus",
+                      "province": "Ohio",
+                      "country": "United States",
+                      "zip": "43235",
+                      "phone": "5551234567",
+                      "name": "Derek Boytim",
+                      "province_code": "OH",
+                      "country_code": "US",
+                      "country_name": "United States",
+                      "default": true
+                    }
+                  }
+                ]
+              }
+            }
+          ],
+          "channelProfile": {
+            "customerBusinessReferences": ["email"]
+          }
+        },
+        {
+          "ncStatusCode": 204,
+          "payload": {
+            "doc": {
+              "customer": {
+                "email": "derek.boytim@nchannel.com"
+              }
+            }
+          },
+          "baseUri": "https://localhost",
+          "defaultHeaders": {},
+          "links": [
+            {
+              "uri": "/",
+              "method": "GET",
+              "replyHeaders": {},
+              "statusCode": 200,
+              "responsePayload": {
+                "customers": []
+              }
+            }
+          ],
+          "channelProfile": {
+            "customerBusinessReferences": ["email"]
+          }
+        },
+        {
+          "ncStatusCode": 409,
+          "payload": {
+            "doc": {
+              "customer": {
+                "email": "derek.boytim@nchannel.com"
+              }
+            }
+          },
+          "baseUri": "https://localhost",
+          "defaultHeaders": {},
+          "links": [
+            {
+              "uri": "/",
+              "method": "GET",
+              "replyHeaders": {},
+              "statusCode": 200,
+              "responsePayload": {
+                "customers": [
+                  {
+                    "id": 1073339459,
+                    "email": "derek.boytim@nchannel.com",
+                    "accepts_marketing": false,
+                    "created_at": "2017-07-17T19:07:33-04:00",
+                    "updated_at": "2017-07-17T19:07:33-04:00",
+                    "first_name": "Derek",
+                    "last_name": "Boytim",
+                    "orders_count": 0,
+                    "state": "disabled",
+                    "total_spent": "0.00",
+                    "last_order_id": null,
+                    "note": null,
+                    "verified_email": true,
+                    "multipass_identifier": null,
+                    "tax_exempt": false,
+                    "phone": "+5551234567",
+                    "tags": "",
+                    "last_order_name": null,
+                    "addresses": [
+                      {
+                        "id": 1053317289,
+                        "customer_id": 1073339459,
+                        "first_name": "Derek",
+                        "last_name": "Boytim",
+                        "company": null,
+                        "address1": "123 Fake St",
+                        "address2": null,
+                        "city": "Columbus",
+                        "province": "Ohio",
+                        "country": "United States",
+                        "zip": "43235",
+                        "phone": "5551234567",
+                        "name": "Derek Boytim",
+                        "province_code": "OH",
+                        "country_code": "US",
+                        "country_name": "United States",
+                        "default": true
+                      }
+                    ],
+                    "default_address": {
+                      "id": 1053317289,
+                      "customer_id": 1073339459,
+                      "first_name": "Derek",
+                      "last_name": "Boytim",
+                      "company": null,
+                      "address1": "123 Fake St",
+                      "address2": null,
+                      "city": "Columbus",
+                      "province": "Ohio",
+                      "country": "United States",
+                      "zip": "43235",
+                      "phone": "5551234567",
+                      "name": "Derek Boytim",
+                      "province_code": "OH",
+                      "country_code": "US",
+                      "country_name": "United States",
+                      "default": true
+                    }
+                  },
+                  {
+                    "id": 1073339459,
+                    "email": "derek.boytim@nchannel.com",
+                    "accepts_marketing": false,
+                    "created_at": "2017-07-17T19:07:33-04:00",
+                    "updated_at": "2017-07-17T19:07:33-04:00",
+                    "first_name": "Derek",
+                    "last_name": "Boytim",
+                    "orders_count": 0,
+                    "state": "disabled",
+                    "total_spent": "0.00",
+                    "last_order_id": null,
+                    "note": null,
+                    "verified_email": true,
+                    "multipass_identifier": null,
+                    "tax_exempt": false,
+                    "phone": "+5551234567",
+                    "tags": "",
+                    "last_order_name": null,
+                    "addresses": [
+                      {
+                        "id": 1053317289,
+                        "customer_id": 1073339459,
+                        "first_name": "Derek",
+                        "last_name": "Boytim",
+                        "company": null,
+                        "address1": "123 Fake St",
+                        "address2": null,
+                        "city": "Columbus",
+                        "province": "Ohio",
+                        "country": "United States",
+                        "zip": "43235",
+                        "phone": "5551234567",
+                        "name": "Derek Boytim",
+                        "province_code": "OH",
+                        "country_code": "US",
+                        "country_name": "United States",
+                        "default": true
+                      }
+                    ],
+                    "default_address": {
+                      "id": 1053317289,
+                      "customer_id": 1073339459,
+                      "first_name": "Derek",
+                      "last_name": "Boytim",
+                      "company": null,
+                      "address1": "123 Fake St",
+                      "address2": null,
+                      "city": "Columbus",
+                      "province": "Ohio",
+                      "country": "United States",
+                      "zip": "43235",
+                      "phone": "5551234567",
+                      "name": "Derek Boytim",
+                      "province_code": "OH",
+                      "country_code": "US",
+                      "country_name": "United States",
+                      "default": true
+                    }
+                  }
+                ]
+              }
+            }
+          ],
+          "channelProfile": {
+            "customerBusinessReferences": ["email"]
+          }
+        },
+        {
+          "ncStatusCode": 400,
+          "payload": {
+            "doc": {
+              "customer": {
+                "email": "derek.boytim@nchannel.com"
+              }
+            }
+          },
+          "baseUri": "https://localhost",
+          "defaultHeaders": {},
+          "links": [
+            {
+              "uri": "/",
+              "method": "GET",
+              "replyHeaders": {},
+              "statusCode": 401,
+              "responsePayload": {
+                "customers": []
+              }
+            }
+          ],
+          "channelProfile": {
+            "customerBusinessReferences": ["email"]
+          }
+        },
+        {
+          "ncStatusCode": 429,
+          "payload": {
+            "doc": {
+              "customer": {
+                "email": "derek.boytim@nchannel.com"
+              }
+            }
+          },
+          "baseUri": "https://localhost",
+          "defaultHeaders": {},
+          "links": [
+            {
+              "uri": "/",
+              "method": "GET",
+              "replyHeaders": {},
+              "statusCode": 429,
+              "responsePayload": {
+                "customers": []
+              }
+            }
+          ],
+          "channelProfile": {
+            "customerBusinessReferences": ["email"]
+          }
+        },
+        {
+          "ncStatusCode": 500,
+          "payload": {
+            "doc": {
+              "customer": {
+                "email": "derek.boytim@nchannel.com"
+              }
+            }
+          },
+          "baseUri": "https://localhost",
+          "defaultHeaders": {},
+          "links": [
+            {
+              "uri": "/",
+              "method": "GET",
+              "replyHeaders": {},
+              "statusCode": 500,
+              "responsePayload": {
+                "customers": []
+              }
+            }
+          ],
+          "channelProfile": {
+            "customerBusinessReferences": ["email"]
+          }
+        }
+      ]
+    },
+    {
+      "functionName": "InsertCustomer",
+      "tests": [
+        {
+          "ncStatusCode": 201,
+          "payload": {
+            "doc": {
+              "customer": {
+                "email": "derek.boytim@nchannel.com",
+                "first_name": "Derek",
+                "last_name": "Boytim"
+              }
+            }
+          },
+          "baseUri": "https://localhost",
+          "defaultHeaders": {},
+          "links": [
+            {
+              "uri": "/",
+              "method": "POST",
+              "replyHeaders": {},
+              "statusCode": 201,
+              "responsePayload": {
+                "customer": {
+                  "id": 1073339459,
+                  "email": "derek.boytim@nchannel.com",
+                  "accepts_marketing": false,
+                  "created_at": "2017-07-17T19:07:33-04:00",
+                  "updated_at": "2017-07-17T19:07:33-04:00",
+                  "first_name": "Derek",
+                  "last_name": "Boytim",
+                  "orders_count": 0,
+                  "state": "disabled",
+                  "total_spent": "0.00",
+                  "last_order_id": null,
+                  "note": null,
+                  "verified_email": true,
+                  "multipass_identifier": null,
+                  "tax_exempt": false,
+                  "phone": "+5551234567",
+                  "tags": "",
+                  "last_order_name": null,
+                  "addresses": [
+                    {
+                      "id": 1053317289,
+                      "customer_id": 1073339459,
+                      "first_name": "Derek",
+                      "last_name": "Boytim",
+                      "company": null,
+                      "address1": "123 Fake St",
+                      "address2": null,
+                      "city": "Columbus",
+                      "province": "Ohio",
+                      "country": "United States",
+                      "zip": "43235",
+                      "phone": "5551234567",
+                      "name": "Derek Boytim",
+                      "province_code": "OH",
+                      "country_code": "US",
+                      "country_name": "United States",
+                      "default": true
+                    }
+                  ],
+                  "default_address": {
+                    "id": 1053317289,
+                    "customer_id": 1073339459,
+                    "first_name": "Derek",
+                    "last_name": "Boytim",
+                    "company": null,
+                    "address1": "123 Fake St",
+                    "address2": null,
+                    "city": "Columbus",
+                    "province": "Ohio",
+                    "country": "United States",
+                    "zip": "43235",
+                    "phone": "5551234567",
+                    "name": "Derek Boytim",
+                    "province_code": "OH",
+                    "country_code": "US",
+                    "country_name": "United States",
+                    "default": true
+                  }
+                }
+              }
+            }
+          ],
+          "channelProfile": {
+            "customerBusinessReferences": ["email"]
+          }
+        },
+        {
+          "ncStatusCode": 400,
+          "payload": {
+            "doc": {
+              "customer": {
+                "email": "derek.boytim@nchannel.com",
+                "first_name": "Derek",
+                "last_name": "Boytim"
+              }
+            }
+          },
+          "baseUri": "https://localhost",
+          "defaultHeaders": {},
+          "links": [
+            {
+              "uri": "/",
+              "method": "POST",
+              "replyHeaders": {},
+              "statusCode": 400,
+              "responsePayload": {}
+            }
+          ],
+          "channelProfile": {
+            "customerBusinessReferences": ["email"]
+          }
+        },
+        {
+          "ncStatusCode": 429,
+          "payload": {
+            "doc": {
+              "customer": {
+                "email": "derek.boytim@nchannel.com",
+                "first_name": "Derek",
+                "last_name": "Boytim"
+              }
+            }
+          },
+          "baseUri": "https://localhost",
+          "defaultHeaders": {},
+          "links": [
+            {
+              "uri": "/",
+              "method": "POST",
+              "replyHeaders": {},
+              "statusCode": 429,
+              "responsePayload": {}
+            }
+          ],
+          "channelProfile": {
+            "customerBusinessReferences": ["email"]
+          }
+        },
+        {
+          "ncStatusCode": 500,
+          "payload": {
+            "doc": {
+              "customer": {
+                "email": "derek.boytim@nchannel.com",
+                "first_name": "Derek",
+                "last_name": "Boytim"
+              }
+            }
+          },
+          "baseUri": "https://localhost",
+          "defaultHeaders": {},
+          "links": [
+            {
+              "uri": "/",
+              "method": "POST",
+              "replyHeaders": {},
+              "statusCode": 500,
+              "responsePayload": {}
+            }
+          ],
+          "channelProfile": {
+            "customerBusinessReferences": ["email"]
+          }
+        }
+      ]
+    }
+  ]
+}
