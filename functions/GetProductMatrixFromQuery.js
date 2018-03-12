@@ -1,4 +1,4 @@
-let GetProductGroupFromQuery = function (ncUtil,
+let GetProductMatrixFromQuery = function (ncUtil,
                                  channelProfile,
                                  flowContext,
                                  payload,
@@ -20,7 +20,7 @@ let GetProductGroupFromQuery = function (ncUtil,
     invalidMsg = "ncUtil was not provided"
   }
 
-  //If channelProfile does not contain channelSettingsValues, channelAuthValues or productGroupBusinessReferences, the request can't be sent
+  //If channelProfile does not contain channelSettingsValues, channelAuthValues or productBusinessReferences, the request can't be sent
   if (!channelProfile) {
     invalid = true;
     invalidMsg = "channelProfile was not provided"
@@ -33,15 +33,15 @@ let GetProductGroupFromQuery = function (ncUtil,
   } else if (!channelProfile.channelAuthValues) {
     invalid = true;
     invalidMsg = "channelProfile.channelAuthValues was not provided"
-  } else if (!channelProfile.productGroupBusinessReferences) {
+  } else if (!channelProfile.productBusinessReferences) {
     invalid = true;
-    invalidMsg = "channelProfile.productGroupBusinessReferences was not provided"
-  } else if (!Array.isArray(channelProfile.productGroupBusinessReferences)) {
+    invalidMsg = "channelProfile.productBusinessReferences was not provided"
+  } else if (!Array.isArray(channelProfile.productBusinessReferences)) {
     invalid = true;
-    invalidMsg = "channelProfile.productGroupBusinessReferences is not an array"
-  } else if (channelProfile.productGroupBusinessReferences.length === 0) {
+    invalidMsg = "channelProfile.productBusinessReferences is not an array"
+  } else if (channelProfile.productBusinessReferences.length === 0) {
     invalid = true;
-    invalidMsg = "channelProfile.productGroupBusinessReferences is empty"
+    invalidMsg = "channelProfile.productBusinessReferences is empty"
   }
 
   //If a sales order document was not passed in, the request is invalid
@@ -89,7 +89,7 @@ let GetProductGroupFromQuery = function (ncUtil,
       request(options, function (error, response, body) {
         if (!error) {
           // If no errors, process results here
-          log("Do GetProductGroupFromQuery Callback", ncUtil);
+          log("Do GetProductMatrixFromQuery Callback", ncUtil);
           out.response.endpointStatusCode = response.statusCode;
           out.response.endpointStatusMessage = response.statusMessage;
 
@@ -104,8 +104,8 @@ let GetProductGroupFromQuery = function (ncUtil,
                 };
                 docs.push({
                   doc: product,
-                  productGroupRemoteID: product.product.id,
-                  productGroupBusinessReference: product.product.id
+                  productRemoteID: product.product.id,
+                  productBusinessReference: product.product.id
                 });
               }
               if (docs.length === payload.doc.pageSize) {
@@ -132,7 +132,7 @@ let GetProductGroupFromQuery = function (ncUtil,
           callback(out);
         } else {
           // If an error occurs, log the error here
-          logError("Do GetProductGroupFromQuery Callback error - " + error, ncUtil);
+          logError("Do GetProductMatrixFromQuery Callback error - " + error, ncUtil);
           out.ncStatusCode = 500;
           out.payload.error = {err: error};
           callback(out);
@@ -140,7 +140,7 @@ let GetProductGroupFromQuery = function (ncUtil,
       });
     } catch (err) {
       // Exception Handling
-      logError("Exception occurred in GetProductGroupFromQuery - " + err, ncUtil);
+      logError("Exception occurred in GetProductMatrixFromQuery - " + err, ncUtil);
       out.ncStatusCode = 500;
       out.payload.error = {err: err, stack: err.stackTrace};
       callback(out);
@@ -162,4 +162,4 @@ function log(msg, ncUtil) {
   console.log("[info] " + msg);
 }
 
-module.exports.GetProductGroupFromQuery = GetProductGroupFromQuery;
+module.exports.GetProductMatrixFromQuery = GetProductFromQuery;

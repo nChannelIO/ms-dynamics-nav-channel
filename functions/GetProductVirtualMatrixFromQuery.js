@@ -1,4 +1,4 @@
-let InsertProduct = function (ncUtil,
+let GetProductVirtualMatrixFromQuery = function (ncUtil,
                                  channelProfile,
                                  flowContext,
                                  payload,
@@ -78,7 +78,7 @@ let InsertProduct = function (ncUtil,
     // Set options
     let options = {
       url: url,
-      method: "POST",
+      method: "GET",
       headers: headers,
       body: payload.doc,
       json: true
@@ -89,22 +89,50 @@ let InsertProduct = function (ncUtil,
       request(options, function (error, response, body) {
         if (!error) {
           // If no errors, process results here
-          if (response.statusCode === 201) {
-            out.ncStatusCode = 201;
-          } else if (response.statusCode == 429) {
+          log("Do GetProductVirtualMatrixFromQuery Callback", ncUtil);
+          out.response.endpointStatusCode = response.statusCode;
+          out.response.endpointStatusMessage = response.statusMessage;
+
+          let docs = [];
+          let data = body;
+
+          if (response.statusCode === 200) {
+            if (data.products && data.products.length > 0) {
+              for (let i = 0; i < data.products.length; i++) {
+                let product = {
+                  product: body.products[i]
+                };
+                docs.push({
+                  doc: product,
+                  productRemoteID: product.product.id,
+                  productBusinessReference: product.product.id
+                });
+              }
+              if (docs.length === payload.doc.pageSize) {
+                out.ncStatusCode = 206;
+              } else {
+                out.ncStatusCode = 200;
+              }
+              out.payload = docs;
+            } else {
+              out.ncStatusCode = 204;
+              out.payload = data;
+            }
+          } else if (response.statusCode === 429) {
             out.ncStatusCode = 429;
-            out.payload.error = body;
-          } else if (response.statusCode == 500) {
+            out.payload.error = data;
+          } else if (response.statusCode === 500) {
             out.ncStatusCode = 500;
-            out.payload.error = body;
+            out.payload.error = data;
           } else {
             out.ncStatusCode = 400;
-            out.payload.error = body;
+            out.payload.error = data;
           }
+
           callback(out);
         } else {
           // If an error occurs, log the error here
-          logError("Do InsertProduct Callback error - " + error, ncUtil);
+          logError("Do GetProductVirtualMatrixFromQuery Callback error - " + error, ncUtil);
           out.ncStatusCode = 500;
           out.payload.error = {err: error};
           callback(out);
@@ -112,7 +140,7 @@ let InsertProduct = function (ncUtil,
       });
     } catch (err) {
       // Exception Handling
-      logError("Exception occurred in InsertProduct - " + err, ncUtil);
+      logError("Exception occurred in GetProductVirtualMatrixFromQuery - " + err, ncUtil);
       out.ncStatusCode = 500;
       out.payload.error = {err: err, stack: err.stackTrace};
       callback(out);
@@ -134,4 +162,4 @@ function log(msg, ncUtil) {
   console.log("[info] " + msg);
 }
 
-module.exports.InsertProduct = InsertProduct;
+module.exports.GetProductVirtualMatrixFromQuery = GetProductFromQuery;
