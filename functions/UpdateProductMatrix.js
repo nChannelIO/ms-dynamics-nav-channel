@@ -1,4 +1,4 @@
-let InsertProductGroup = function (ncUtil,
+let UpdateProductMatrix = function (ncUtil,
                                  channelProfile,
                                  flowContext,
                                  payload,
@@ -20,7 +20,7 @@ let InsertProductGroup = function (ncUtil,
     invalidMsg = "ncUtil was not provided"
   }
 
-  //If channelProfile does not contain channelSettingsValues, channelAuthValues or productGroupBusinessReferences, the request can't be sent
+  //If channelProfile does not contain channelSettingsValues, channelAuthValues or productBusinessReferences, the request can't be sent
   if (!channelProfile) {
     invalid = true;
     invalidMsg = "channelProfile was not provided"
@@ -33,15 +33,15 @@ let InsertProductGroup = function (ncUtil,
   } else if (!channelProfile.channelAuthValues) {
     invalid = true;
     invalidMsg = "channelProfile.channelAuthValues was not provided"
-  } else if (!channelProfile.productGroupBusinessReferences) {
+  } else if (!channelProfile.productBusinessReferences) {
     invalid = true;
-    invalidMsg = "channelProfile.productGroupBusinessReferences was not provided"
-  } else if (!Array.isArray(channelProfile.productGroupBusinessReferences)) {
+    invalidMsg = "channelProfile.productBusinessReferences was not provided"
+  } else if (!Array.isArray(channelProfile.productBusinessReferences)) {
     invalid = true;
-    invalidMsg = "channelProfile.productGroupBusinessReferences is not an array"
-  } else if (channelProfile.productGroupBusinessReferences.length === 0) {
+    invalidMsg = "channelProfile.productBusinessReferences is not an array"
+  } else if (channelProfile.productBusinessReferences.length === 0) {
     invalid = true;
-    invalidMsg = "channelProfile.productGroupBusinessReferences is empty"
+    invalidMsg = "channelProfile.productBusinessReferences is empty"
   }
 
   //If a sales order document was not passed in, the request is invalid
@@ -78,7 +78,7 @@ let InsertProductGroup = function (ncUtil,
     // Set options
     let options = {
       url: url,
-      method: "POST",
+      method: "PUT",
       headers: headers,
       body: payload.doc,
       json: true
@@ -89,8 +89,13 @@ let InsertProductGroup = function (ncUtil,
       request(options, function (error, response, body) {
         if (!error) {
           // If no errors, process results here
-          if (response.statusCode === 201) {
-            out.ncStatusCode = 201;
+          if (response.statusCode === 200 && body.product) {
+            out.payload = {
+              doc: body,
+              productBusinessReference: body.product.sku
+            };
+
+            out.ncStatusCode = 200;
           } else if (response.statusCode == 429) {
             out.ncStatusCode = 429;
             out.payload.error = body;
@@ -104,15 +109,15 @@ let InsertProductGroup = function (ncUtil,
           callback(out);
         } else {
           // If an error occurs, log the error here
-          logError("Do InsertProductGroup Callback error - " + error, ncUtil);
+          logError("Do UpdateProductMatrix Callback error - " + error, ncUtil);
           out.ncStatusCode = 500;
-          out.payload.error = {err: error};
+          out.payload.error = error;
           callback(out);
         }
       });
     } catch (err) {
       // Exception Handling
-      logError("Exception occurred in InsertProductGroup - " + err, ncUtil);
+      logError("Exception occurred in UpdateProductMatrix - " + err, ncUtil);
       out.ncStatusCode = 500;
       out.payload.error = {err: err, stack: err.stackTrace};
       callback(out);
@@ -134,4 +139,4 @@ function log(msg, ncUtil) {
   console.log("[info] " + msg);
 }
 
-module.exports.InsertProductGroup = InsertProductGroup;
+module.exports.UpdateProductMatrix = UpdateProductMatrix;

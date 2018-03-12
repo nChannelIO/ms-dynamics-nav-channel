@@ -1,4 +1,4 @@
-let UpdateProduct = function (ncUtil,
+let InsertProductSimple = function (ncUtil,
                                  channelProfile,
                                  flowContext,
                                  payload,
@@ -78,7 +78,7 @@ let UpdateProduct = function (ncUtil,
     // Set options
     let options = {
       url: url,
-      method: "PUT",
+      method: "POST",
       headers: headers,
       body: payload.doc,
       json: true
@@ -89,13 +89,8 @@ let UpdateProduct = function (ncUtil,
       request(options, function (error, response, body) {
         if (!error) {
           // If no errors, process results here
-          if (response.statusCode === 200 && body.product) {
-            out.payload = {
-              doc: body,
-              productBusinessReference: body.product.sku
-            };
-
-            out.ncStatusCode = 200;
+          if (response.statusCode === 201) {
+            out.ncStatusCode = 201;
           } else if (response.statusCode == 429) {
             out.ncStatusCode = 429;
             out.payload.error = body;
@@ -109,15 +104,15 @@ let UpdateProduct = function (ncUtil,
           callback(out);
         } else {
           // If an error occurs, log the error here
-          logError("Do UpdateProduct Callback error - " + error, ncUtil);
+          logError("Do InsertProductSimple Callback error - " + error, ncUtil);
           out.ncStatusCode = 500;
-          out.payload.error = error;
+          out.payload.error = {err: error};
           callback(out);
         }
       });
     } catch (err) {
       // Exception Handling
-      logError("Exception occurred in UpdateProduct - " + err, ncUtil);
+      logError("Exception occurred in InsertProductSimple - " + err, ncUtil);
       out.ncStatusCode = 500;
       out.payload.error = {err: err, stack: err.stackTrace};
       callback(out);
@@ -139,4 +134,4 @@ function log(msg, ncUtil) {
   console.log("[info] " + msg);
 }
 
-module.exports.UpdateProduct = UpdateProduct;
+module.exports.InsertProductSimple = InsertProductSimple;
