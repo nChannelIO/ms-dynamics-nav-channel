@@ -3,6 +3,23 @@
 #set +x			# stop debugging from here
 
 ###########################################################
+# install_node
+###########################################################
+function install_node {
+  echo "**********************************************"
+  echo "Start install_node "
+  echo "**********************************************"
+  curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -
+  apt-get install -y nodejs
+  npm version
+  npm install npm@3 --global
+
+  echo "**********************************************"
+  echo "End install_node "
+  echo "**********************************************"
+}
+
+###########################################################
 # publish_packages
 ###########################################################
 function publish_packages {
@@ -24,8 +41,6 @@ function publish_packages {
   echo "**********************************************"
 }
 
-
-
 ################################################################################
 ###                            mainline code
 ################################################################################
@@ -38,6 +53,7 @@ echo
 
 if [ $SOURCE_BRANCH == "development" ]; then
   echo "The SOURCE_BRANCH=[${SOURCE_BRANCH}] attempting to publish as notcertified";
+  install_node
   publish_packages "notcertified";
 else
   echo "Nothing to do for SOURCE_BRANCH=[${SOURCE_BRANCH}]."
