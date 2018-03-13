@@ -13,6 +13,7 @@ function install_node {
   apt-get install -y nodejs
   npm version
   npm install npm@3 --global
+  npm install semver --global
 
   echo "**********************************************"
   echo "End install_node "
@@ -30,11 +31,30 @@ function publish_packages {
   VERSION=`node -pe "require('./package.json').version"` && \
   NAME=`node -pe "require('./package.json').name"` && \
 
+  echo package.json Version: $VERSION
+
+  # Pull package from npm if it exists
+  METADATA="$(npm view --json)"
+
+  if [ ! -z "$METADATA" ]; then
+    # Extract most recently used version from npm metadata
+    LATESTVERSION=`node -pe "try { let channel = JSON.parse(JSON.stringify(${METADATA})); channel.versions.pop(); } catch (err) { console.log(err); }"` && \
+
+    # Bump the extracted version
+    npm version "$(semver -i patch ${LATESTVERSION})"
+  fi
+
+  # Get latest version
+  VERSION=`node -pe "require('./package.json').version"` && \
+
   echo Publishing: $NAME
   echo Publish Version: $VERSION
 
   echo "npm publish @nchannel/$NAME --tag" $1
   npm publish --tag $1 --access public
+
+  # Exit code 1 if publish fails
+  (( $? )) && exit 1
 
   echo "**********************************************"
   echo "End publish_packages "
