@@ -34,7 +34,7 @@ function publish_packages {
   echo Publish Version: $VERSION
 
   echo "npm publish @nchannel/$NAME --tag" $1
-  npm publish --tag $1
+  npm publish --tag $1 --access public
 
   echo "**********************************************"
   echo "End publish_packages "

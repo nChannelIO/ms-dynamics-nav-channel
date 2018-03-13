@@ -17,6 +17,4 @@ RUN chmod +x ./runTest.sh
 
 RUN npm install
 
-USER root
-
 CMD [ "./runTest.sh" ]
