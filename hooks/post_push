@@ -41,7 +41,7 @@ function publish_packages {
     LATESTVERSION=`node -pe "try { let channel = JSON.parse(JSON.stringify(${METADATA})); channel.versions.pop(); } catch (err) { console.log(err); }"` && \
 
     # Bump the extracted version
-    npm version "$(semver -i patch ${LATESTVERSION})"
+    npm version "$(semver -i patch ${LATESTVERSION})"  --no-git-tag-version
   fi
 
   # Get latest version
