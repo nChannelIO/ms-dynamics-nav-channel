@@ -49,7 +49,7 @@ function publish_packages {
 
   echo Publishing: $NAME
   echo Publish Version: $VERSION
-
+  npm config set //registry.npmjs.org/:_authToken ${NPM_TOKEN}
   echo "npm publish @nchannel/$NAME --tag" $1
   npm publish --tag $1 --access public
 
