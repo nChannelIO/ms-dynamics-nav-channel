@@ -4,6 +4,9 @@ let expect = require('chai').expect;
 let _ = require('lodash');
 let fs = require('fs');
 let nock = require('nock');
+let sinon = require('sinon');
+let proxyquire = require('proxyquire');
+let soapStub = require('soap/soap-stub');
 let functionCodes = require('./functions.json');
 
 if (fs.existsSync('config/channel-settings.json')) {
@@ -42,6 +45,8 @@ if (fs.existsSync('config/channel-settings.json')) {
         if (stubFunction == docs[i].functionName && docs[i].tests && functionCodes[stubFunction]) {
           tested = true;
           let functionName = docs[i].functionName;
+
+          // Merge channelProfile in docs.json with channelSettingsSchema values in channel-settings.json
           let topChannelProfile = _.merge(docsFile.channelProfile, baseChannelProfile);
 
           // Require function
@@ -51,6 +56,7 @@ if (fs.existsSync('config/channel-settings.json')) {
           let statusCodes = functionCodes[functionName].statusCodes;
           let missingCodes = [];
 
+          // Check for at least one document for each status code
           for (let s = 0; s < statusCodes.length; s++) {
             let found = false;
             for (let t = 0; t < docs[i].tests.length; t++) {
@@ -65,6 +71,7 @@ if (fs.existsSync('config/channel-settings.json')) {
             }
           }
 
+          // If a required document is missing for a stats code, fail the tests
           if (missingCodes.length > 0) {
             throw new Error(`${functionName} does not contain enough documents to cover all ncStatusCodes`);
           }
@@ -77,10 +84,10 @@ if (fs.existsSync('config/channel-settings.json')) {
               afterEach((done) => {
                 if (docsFile.unitTestPackage === 'nock') {
                   nock.cleanAll();
-                  done();
-                } else {
-                  done();
+                } else if (docsFile.unitTestPackage === 'soap') {
+                  soapStub.reset();
                 }
+                done();
               });
 
               if (docs[i].tests[t].ncStatusCode == 200) {
@@ -380,6 +387,101 @@ if (fs.existsSync('config/channel-settings.json')) {
                 }
               }
               return fake;
+            } else if (unitTest === 'soap') {
+              let soap = require('soap');
+              let wsdlUri = test.wsdlUri;
+
+              let clientStub = {
+                wsdl: {
+                  options: {
+                    attributesKey: 'attributes',
+                    envelopeKey: 'soap'
+                  },
+                  definitions: {
+                    types: {},
+                    services: {},
+                    xmlns: {}
+                  },
+                  xmlnsInEnvelope: {},
+                  describeServices: sinon.stub(),
+                  _xmlnsMap: sinon.stub()
+                },
+                options: {},
+                security: {},
+                SOAPAction: {},
+                endpoint: {},
+                bodyAttributes: {},
+                httpHeaders: {},
+                soapHeaders: {},
+                addSoapHeader: sinon.stub(),
+                changeSoapHeader: sinon.stub(),
+                getSoapHeaders: sinon.stub(),
+                clearSoapHeaders: sinon.stub(),
+                addHttpHeader: sinon.stub(),
+                getHttpHeaders: sinon.stub(),
+                clearHttpsHeaders: sinon.stub(),
+                addBodyAttribute: sinon.stub(),
+                getBodyAttributes: sinon.stub(),
+                clearBodyAttributes: sinon.stub(),
+                setSecurity: sinon.stub(),
+                setEndpoint: sinon.stub(),
+                describe: sinon.stub(),
+                setSOAPAction: sinon.stub()
+              };
+
+              for (let i = 0; i < test.links.length; i++) {
+                // Setup stub based on service options
+                if (test.service) {
+                  clientStub[test.service] = {};
+                  if (test.service && test.servicePort) {
+                    clientStub[test.service][test.servicePort] = {};
+                    clientStub[test.service][test.servicePort][test.links[i].function] = sinon.stub();
+                    clientStub[test.service][test.servicePort][test.links[i].function].respondWithError = soapStub.createErroringStub({ message: "Internal Error" });
+                    clientStub[test.service][test.servicePort][test.links[i].function].respondWithSuccess = soapStub.createRespondingStub(test.links[i].responsePayload);
+
+                    errorTest === false ?
+                    clientStub[test.service][test.servicePort][test.links[i].function].respondWithSuccess() :
+                    clientStub[test.service][test.servicePort][test.links[i].function].respondWithError();
+                  } else {
+                    clientStub[test.service][test.links[i].function] = sinon.stub();
+                    clientStub[test.service][test.links[i].function].respondWithError = soapStub.createErroringStub({ message: "Internal Error" });
+                    clientStub[test.service][test.links[i].function].respondWithSuccess = soapStub.createRespondingStub(test.links[i].responsePayload);
+
+                    errorTest === false ?
+                    clientStub[test.service][test.links[i].function].respondWithSuccess() :
+                    clientStub[test.service][test.links[i].function].respondWithError();
+                  }
+                } else {
+                  clientStub[test.links[i].function] = sinon.stub();
+                  clientStub[test.links[i].function].respondWithError = soapStub.createErroringStub({ message: "Internal Error" });
+                  clientStub[test.links[i].function].respondWithSuccess = soapStub.createRespondingStub(test.links[i].responsePayload);
+
+                  errorTest === false ?
+                  clientStub[test.links[i].function].respondWithSuccess() :
+                  clientStub[test.links[i].function].respondWithError();
+                }
+              }
+
+              soapStub.registerClient('fakeClient', wsdlUri, clientStub);
+              let fakeClient = soapStub.getStub('fakeClient');
+
+              // Replace only the function in soap and any properties a stub
+              soap.createClient = function(wsdl_uri, options, callback, endpoint) {
+                if (typeof options === 'function') {
+                  endpoint = callback;
+                  callback = options;
+                  options = {};
+                }
+                endpoint = options.endpoint || endpoint;
+                callback(null, fakeClient);
+              };
+
+              let mod = {};
+              mod[docsFile.packageName] = soap;
+
+              file = proxyquire('../functions/' + functionName, mod);
+
+              return clientStub;
             } else {
               return null;
             }
