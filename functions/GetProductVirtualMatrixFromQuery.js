@@ -1,4 +1,4 @@
-let UpdateProductGroup = function (ncUtil,
+let GetProductVirtualMatrixFromQuery = function (ncUtil,
                                  channelProfile,
                                  flowContext,
                                  payload,
@@ -20,7 +20,7 @@ let UpdateProductGroup = function (ncUtil,
     invalidMsg = "ncUtil was not provided"
   }
 
-  //If channelProfile does not contain channelSettingsValues, channelAuthValues or productGroupBusinessReferences, the request can't be sent
+  //If channelProfile does not contain channelSettingsValues, channelAuthValues or productBusinessReferences, the request can't be sent
   if (!channelProfile) {
     invalid = true;
     invalidMsg = "channelProfile was not provided"
@@ -33,15 +33,15 @@ let UpdateProductGroup = function (ncUtil,
   } else if (!channelProfile.channelAuthValues) {
     invalid = true;
     invalidMsg = "channelProfile.channelAuthValues was not provided"
-  } else if (!channelProfile.productGroupBusinessReferences) {
+  } else if (!channelProfile.productBusinessReferences) {
     invalid = true;
-    invalidMsg = "channelProfile.productGroupBusinessReferences was not provided"
-  } else if (!Array.isArray(channelProfile.productGroupBusinessReferences)) {
+    invalidMsg = "channelProfile.productBusinessReferences was not provided"
+  } else if (!Array.isArray(channelProfile.productBusinessReferences)) {
     invalid = true;
-    invalidMsg = "channelProfile.productGroupBusinessReferences is not an array"
-  } else if (channelProfile.productGroupBusinessReferences.length === 0) {
+    invalidMsg = "channelProfile.productBusinessReferences is not an array"
+  } else if (channelProfile.productBusinessReferences.length === 0) {
     invalid = true;
-    invalidMsg = "channelProfile.productGroupBusinessReferences is empty"
+    invalidMsg = "channelProfile.productBusinessReferences is empty"
   }
 
   //If a sales order document was not passed in, the request is invalid
@@ -65,8 +65,7 @@ let UpdateProductGroup = function (ncUtil,
     // The `soap` module can be used in place of `request` but the logic and data being sent will be different
     let request = require('request');
 
-    let endPoint = "";
-    let url = "";
+    let url = "https://localhost/";
 
     // Add any headers for the request
     let headers = {
@@ -79,7 +78,7 @@ let UpdateProductGroup = function (ncUtil,
     // Set options
     let options = {
       url: url,
-      method: "POST",
+      method: "GET",
       headers: headers,
       body: payload.doc,
       json: true
@@ -90,13 +89,58 @@ let UpdateProductGroup = function (ncUtil,
       request(options, function (error, response, body) {
         if (!error) {
           // If no errors, process results here
+          log("Do GetProductVirtualMatrixFromQuery Callback", ncUtil);
+          out.response.endpointStatusCode = response.statusCode;
+          out.response.endpointStatusMessage = response.statusMessage;
+
+          let docs = [];
+          let data = body;
+
+          if (response.statusCode === 200) {
+            if (data.products && data.products.length > 0) {
+              for (let i = 0; i < data.products.length; i++) {
+                let product = {
+                  product: body.products[i]
+                };
+                docs.push({
+                  doc: product,
+                  productRemoteID: product.product.id,
+                  productBusinessReference: product.product.id
+                });
+              }
+              if (docs.length === payload.doc.pageSize) {
+                out.ncStatusCode = 206;
+              } else {
+                out.ncStatusCode = 200;
+              }
+              out.payload = docs;
+            } else {
+              out.ncStatusCode = 204;
+              out.payload = data;
+            }
+          } else if (response.statusCode === 429) {
+            out.ncStatusCode = 429;
+            out.payload.error = data;
+          } else if (response.statusCode === 500) {
+            out.ncStatusCode = 500;
+            out.payload.error = data;
+          } else {
+            out.ncStatusCode = 400;
+            out.payload.error = data;
+          }
+
+          callback(out);
         } else {
           // If an error occurs, log the error here
+          logError("Do GetProductVirtualMatrixFromQuery Callback error - " + error, ncUtil);
+          out.ncStatusCode = 500;
+          out.payload.error = {err: error};
+          callback(out);
         }
       });
     } catch (err) {
       // Exception Handling
-      logError("Exception occurred in UpdateProductGroup - " + err, ncUtil);
+      logError("Exception occurred in GetProductVirtualMatrixFromQuery - " + err, ncUtil);
       out.ncStatusCode = 500;
       out.payload.error = {err: err, stack: err.stackTrace};
       callback(out);
@@ -118,4 +162,4 @@ function log(msg, ncUtil) {
   console.log("[info] " + msg);
 }
 
-module.exports.UpdateProductGroup = UpdateProductGroup;
+module.exports.GetProductVirtualMatrixFromQuery = GetProductFromQuery;

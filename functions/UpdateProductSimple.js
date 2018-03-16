@@ -1,4 +1,4 @@
-let InsertCustomer = function (ncUtil,
+let UpdateProductSimple = function (ncUtil,
                                  channelProfile,
                                  flowContext,
                                  payload,
@@ -20,7 +20,7 @@ let InsertCustomer = function (ncUtil,
     invalidMsg = "ncUtil was not provided"
   }
 
-  //If channelProfile does not contain channelSettingsValues, channelAuthValues or customerBusinessReferences, the request can't be sent
+  //If channelProfile does not contain channelSettingsValues, channelAuthValues or productBusinessReferences, the request can't be sent
   if (!channelProfile) {
     invalid = true;
     invalidMsg = "channelProfile was not provided"
@@ -33,15 +33,15 @@ let InsertCustomer = function (ncUtil,
   } else if (!channelProfile.channelAuthValues) {
     invalid = true;
     invalidMsg = "channelProfile.channelAuthValues was not provided"
-  } else if (!channelProfile.customerBusinessReferences) {
+  } else if (!channelProfile.productBusinessReferences) {
     invalid = true;
-    invalidMsg = "channelProfile.customerBusinessReferences was not provided"
-  } else if (!Array.isArray(channelProfile.customerBusinessReferences)) {
+    invalidMsg = "channelProfile.productBusinessReferences was not provided"
+  } else if (!Array.isArray(channelProfile.productBusinessReferences)) {
     invalid = true;
-    invalidMsg = "channelProfile.customerBusinessReferences is not an array"
-  } else if (channelProfile.customerBusinessReferences.length === 0) {
+    invalidMsg = "channelProfile.productBusinessReferences is not an array"
+  } else if (channelProfile.productBusinessReferences.length === 0) {
     invalid = true;
-    invalidMsg = "channelProfile.customerBusinessReferences is empty"
+    invalidMsg = "channelProfile.productBusinessReferences is empty"
   }
 
   //If a sales order document was not passed in, the request is invalid
@@ -78,7 +78,7 @@ let InsertCustomer = function (ncUtil,
     // Set options
     let options = {
       url: url,
-      method: "POST",
+      method: "PUT",
       headers: headers,
       body: payload.doc,
       json: true
@@ -89,8 +89,13 @@ let InsertCustomer = function (ncUtil,
       request(options, function (error, response, body) {
         if (!error) {
           // If no errors, process results here
-          if (response.statusCode === 201) {
-            out.ncStatusCode = 201;
+          if (response.statusCode === 200 && body.product) {
+            out.payload = {
+              doc: body,
+              productBusinessReference: body.product.sku
+            };
+
+            out.ncStatusCode = 200;
           } else if (response.statusCode == 429) {
             out.ncStatusCode = 429;
             out.payload.error = body;
@@ -104,15 +109,15 @@ let InsertCustomer = function (ncUtil,
           callback(out);
         } else {
           // If an error occurs, log the error here
-          logError("Do InsertCustomer Callback error - " + error, ncUtil);
+          logError("Do UpdateProductSimple Callback error - " + error, ncUtil);
           out.ncStatusCode = 500;
-          out.payload.error = {err: error};
+          out.payload.error = error;
           callback(out);
         }
       });
     } catch (err) {
       // Exception Handling
-      logError("Exception occurred in InsertSalesOrder - " + err, ncUtil);
+      logError("Exception occurred in UpdateProductSimple - " + err, ncUtil);
       out.ncStatusCode = 500;
       out.payload.error = {err: err, stack: err.stackTrace};
       callback(out);
@@ -134,4 +139,4 @@ function log(msg, ncUtil) {
   console.log("[info] " + msg);
 }
 
-module.exports.InsertCustomer = InsertCustomer;
+module.exports.UpdateProductSimple = UpdateProductSimple;

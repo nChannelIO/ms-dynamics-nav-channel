@@ -62,12 +62,55 @@ let InsertSalesOrder = function (ncUtil,
   }
 
   if (!invalid) {
-    // Setup the request to the endpoint here
-    // Different npm modules can be used depending on the API communication is being made to
+    // Using request for example - A different npm module may be needed depending on the API communication is being made to
+    // The `soap` module can be used in place of `request` but the logic and data being sent will be different
+    let request = require('request');
+
+    let url = "https://localhost/";
+
+    // Add any headers for the request
+    let headers = {
+
+    };
+
+    // Log URL
+    log("Using URL [" + url + "]", ncUtil);
+
+    // Set options
+    let options = {
+      url: url,
+      method: "POST",
+      headers: headers,
+      body: payload.doc,
+      json: true
+    };
 
     try {
-      // TEMPLATE
-      // Make the request to the endpoint here
+      // Pass in our URL and headers
+      request(options, function (error, response, body) {
+        if (!error) {
+          // If no errors, process results here
+          if (response.statusCode === 201) {
+            out.ncStatusCode = 201;
+          } else if (response.statusCode == 429) {
+            out.ncStatusCode = 429;
+            out.payload.error = body;
+          } else if (response.statusCode == 500) {
+            out.ncStatusCode = 500;
+            out.payload.error = body;
+          } else {
+            out.ncStatusCode = 400;
+            out.payload.error = body;
+          }
+          callback(out);
+        } else {
+          // If an error occurs, log the error here
+          logError("Do InsertSalesOrder Callback error - " + error, ncUtil);
+          out.ncStatusCode = 500;
+          out.payload.error = {err: error};
+          callback(out);
+        }
+      });
     } catch (err) {
       // Exception Handling
       logError("Exception occurred in InsertSalesOrder - " + err, ncUtil);

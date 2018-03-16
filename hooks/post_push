@@ -3,6 +3,24 @@
 #set +x			# stop debugging from here
 
 ###########################################################
+# install_node
+###########################################################
+function install_node {
+  echo "**********************************************"
+  echo "Start install_node "
+  echo "**********************************************"
+  curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -
+  apt-get install -y nodejs
+  npm version
+  npm install npm@3 --global
+  npm install semver --global
+
+  echo "**********************************************"
+  echo "End install_node "
+  echo "**********************************************"
+}
+
+###########################################################
 # publish_packages
 ###########################################################
 function publish_packages {
@@ -13,18 +31,35 @@ function publish_packages {
   VERSION=`node -pe "require('./package.json').version"` && \
   NAME=`node -pe "require('./package.json').name"` && \
 
+  echo package.json Version: $VERSION
+
+  # Pull package from npm if it exists
+  METADATA="$(npm view --json)"
+
+  if [ ! -z "$METADATA" ]; then
+    # Extract most recently used version from npm metadata
+    LATESTVERSION=`node -pe "try { let channel = JSON.parse(JSON.stringify(${METADATA})); channel.versions.pop(); } catch (err) { console.log(err); }"` && \
+
+    # Bump the extracted version
+    npm version "$(semver -i patch ${LATESTVERSION})"  --no-git-tag-version
+  fi
+
+  # Get latest version
+  VERSION=`node -pe "require('./package.json').version"` && \
+
   echo Publishing: $NAME
   echo Publish Version: $VERSION
-
+  npm config set //registry.npmjs.org/:_authToken ${NPM_TOKEN}
   echo "npm publish @nchannel/$NAME --tag" $1
-  npm publish --tag $1
+  npm publish --tag $1 --access public
+
+  # Exit code 1 if publish fails
+  (( $? )) && exit 1
 
   echo "**********************************************"
   echo "End publish_packages "
   echo "**********************************************"
 }
-
-
 
 ################################################################################
 ###                            mainline code
@@ -38,6 +73,7 @@ echo
 
 if [ $SOURCE_BRANCH == "development" ]; then
   echo "The SOURCE_BRANCH=[${SOURCE_BRANCH}] attempting to publish as notcertified";
+  install_node
   publish_packages "notcertified";
 else
   echo "Nothing to do for SOURCE_BRANCH=[${SOURCE_BRANCH}]."

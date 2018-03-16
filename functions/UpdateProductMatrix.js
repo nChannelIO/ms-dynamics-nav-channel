@@ -1,4 +1,4 @@
-let GetCustomerFromQuery = function (ncUtil,
+let UpdateProductMatrix = function (ncUtil,
                                  channelProfile,
                                  flowContext,
                                  payload,
@@ -18,12 +18,9 @@ let GetCustomerFromQuery = function (ncUtil,
   if (!ncUtil) {
     invalid = true;
     invalidMsg = "ncUtil was not provided"
-  } else if (!ncUtil.request) {
-    invalid = true;
-    invalidMsg = "ncUtil.request was not provided"
   }
 
-  //If channelProfile does not contain channelSettingsValues, channelAuthValues or customerBusinessReferences, the request can't be sent
+  //If channelProfile does not contain channelSettingsValues, channelAuthValues or productBusinessReferences, the request can't be sent
   if (!channelProfile) {
     invalid = true;
     invalidMsg = "channelProfile was not provided"
@@ -36,15 +33,15 @@ let GetCustomerFromQuery = function (ncUtil,
   } else if (!channelProfile.channelAuthValues) {
     invalid = true;
     invalidMsg = "channelProfile.channelAuthValues was not provided"
-  } else if (!channelProfile.customerBusinessReferences) {
+  } else if (!channelProfile.productBusinessReferences) {
     invalid = true;
-    invalidMsg = "channelProfile.customerBusinessReferences was not provided"
-  } else if (!Array.isArray(channelProfile.customerBusinessReferences)) {
+    invalidMsg = "channelProfile.productBusinessReferences was not provided"
+  } else if (!Array.isArray(channelProfile.productBusinessReferences)) {
     invalid = true;
-    invalidMsg = "channelProfile.customerBusinessReferences is not an array"
-  } else if (channelProfile.customerBusinessReferences.length === 0) {
+    invalidMsg = "channelProfile.productBusinessReferences is not an array"
+  } else if (channelProfile.productBusinessReferences.length === 0) {
     invalid = true;
-    invalidMsg = "channelProfile.customerBusinessReferences is empty"
+    invalidMsg = "channelProfile.productBusinessReferences is empty"
   }
 
   //If a sales order document was not passed in, the request is invalid
@@ -68,8 +65,7 @@ let GetCustomerFromQuery = function (ncUtil,
     // The `soap` module can be used in place of `request` but the logic and data being sent will be different
     let request = require('request');
 
-    let endPoint = "/";
-    let url = "http://github.com";
+    let url = "https://localhost/";
 
     // Add any headers for the request
     let headers = {
@@ -80,14 +76,12 @@ let GetCustomerFromQuery = function (ncUtil,
     log("Using URL [" + url + "]", ncUtil);
 
     // Set options
-    // POST and PUT need a payload to be sent with the request
-
     let options = {
       url: url,
-      method: "GET",
-      headers: headers
-      //body: payload.doc,
-      //json: true
+      method: "PUT",
+      headers: headers,
+      body: payload.doc,
+      json: true
     };
 
     try {
@@ -95,16 +89,35 @@ let GetCustomerFromQuery = function (ncUtil,
       request(options, function (error, response, body) {
         if (!error) {
           // If no errors, process results here
-          out.ncStatusCode = 200;
+          if (response.statusCode === 200 && body.product) {
+            out.payload = {
+              doc: body,
+              productBusinessReference: body.product.sku
+            };
+
+            out.ncStatusCode = 200;
+          } else if (response.statusCode == 429) {
+            out.ncStatusCode = 429;
+            out.payload.error = body;
+          } else if (response.statusCode == 500) {
+            out.ncStatusCode = 500;
+            out.payload.error = body;
+          } else {
+            out.ncStatusCode = 400;
+            out.payload.error = body;
+          }
           callback(out);
         } else {
           // If an error occurs, log the error here
+          logError("Do UpdateProductMatrix Callback error - " + error, ncUtil);
+          out.ncStatusCode = 500;
+          out.payload.error = error;
           callback(out);
         }
       });
     } catch (err) {
       // Exception Handling
-      logError("Exception occurred in GetCustomerFromQuery - " + err, ncUtil);
+      logError("Exception occurred in UpdateProductMatrix - " + err, ncUtil);
       out.ncStatusCode = 500;
       out.payload.error = {err: err, stack: err.stackTrace};
       callback(out);
@@ -126,4 +139,4 @@ function log(msg, ncUtil) {
   console.log("[info] " + msg);
 }
 
-module.exports.GetCustomerFromQuery = GetCustomerFromQuery;
+module.exports.UpdateProductMatrix = UpdateProductMatrix;

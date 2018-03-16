@@ -1,4 +1,4 @@
-let GetProductGroupFromQuery = function (ncUtil,
+let InsertProductSimple = function (ncUtil,
                                  channelProfile,
                                  flowContext,
                                  payload,
@@ -20,7 +20,7 @@ let GetProductGroupFromQuery = function (ncUtil,
     invalidMsg = "ncUtil was not provided"
   }
 
-  //If channelProfile does not contain channelSettingsValues, channelAuthValues or productGroupBusinessReferences, the request can't be sent
+  //If channelProfile does not contain channelSettingsValues, channelAuthValues or productBusinessReferences, the request can't be sent
   if (!channelProfile) {
     invalid = true;
     invalidMsg = "channelProfile was not provided"
@@ -33,15 +33,15 @@ let GetProductGroupFromQuery = function (ncUtil,
   } else if (!channelProfile.channelAuthValues) {
     invalid = true;
     invalidMsg = "channelProfile.channelAuthValues was not provided"
-  } else if (!channelProfile.productGroupBusinessReferences) {
+  } else if (!channelProfile.productBusinessReferences) {
     invalid = true;
-    invalidMsg = "channelProfile.productGroupBusinessReferences was not provided"
-  } else if (!Array.isArray(channelProfile.productGroupBusinessReferences)) {
+    invalidMsg = "channelProfile.productBusinessReferences was not provided"
+  } else if (!Array.isArray(channelProfile.productBusinessReferences)) {
     invalid = true;
-    invalidMsg = "channelProfile.productGroupBusinessReferences is not an array"
-  } else if (channelProfile.productGroupBusinessReferences.length === 0) {
+    invalidMsg = "channelProfile.productBusinessReferences is not an array"
+  } else if (channelProfile.productBusinessReferences.length === 0) {
     invalid = true;
-    invalidMsg = "channelProfile.productGroupBusinessReferences is empty"
+    invalidMsg = "channelProfile.productBusinessReferences is empty"
   }
 
   //If a sales order document was not passed in, the request is invalid
@@ -65,8 +65,7 @@ let GetProductGroupFromQuery = function (ncUtil,
     // The `soap` module can be used in place of `request` but the logic and data being sent will be different
     let request = require('request');
 
-    let endPoint = "";
-    let url = "";
+    let url = "https://localhost/";
 
     // Add any headers for the request
     let headers = {
@@ -90,13 +89,30 @@ let GetProductGroupFromQuery = function (ncUtil,
       request(options, function (error, response, body) {
         if (!error) {
           // If no errors, process results here
+          if (response.statusCode === 201) {
+            out.ncStatusCode = 201;
+          } else if (response.statusCode == 429) {
+            out.ncStatusCode = 429;
+            out.payload.error = body;
+          } else if (response.statusCode == 500) {
+            out.ncStatusCode = 500;
+            out.payload.error = body;
+          } else {
+            out.ncStatusCode = 400;
+            out.payload.error = body;
+          }
+          callback(out);
         } else {
           // If an error occurs, log the error here
+          logError("Do InsertProductSimple Callback error - " + error, ncUtil);
+          out.ncStatusCode = 500;
+          out.payload.error = {err: error};
+          callback(out);
         }
       });
     } catch (err) {
       // Exception Handling
-      logError("Exception occurred in GetProductGroupFromQuery - " + err, ncUtil);
+      logError("Exception occurred in InsertProductSimple - " + err, ncUtil);
       out.ncStatusCode = 500;
       out.payload.error = {err: err, stack: err.stackTrace};
       callback(out);
@@ -118,4 +134,4 @@ function log(msg, ncUtil) {
   console.log("[info] " + msg);
 }
 
-module.exports.GetProductGroupFromQuery = GetProductGroupFromQuery;
+module.exports.InsertProductSimple = InsertProductSimple;
