@@ -40,6 +40,9 @@ if (fs.existsSync('config/channel-settings.json')) {
       let tested = false;
       let stubFunction = functions[j].slice(0, -3);
 
+      // Require function
+      let file = require('../functions/' + stubFunction);
+
       for (let i = 0; i < docs.length; i++) {
 
         if (stubFunction == docs[i].functionName && docs[i].tests && functionCodes[stubFunction]) {
@@ -48,9 +51,6 @@ if (fs.existsSync('config/channel-settings.json')) {
 
           // Merge channelProfile in docs.json with channelSettingsSchema values in channel-settings.json
           let topChannelProfile = _.merge(docsFile.channelProfile, baseChannelProfile);
-
-          // Require function
-          let file = require('../functions/' + functionName);
 
           // Evaluate status codes
           let statusCodes = functionCodes[functionName].statusCodes;
