@@ -49,6 +49,13 @@ if (fs.existsSync('config/channel-settings.json')) {
           tested = true;
           let functionName = docs[i].functionName;
 
+          // Validate the function exists from the docs.json file. Error if it does not find the function.
+          before((done) => {
+            console.log(`Validating Function: ${functionName}`);
+            expect(file[functionName]).to.be.a('function');
+            done();
+          })
+
           // Merge channelProfile in docs.json with channelSettingsSchema values in channel-settings.json
           let topChannelProfile = _.merge(docsFile.channelProfile, baseChannelProfile);
 
@@ -354,7 +361,6 @@ if (fs.existsSync('config/channel-settings.json')) {
                   .to.throw(TypeError, 'callback is not a function');
                 done();
               });
-
             });
           }
 
