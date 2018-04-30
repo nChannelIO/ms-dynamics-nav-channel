@@ -76,8 +76,11 @@ if (fs.existsSync('config/channel-settings.json')) {
             throw new Error(`${functionName} does not contain enough documents to cover all ncStatusCodes`);
           }
 
+          let currentPayload;
+
           for (let t = 0; t < docs[i].tests.length; t++) {
             let channelProfile = _.merge(docs[i].tests[t].channelProfile, topChannelProfile);
+            currentPayload = JSON.parse(JSON.stringify(docs[i].tests[t].payload));
 
             describe(functionName, () => {
 
@@ -87,6 +90,7 @@ if (fs.existsSync('config/channel-settings.json')) {
                 } else if (docsFile.unitTestPackage === 'soap') {
                   soapStub.reset();
                 }
+                docs[i].tests[t].payload = currentPayload;
                 done();
               });
 
@@ -359,29 +363,38 @@ if (fs.existsSync('config/channel-settings.json')) {
           }
 
           function executeTest (unitTest, test, statusCode, errorTest = false) {
-            errorTest = (typeof errorTest === 'boolean') ? errorTest : false;
             if (unitTest === 'nock') {
               let fake = nock(test.baseUri);
               for (let i = 0; i < test.links.length; i++) {
+
+                let expectedStatusCode;
+                if (i == (test.links.length - 1)) {
+                  expectedStatusCode = statusCode != null ? statusCode : test.links[i].statusCode;
+                  errorTest = (typeof errorTest === 'boolean') ? errorTest : false;
+                } else {
+                  expectedStatusCode = test.links[i].statusCode;
+                  errorTest = false;
+                }
+
                 switch (test.links[i].method.toUpperCase()) {
                   case 'GET':
                     errorTest === false ?
-                    fake.get(test.links[i].uri).reply(statusCode != null ? statusCode : test.links[i].statusCode, test.links[i].responsePayload) :
+                    fake.get(test.links[i].uri).reply(expectedStatusCode, test.links[i].responsePayload) :
                     fake.get(test.links[i].uri).replyWithError({ message: "Internal Error" });
                     break;
                   case 'POST':
                     errorTest === false ?
-                    fake.post(test.links[i].uri, test.payload.doc).reply(statusCode != null ? statusCode : test.links[i].statusCode, test.links[i].responsePayload) :
+                    fake.post(test.links[i].uri, test.payload.doc).reply(expectedStatusCode, test.links[i].responsePayload) :
                     fake.post(test.links[i].uri, test.payload.doc).replyWithError({ message: "Internal Error" });
                     break;
                   case 'PUT':
                     errorTest === false ?
-                    fake.put(test.links[i].uri, test.payload.doc).reply(statusCode != null ? statusCode : test.links[i].statusCode, test.links[i].responsePayload) :
+                    fake.put(test.links[i].uri, test.payload.doc).reply(expectedStatusCode, test.links[i].responsePayload) :
                     fake.put(test.links[i].uri, test.payload.doc).replyWithError({ message: "Internal Error" });
                     break;
                   case 'DELETE':
                     errorTest === false ?
-                    fake.delete(test.links[i].uri).reply(statusCode != null ? statusCode : test.links[i].statusCode, test.links[i].responsePayload) :
+                    fake.delete(test.links[i].uri).reply(expectedStatusCode, test.links[i].responsePayload) :
                     fake.delete(test.links[i].uri).replyWithError({ message: "Internal Error" });
                     break;
                 }
@@ -429,12 +442,17 @@ if (fs.existsSync('config/channel-settings.json')) {
                 setSOAPAction: sinon.stub()
               };
 
+              if (test.service) {
+                clientStub[test.service] = {};
+                if (test.service && test.servicePort) {
+                  clientStub[test.service][test.servicePort] = {};
+                }
+              }
+
               for (let i = 0; i < test.links.length; i++) {
                 // Setup stub based on service options
                 if (test.service) {
-                  clientStub[test.service] = {};
                   if (test.service && test.servicePort) {
-                    clientStub[test.service][test.servicePort] = {};
                     clientStub[test.service][test.servicePort][test.links[i].function] = sinon.stub();
                     clientStub[test.service][test.servicePort][test.links[i].function].respondWithError = soapStub.createErroringStub({ message: "Internal Error" });
                     clientStub[test.service][test.servicePort][test.links[i].function].respondWithSuccess = soapStub.createRespondingStub(test.links[i].responsePayload);

@@ -1,13 +1,13 @@
 {
-  "name": "Template Name",
-  "description": "Template Registry",
+  "name": "Microsoft Dynamics NAV",
+  "description": "Microsoft Dynamics NAV Registry",
   "channelIcon": "<base64 image>",
   "definitionFolderName": " ",
   "retailClasses": [
-    "eCommerce"
+    "ERP"
   ],
   "orderProcessingRoles": [
-    "Sales","Fulfillment"
+    "Fulfillment"
   ],
   "channelActionRegistries": [
     {
@@ -294,7 +294,10 @@
       },
       "documentDef": {
         "schema": {},
-        "referenceLocation": {"salesOrderBusinessReferences": [""]}
+        "referenceLocation": {
+          "salesOrderBusinessReferences": ["Order.No"],
+          "customerBusinessReferences": ["Customer.E_Mail", "Customer.Phone_No"]
+        }
       }
     },
     {
@@ -328,7 +331,10 @@
       },
       "documentDef" : {
         "schema": {},
-        "referenceLocation": {"salesOrderBusinessReferences": [""]}
+        "referenceLocation": {
+          "salesOrderBusinessReferences": ["Order.No"],
+          "customerBusinessReferences": ["Customer.E_Mail", "Customer.Phone_No"]
+        }
       }
     },
     {
@@ -384,7 +390,7 @@
       },
       "documentDef": {
         "schema": {},
-        "referenceLocation": {"customerBusinessReferences": ["", ""]}
+        "referenceLocation": {"customerBusinessReferences": ["Customer.E_Mail", "Customer.Phone_No"]}
       }
     },
     {
@@ -418,89 +424,7 @@
       },
       "documentDef": {
         "schema": {},
-        "referenceLocation": {"customerBusinessReferences": ["", ""]}
-      }
-    },
-    {
-      "name": "PUT CUSTOMERADDRESS",
-      "description": "PUT CUSTOMERADDRESS",
-      "channelVerb": "PUT",
-      "channelNoun": "CUSTOMERADDRESS",
-      "ruleDef": {
-        "ruleSchema": {},
-        "defaultRuleValues": {}
-      },
-      "configDef": {
-        "configModel": {
-          "type": "object",
-          "properties": {
-            "doPutCustomerAddressesFlag": {
-              "title": "PUT Customer Address, doPutCustomerAddressesFlag",
-              "type": "boolean"
-            },
-            "canUpdateCustomerAddressFlag": {
-              "title": "Update Customer Address, canUpdateCustomerAddressFlag",
-              "type": "boolean"
-            }
-          },
-          "required": [
-            "doPutCustomerAddressesFlag",
-            "canUpdateCustomerAddressFlag"
-          ]
-        },
-        "configView": [
-          "doPutCustomerAddressesFlag",
-          "canUpdateCustomerAddressFlag"
-        ],
-        "configValues": {
-          "doPutCustomerAddressesFlag": true,
-          "canUpdateCustomerAddressFlag": true
-        }
-      },
-      "documentDef": {
-        "schema": {},
-        "referenceLocation": {}
-      }
-    },
-    {
-      "name": "PUT CUSTOMERCONTACT",
-      "description": "PUT CUSTOMERCONTACT",
-      "channelVerb": "PUT",
-      "channelNoun": "CUSTOMERCONTACT",
-      "ruleDef": {
-        "ruleSchema": {},
-        "defaultRuleValues": {}
-      },
-      "configDef": {
-        "configModel": {
-          "type": "object",
-          "properties": {
-            "doPutCustomerContactsFlag": {
-              "title": "PUT Customer Contacts, doPutCustomerContactsFlag",
-              "type": "boolean"
-            },
-            "canUpdateCustomerContactFlag": {
-              "title": "Update Customer Contacts, canUpdateCustomerContactFlag",
-              "type": "boolean"
-            }
-          },
-          "required": [
-            "doPutCustomerContactsFlag",
-            "canUpdateCustomerContactFlag"
-          ]
-        },
-        "configView": [
-          "doPutCustomerContactsFlag",
-          "canUpdateCustomerContactFlag"
-        ],
-        "configValues": {
-          "doPutCustomerContactsFlag": false,
-          "canUpdateCustomerContactFlag": false
-        }
-      },
-      "documentDef": {
-        "schema": {},
-        "referenceLocation": {}
+        "referenceLocation": {"customerBusinessReferences": ["Customer.E_Mail", "Customer.Phone_No"]}
       }
     }
   ],
@@ -508,7 +432,7 @@
     "configDef": {
       "configModel": {
         "type": "object",
-        "title": "Template Channel Settings",
+        "title": "Microsoft Dynamics NAV Channel Settings",
         "properties": {
           "protocol": {
             "title": "Protocol",
@@ -536,22 +460,95 @@
     "configDef": {
       "configModel": {
         "type": "object",
-        "title": "Credentials Config",
+        "title": "Authentication",
         "properties": {
-          "account": {
-            "title": "Account Number",
+          "username": {
+            "title": "Username",
+            "type": "string"
+          },
+          "password": {
+            "title": "Password",
+            "type": "string"
+          },
+          "customerUrl": {
+            "title": "SOAP URL: Customer",
+            "type": "string"
+          },
+          "itemUrl": {
+            "title": "SOAP URL: Item",
+            "type": "string"
+          },
+          "itemLedgerUrl": {
+            "title": "SOAP URL: Item_Ledger",
+            "type": "string"
+          },
+          "itemVariantsUrl": {
+            "title": "SOAP URL: Item_Variants",
+            "type": "string"
+          },
+          "orderUrl": {
+            "title": "SOAP URL: Order",
+            "type": "string"
+          },
+          "orderLinesUrl": {
+            "title": "SOAP URL: Order_Lines",
+            "type": "string"
+          },
+          "salesShipmentUrl": {
+            "title": "SOAP URL: Sales_Shipment",
+            "type": "string"
+          },
+          "variantInventoryUrl": {
+            "title": "SOAP URL: Variant_Inventory",
             "type": "string"
           }
         },
         "required": [
-          "account"
+          "username",
+          "password"
         ]
       },
       "configView": [
 				{
-					"key": "account",
-					"title": "Account Number"
-				}
+					"key": "username",
+					"title": "Username"
+				},
+        {
+          "key": "password",
+          "title": "Password"
+        },
+        {
+          "key": "customerUrl",
+          "title": "Customer SOAP URL"
+        },
+        {
+          "key": "itemUrl",
+          "title": "Item SOAP URL"
+        },
+        {
+          "key": "itemLedgerUrl",
+          "title": "Item Ledger SOAP URL"
+        },
+        {
+          "key": "itemVariantsUrl",
+          "title": "Item Variants SOAP URL"
+        },
+        {
+          "key": "orderUrl",
+          "title": "Order SOAP URL"
+        },
+        {
+          "key": "orderLinesUrl",
+          "title": "Order Lines SOAP URL"
+        },
+        {
+          "key": "salesShipmentUrl",
+          "title": "Sales Shipment SOAP URL"
+        },
+        {
+          "key": "variantInventoryUrl",
+          "title": "Variant Inventory SOAP URL"
+        }
       ],
       "configValues": {}
     }

@@ -1,10 +1,6 @@
-let ExtractCustomerFromSalesOrder = function(
-    ncUtil,
-    channelProfile,
-    flowContext,
-    payload,
-    callback)
-{
+'use strict'
+
+let ExtractCustomerFromSalesOrder = function(ncUtil, channelProfile, flowContext, payload, callback) {
 
     log("Building callback object...", ncUtil);
     let out = {
@@ -60,11 +56,14 @@ let ExtractCustomerFromSalesOrder = function(
               if (!payload.doc) {
                   invalidMsg = "Extract Customer From Sales Order - Invalid Request: payload.doc was not provided";
                   invalid = true;
-              } else if (!payload.doc.BillingCustomer) {
+              } else if (!payload.doc.Order) {
+                  invalidMsg = "Extract Customer From Sales Order - Invalid Request: payload.doc.Order was not provided";
+                  invalid = true;
+              } else if (!payload.doc.Order.Customer) {
                   notFound = true;
                   invalidMsg = "Extract Customer From Sales Order - Customer Not Found: The order has no customer (payload.doc.BillingCustomer)";
               } else {
-                  data = payload.doc.BillingCustomer;
+                  data = payload.doc.Order.Customer;
               }
           } else {
               invalidMsg = "Extract Customer From Sales Order - Invalid Request: payload was not provided";

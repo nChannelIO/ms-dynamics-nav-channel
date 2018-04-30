@@ -1,0 +1,451 @@
+{
+	"name": "Microsoft Dynamics NAV Put Customer",
+	"schemaDef": {
+	  "$schema": "http://json-schema.org/draft-04/schema#",
+	  "title": "Microsoft Dynamics NAV Put Customer",
+	  "type": "object",
+	  "properties": {
+	    "Customer": {
+	      "$ref": "#/definitions/Customer"
+	    }
+	  },
+	  "required": [
+	    "Customer"
+	  ],
+	  "additionalProperties": false,
+	  "definitions": {
+	    "Customer": {
+	      "$id": "/properties/Customer",
+	      "type": "object",
+	      "properties": {
+	        "Key": {
+	          "$id": "/properties/Customer/properties/Key",
+	          "type": "string",
+	          "title": "The Key Schema ",
+	          "default": ""
+	        },
+	        "No": {
+	          "$id": "/properties/Customer/properties/No",
+	          "type": "string",
+	          "title": "The No Schema ",
+	          "default": ""
+	        },
+	        "Name": {
+	          "$id": "/properties/Customer/properties/Name",
+	          "type": "string",
+	          "title": "The Name Schema ",
+	          "default": ""
+	        },
+	        "Address": {
+	          "$id": "/properties/Customer/properties/Address",
+	          "type": "string",
+	          "title": "The Address Schema ",
+	          "default": ""
+	        },
+	        "Address_2": {
+	          "$id": "/properties/Customer/properties/Address_2",
+	          "type": "string",
+	          "title": "The Address_2 Schema ",
+	          "default": ""
+	        },
+	        "City": {
+	          "$id": "/properties/Customer/properties/City",
+	          "type": "string",
+	          "title": "The City Schema ",
+	          "default": ""
+	        },
+	        "County": {
+	          "$id": "/properties/Customer/properties/County",
+	          "type": "string",
+	          "title": "The County Schema ",
+	          "default": ""
+	        },
+	        "Post_Code": {
+	          "$id": "/properties/Customer/properties/Post_Code",
+	          "type": "string",
+	          "title": "The Post_code Schema ",
+	          "default": ""
+	        },
+	        "Country_Region_Code": {
+	          "$id": "/properties/Customer/properties/Country_Region_Code",
+	          "type": "string",
+	          "title": "The Country_region_code Schema ",
+	          "default": ""
+	        },
+	        "Phone_No": {
+	          "$id": "/properties/Customer/properties/Phone_No",
+	          "type": "string",
+	          "title": "The Phone_no Schema ",
+	          "default": ""
+	        },
+	        "Primary_Contact_No": {
+	          "$id": "/properties/Customer/properties/Primary_Contact_No",
+	          "type": "string",
+	          "title": "The Primary_contact_no Schema ",
+	          "default": ""
+	        },
+	        "Contact": {
+	          "$id": "/properties/Customer/properties/Contact",
+	          "type": "string",
+	          "title": "The Contact Schema ",
+	          "default": ""
+	        },
+	        "Search_Name": {
+	          "$id": "/properties/Customer/properties/Search_Name",
+	          "type": "string",
+	          "title": "The Search_name Schema ",
+	          "default": ""
+	        },
+	        "Balance_LCY": {
+	          "$id": "/properties/Customer/properties/Balance_LCY",
+	          "type": "number",
+	          "title": "The Balance_lcy Schema ",
+	          "default": ""
+	        },
+	        "Credit_Limit_LCY": {
+	          "$id": "/properties/Customer/properties/Credit_Limit_LCY",
+	          "type": "number",
+	          "title": "The Credit_limit_lcy Schema ",
+	          "default": ""
+	        },
+	        "Salesperson_Code": {
+	          "$id": "/properties/Customer/properties/Salesperson_Code",
+	          "type": "string",
+	          "title": "The Salesperson_code Schema ",
+	          "default": ""
+	        },
+	        "Responsibility_Center": {
+	          "$id": "/properties/Customer/properties/Responsibility_Center",
+	          "type": "string",
+	          "title": "The Responsibility_center Schema ",
+	          "default": ""
+	        },
+	        "Service_Zone_Code": {
+	          "$id": "/properties/Customer/properties/Service_Zone_Code",
+	          "type": "string",
+	          "title": "The Service_zone_code Schema ",
+	          "default": ""
+	        },
+	        "Blocked": {
+	          "$id": "/properties/Customer/properties/Blocked",
+	          "type": "string",
+	          "title": "The Blocked Schema ",
+	          "default": ""
+	        },
+	        "Last_Date_Modified": {
+	          "$id": "/properties/Customer/properties/Last_Date_Modified",
+	          "type": "string",
+	          "format": "date-time",
+	          "title": "The Last_date_modified Schema ",
+	          "default": ""
+	        },
+	        "Fax_No": {
+	          "$id": "/properties/Customer/properties/Fax_No",
+	          "type": "string",
+	          "title": "The Fax_no Schema ",
+	          "default": ""
+	        },
+	        "E_Mail": {
+	          "$id": "/properties/Customer/properties/E_Mail",
+	          "type": "string",
+	          "title": "The E_mail Schema ",
+	          "default": ""
+	        },
+	        "Home_Page": {
+	          "$id": "/properties/Customer/properties/Home_Page",
+	          "type": "string",
+	          "title": "The Home_page Schema ",
+	          "default": ""
+	        },
+	        "IC_Partner_Code": {
+	          "$id": "/properties/Customer/properties/IC_Partner_Code",
+	          "type": "string",
+	          "title": "The Ic_partner_code Schema ",
+	          "default": ""
+	        },
+	        "Bill_to_Customer_No": {
+	          "$id": "/properties/Customer/properties/Bill_to_Customer_No",
+	          "type": "string",
+	          "title": "The Bill_to_customer_no Schema ",
+	          "default": ""
+	        },
+	        "Invoice_Copies": {
+	          "$id": "/properties/Customer/properties/Invoice_Copies",
+	          "type": "number",
+	          "title": "The Invoice_copies Schema ",
+	          "default": ""
+	        },
+	        "Invoice_Disc_Code": {
+	          "$id": "/properties/Customer/properties/Invoice_Disc_Code",
+	          "type": "string",
+	          "title": "The Invoice_disc_code Schema ",
+	          "default": ""
+	        },
+	        "Copy_Sell_to_Addr_to_Qte_From": {
+	          "$id": "/properties/Customer/properties/Copy_Sell_to_Addr_to_Qte_From",
+	          "type": "string",
+	          "title": "The Copy_sell_to_addr_to_qte_from Schema ",
+	          "default": ""
+	        },
+	        "Tax_Liable": {
+	          "$id": "/properties/Customer/properties/Tax_Liable",
+	          "type": "boolean",
+	          "title": "The Tax_liable Schema ",
+	          "default": ""
+	        },
+	        "Tax_Area_Code": {
+	          "$id": "/properties/Customer/properties/Tax_Area_Code",
+	          "type": "string",
+	          "title": "The Tax_area_code Schema ",
+	          "default": ""
+	        },
+	        "Tax_Identification_Type": {
+	          "$id": "/properties/Customer/properties/Tax_Identification_Type",
+	          "type": "string",
+	          "title": "The Tax_identification_type Schema ",
+	          "default": ""
+	        },
+	        "VAT_Registration_No": {
+	          "$id": "/properties/Customer/properties/VAT_Registration_No",
+	          "type": "string",
+	          "title": "The Vat_registration_no Schema ",
+	          "default": ""
+	        },
+	        "Tax_Exemption_No": {
+	          "$id": "/properties/Customer/properties/Tax_Exemption_No",
+	          "type": "string",
+	          "title": "The Tax_exemption_no Schema ",
+	          "default": ""
+	        },
+	        "RFC_No": {
+	          "$id": "/properties/Customer/properties/RFC_No",
+	          "type": "string",
+	          "title": "The Rfc_no Schema ",
+	          "default": ""
+	        },
+	        "CURP_No": {
+	          "$id": "/properties/Customer/properties/CURP_No",
+	          "type": "string",
+	          "title": "The Curp_no Schema ",
+	          "default": ""
+	        },
+	        "State_Inscription": {
+	          "$id": "/properties/Customer/properties/State_Inscription",
+	          "type": "string",
+	          "title": "The State_inscription Schema ",
+	          "default": ""
+	        },
+	        "Gen_Bus_Posting_Group": {
+	          "$id": "/properties/Customer/properties/Gen_Bus_Posting_Group",
+	          "type": "string",
+	          "title": "The Gen_bus_posting_group Schema ",
+	          "default": ""
+	        },
+	        "VAT_Bus_Posting_Group": {
+	          "$id": "/properties/Customer/properties/VAT_Bus_Posting_Group",
+	          "type": "string",
+	          "title": "The Vat_bus_posting_group Schema ",
+	          "default": ""
+	        },
+	        "Customer_Posting_Group": {
+	          "$id": "/properties/Customer/properties/Customer_Posting_Group",
+	          "type": "string",
+	          "title": "The Customer_posting_group Schema ",
+	          "default": ""
+	        },
+	        "Customer_Price_Group": {
+	          "$id": "/properties/Customer/properties/Customer_Price_Group",
+	          "type": "string",
+	          "title": "The Customer_price_group Schema ",
+	          "default": ""
+	        },
+	        "Customer_Disc_Group": {
+	          "$id": "/properties/Customer/properties/Customer_Disc_Group",
+	          "type": "string",
+	          "title": "The Customer_disc_group Schema ",
+	          "default": ""
+	        },
+	        "Allow_Line_Disc": {
+	          "$id": "/properties/Customer/properties/Allow_Line_Disc",
+	          "type": "boolean",
+	          "title": "The Allow_line_disc Schema ",
+	          "default": ""
+	        },
+	        "Prices_Including_VAT": {
+	          "$id": "/properties/Customer/properties/Prices_Including_VAT",
+	          "type": "boolean",
+	          "title": "The Prices_including_vat Schema ",
+	          "default": ""
+	        },
+	        "Prepayment_Percent": {
+	          "$id": "/properties/Customer/properties/Prepayment_Percent",
+	          "type": "number",
+	          "title": "The Prepayment_percent Schema ",
+	          "default": ""
+	        },
+	        "Application_Method": {
+	          "$id": "/properties/Customer/properties/Application_Method",
+	          "type": "string",
+	          "title": "The Application_method Schema ",
+	          "default": ""
+	        },
+	        "Partner_Type": {
+	          "$id": "/properties/Customer/properties/Partner_Type",
+	          "type": "string",
+	          "title": "The Partner_type Schema ",
+	          "default": ""
+	        },
+	        "Payment_Terms_Code": {
+	          "$id": "/properties/Customer/properties/Payment_Terms_Code",
+	          "type": "string",
+	          "title": "The Payment_terms_code Schema ",
+	          "default": ""
+	        },
+	        "Payment_Method_Code": {
+	          "$id": "/properties/Customer/properties/Payment_Method_Code",
+	          "type": "string",
+	          "title": "The Payment_method_code Schema ",
+	          "default": ""
+	        },
+	        "Reminder_Terms_Code": {
+	          "$id": "/properties/Customer/properties/Reminder_Terms_Code",
+	          "type": "string",
+	          "title": "The Reminder_terms_code Schema ",
+	          "default": ""
+	        },
+	        "Fin_Charge_Terms_Code": {
+	          "$id": "/properties/Customer/properties/Fin_Charge_Terms_Code",
+	          "type": "string",
+	          "title": "The Fin_charge_terms_code Schema ",
+	          "default": ""
+	        },
+	        "Cash_Flow_Payment_Terms_Code": {
+	          "$id": "/properties/Customer/properties/Cash_Flow_Payment_Terms_Code",
+	          "type": "string",
+	          "title": "The Cash_flow_payment_terms_code Schema ",
+	          "default": ""
+	        },
+	        "Print_Statements": {
+	          "$id": "/properties/Customer/properties/Print_Statements",
+	          "type": "boolean",
+	          "title": "The Print_statements Schema ",
+	          "default": ""
+	        },
+	        "Last_Statement_No": {
+	          "$id": "/properties/Customer/properties/Last_Statement_No",
+	          "type": "number",
+	          "title": "The Last_statement_no Schema ",
+	          "default": ""
+	        },
+	        "Block_Payment_Tolerance": {
+	          "$id": "/properties/Customer/properties/Block_Payment_Tolerance",
+	          "type": "boolean",
+	          "title": "The Block_payment_tolerance Schema ",
+	          "default": ""
+	        },
+	        "Preferred_Bank_Account": {
+	          "$id": "/properties/Customer/properties/Preferred_Bank_Account",
+	          "type": "string",
+	          "title": "The Preferred_bank_account Schema ",
+	          "default": ""
+	        },
+	        "Location_Code": {
+	          "$id": "/properties/Customer/properties/Location_Code",
+	          "type": "string",
+	          "title": "The Location_code Schema ",
+	          "default": ""
+	        },
+	        "Combine_Shipments": {
+	          "$id": "/properties/Customer/properties/Combine_Shipments",
+	          "type": "boolean",
+	          "title": "The Combine_shipments Schema ",
+	          "default": ""
+	        },
+	        "Reserve": {
+	          "$id": "/properties/Customer/properties/Reserve",
+	          "type": "string",
+	          "title": "The Reserve Schema ",
+	          "default": ""
+	        },
+	        "Shipping_Advice": {
+	          "$id": "/properties/Customer/properties/Shipping_Advice",
+	          "type": "string",
+	          "title": "The Shipping_advice Schema ",
+	          "default": ""
+	        },
+	        "Shipment_Method_Code": {
+	          "$id": "/properties/Customer/properties/Shipment_Method_Code",
+	          "type": "string",
+	          "title": "The Shipment_method_code Schema ",
+	          "default": ""
+	        },
+	        "Shipping_Agent_Code": {
+	          "$id": "/properties/Customer/properties/Shipping_Agent_Code",
+	          "type": "string",
+	          "title": "The Shipping_agent_code Schema ",
+	          "default": ""
+	        },
+	        "Shipping_Agent_Service_Code": {
+	          "$id": "/properties/Customer/properties/Shipping_Agent_Service_Code",
+	          "type": "string",
+	          "title": "The Shipping_agent_service_code Schema ",
+	          "default": ""
+	        },
+	        "Shipping_Time": {
+	          "$id": "/properties/Customer/properties/Shipping_Time",
+	          "type": "string",
+	          "title": "The Shipping_time Schema ",
+	          "default": ""
+	        },
+	        "Base_Calendar_Code": {
+	          "$id": "/properties/Customer/properties/Base_Calendar_Code",
+	          "type": "string",
+	          "title": "The Base_calendar_code Schema ",
+	          "default": ""
+	        },
+	        "Customized_Calendar": {
+	          "$id": "/properties/Customer/properties/Customized_Calendar",
+	          "type": "string",
+	          "title": "The Customized_calendar Schema ",
+	          "default": ""
+	        },
+	        "Currency_Code": {
+	          "$id": "/properties/Customer/properties/Currency_Code",
+	          "type": "string",
+	          "title": "The Currency_code Schema ",
+	          "default": ""
+	        },
+	        "Language_Code": {
+	          "$id": "/properties/Customer/properties/Language_Code",
+	          "type": "string",
+	          "title": "The Language_code Schema ",
+	          "default": ""
+	        },
+	        "Bank_Communication": {
+	          "$id": "/properties/Customer/properties/Bank_Communication",
+	          "type": "string",
+	          "title": "The Bank_communication Schema ",
+	          "default": ""
+	        },
+	        "Check_Date_Format": {
+	          "$id": "/properties/Customer/properties/Check_Date_Format",
+	          "type": "string",
+	          "title": "The Check_date_format Schema ",
+	          "default": ""
+	        },
+	        "Check_Date_Separator": {
+	          "$id": "/properties/Customer/properties/Check_Date_Separator",
+	          "type": "string",
+	          "title": "The Check_date_separator Schema ",
+	          "default": ""
+	        }
+	      }
+	    }
+	  }
+	},
+	"tags": [
+		"Put",
+		"Customer"
+	],
+	"audit": {}
+}
