@@ -76,6 +76,7 @@ let InsertSalesOrder = function (ncUtil, channelProfile, flowContext, payload, c
 
     // Setup Request Arguments
     let args = payload.doc;
+    payload.doc.Sell_to_Customer_No = payload.customerRemoteID;
 
     // https://<baseUrl>:<port>/<serverInstance>/WS/<companyName>/Page/Order
     let username = channelProfile.channelAuthValues.username;
