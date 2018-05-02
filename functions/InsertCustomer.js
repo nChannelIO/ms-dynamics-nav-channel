@@ -71,9 +71,7 @@ let InsertCustomer = function (ncUtil, channelProfile, flowContext, payload, cal
     // Require SOAP
     const soap = require('strong-soap/src/soap');
     const NTLMSecurity = require('strong-soap').NTLMSecurity;
-    const extractBusinessReference = require('../util/extractBusinessReference');
-    const jsonata = require('jsonata');
-    const _ = require('lodash');
+    const nc = require('../util/common');
 
     // Setup Request Arguments
     let args = payload.doc;
@@ -105,7 +103,7 @@ let InsertCustomer = function (ncUtil, channelProfile, flowContext, payload, cal
                 out.payload = {
                   doc: body,
                   customerRemoteID: body.Customer.No,
-                  customerBusinessReference: extractBusinessReference(channelProfile.customerBusinessReferences, body)
+                  customerBusinessReference: nc.extractBusinessReference(channelProfile.customerBusinessReferences, body)
                 };
               } else {
                 out.ncStatusCode = 400;

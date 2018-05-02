@@ -70,9 +70,7 @@ let InsertSalesOrder = function (ncUtil, channelProfile, flowContext, payload, c
     // Require SOAP
     const soap = require('strong-soap/src/soap');
     const NTLMSecurity = require('strong-soap').NTLMSecurity;
-    const extractBusinessReference = require('../util/extractBusinessReference');
-    const jsonata = require('jsonata');
-    const _ = require('lodash');
+    const nc = require('../util/common');
 
     // Setup Request Arguments
     let args = payload.doc;
@@ -105,7 +103,7 @@ let InsertSalesOrder = function (ncUtil, channelProfile, flowContext, payload, c
                 out.payload = {
                   doc: body,
                   salesOrderRemoteID: body.Order.No,
-                  salesOrderBusinessReference: extractBusinessReference(channelProfile.salesOrderBusinessReferences, body)
+                  salesOrderBusinessReference: nc.extractBusinessReference(channelProfile.salesOrderBusinessReferences, body)
                 };
               } else {
                 out.ncStatusCode = 400;

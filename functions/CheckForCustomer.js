@@ -71,9 +71,8 @@ let CheckForCustomer = function (ncUtil, channelProfile, flowContext, payload, c
     // Require SOAP
     const soap = require('strong-soap/src/soap');
     const NTLMSecurity = require('strong-soap').NTLMSecurity;
-    const extractBusinessReference = require('../util/extractBusinessReference');
+    const nc = require('../util/common');
     const jsonata = require('jsonata');
-    const _ = require('lodash');
 
     // Setup Request Arguments
     let args = {
@@ -128,7 +127,7 @@ let CheckForCustomer = function (ncUtil, channelProfile, flowContext, payload, c
                 out.ncStatusCode = 200;
                 out.payload = {
                   customerRemoteID: body.ReadMultiple_Result.Customer.No,
-                  customerBusinessReference: extractBusinessReference(channelProfile.customerBusinessReferences, body.ReadMultiple_Result)
+                  customerBusinessReference: nc.extractBusinessReference(channelProfile.customerBusinessReferences, body.ReadMultiple_Result)
                 };
               } else {
                 // Unexpected case

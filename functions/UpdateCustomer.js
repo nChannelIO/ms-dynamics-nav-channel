@@ -71,9 +71,7 @@ let UpdateCustomer = function (ncUtil, channelProfile, flowContext, payload, cal
     // Require SOAP
     const soap = require('strong-soap/src/soap');
     const NTLMSecurity = require('strong-soap').NTLMSecurity;
-    const extractBusinessReference = require('../util/extractBusinessReference');
-    const jsonata = require('jsonata');
-    const _ = require('lodash');
+    const nc = require('../util/common');
 
     // Setup Request Arguments
     let args = {
@@ -112,7 +110,7 @@ let UpdateCustomer = function (ncUtil, channelProfile, flowContext, payload, cal
                       out.ncStatusCode = 200;
                       out.payload = {
                         doc: body,
-                        customerBusinessReference: extractBusinessReference(channelProfile.customerBusinessReferences, body)
+                        customerBusinessReference: nc.extractBusinessReference(channelProfile.customerBusinessReferences, body)
                       };
                       callback(out);
                     } else {

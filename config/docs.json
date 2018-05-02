@@ -13,7 +13,8 @@
       "password": "test",
       "domain": "test",
       "customerUrl": "https://nav2013-demo.nchannel.local:7047/DynamicsNAV71/WS/CRONUS%20USA,%20Inc./Page/Customer",
-      "orderUrl": "https://nav2013-demo.nchannel.local:7047/DynamicsNAV71/WS/CRONUS%20USA,%20Inc./Page/Order"
+      "orderUrl": "https://nav2013-demo.nchannel.local:7047/DynamicsNAV71/WS/CRONUS%20USA,%20Inc./Page/Order",
+      "salesShipmentUrl": "https://nav2013-demo.nchannel.local:7047/DynamicsNAV71/WS/CRONUS%20USA,%20Inc./Page/Sales_Shipment"
     }
   },
   "docs": [
@@ -1437,6 +1438,404 @@
           "wsdlUri": "",
           "links": [],
           "channelProfile": {
+            "salesOrderBusinessReferences": ["Order.No"]
+          }
+        }
+      ]
+    },
+    {
+      "functionName": "GetFulfillmentFromQuery",
+      "tests": [
+        {
+          "ncStatusCode": 200,
+          "payload": {
+            "doc": {
+              "modifiedDateRange": {
+                "startDateGMT": "2015-01-01T10:00:00.000Z",
+                "endDateGMT": "2015-01-07T12:00:00.000Z"
+              }
+            }
+          },
+          "wsdlUri": "https://nav2013-demo.nchannel.local:7047/DynamicsNAV71/WS/CRONUS%20USA,%20Inc./Page/Sales_Shipment",
+          "service": "Sales_Shipment_Service",
+          "servicePort": "Sales_Shipment_Port",
+          "links": [
+            {
+              "function": "ReadMultiple",
+              "responsePayload": {
+                 "ReadMultiple_Result": {
+                   "Sales_Shipment": {
+                       "Key":"24;bgAAAAJ7BjEAMAAyADAAMAAx6;3710631;15;SalesShipmLines2;36;bwAAAAJ7BjEAMAAyADAAMAAxAAAAAIcQJw==6;3712380;36;bwAAAAJ7BjEAMAAyADAAMAAxAAAAAIcgTg==6;3712520;",
+                       "No":"102001",
+                       "Sell_to_Customer_No":"10000",
+                       "Sell_to_Customer_Name":"The Cannon Group PLC",
+                       "Sell_to_Address":"192 Market Square",
+                       "Sell_to_City":"Atlanta",
+                       "Sell_to_County":"GA",
+                       "Sell_to_Post_Code":"31772",
+                       "Sell_to_Contact":"Mr. Andy Teal",
+                       "No_Printed":0,
+                       "Posting_Date":"2015-01-01T00:00:00.000Z",
+                       "Document_Date":"2015-01-01T00:00:00.000Z",
+                       "Requested_Delivery_Date":"0001-01-01T00:00:00.000Z",
+                       "Promised_Delivery_Date":"0001-01-01T00:00:00.000Z",
+                       "Order_No":"101001",
+                       "Salesperson_Code":"PS",
+                       "Bill_to_Customer_No":"10000",
+                       "Bill_to_Name":"The Cannon Group PLC",
+                       "Bill_to_Address":"192 Market Square",
+                       "Bill_to_City":"Atlanta",
+                       "Bill_to_County":"GA",
+                       "Bill_to_Post_Code":"31772",
+                       "Bill_to_Contact":"Mr. Andy Teal",
+                       "Shortcut_Dimension_1_Code":"SALES",
+                       "Ship_to_Name":"The Cannon Group PLC",
+                       "Ship_to_Address":"192 Market Square",
+                       "Ship_to_City":"Atlanta",
+                       "Ship_to_County":"GA",
+                       "Ship_to_Post_Code":"31772",
+                       "Ship_to_Contact":"Mr. Andy Teal",
+                       "Location_Code":"BLUE",
+                       "Shipment_Method_Code":"EXW",
+                       "Shipment_Date":"2015-01-01T00:00:00.000Z",
+                       "SalesShipmLines":{
+                          "Posted_Sales_Shpt_Line":[
+                             {
+                                "Key":"36;bwAAAAJ7BjEAMAAyADAAMAAxAAAAAIcQJw==6;3712380;",
+                                "Type":"Item",
+                                "No":"1968-S",
+                                "Description":"MEXICO Swivel Chair, black",
+                                "Location_Code":"RED",
+                                "Quantity":2,
+                                "Unit_of_Measure_Code":"PCS",
+                                "Unit_of_Measure":"Piece",
+                                "Quantity_Invoiced":2,
+                                "Qty_Shipped_Not_Invoiced":0,
+                                "Requested_Delivery_Date":"0001-01-01T00:00:00.000Z",
+                                "Promised_Delivery_Date":"0001-01-01T00:00:00.000Z",
+                                "Planned_Delivery_Date":"2015-01-01T00:00:00.000Z",
+                                "Planned_Shipment_Date":"2015-01-01T00:00:00.000Z",
+                                "Shipment_Date":"2015-01-01T00:00:00.000Z",
+                                "Appl_to_Item_Entry":0,
+                                "Shortcut_Dimension_1_Code":"SALES",
+                                "Correction":false
+                             },
+                             {
+                                "Key":"36;bwAAAAJ7BjEAMAAyADAAMAAxAAAAAIcgTg==6;3712520;",
+                                "Type":"Item",
+                                "No":"1996-S",
+                                "Description":"ATLANTA Whiteboard, base",
+                                "Location_Code":"RED",
+                                "Quantity":3,
+                                "Unit_of_Measure_Code":"PCS",
+                                "Unit_of_Measure":"Piece",
+                                "Quantity_Invoiced":3,
+                                "Qty_Shipped_Not_Invoiced":0,
+                                "Requested_Delivery_Date":"0001-01-01T00:00:00.000Z",
+                                "Promised_Delivery_Date":"0001-01-01T00:00:00.000Z",
+                                "Planned_Delivery_Date":"2015-01-01T00:00:00.000Z",
+                                "Planned_Shipment_Date":"2015-01-01T00:00:00.000Z",
+                                "Shipment_Date":"2015-01-01T00:00:00.000Z",
+                                "Appl_to_Item_Entry":0,
+                                "Shortcut_Dimension_1_Code":"SALES",
+                                "Correction":false
+                             }
+                          ]
+                       }
+                    }
+                 }
+              }
+            }
+          ],
+          "channelProfile": {
+            "fulfillmentBusinessReferences": ["Sales_Shipment.No"],
+            "salesOrderBusinessReferences": ["Order.No"]
+          }
+        },
+        {
+          "ncStatusCode": 204,
+          "payload": {
+            "doc": {
+              "modifiedDateRange": {
+                "startDateGMT": "2015-01-01T10:00:00.000Z",
+                "endDateGMT": "2015-01-07T12:00:00.000Z"
+              }
+            }
+          },
+          "wsdlUri": "https://nav2013-demo.nchannel.local:7047/DynamicsNAV71/WS/CRONUS%20USA,%20Inc./Page/Sales_Shipment",
+          "service": "Sales_Shipment_Service",
+          "servicePort": "Sales_Shipment_Port",
+          "links": [
+            {
+              "function": "ReadMultiple",
+              "responsePayload": {
+                 "ReadMultiple_Result": null
+              }
+            }
+          ],
+          "channelProfile": {
+            "fulfillmentBusinessReferences": ["Sales_Shipment.No"],
+            "salesOrderBusinessReferences": ["Order.No"]
+          }
+        },
+        {
+          "ncStatusCode": 206,
+          "payload": {
+            "doc": {
+              "modifiedDateRange": {
+                "startDateGMT": "2015-01-01T10:00:00.000Z",
+                "endDateGMT": "2015-01-07T12:00:00.000Z"
+              },
+              "pageSize": 2
+            }
+          },
+          "wsdlUri": "https://nav2013-demo.nchannel.local:7047/DynamicsNAV71/WS/CRONUS%20USA,%20Inc./Page/Sales_Shipment",
+          "service": "Sales_Shipment_Service",
+          "servicePort": "Sales_Shipment_Port",
+          "links": [
+            {
+              "function": "ReadMultiple",
+              "responsePayload": {
+                 "ReadMultiple_Result": {
+                   "Sales_Shipment": [
+                     {
+                       "Key":"24;bgAAAAJ7BjEAMAAyADAAMAAx6;3710631;15;SalesShipmLines2;36;bwAAAAJ7BjEAMAAyADAAMAAxAAAAAIcQJw==6;3712380;36;bwAAAAJ7BjEAMAAyADAAMAAxAAAAAIcgTg==6;3712520;",
+                       "No":"102001",
+                       "Sell_to_Customer_No":"10000",
+                       "Sell_to_Customer_Name":"The Cannon Group PLC",
+                       "Sell_to_Address":"192 Market Square",
+                       "Sell_to_City":"Atlanta",
+                       "Sell_to_County":"GA",
+                       "Sell_to_Post_Code":"31772",
+                       "Sell_to_Contact":"Mr. Andy Teal",
+                       "No_Printed":0,
+                       "Posting_Date":"2015-01-01T00:00:00.000Z",
+                       "Document_Date":"2015-01-01T00:00:00.000Z",
+                       "Requested_Delivery_Date":"0001-01-01T00:00:00.000Z",
+                       "Promised_Delivery_Date":"0001-01-01T00:00:00.000Z",
+                       "Order_No":"101001",
+                       "Salesperson_Code":"PS",
+                       "Bill_to_Customer_No":"10000",
+                       "Bill_to_Name":"The Cannon Group PLC",
+                       "Bill_to_Address":"192 Market Square",
+                       "Bill_to_City":"Atlanta",
+                       "Bill_to_County":"GA",
+                       "Bill_to_Post_Code":"31772",
+                       "Bill_to_Contact":"Mr. Andy Teal",
+                       "Shortcut_Dimension_1_Code":"SALES",
+                       "Ship_to_Name":"The Cannon Group PLC",
+                       "Ship_to_Address":"192 Market Square",
+                       "Ship_to_City":"Atlanta",
+                       "Ship_to_County":"GA",
+                       "Ship_to_Post_Code":"31772",
+                       "Ship_to_Contact":"Mr. Andy Teal",
+                       "Location_Code":"BLUE",
+                       "Shipment_Method_Code":"EXW",
+                       "Shipment_Date":"2015-01-01T00:00:00.000Z",
+                       "SalesShipmLines":{
+                          "Posted_Sales_Shpt_Line":[
+                             {
+                                "Key":"36;bwAAAAJ7BjEAMAAyADAAMAAxAAAAAIcQJw==6;3712380;",
+                                "Type":"Item",
+                                "No":"1968-S",
+                                "Description":"MEXICO Swivel Chair, black",
+                                "Location_Code":"RED",
+                                "Quantity":2,
+                                "Unit_of_Measure_Code":"PCS",
+                                "Unit_of_Measure":"Piece",
+                                "Quantity_Invoiced":2,
+                                "Qty_Shipped_Not_Invoiced":0,
+                                "Requested_Delivery_Date":"0001-01-01T00:00:00.000Z",
+                                "Promised_Delivery_Date":"0001-01-01T00:00:00.000Z",
+                                "Planned_Delivery_Date":"2015-01-01T00:00:00.000Z",
+                                "Planned_Shipment_Date":"2015-01-01T00:00:00.000Z",
+                                "Shipment_Date":"2015-01-01T00:00:00.000Z",
+                                "Appl_to_Item_Entry":0,
+                                "Shortcut_Dimension_1_Code":"SALES",
+                                "Correction":false
+                             },
+                             {
+                                "Key":"36;bwAAAAJ7BjEAMAAyADAAMAAxAAAAAIcgTg==6;3712520;",
+                                "Type":"Item",
+                                "No":"1996-S",
+                                "Description":"ATLANTA Whiteboard, base",
+                                "Location_Code":"RED",
+                                "Quantity":3,
+                                "Unit_of_Measure_Code":"PCS",
+                                "Unit_of_Measure":"Piece",
+                                "Quantity_Invoiced":3,
+                                "Qty_Shipped_Not_Invoiced":0,
+                                "Requested_Delivery_Date":"0001-01-01T00:00:00.000Z",
+                                "Promised_Delivery_Date":"0001-01-01T00:00:00.000Z",
+                                "Planned_Delivery_Date":"2015-01-01T00:00:00.000Z",
+                                "Planned_Shipment_Date":"2015-01-01T00:00:00.000Z",
+                                "Shipment_Date":"2015-01-01T00:00:00.000Z",
+                                "Appl_to_Item_Entry":0,
+                                "Shortcut_Dimension_1_Code":"SALES",
+                                "Correction":false
+                             }
+                          ]
+                       }
+                      },
+                      {
+                          "Key":"24;bgAAAAJ7BjEAMAAyADAAMAAx6;3710631;15;SalesShipmLines2;36;bwAAAAJ7BjEAMAAyADAAMAAxAAAAAIcQJw==6;3712380;36;bwAAAAJ7BjEAMAAyADAAMAAxAAAAAIcgTg==6;3712520;",
+                          "No":"102001",
+                          "Sell_to_Customer_No":"10000",
+                          "Sell_to_Customer_Name":"The Cannon Group PLC",
+                          "Sell_to_Address":"192 Market Square",
+                          "Sell_to_City":"Atlanta",
+                          "Sell_to_County":"GA",
+                          "Sell_to_Post_Code":"31772",
+                          "Sell_to_Contact":"Mr. Andy Teal",
+                          "No_Printed":0,
+                          "Posting_Date":"2015-01-01T00:00:00.000Z",
+                          "Document_Date":"2015-01-01T00:00:00.000Z",
+                          "Requested_Delivery_Date":"0001-01-01T00:00:00.000Z",
+                          "Promised_Delivery_Date":"0001-01-01T00:00:00.000Z",
+                          "Order_No":"101001",
+                          "Salesperson_Code":"PS",
+                          "Bill_to_Customer_No":"10000",
+                          "Bill_to_Name":"The Cannon Group PLC",
+                          "Bill_to_Address":"192 Market Square",
+                          "Bill_to_City":"Atlanta",
+                          "Bill_to_County":"GA",
+                          "Bill_to_Post_Code":"31772",
+                          "Bill_to_Contact":"Mr. Andy Teal",
+                          "Shortcut_Dimension_1_Code":"SALES",
+                          "Ship_to_Name":"The Cannon Group PLC",
+                          "Ship_to_Address":"192 Market Square",
+                          "Ship_to_City":"Atlanta",
+                          "Ship_to_County":"GA",
+                          "Ship_to_Post_Code":"31772",
+                          "Ship_to_Contact":"Mr. Andy Teal",
+                          "Location_Code":"BLUE",
+                          "Shipment_Method_Code":"EXW",
+                          "Shipment_Date":"2015-01-01T00:00:00.000Z",
+                          "SalesShipmLines":{
+                             "Posted_Sales_Shpt_Line":[
+                                {
+                                   "Key":"36;bwAAAAJ7BjEAMAAyADAAMAAxAAAAAIcQJw==6;3712380;",
+                                   "Type":"Item",
+                                   "No":"1968-S",
+                                   "Description":"MEXICO Swivel Chair, black",
+                                   "Location_Code":"RED",
+                                   "Quantity":2,
+                                   "Unit_of_Measure_Code":"PCS",
+                                   "Unit_of_Measure":"Piece",
+                                   "Quantity_Invoiced":2,
+                                   "Qty_Shipped_Not_Invoiced":0,
+                                   "Requested_Delivery_Date":"0001-01-01T00:00:00.000Z",
+                                   "Promised_Delivery_Date":"0001-01-01T00:00:00.000Z",
+                                   "Planned_Delivery_Date":"2015-01-01T00:00:00.000Z",
+                                   "Planned_Shipment_Date":"2015-01-01T00:00:00.000Z",
+                                   "Shipment_Date":"2015-01-01T00:00:00.000Z",
+                                   "Appl_to_Item_Entry":0,
+                                   "Shortcut_Dimension_1_Code":"SALES",
+                                   "Correction":false
+                                },
+                                {
+                                   "Key":"36;bwAAAAJ7BjEAMAAyADAAMAAxAAAAAIcgTg==6;3712520;",
+                                   "Type":"Item",
+                                   "No":"1996-S",
+                                   "Description":"ATLANTA Whiteboard, base",
+                                   "Location_Code":"RED",
+                                   "Quantity":3,
+                                   "Unit_of_Measure_Code":"PCS",
+                                   "Unit_of_Measure":"Piece",
+                                   "Quantity_Invoiced":3,
+                                   "Qty_Shipped_Not_Invoiced":0,
+                                   "Requested_Delivery_Date":"0001-01-01T00:00:00.000Z",
+                                   "Promised_Delivery_Date":"0001-01-01T00:00:00.000Z",
+                                   "Planned_Delivery_Date":"2015-01-01T00:00:00.000Z",
+                                   "Planned_Shipment_Date":"2015-01-01T00:00:00.000Z",
+                                   "Shipment_Date":"2015-01-01T00:00:00.000Z",
+                                   "Appl_to_Item_Entry":0,
+                                   "Shortcut_Dimension_1_Code":"SALES",
+                                   "Correction":false
+                                }
+                             ]
+                          }
+                       }
+                   ]
+                 }
+              }
+            }
+          ],
+          "channelProfile": {
+            "fulfillmentBusinessReferences": ["Sales_Shipment.No"],
+            "salesOrderBusinessReferences": ["Order.No"]
+          }
+        },
+        {
+          "ncStatusCode": 400,
+          "payload": {
+            "doc": {}
+          },
+          "wsdlUri": "https://nav2013-demo.nchannel.local:7047/DynamicsNAV71/WS/CRONUS%20USA,%20Inc./Page/Sales_Shipment",
+          "service": "Sales_Shipment_Service",
+          "servicePort": "Sales_Shipment_Port",
+          "links": [
+            {
+              "function": "ReadMultiple",
+              "responsePayload": {
+                 "ReadMultiple_Result": "not an object"
+              }
+            }
+          ],
+          "channelProfile": {
+            "fulfillmentBusinessReferences": ["Sales_Shipment.No"],
+            "salesOrderBusinessReferences": ["Order.No"]
+          }
+        },
+        {
+          "ncStatusCode": 429,
+          "payload": {
+            "doc": {
+              "modifiedDateRange": {
+                "startDateGMT": "2015-01-01T10:00:00.000Z",
+                "endDateGMT": "2015-01-07T12:00:00.000Z"
+              }
+            }
+          },
+          "wsdlUri": "https://nav2013-demo.nchannel.local:7047/DynamicsNAV71/WS/CRONUS%20USA,%20Inc./Page/Sales_Shipment",
+          "service": "Sales_Shipment_Service",
+          "servicePort": "Sales_Shipment_Port",
+          "links": [
+            {
+              "function": "ReadMultiple",
+              "responsePayload": {
+                 "ReadMultiple_Result": "not an object"
+              }
+            }
+          ],
+          "channelProfile": {
+            "fulfillmentBusinessReferences": ["Sales_Shipment.No"],
+            "salesOrderBusinessReferences": ["Order.No"]
+          }
+        },
+        {
+          "ncStatusCode": 500,
+          "payload": {
+            "doc": {
+              "modifiedDateRange": {
+                "startDateGMT": "2015-01-01T10:00:00.000Z",
+                "endDateGMT": "2015-01-07T12:00:00.000Z"
+              }
+            }
+          },
+          "wsdlUri": "https://nav2013-demo.nchannel.local:7047/DynamicsNAV71/WS/CRONUS%20USA,%20Inc./Page/Sales_Shipment",
+          "service": "Sales_Shipment_Service",
+          "servicePort": "Sales_Shipment_Port",
+          "links": [
+            {
+              "function": "ReadMultiple",
+              "responsePayload": {
+                 "ReadMultiple_Result": "not an object"
+              }
+            }
+          ],
+          "channelProfile": {
+            "fulfillmentBusinessReferences": ["Sales_Shipment.No"],
             "salesOrderBusinessReferences": ["Order.No"]
           }
         }
