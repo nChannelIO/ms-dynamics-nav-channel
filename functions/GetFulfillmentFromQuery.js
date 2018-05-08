@@ -164,6 +164,7 @@ let GetFulfillmentFromQuery = function (ncUtil, channelProfile, flowContext, pay
     let domain = channelProfile.channelAuthValues.domain;
     let workstation = channelProfile.channelAuthValues.workstation;
     let url = channelProfile.channelAuthValues.salesShipmentUrl;
+    let salesShipmentServiceName = channelProfile.channelAuthValues.salesShipmentServiceName;
 
     let wsdlAuthRequired = true;
     let ntlmSecurity = new NTLMSecurity(username, password, domain, workstation, wsdlAuthRequired);
@@ -178,7 +179,7 @@ let GetFulfillmentFromQuery = function (ncUtil, channelProfile, flowContext, pay
     try {
       soap.createClient(url, options, function(err, client) {
         if (!err) {
-          client.Sales_Shipment_Service.Sales_Shipment_Port.ReadMultiple(args, function(error, body, envelope, soapHeader) {
+          client[`${salesShipmentServiceName}_Service`][`${salesShipmentServiceName}_Port`].ReadMultiple(args, function(error, body, envelope, soapHeader) {
 
             let docs = [];
             let data = body;
@@ -190,11 +191,11 @@ let GetFulfillmentFromQuery = function (ncUtil, channelProfile, flowContext, pay
                 out.payload = data;
                 callback(out);
               } else {
-                if (Array.isArray(body.ReadMultiple_Result.Sales_Shipment)) {
+                if (Array.isArray(body.ReadMultiple_Result[salesShipmentServiceName])) {
                   // If an array is returned, multiple fulfillments were found
-                  for (let i = 0; i < body.ReadMultiple_Result.Sales_Shipment.length; i++) {
+                  for (let i = 0; i < body.ReadMultiple_Result[salesShipmentServiceName].length; i++) {
                     let fulfillment = {
-                      Sales_Shipment: body.ReadMultiple_Result.Sales_Shipment[i]
+                      Sales_Shipment: body.ReadMultiple_Result[salesShipmentServiceName][i]
                     };
                     docs.push({
                       doc: fulfillment,
@@ -203,17 +204,17 @@ let GetFulfillmentFromQuery = function (ncUtil, channelProfile, flowContext, pay
                       salesOrderRemoteID: fulfillment.Sales_Shipment.Order_No
                     });
 
-                    if (i == body.ReadMultiple_Result.Sales_Shipment.length - 1) {
+                    if (i == body.ReadMultiple_Result[salesShipmentServiceName].length - 1) {
                       if (!payload.doc.pagingContext) {
                         payload.doc.pagingContext = {};
                       }
-                      payload.doc.pagingContext.key = body.ReadMultiple_Result.Sales_Shipment[i].Key;
+                      payload.doc.pagingContext.key = body.ReadMultiple_Result[salesShipmentServiceName][i].Key;
                     }
                   }
-                } else if (typeof body.ReadMultiple_Result.Sales_Shipment === 'object') {
+                } else if (typeof body.ReadMultiple_Result[salesShipmentServiceName] === 'object') {
                   // If an object is returned, one fulfillment was found
                   let fulfillment = {
-                    Sales_Shipment: body.ReadMultiple_Result.Sales_Shipment
+                    Sales_Shipment: body.ReadMultiple_Result[salesShipmentServiceName]
                   };
                   docs.push({
                     doc: fulfillment,
@@ -225,7 +226,7 @@ let GetFulfillmentFromQuery = function (ncUtil, channelProfile, flowContext, pay
                   if (!payload.doc.pagingContext) {
                     payload.doc.pagingContext = {};
                   }
-                  payload.doc.pagingContext.key = body.ReadMultiple_Result.Sales_Shipment.Key;
+                  payload.doc.pagingContext.key = body.ReadMultiple_Result[salesShipmentServiceName].Key;
                 }
 
                 if (docs.length === payload.doc.pageSize) {

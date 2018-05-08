@@ -14,7 +14,9 @@
       "domain": "test",
       "customerUrl": "https://nav2013-demo.nchannel.local:7047/DynamicsNAV71/WS/CRONUS%20USA,%20Inc./Page/Customer",
       "orderUrl": "https://nav2013-demo.nchannel.local:7047/DynamicsNAV71/WS/CRONUS%20USA,%20Inc./Page/Order",
-      "salesShipmentUrl": "https://nav2013-demo.nchannel.local:7047/DynamicsNAV71/WS/CRONUS%20USA,%20Inc./Page/Sales_Shipment"
+      "salesShipmentUrl": "https://nav2013-demo.nchannel.local:7047/DynamicsNAV71/WS/CRONUS%20USA,%20Inc./Page/Sales_Shipment",
+      "itemUrl": "https://nav2013-demo.nchannel.local:7047/DynamicsNAV71/WS/CRONUS%20USA,%20Inc./Page/Item",
+      "itemVariantsUrl": "https://nav2013-demo.nchannel.local:7047/DynamicsNAV71/WS/CRONUS%20USA,%20Inc./Page/Item_Variants"
     }
   },
   "docs": [
@@ -1837,6 +1839,916 @@
           "channelProfile": {
             "fulfillmentBusinessReferences": ["Sales_Shipment.No"],
             "salesOrderBusinessReferences": ["Order.No"]
+          }
+        }
+      ]
+    },
+    {
+      "functionName": "GetProductMatrixFromQuery",
+      "tests": [
+        {
+          "ncStatusCode": 200,
+          "payload": {
+            "doc": {
+              "modifiedDateRange": {
+                "startDateGMT": "2015-01-01T10:00:00.000Z",
+                "endDateGMT": "2015-01-07T12:00:00.000Z"
+              }
+            }
+          },
+          "links": [
+            {
+              "wsdlUri": "https://nav2013-demo.nchannel.local:7047/DynamicsNAV71/WS/CRONUS%20USA,%20Inc./Page/Item",
+              "service": "Item_Service",
+              "servicePort": "Item_Port",
+              "function": "ReadMultiple",
+              "responsePayload": {
+               "ReadMultiple_Result":{
+                    "Item":{
+                       "Key":"20;GwAAAAJ7BDEAMQAxADI=7;38868060;",
+                       "No":"1112",
+                       "Description":"T-Shirt",
+                       "Base_Unit_of_Measure":"PCS",
+                       "Assembly_BOM":false,
+                       "Automatic_Ext_Texts":false,
+                       "Created_From_Nonstock_Item":false,
+                       "Item_Category_Code":"MISC",
+                       "Product_Group_Code":"SUPPLIERS",
+                       "Service_Item_Group":"CD ROM",
+                       "Search_Description":"T-SHIRT",
+                       "Inventory":177,
+                       "Qty_on_Purch_Order":0,
+                       "Qty_on_Prod_Order":0,
+                       "Qty_on_Component_Lines":0,
+                       "Qty_on_Sales_Order":3,
+                       "Qty_on_Service_Order":0,
+                       "Qty_on_Job_Order":0,
+                       "Qty_on_Assembly_Order":0,
+                       "Qty_on_Asm_Component":0,
+                       "Blocked":false,
+                       "Last_Date_Modified":"2018-01-31T00:00:00.000Z",
+                       "StockoutWarningDefaultYes":"Default",
+                       "PreventNegInventoryDefaultYes":"Default",
+                       "Costing_Method":"Standard",
+                       "Cost_is_Adjusted":false,
+                       "Cost_is_Posted_to_G_L":false,
+                       "Standard_Cost":0,
+                       "Unit_Cost":0,
+                       "Overhead_Rate":0,
+                       "Indirect_Cost_Percent":0,
+                       "Last_Direct_Cost":5,
+                       "Price_Profit_Calculation":"Profit_x003D_Price_Cost",
+                       "Profit_Percent":0,
+                       "Unit_Price":10,
+                       "Gen_Prod_Posting_Group":"RETAIL",
+                       "Inventory_Posting_Group":"FINISHED",
+                       "Net_Invoiced_Qty":177,
+                       "Allow_Invoice_Disc":true,
+                       "Sales_Unit_of_Measure":"PCS",
+                       "Replenishment_System":"Purchase",
+                       "Vendor_No":"01254796",
+                       "Vendor_Item_No":"1112",
+                       "Purch_Unit_of_Measure":"PCS",
+                       "Manufacturing_Policy":"Make_to_Stock",
+                       "Rounding_Precision":1,
+                       "Flushing_Method":"Manual",
+                       "Scrap_Percent":0,
+                       "Lot_Size":0,
+                       "Assembly_Policy":"Assemble_to_Stock",
+                       "Reordering_Policy":"_blank_",
+                       "Reserve":"Optional",
+                       "Order_Tracking_Policy":"None",
+                       "Stockkeeping_Unit_Exists":false,
+                       "Dampener_Quantity":0,
+                       "Critical":false,
+                       "Safety_Stock_Quantity":0,
+                       "Include_Inventory":false,
+                       "Reorder_Point":0,
+                       "Reorder_Quantity":0,
+                       "Maximum_Inventory":0,
+                       "Overflow_Level":0,
+                       "Minimum_Order_Quantity":0,
+                       "Maximum_Order_Quantity":0,
+                       "Order_Multiple":0,
+                       "Net_Weight":0,
+                       "Gross_Weight":0,
+                       "Last_Phys_Invt_Date":"0001-01-01T00:00:00.000Z",
+                       "Last_Counting_Period_Update":"0001-01-01T00:00:00.000Z",
+                       "Use_Cross_Docking":true
+                    }
+                 }
+              }
+            },
+            {
+              "wsdlUri": "https://nav2013-demo.nchannel.local:7047/DynamicsNAV71/WS/CRONUS%20USA,%20Inc./Page/Item_Variants",
+              "service": "Item_Variants_Service",
+              "servicePort": "Item_Variants_Port",
+              "function": "ReadMultiple",
+              "responsePayload": {
+                 "ReadMultiple_Result":{
+                    "Item_Variants":[
+                       {
+                          "Key":"44;GRUAAAJ7BDEAMQAxADIAAAACe/9MAEcALQBCAEwASw==7;38858450;",
+                          "Item_No":"1112",
+                          "Code":"LG-BLK",
+                          "Description":"Large Black"
+                       },
+                       {
+                          "Key":"44;GRUAAAJ7BDEAMQAxADIAAAACe/9MAEcALQBCAEwAVQ==7;38858730;",
+                          "Item_No":"1112",
+                          "Code":"LG-BLU",
+                          "Description":"Large Blue"
+                       },
+                       {
+                          "Key":"44;GRUAAAJ7BDEAMQAxADIAAAACe/9MAEcALQBSAEUARA==7;38858470;",
+                          "Item_No":"1112",
+                          "Code":"LG-RED",
+                          "Description":"Large Red"
+                       },
+                       {
+                          "Key":"44;GRUAAAJ7BDEAMQAxADIAAAACe/9NAEQALQBCAEwASw==7;38858680;",
+                          "Item_No":"1112",
+                          "Code":"MD-BLK",
+                          "Description":"Medium Black"
+                       },
+                       {
+                          "Key":"44;GRUAAAJ7BDEAMQAxADIAAAACe/9NAEQALQBCAEwAVQ==7;38858620;",
+                          "Item_No":"1112",
+                          "Code":"MD-BLU",
+                          "Description":"Medium Blue"
+                       },
+                       {
+                          "Key":"44;GRUAAAJ7BDEAMQAxADIAAAACe/9NAEQALQBSAEUARA==7;38858630;",
+                          "Item_No":"1112",
+                          "Code":"MD-RED",
+                          "Description":"Medium Red"
+                       },
+                       {
+                          "Key":"44;GRUAAAJ7BDEAMQAxADIAAAACe/9TAE0ALQBCAEwASw==7;38858690;",
+                          "Item_No":"1112",
+                          "Code":"SM-BLK",
+                          "Description":"Small Black"
+                       },
+                       {
+                          "Key":"44;GRUAAAJ7BDEAMQAxADIAAAACe/9TAE0ALQBCAEwAVQ==7;38858710;",
+                          "Item_No":"1112",
+                          "Code":"SM-BLU",
+                          "Description":"Small Blue"
+                       },
+                       {
+                          "Key":"44;GRUAAAJ7BDEAMQAxADIAAAACe/9TAE0ALQBSAEUARA==7;38858700;",
+                          "Item_No":"1112",
+                          "Code":"SM-RED",
+                          "Description":"Small Red"
+                       }
+                    ]
+                 }
+              }
+            }
+          ],
+          "channelProfile": {
+            "productBusinessReferences": ["Item.No"]
+          }
+        },
+        {
+          "ncStatusCode": 204,
+          "payload": {
+            "doc": {
+              "modifiedDateRange": {
+                "startDateGMT": "2015-01-01T10:00:00.000Z",
+                "endDateGMT": "2015-01-07T12:00:00.000Z"
+              }
+            }
+          },
+          "links": [
+            {
+              "wsdlUri": "https://nav2013-demo.nchannel.local:7047/DynamicsNAV71/WS/CRONUS%20USA,%20Inc./Page/Item",
+              "service": "Item_Service",
+              "servicePort": "Item_Port",
+              "function": "ReadMultiple",
+              "responsePayload": {
+                 "ReadMultiple_Result": null
+              }
+            }
+          ],
+          "channelProfile": {
+            "productBusinessReferences": ["Item.No"]
+          }
+        },
+        {
+          "ncStatusCode": 206,
+          "payload": {
+            "doc": {
+              "modifiedDateRange": {
+                "startDateGMT": "2015-01-01T10:00:00.000Z",
+                "endDateGMT": "2015-01-07T12:00:00.000Z"
+              },
+              "pageSize": 1
+            }
+          },
+          "links": [
+            {
+              "wsdlUri": "https://nav2013-demo.nchannel.local:7047/DynamicsNAV71/WS/CRONUS%20USA,%20Inc./Page/Item",
+              "service": "Item_Service",
+              "servicePort": "Item_Port",
+              "function": "ReadMultiple",
+              "responsePayload": {
+               "ReadMultiple_Result":{
+                    "Item":{
+                       "Key":"20;GwAAAAJ7BDEAMQAxADI=7;38868060;",
+                       "No":"1112",
+                       "Description":"T-Shirt",
+                       "Base_Unit_of_Measure":"PCS",
+                       "Assembly_BOM":false,
+                       "Automatic_Ext_Texts":false,
+                       "Created_From_Nonstock_Item":false,
+                       "Item_Category_Code":"MISC",
+                       "Product_Group_Code":"SUPPLIERS",
+                       "Service_Item_Group":"CD ROM",
+                       "Search_Description":"T-SHIRT",
+                       "Inventory":177,
+                       "Qty_on_Purch_Order":0,
+                       "Qty_on_Prod_Order":0,
+                       "Qty_on_Component_Lines":0,
+                       "Qty_on_Sales_Order":3,
+                       "Qty_on_Service_Order":0,
+                       "Qty_on_Job_Order":0,
+                       "Qty_on_Assembly_Order":0,
+                       "Qty_on_Asm_Component":0,
+                       "Blocked":false,
+                       "Last_Date_Modified":"2018-01-31T00:00:00.000Z",
+                       "StockoutWarningDefaultYes":"Default",
+                       "PreventNegInventoryDefaultYes":"Default",
+                       "Costing_Method":"Standard",
+                       "Cost_is_Adjusted":false,
+                       "Cost_is_Posted_to_G_L":false,
+                       "Standard_Cost":0,
+                       "Unit_Cost":0,
+                       "Overhead_Rate":0,
+                       "Indirect_Cost_Percent":0,
+                       "Last_Direct_Cost":5,
+                       "Price_Profit_Calculation":"Profit_x003D_Price_Cost",
+                       "Profit_Percent":0,
+                       "Unit_Price":10,
+                       "Gen_Prod_Posting_Group":"RETAIL",
+                       "Inventory_Posting_Group":"FINISHED",
+                       "Net_Invoiced_Qty":177,
+                       "Allow_Invoice_Disc":true,
+                       "Sales_Unit_of_Measure":"PCS",
+                       "Replenishment_System":"Purchase",
+                       "Vendor_No":"01254796",
+                       "Vendor_Item_No":"1112",
+                       "Purch_Unit_of_Measure":"PCS",
+                       "Manufacturing_Policy":"Make_to_Stock",
+                       "Rounding_Precision":1,
+                       "Flushing_Method":"Manual",
+                       "Scrap_Percent":0,
+                       "Lot_Size":0,
+                       "Assembly_Policy":"Assemble_to_Stock",
+                       "Reordering_Policy":"_blank_",
+                       "Reserve":"Optional",
+                       "Order_Tracking_Policy":"None",
+                       "Stockkeeping_Unit_Exists":false,
+                       "Dampener_Quantity":0,
+                       "Critical":false,
+                       "Safety_Stock_Quantity":0,
+                       "Include_Inventory":false,
+                       "Reorder_Point":0,
+                       "Reorder_Quantity":0,
+                       "Maximum_Inventory":0,
+                       "Overflow_Level":0,
+                       "Minimum_Order_Quantity":0,
+                       "Maximum_Order_Quantity":0,
+                       "Order_Multiple":0,
+                       "Net_Weight":0,
+                       "Gross_Weight":0,
+                       "Last_Phys_Invt_Date":"0001-01-01T00:00:00.000Z",
+                       "Last_Counting_Period_Update":"0001-01-01T00:00:00.000Z",
+                       "Use_Cross_Docking":true
+                    }
+                 }
+              }
+            },
+            {
+              "wsdlUri": "https://nav2013-demo.nchannel.local:7047/DynamicsNAV71/WS/CRONUS%20USA,%20Inc./Page/Item_Variants",
+              "service": "Item_Variants_Service",
+              "servicePort": "Item_Variants_Port",
+              "function": "ReadMultiple",
+              "responsePayload": {
+                 "ReadMultiple_Result":{
+                    "Item_Variants":[
+                       {
+                          "Key":"44;GRUAAAJ7BDEAMQAxADIAAAACe/9MAEcALQBCAEwASw==7;38858450;",
+                          "Item_No":"1112",
+                          "Code":"LG-BLK",
+                          "Description":"Large Black"
+                       },
+                       {
+                          "Key":"44;GRUAAAJ7BDEAMQAxADIAAAACe/9MAEcALQBCAEwAVQ==7;38858730;",
+                          "Item_No":"1112",
+                          "Code":"LG-BLU",
+                          "Description":"Large Blue"
+                       },
+                       {
+                          "Key":"44;GRUAAAJ7BDEAMQAxADIAAAACe/9MAEcALQBSAEUARA==7;38858470;",
+                          "Item_No":"1112",
+                          "Code":"LG-RED",
+                          "Description":"Large Red"
+                       },
+                       {
+                          "Key":"44;GRUAAAJ7BDEAMQAxADIAAAACe/9NAEQALQBCAEwASw==7;38858680;",
+                          "Item_No":"1112",
+                          "Code":"MD-BLK",
+                          "Description":"Medium Black"
+                       },
+                       {
+                          "Key":"44;GRUAAAJ7BDEAMQAxADIAAAACe/9NAEQALQBCAEwAVQ==7;38858620;",
+                          "Item_No":"1112",
+                          "Code":"MD-BLU",
+                          "Description":"Medium Blue"
+                       },
+                       {
+                          "Key":"44;GRUAAAJ7BDEAMQAxADIAAAACe/9NAEQALQBSAEUARA==7;38858630;",
+                          "Item_No":"1112",
+                          "Code":"MD-RED",
+                          "Description":"Medium Red"
+                       },
+                       {
+                          "Key":"44;GRUAAAJ7BDEAMQAxADIAAAACe/9TAE0ALQBCAEwASw==7;38858690;",
+                          "Item_No":"1112",
+                          "Code":"SM-BLK",
+                          "Description":"Small Black"
+                       },
+                       {
+                          "Key":"44;GRUAAAJ7BDEAMQAxADIAAAACe/9TAE0ALQBCAEwAVQ==7;38858710;",
+                          "Item_No":"1112",
+                          "Code":"SM-BLU",
+                          "Description":"Small Blue"
+                       },
+                       {
+                          "Key":"44;GRUAAAJ7BDEAMQAxADIAAAACe/9TAE0ALQBSAEUARA==7;38858700;",
+                          "Item_No":"1112",
+                          "Code":"SM-RED",
+                          "Description":"Small Red"
+                       }
+                    ]
+                 }
+              }
+            }
+          ],
+          "channelProfile": {
+            "productBusinessReferences": ["Item.No"]
+          }
+        },
+        {
+          "ncStatusCode": 400,
+          "payload": {
+            "doc": {}
+          },
+          "links": [],
+          "channelProfile": {
+            "productBusinessReferences": ["Item.No"]
+          }
+        },
+        {
+          "ncStatusCode": 429,
+          "payload": {
+            "doc": {
+              "modifiedDateRange": {
+                "startDateGMT": "2015-01-01T10:00:00.000Z",
+                "endDateGMT": "2015-01-07T12:00:00.000Z"
+              }
+            }
+          },
+          "links": [
+            {
+              "wsdlUri": "https://nav2013-demo.nchannel.local:7047/DynamicsNAV71/WS/CRONUS%20USA,%20Inc./Page/Item",
+              "service": "Item_Service",
+              "servicePort": "Item_Port",
+              "function": "ReadMultiple",
+              "responsePayload": {
+                 "ReadMultiple_Result": {
+
+                 }
+              }
+            },
+            {
+              "wsdlUri": "https://nav2013-demo.nchannel.local:7047/DynamicsNAV71/WS/CRONUS%20USA,%20Inc./Page/Item_Variants",
+              "service": "Item_Variants_Service",
+              "servicePort": "Item_Variants_Port",
+              "function": "ReadMultiple",
+              "responsePayload": {
+                 "ReadMultiple_Result": {
+
+                 }
+              }
+            }
+          ],
+          "channelProfile": {
+            "productBusinessReferences": ["Item.No"]
+          }
+        },
+        {
+          "ncStatusCode": 500,
+          "payload": {
+            "doc": {
+              "modifiedDateRange": {
+                "startDateGMT": "2015-01-01T10:00:00.000Z",
+                "endDateGMT": "2015-01-07T12:00:00.000Z"
+              }
+            }
+          },
+          "links": [
+            {
+              "wsdlUri": "https://nav2013-demo.nchannel.local:7047/DynamicsNAV71/WS/CRONUS%20USA,%20Inc./Page/Item",
+              "service": "Item_Service",
+              "servicePort": "Item_Port",
+              "function": "ReadMultiple",
+              "responsePayload": {
+                 "ReadMultiple_Result": {}
+              }
+            },
+            {
+              "wsdlUri": "https://nav2013-demo.nchannel.local:7047/DynamicsNAV71/WS/CRONUS%20USA,%20Inc./Page/Item_Variants",
+              "service": "Item_Variants_Service",
+              "servicePort": "Item_Variants_Port",
+              "function": "ReadMultiple",
+              "responsePayload": {
+                 "ReadMultiple_Result": {}
+              }
+            }
+          ],
+          "channelProfile": {
+            "productBusinessReferences": ["Item.No"]
+          }
+        }
+      ]
+    },
+    {
+      "functionName": "GetProductQuantityFromQuery",
+      "tests": [
+        {
+          "ncStatusCode": 200,
+          "payload": {
+            "doc": {
+              "modifiedDateRange": {
+                "startDateGMT": "2015-01-01T10:00:00.000Z",
+                "endDateGMT": "2015-01-07T12:00:00.000Z"
+              }
+            }
+          },
+          "links": [
+            {
+              "wsdlUri": "https://nav2013-demo.nchannel.local:7047/DynamicsNAV71/WS/CRONUS%20USA,%20Inc./Page/Item_Ledger",
+              "service": "Item_Ledger_Service",
+              "servicePort": "Item_Ledger_Port",
+              "function": "ReadMultiple",
+              "responsePayload": {
+                "ReadMultiple_Result":{
+                   "Item_Ledger": {
+                     "Key":"12;IAAAAACHPgE=7;38864800;",
+                     "Posting_Date":"2015-01-28T00:00:00.000Z",
+                     "Entry_Type":"Purchase",
+                     "Document_Type":"_blank_",
+                     "Document_No":"T00001",
+                     "Document_Line_No":0,
+                     "Item_No":"1112",
+                     "Variant_Code":"LG-BLK",
+                     "Description":"Large Black",
+                     "Expiration_Date":"0001-01-01T00:00:00.000Z",
+                     "Quantity":10,
+                     "Invoiced_Quantity":10,
+                     "Remaining_Quantity":10,
+                     "Shipped_Qty_Not_Returned":0,
+                     "Reserved_Quantity":0,
+                     "Qty_per_Unit_of_Measure":1,
+                     "Sales_Amount_Expected":0,
+                     "Sales_Amount_Actual":0,
+                     "Cost_Amount_Expected":0,
+                     "Cost_Amount_Actual":0,
+                     "Cost_Amount_Non_Invtbl":0,
+                     "Cost_Amount_Expected_ACY":0,
+                     "Cost_Amount_Actual_ACY":0,
+                     "Cost_Amount_Non_Invtbl_ACY":0,
+                     "Completely_Invoiced":true,
+                     "Open":true,
+                     "Drop_Shipment":false,
+                     "Assemble_to_Order":false,
+                     "Applied_Entry_to_Adjust":false,
+                     "Order_Type":"_blank_",
+                     "Order_Line_No":0,
+                     "Prod_Order_Comp_Line_No":0,
+                     "Entry_No":318
+                  }
+                }
+              }
+            },
+            {
+              "wsdlUri": "https://nav2013-demo.nchannel.local:7047/DynamicsNAV71/WS/CRONUS%20USA,%20Inc./Page/Item",
+              "service": "Item_Service",
+              "servicePort": "Item_Port",
+              "function": "Read",
+              "responsePayload": {
+                 "Item": {
+                   "Key":"24;GwAAAAJ7BTcAMAAxADAAMg==6;3697580;",
+                   "No":"70102",
+                   "Description":"Paint, blue",
+                   "Base_Unit_of_Measure":"CAN",
+                   "Assembly_BOM":false,
+                   "Shelf_No":"B3",
+                   "Automatic_Ext_Texts":false,
+                   "Created_From_Nonstock_Item":false,
+                   "Search_Description":"PAINT, BLUE",
+                   "Inventory":3229,
+                   "Qty_on_Purch_Order":0,
+                   "Qty_on_Prod_Order":0,
+                   "Qty_on_Component_Lines":0,
+                   "Qty_on_Sales_Order":0,
+                   "Qty_on_Service_Order":0,
+                   "Qty_on_Job_Order":0,
+                   "Qty_on_Assembly_Order":0,
+                   "Qty_on_Asm_Component":0,
+                   "Blocked":false,
+                   "Last_Date_Modified":"2013-09-23T00:00:00.000Z",
+                   "StockoutWarningDefaultYes":"Default",
+                   "PreventNegInventoryDefaultYes":"Default",
+                   "Costing_Method":"FIFO",
+                   "Cost_is_Adjusted":false,
+                   "Cost_is_Posted_to_G_L":false,
+                   "Standard_Cost":2.2,
+                   "Unit_Cost":2.2,
+                   "Overhead_Rate":0,
+                   "Indirect_Cost_Percent":0,
+                   "Last_Direct_Cost":2.2,
+                   "Price_Profit_Calculation":"Profit_x003D_Price_Cost",
+                   "Profit_Percent":46.34146,
+                   "Unit_Price":4.1,
+                   "Gen_Prod_Posting_Group":"RAW MAT",
+                   "Inventory_Posting_Group":"RAW MAT",
+                   "Net_Invoiced_Qty":3229,
+                   "Allow_Invoice_Disc":true,
+                   "Item_Disc_Group":"B",
+                   "Sales_Unit_of_Measure":"CAN",
+                   "Tax_Group_Code":"SUPPLIES",
+                   "Replenishment_System":"Purchase",
+                   "Vendor_No":"20000",
+                   "Vendor_Item_No":"20-129",
+                   "Purch_Unit_of_Measure":"CAN",
+                   "Manufacturing_Policy":"Make_to_Stock",
+                   "Rounding_Precision":1,
+                   "Flushing_Method":"Manual",
+                   "Scrap_Percent":0,
+                   "Lot_Size":0,
+                   "Assembly_Policy":"Assemble_to_Stock",
+                   "Reordering_Policy":"_blank_",
+                   "Reserve":"Optional",
+                   "Order_Tracking_Policy":"None",
+                   "Stockkeeping_Unit_Exists":false,
+                   "Dampener_Quantity":0,
+                   "Critical":false,
+                   "Safety_Stock_Quantity":0,
+                   "Include_Inventory":false,
+                   "Reorder_Point":150,
+                   "Reorder_Quantity":0,
+                   "Maximum_Inventory":0,
+                   "Overflow_Level":0,
+                   "Minimum_Order_Quantity":0,
+                   "Maximum_Order_Quantity":0,
+                   "Order_Multiple":0,
+                   "Tariff_No":"9999 99 99",
+                   "Net_Weight":1.6,
+                   "Gross_Weight":1.84,
+                   "Last_Phys_Invt_Date":"2014-12-31T00:00:00.000Z",
+                   "Last_Counting_Period_Update":"0001-01-01T00:00:00.000Z",
+                   "Use_Cross_Docking":true
+                }
+              }
+            },
+            {
+              "wsdlUri": "https://nav2013-demo.nchannel.local:7047/DynamicsNAV71/WS/CRONUS%20USA,%20Inc./Page/Variant_Inventory",
+              "service": "Variant_Inventory_Service",
+              "servicePort": "Variant_Inventory_Port",
+              "function": "Read",
+              "responsePayload": {
+                 "Variant_Inventory": {
+                   "Key":"44;GRUAAAJ7BDEAMQAxADIAAAACe/9TAE0ALQBCAEwAVQ==7;38858710;",
+                   "Code":"SM-BLU",
+                   "Description":"Small Blue",
+                   "GrossRequirement":0,
+                   "ScheduledRcpt":0,
+                   "PlannedOrderRcpt":0,
+                   "ProjAvailableBalance":0,
+                   "Item_Inventory":0,
+                   "Item_Qty_on_Purch_Order":0,
+                   "Item_Qty_on_Sales_Order":0,
+                   "Item_Qty_on_Service_Order":0,
+                   "Item_Qty_on_Job_Order":0,
+                   "Item_Trans_Ord_Shipment_Qty":0,
+                   "Item_Qty_on_Asm_Component":0,
+                   "Item_Qty_on_Assembly_Order":0,
+                   "Item_Qty_in_Transit":0,
+                   "Item_Trans_Ord_Receipt_Qty":0,
+                   "ExpectedInventory":0,
+                   "QtyAvailable":0,
+                   "Item_Scheduled_Receipt_Qty":0,
+                   "Item_Scheduled_Need_Qty":0,
+                   "PlannedOrderReleases":0,
+                   "Item_Net_Change":0
+                 }
+              }
+            }
+          ],
+          "channelProfile": {
+            "productBusinessReferences": ["Item.No"]
+          }
+        },
+        {
+          "ncStatusCode": 204,
+          "payload": {
+            "doc": {
+              "modifiedDateRange": {
+                "startDateGMT": "2015-01-01T10:00:00.000Z",
+                "endDateGMT": "2015-01-07T12:00:00.000Z"
+              }
+            }
+          },
+          "links": [
+            {
+              "wsdlUri": "https://nav2013-demo.nchannel.local:7047/DynamicsNAV71/WS/CRONUS%20USA,%20Inc./Page/Item_Ledger",
+              "service": "Item_Ledger_Service",
+              "servicePort": "Item_Ledger_Port",
+              "function": "ReadMultiple",
+              "responsePayload": {
+                "ReadMultiple_Result": null
+              }
+            }
+          ],
+          "channelProfile": {
+            "productBusinessReferences": ["Item.No"]
+          }
+        },
+        {
+          "ncStatusCode": 206,
+          "payload": {
+            "doc": {
+              "modifiedDateRange": {
+                "startDateGMT": "2015-01-01T10:00:00.000Z",
+                "endDateGMT": "2015-01-07T12:00:00.000Z"
+              },
+              "pageSize": 1
+            }
+          },
+          "links": [
+            {
+              "wsdlUri": "https://nav2013-demo.nchannel.local:7047/DynamicsNAV71/WS/CRONUS%20USA,%20Inc./Page/Item_Ledger",
+              "service": "Item_Ledger_Service",
+              "servicePort": "Item_Ledger_Port",
+              "function": "ReadMultiple",
+              "responsePayload": {
+                "ReadMultiple_Result":{
+                   "Item_Ledger": {
+                     "Key":"12;IAAAAACHPgE=7;38864800;",
+                     "Posting_Date":"2015-01-28T00:00:00.000Z",
+                     "Entry_Type":"Purchase",
+                     "Document_Type":"_blank_",
+                     "Document_No":"T00001",
+                     "Document_Line_No":0,
+                     "Item_No":"1112",
+                     "Variant_Code":"LG-BLK",
+                     "Description":"Large Black",
+                     "Expiration_Date":"0001-01-01T00:00:00.000Z",
+                     "Quantity":10,
+                     "Invoiced_Quantity":10,
+                     "Remaining_Quantity":10,
+                     "Shipped_Qty_Not_Returned":0,
+                     "Reserved_Quantity":0,
+                     "Qty_per_Unit_of_Measure":1,
+                     "Sales_Amount_Expected":0,
+                     "Sales_Amount_Actual":0,
+                     "Cost_Amount_Expected":0,
+                     "Cost_Amount_Actual":0,
+                     "Cost_Amount_Non_Invtbl":0,
+                     "Cost_Amount_Expected_ACY":0,
+                     "Cost_Amount_Actual_ACY":0,
+                     "Cost_Amount_Non_Invtbl_ACY":0,
+                     "Completely_Invoiced":true,
+                     "Open":true,
+                     "Drop_Shipment":false,
+                     "Assemble_to_Order":false,
+                     "Applied_Entry_to_Adjust":false,
+                     "Order_Type":"_blank_",
+                     "Order_Line_No":0,
+                     "Prod_Order_Comp_Line_No":0,
+                     "Entry_No":318
+                  }
+                }
+              }
+            },
+            {
+              "wsdlUri": "https://nav2013-demo.nchannel.local:7047/DynamicsNAV71/WS/CRONUS%20USA,%20Inc./Page/Item",
+              "service": "Item_Service",
+              "servicePort": "Item_Port",
+              "function": "Read",
+              "responsePayload": {
+                 "Item": {
+                   "Key":"24;GwAAAAJ7BTcAMAAxADAAMg==6;3697580;",
+                   "No":"70102",
+                   "Description":"Paint, blue",
+                   "Base_Unit_of_Measure":"CAN",
+                   "Assembly_BOM":false,
+                   "Shelf_No":"B3",
+                   "Automatic_Ext_Texts":false,
+                   "Created_From_Nonstock_Item":false,
+                   "Search_Description":"PAINT, BLUE",
+                   "Inventory":3229,
+                   "Qty_on_Purch_Order":0,
+                   "Qty_on_Prod_Order":0,
+                   "Qty_on_Component_Lines":0,
+                   "Qty_on_Sales_Order":0,
+                   "Qty_on_Service_Order":0,
+                   "Qty_on_Job_Order":0,
+                   "Qty_on_Assembly_Order":0,
+                   "Qty_on_Asm_Component":0,
+                   "Blocked":false,
+                   "Last_Date_Modified":"2013-09-23T00:00:00.000Z",
+                   "StockoutWarningDefaultYes":"Default",
+                   "PreventNegInventoryDefaultYes":"Default",
+                   "Costing_Method":"FIFO",
+                   "Cost_is_Adjusted":false,
+                   "Cost_is_Posted_to_G_L":false,
+                   "Standard_Cost":2.2,
+                   "Unit_Cost":2.2,
+                   "Overhead_Rate":0,
+                   "Indirect_Cost_Percent":0,
+                   "Last_Direct_Cost":2.2,
+                   "Price_Profit_Calculation":"Profit_x003D_Price_Cost",
+                   "Profit_Percent":46.34146,
+                   "Unit_Price":4.1,
+                   "Gen_Prod_Posting_Group":"RAW MAT",
+                   "Inventory_Posting_Group":"RAW MAT",
+                   "Net_Invoiced_Qty":3229,
+                   "Allow_Invoice_Disc":true,
+                   "Item_Disc_Group":"B",
+                   "Sales_Unit_of_Measure":"CAN",
+                   "Tax_Group_Code":"SUPPLIES",
+                   "Replenishment_System":"Purchase",
+                   "Vendor_No":"20000",
+                   "Vendor_Item_No":"20-129",
+                   "Purch_Unit_of_Measure":"CAN",
+                   "Manufacturing_Policy":"Make_to_Stock",
+                   "Rounding_Precision":1,
+                   "Flushing_Method":"Manual",
+                   "Scrap_Percent":0,
+                   "Lot_Size":0,
+                   "Assembly_Policy":"Assemble_to_Stock",
+                   "Reordering_Policy":"_blank_",
+                   "Reserve":"Optional",
+                   "Order_Tracking_Policy":"None",
+                   "Stockkeeping_Unit_Exists":false,
+                   "Dampener_Quantity":0,
+                   "Critical":false,
+                   "Safety_Stock_Quantity":0,
+                   "Include_Inventory":false,
+                   "Reorder_Point":150,
+                   "Reorder_Quantity":0,
+                   "Maximum_Inventory":0,
+                   "Overflow_Level":0,
+                   "Minimum_Order_Quantity":0,
+                   "Maximum_Order_Quantity":0,
+                   "Order_Multiple":0,
+                   "Tariff_No":"9999 99 99",
+                   "Net_Weight":1.6,
+                   "Gross_Weight":1.84,
+                   "Last_Phys_Invt_Date":"2014-12-31T00:00:00.000Z",
+                   "Last_Counting_Period_Update":"0001-01-01T00:00:00.000Z",
+                   "Use_Cross_Docking":true
+                }
+              }
+            },
+            {
+              "wsdlUri": "https://nav2013-demo.nchannel.local:7047/DynamicsNAV71/WS/CRONUS%20USA,%20Inc./Page/Variant_Inventory",
+              "service": "Variant_Inventory_Service",
+              "servicePort": "Variant_Inventory_Port",
+              "function": "Read",
+              "responsePayload": {
+                 "Variant_Inventory": {
+                   "Key":"44;GRUAAAJ7BDEAMQAxADIAAAACe/9TAE0ALQBCAEwAVQ==7;38858710;",
+                   "Code":"SM-BLU",
+                   "Description":"Small Blue",
+                   "GrossRequirement":0,
+                   "ScheduledRcpt":0,
+                   "PlannedOrderRcpt":0,
+                   "ProjAvailableBalance":0,
+                   "Item_Inventory":0,
+                   "Item_Qty_on_Purch_Order":0,
+                   "Item_Qty_on_Sales_Order":0,
+                   "Item_Qty_on_Service_Order":0,
+                   "Item_Qty_on_Job_Order":0,
+                   "Item_Trans_Ord_Shipment_Qty":0,
+                   "Item_Qty_on_Asm_Component":0,
+                   "Item_Qty_on_Assembly_Order":0,
+                   "Item_Qty_in_Transit":0,
+                   "Item_Trans_Ord_Receipt_Qty":0,
+                   "ExpectedInventory":0,
+                   "QtyAvailable":0,
+                   "Item_Scheduled_Receipt_Qty":0,
+                   "Item_Scheduled_Need_Qty":0,
+                   "PlannedOrderReleases":0,
+                   "Item_Net_Change":0
+                 }
+              }
+            }
+          ],
+          "channelProfile": {
+            "productBusinessReferences": ["Item.No"]
+          }
+        },
+        {
+          "ncStatusCode": 400,
+          "payload": {
+            "doc": {}
+          },
+          "links": [],
+          "channelProfile": {
+            "productBusinessReferences": ["Item.No"]
+          }
+        },
+        {
+          "ncStatusCode": 429,
+          "payload": {
+            "doc": {
+              "modifiedDateRange": {
+                "startDateGMT": "2015-01-01T10:00:00.000Z",
+                "endDateGMT": "2015-01-07T12:00:00.000Z"
+              }
+            }
+          },
+          "links": [
+            {
+              "wsdlUri": "https://nav2013-demo.nchannel.local:7047/DynamicsNAV71/WS/CRONUS%20USA,%20Inc./Page/Item_Ledger",
+              "service": "Item_Ledger_Service",
+              "servicePort": "Item_Ledger_Port",
+              "function": "ReadMultiple",
+              "responsePayload": {
+                "ReadMultiple_Result":{}
+              }
+            },
+            {
+              "wsdlUri": "https://nav2013-demo.nchannel.local:7047/DynamicsNAV71/WS/CRONUS%20USA,%20Inc./Page/Item",
+              "service": "Item_Service",
+              "servicePort": "Item_Port",
+              "function": "Read",
+              "responsePayload": {}
+            },
+            {
+              "wsdlUri": "https://nav2013-demo.nchannel.local:7047/DynamicsNAV71/WS/CRONUS%20USA,%20Inc./Page/Variant_Inventory",
+              "service": "Variant_Inventory_Service",
+              "servicePort": "Variant_Inventory_Port",
+              "function": "Read",
+              "responsePayload": {}
+            }
+          ],
+          "channelProfile": {
+            "productBusinessReferences": ["Item.No"]
+          }
+        },
+        {
+          "ncStatusCode": 500,
+          "payload": {
+            "doc": {
+              "modifiedDateRange": {
+                "startDateGMT": "2015-01-01T10:00:00.000Z",
+                "endDateGMT": "2015-01-07T12:00:00.000Z"
+              }
+            }
+          },
+          "links": [
+            {
+              "wsdlUri": "https://nav2013-demo.nchannel.local:7047/DynamicsNAV71/WS/CRONUS%20USA,%20Inc./Page/Item_Ledger",
+              "service": "Item_Ledger_Service",
+              "servicePort": "Item_Ledger_Port",
+              "function": "ReadMultiple",
+              "responsePayload": {
+                "ReadMultiple_Result":{}
+              }
+            },
+            {
+              "wsdlUri": "https://nav2013-demo.nchannel.local:7047/DynamicsNAV71/WS/CRONUS%20USA,%20Inc./Page/Item",
+              "service": "Item_Service",
+              "servicePort": "Item_Port",
+              "function": "Read",
+              "responsePayload": {}
+            },
+            {
+              "wsdlUri": "https://nav2013-demo.nchannel.local:7047/DynamicsNAV71/WS/CRONUS%20USA,%20Inc./Page/Variant_Inventory",
+              "service": "Variant_Inventory_Service",
+              "servicePort": "Variant_Inventory_Port",
+              "function": "Read",
+              "responsePayload": {}
+            }
+          ],
+          "channelProfile": {
+            "productBusinessReferences": ["Item.No"]
           }
         }
       ]

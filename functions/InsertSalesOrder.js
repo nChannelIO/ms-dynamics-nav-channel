@@ -82,6 +82,7 @@ let InsertSalesOrder = function (ncUtil, channelProfile, flowContext, payload, c
     let domain = channelProfile.channelAuthValues.domain;
     let workstation = channelProfile.channelAuthValues.workstation;
     let url = channelProfile.channelAuthValues.orderUrl;
+    let orderServiceName = channelProfile.channelAuthValues.orderServiceName;
 
     let wsdlAuthRequired = true;
     let ntlmSecurity = new NTLMSecurity(username, password, domain, workstation, wsdlAuthRequired);
@@ -96,13 +97,13 @@ let InsertSalesOrder = function (ncUtil, channelProfile, flowContext, payload, c
     try {
       soap.createClient(url, options, function(err, client) {
         if (!err) {
-          client.Order_Service.Order_Port.Create(args, function(error, body, envelope, soapHeader) {
+          client[`${orderServiceName}_Service`][`${orderServiceName}_Port`].Create(args, function(error, body, envelope, soapHeader) {
             if (!error) {
-              if (body.Order) {
+              if (body[orderServiceName]) {
                 out.ncStatusCode = 201;
                 out.payload = {
                   doc: body,
-                  salesOrderRemoteID: body.Order.No,
+                  salesOrderRemoteID: body[orderServiceName].No,
                   salesOrderBusinessReference: nc.extractBusinessReference(channelProfile.salesOrderBusinessReferences, body)
                 };
               } else {

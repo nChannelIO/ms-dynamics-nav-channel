@@ -85,6 +85,7 @@ let CheckForCustomer = function (ncUtil, channelProfile, flowContext, payload, c
     let domain = channelProfile.channelAuthValues.domain;
     let workstation = channelProfile.channelAuthValues.workstation;
     let url = channelProfile.channelAuthValues.customerUrl;
+    let customerServiceName = channelProfile.channelAuthValues.customerServiceName;
 
     let wsdlAuthRequired = true;
     let ntlmSecurity = new NTLMSecurity(username, password, domain, workstation, wsdlAuthRequired);
@@ -112,20 +113,20 @@ let CheckForCustomer = function (ncUtil, channelProfile, flowContext, payload, c
     try {
       soap.createClient(url, options, function(err, client) {
         if (!err) {
-          client.Customer_Service.Customer_Port.ReadMultiple(args, function(error, body, envelope, soapHeader) {
+          client[`${customerServiceName}_Service`][`${customerServiceName}_Port`].ReadMultiple(args, function(error, body, envelope, soapHeader) {
             if (!error) {
               if (!body.ReadMultiple_Result) {
                 // If ReadMultiple_Result is undefined, no results were returned
                 out.ncStatusCode = 204;
-              } else if (Array.isArray(body.ReadMultiple_Result.Customer)) {
+              } else if (Array.isArray(body.ReadMultiple_Result[customerServiceName])) {
                 // If an array is returned, multiple customers were found
                 out.ncStatusCode = 409;
                 out.payload.error = { err: body };
-              } else if (typeof body.ReadMultiple_Result.Customer === 'object') {
+              } else if (typeof body.ReadMultiple_Result[customerServiceName] === 'object') {
                 // If an object is returned, one customer was found
                 out.ncStatusCode = 200;
                 out.payload = {
-                  customerRemoteID: body.ReadMultiple_Result.Customer.No,
+                  customerRemoteID: body.ReadMultiple_Result[customerServiceName].No,
                   customerBusinessReference: nc.extractBusinessReference(channelProfile.customerBusinessReferences, body.ReadMultiple_Result)
                 };
               } else {

@@ -82,6 +82,7 @@ let InsertCustomer = function (ncUtil, channelProfile, flowContext, payload, cal
     let domain = channelProfile.channelAuthValues.domain;
     let workstation = channelProfile.channelAuthValues.workstation;
     let url = channelProfile.channelAuthValues.customerUrl;
+    let customerServiceName = channelProfile.channelAuthValues.customerServiceName;
 
     let wsdlAuthRequired = true;
     let ntlmSecurity = new NTLMSecurity(username, password, domain, workstation, wsdlAuthRequired);
@@ -96,13 +97,13 @@ let InsertCustomer = function (ncUtil, channelProfile, flowContext, payload, cal
     try {
       soap.createClient(url, options, function(err, client) {
         if (!err) {
-          client.Customer_Service.Customer_Port.Create(args, function(error, body, envelope, soapHeader) {
+          client[`${customerServiceName}_Service`][`${customerServiceName}_Port`].Create(args, function(error, body, envelope, soapHeader) {
             if (!error) {
-              if (body.Customer) {
+              if (body[customerServiceName]) {
                 out.ncStatusCode = 201;
                 out.payload = {
                   doc: body,
-                  customerRemoteID: body.Customer.No,
+                  customerRemoteID: body[customerServiceName].No,
                   customerBusinessReference: nc.extractBusinessReference(channelProfile.customerBusinessReferences, body)
                 };
               } else {

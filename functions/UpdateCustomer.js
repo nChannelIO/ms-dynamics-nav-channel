@@ -84,6 +84,7 @@ let UpdateCustomer = function (ncUtil, channelProfile, flowContext, payload, cal
     let domain = channelProfile.channelAuthValues.domain;
     let workstation = channelProfile.channelAuthValues.workstation;
     let url = channelProfile.channelAuthValues.customerUrl;
+    let customerServiceName = channelProfile.channelAuthValues.customerServiceName;
 
     let wsdlAuthRequired = true;
     let ntlmSecurity = new NTLMSecurity(username, password, domain, workstation, wsdlAuthRequired);
@@ -95,18 +96,22 @@ let UpdateCustomer = function (ncUtil, channelProfile, flowContext, payload, cal
       NTLMSecurity: ntlmSecurity
     };
 
+    console.log(args);
+
     try {
       soap.createClient(url, options, function(err, client) {
         if (!err) {
-          client.Customer_Service.Customer_Port.Read(args, function(error, body, envelope, soapHeader) {
+          client[`${customerServiceName}_Service`][`${customerServiceName}_Port`].Read(args, function(error, body, envelope, soapHeader) {
+            console.log(body);
+            console.log(error);
             if (!error) {
-              if (body.Customer) {
-                payload.doc.Customer.Key = body.Customer.Key;
+              if (body[customerServiceName]) {
+                payload.doc[customerServiceName].Key = body[customerServiceName].Key;
                 args = payload.doc;
 
-                client.Customer_Service.Customer_Port.Update(args, function(error, body, envelope, soapHeader) {
+                client[`${customerServiceName}_Service`][`${customerServiceName}_Port`].Update(args, function(error, body, envelope, soapHeader) {
                   if (!error) {
-                    if (body.Customer) {
+                    if (body[customerServiceName]) {
                       out.ncStatusCode = 200;
                       out.payload = {
                         doc: body,
