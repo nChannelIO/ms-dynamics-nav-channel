@@ -101,15 +101,13 @@ let UpdateCustomer = function (ncUtil, channelProfile, flowContext, payload, cal
     try {
       soap.createClient(url, options, function(err, client) {
         if (!err) {
-          client[`${customerServiceName}_Service`][`${customerServiceName}_Port`].Read(args, function(error, body, envelope, soapHeader) {
-            console.log(body);
-            console.log(error);
+          client.Read(args, function(error, body, envelope, soapHeader) {
             if (!error) {
               if (body[customerServiceName]) {
                 payload.doc[customerServiceName].Key = body[customerServiceName].Key;
                 args = payload.doc;
 
-                client[`${customerServiceName}_Service`][`${customerServiceName}_Port`].Update(args, function(error, body, envelope, soapHeader) {
+                client.Update(args, function(error, body, envelope, soapHeader) {
                   if (!error) {
                     if (body[customerServiceName]) {
                       out.ncStatusCode = 200;

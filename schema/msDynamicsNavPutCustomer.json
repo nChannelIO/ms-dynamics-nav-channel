@@ -1,7 +1,7 @@
 {
 	"name": "Microsoft Dynamics NAV Put Customer",
 	"schemaDef": {
-	  "$schema": "http://json-schema.org/draft-04/schema#",
+	  "$schema": "http://json-schema.org/draft-06/schema#",
 	  "title": "Microsoft Dynamics NAV Put Customer",
 	  "type": "object",
 	  "properties": {

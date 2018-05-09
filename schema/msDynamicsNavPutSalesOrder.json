@@ -1,7 +1,7 @@
 {
 	"name": "Microsoft Dynamics NAV Put Sales Order",
 	"schemaDef": {
-	  "$schema": "http://json-schema.org/draft-04/schema#",
+	  "$schema": "http://json-schema.org/draft-06/schema#",
 	  "title": "Microsoft Dynamics NAV Put Sales Order",
 	  "type": "object",
 	  "properties": {
@@ -893,7 +893,7 @@
 	        "Post_Code": {
 	          "$id": "/properties/Customer/properties/Post_Code",
 	          "type": "string",
-	          "title": "The Post_code Schema "	          
+	          "title": "The Post_code Schema "
 	        }
 	      },
 	      "additionalProperties": false

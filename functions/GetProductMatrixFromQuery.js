@@ -178,7 +178,7 @@ let GetProductMatrixFromQuery = function (ncUtil, channelProfile, flowContext, p
           // Item_Variants Endpoint Client
           soap.createClient(itemVariantsUrl, options, function(itemVariantsErr, variantClient) {
             if (!itemVariantsErr) {
-              itemClient[`${itemServiceName}_Service`][`${itemServiceName}_Port`].ReadMultiple(args, function(error, result, envelope, soapHeader) {
+              itemClient.ReadMultiple(args, function(error, result, envelope, soapHeader) {
 
                 let docs = [];
                 let data = result;
@@ -277,7 +277,7 @@ let GetProductMatrixFromQuery = function (ncUtil, channelProfile, flowContext, p
                           doc.Item.Item_Variants = [];
                         }
 
-                        client[`${itemVariantsServiceName}_Service`][`${itemVariantsServiceName}_Port`].ReadMultiple(args, function(error, body, envelope, soapHeader) {
+                        client.ReadMultiple(args, function(error, body, envelope, soapHeader) {
                           if (!body.ReadMultiple_Result) {
                             // Return if there are no more variants to process
                             resolve(doc);

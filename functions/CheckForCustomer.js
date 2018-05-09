@@ -113,7 +113,7 @@ let CheckForCustomer = function (ncUtil, channelProfile, flowContext, payload, c
     try {
       soap.createClient(url, options, function(err, client) {
         if (!err) {
-          client[`${customerServiceName}_Service`][`${customerServiceName}_Port`].ReadMultiple(args, function(error, body, envelope, soapHeader) {
+          client.ReadMultiple(args, function(error, body, envelope, soapHeader) {
             if (!error) {
               if (!body.ReadMultiple_Result) {
                 // If ReadMultiple_Result is undefined, no results were returned

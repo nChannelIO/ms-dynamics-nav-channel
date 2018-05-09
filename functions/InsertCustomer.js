@@ -97,7 +97,7 @@ let InsertCustomer = function (ncUtil, channelProfile, flowContext, payload, cal
     try {
       soap.createClient(url, options, function(err, client) {
         if (!err) {
-          client[`${customerServiceName}_Service`][`${customerServiceName}_Port`].Create(args, function(error, body, envelope, soapHeader) {
+          client.Create(args, function(error, body, envelope, soapHeader) {
             if (!error) {
               if (body[customerServiceName]) {
                 out.ncStatusCode = 201;

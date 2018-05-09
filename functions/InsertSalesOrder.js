@@ -97,7 +97,7 @@ let InsertSalesOrder = function (ncUtil, channelProfile, flowContext, payload, c
     try {
       soap.createClient(url, options, function(err, client) {
         if (!err) {
-          client[`${orderServiceName}_Service`][`${orderServiceName}_Port`].Create(args, function(error, body, envelope, soapHeader) {
+          client.Create(args, function(error, body, envelope, soapHeader) {
             if (!error) {
               if (body[orderServiceName]) {
                 out.ncStatusCode = 201;

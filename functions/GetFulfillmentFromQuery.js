@@ -179,7 +179,7 @@ let GetFulfillmentFromQuery = function (ncUtil, channelProfile, flowContext, pay
     try {
       soap.createClient(url, options, function(err, client) {
         if (!err) {
-          client[`${salesShipmentServiceName}_Service`][`${salesShipmentServiceName}_Port`].ReadMultiple(args, function(error, body, envelope, soapHeader) {
+          client.ReadMultiple(args, function(error, body, envelope, soapHeader) {
 
             let docs = [];
             let data = body;

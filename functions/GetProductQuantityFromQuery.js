@@ -175,7 +175,7 @@ let GetProductQuantityFromQuery = function (ncUtil, channelProfile, flowContext,
       // Item_Ledger Endpoint Client
       soap.createClient(itemLedgerUrl, options, function(itemLedgerErr, itemLedgerClient) {
         if (!itemLedgerErr) {
-          itemLedgerClient[`${itemLedgerServiceName}_Service`][`${itemLedgerServiceName}_Port`].ReadMultiple(args, function(error, result, envelope, soapHeader) {
+          itemLedgerClient.ReadMultiple(args, function(error, result, envelope, soapHeader) {
 
             let docs = [];
             let data = result;
@@ -311,7 +311,7 @@ let GetProductQuantityFromQuery = function (ncUtil, channelProfile, flowContext,
                           Code: code
                         }
 
-                        variantInventoryClient[`${inventoryServiceName}_Service`][`${inventoryServiceName}_Port`].Read(args, function(error, body, envelope, soapHeader) {
+                        variantInventoryClient.Read(args, function(error, body, envelope, soapHeader) {
                           if (!body[inventoryServiceName]) {
                             log("Variant Not Found");
                             reject("Variant Not Found");
@@ -351,7 +351,7 @@ let GetProductQuantityFromQuery = function (ncUtil, channelProfile, flowContext,
                           No: itemNo
                         }
 
-                        itemClient[`${itemServiceName}_Service`][`${itemServiceName}_Port`].Read(args, function(error, body, envelope, soapHeader) {
+                        itemClient.Read(args, function(error, body, envelope, soapHeader) {
                           if (!body[itemServiceName]) {
                             log("Item Not Found");
                             reject("Item Not Found");
