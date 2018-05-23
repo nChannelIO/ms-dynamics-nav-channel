@@ -30,14 +30,68 @@
             "criteria": {
               "type": "string",
               "title": "Filter Criteria"
+            },
+            "doGetMatrixProducts": {
+              "type": "boolean",
+              "title": "GET Product, doGetMatrixProducts"
+            },
+            "doGetVirtualMatrixProducts": {
+              "type": "boolean",
+              "title": "GET Product, doGetVirtualMatrixProducts"
+            },
+            "doGetSimpleProducts": {
+              "type": "boolean",
+              "title": "GET Product, doGetSimpleProducts"
+            },
+            "canGetMatrixProducts": {
+              "type": "boolean",
+              "title": "GET Product, canGetMatrixProducts"
+            },
+            "canGetVirtualMatrixProducts": {
+              "type": "boolean",
+              "title": "GET Product, canGetVirtualMatrixProducts"
+            },
+            "canGetSimpleProducts": {
+              "type": "boolean",
+              "title": "GET Product, canGetSimpleProducts"
+            },
+            "lastmodifieddate": {
+              "type": "date",
+              "title": "Last Updated Date"
+            },
+            "internalid": {
+              "type": "number",
+              "title": "Internal ID"
+            },
+            "webEnabledFlag": {
+              "type": "boolean",
+              "title": "Available on Web"
             }
           }
         },
         "configView": [
           "field",
-          "criteria"
+          "criteria",
+          "doGetMatrixProducts",
+          "doGetVirtualMatrixProducts",
+          "doGetSimpleProducts",
+          "canGetMatrixProducts",
+          "canGetVirtualMatrixProducts",
+          "canGetSimpleProducts",
+          "lastmodifieddate",
+          "internalid",
+          "webEnabledFlag"
         ],
         "configValues": {
+          "doGetMatrixProducts": true,
+          "doGetVirtualMatrixProducts": false,
+          "doGetSimpleProducts": false,
+          "canGetMatrixProducts": true,
+          "canGetVirtualMatrixProducts": false,
+          "canGetSimpleProducts": false,
+          "lastmodifieddate": "",
+          "internalid": "",
+          "webEnabledFlag": true,
           "field": "",
           "criteria": ""
         }
@@ -67,16 +121,34 @@
             "criteria": {
               "type": "string",
               "title": "Filter Criteria"
+            },
+            "lastmodifieddate": {
+              "type": "date",
+              "title": "Last Updated Date"
+            },
+            "internalid": {
+              "type": "number",
+              "title": "Internal ID"
+            },
+            "webEnabledFlag": {
+              "type": "boolean",
+              "title": "Available on Web"
             }
           }
         },
         "configView": [
           "field",
-          "criteria"
+          "criteria",
+          "lastmodifieddate",
+          "internalid",
+          "webEnabledFlag"
         ],
         "configValues": {
           "field": "",
-          "criteria": ""
+          "criteria": "",
+          "lastmodifieddate": "",
+          "internalid": "",
+          "webEnabledFlag": true
         }
       },
       "documentDef": {
@@ -91,19 +163,70 @@
       "name" : "PUT SALESORDER",
       "configDef" : {
         "configValues" : {
-          "canUpdateOrderFlag" : false
+          "canUpdateOrderFlag" : false,
+          "canUpdateCustomerFlag" : true,
+          "canUpdateCustomerAddressFlag" : false,
+          "canUpdateCustomerContactFlag" : false,
+          "doPutCustomerFlag" : true,
+          "doExtractShippingAddressFromSalesOrderFlag": false,
+          "doExtractBillingAddressFromSalesOrderFlag": false,
+          "doPutCustomerAddressesFlag" : false,
+          "doPutCustomerContactsFlag" : false
         },
         "configView" : [
-          "canUpdateOrderFlag"
+          "canUpdateOrderFlag",
+          "canUpdateCustomerFlag",
+          "canUpdateCustomerAddressFlag",
+          "canUpdateCustomerContactFlag"
         ],
         "configModel" : {
           "required" : [
-            "canUpdateOrderFlag"
+            "canUpdateOrderFlag",
+            "canUpdateCustomerFlag",
+            "canUpdateCustomerAddressFlag",
+            "canUpdateCustomerContactFlag",
+            "doPutCustomerFlag",
+            "doExtractShippingAddressFromSalesOrderFlag",
+            "doExtractBillingAddressFromSalesOrderFlag",
+            "doPutCustomerAddressesFlag",
+            "doPutCustomerContactsFlag"
           ],
           "properties" : {
-            "canUpdateOrderFlag" : {
+            "canUpdateOrderFlag": {
               "type" : "boolean",
               "title" : "PUT Order, canUpdateOrderFlag"
+            },
+            "canUpdateCustomerFlag": {
+              "type" : "boolean",
+              "title" : "PUT Order, canUpdateCustomerFlag"
+            },
+            "canUpdateCustomerAddressFlag": {
+              "type" : "boolean",
+              "title" : "PUT Order, canUpdateCustomerAddressFlag"
+            },
+            "canUpdateCustomerContactFlag": {
+              "type" : "boolean",
+              "title" : "PUT Order, canUpdateCustomerContactFlag"
+            },
+            "doPutCustomerFlag": {
+              "type" : "boolean",
+              "title" : "PUT Order, doPutCustomerFlag"
+            },
+            "doExtractShippingAddressFromSalesOrderFlag": {
+              "type" : "boolean",
+              "title" : "PUT Order, doExtractShippingAddressFromSalesOrderFlag"
+            },
+            "doExtractBillingAddressFromSalesOrderFlag": {
+              "type" : "boolean",
+              "title" : "PUT Order, doExtractBillingAddressFromSalesOrderFlag"
+            },
+            "doPutCustomerAddressesFlag": {
+              "type" : "boolean",
+              "title" : "PUT Order, doPutCustomerAddressesFlag"
+            },
+            "doPutCustomerContactsFlag": {
+              "type" : "boolean",
+              "title" : "PUT Order, doPutCustomerContactsFlag"
             }
           },
           "type" : "object"
@@ -130,10 +253,36 @@
         "ruleSchema": {},
         "defaultRuleValues": {}
       },
-      "configDef": {
-        "configModel": {},
-        "configView": [],
-        "configValues": {}
+      "configDef" : {
+        "configValues" : {
+          "orderType" : "Posted",
+          "lastmodifieddate": "",
+          "internalid": ""
+        },
+        "configView" : [
+          "orderType",
+          "lastmodifieddate",
+          "internalid"
+        ],
+        "configModel" : {
+          "required" : [
+            "orderType"
+          ],
+          "properties" : {
+            "orderType" : {
+              "type" : "string",
+              "title" : "Order Type"
+            },
+            "lastmodifieddate": {
+              "type": "date",
+              "title": "Last Updated Date"
+            },
+            "internalid": {
+              "type": "number",
+              "title": "Internal ID"
+            }
+          }
+        }
       },
       "documentDef": {
         "schema": {},
@@ -159,17 +308,41 @@
             "canUpdateCustomerFlag" : {
               "title" : "PUT Customer, canUpdateCustomerFlag",
               "type" : "boolean"
+            },
+            "canUpdateCustomerAddressFlag" : {
+              "title" : "PUT Customer, canUpdateCustomerAddressFlag",
+              "type" : "boolean"
+            },
+            "canUpdateCustomerContactFlag" : {
+              "title" : "PUT Customer, canUpdateCustomerContactFlag",
+              "type" : "boolean"
+            },
+            "doPutCustomerAddressesFlag" : {
+              "title" : "PUT Customer, doPutCustomerAddressesFlag",
+              "type" : "boolean"
+            },
+            "doPutCustomerContactsFlag" : {
+              "title" : "PUT Customer, doPutCustomerContactsFlag",
+              "type" : "boolean"
             }
           },
           "required" : [
-            "canUpdateCustomerFlag"
+            "canUpdateCustomerFlag",
+            "canUpdateCustomerAddressFlag",
+            "canUpdateCustomerContactFlag",
+            "doPutCustomerAddressesFlag",
+            "doPutCustomerContactsFlag"
           ]
         },
         "configView" : [
           "canUpdateCustomerFlag"
         ],
         "configValues" : {
-          "canUpdateCustomerFlag": true
+          "canUpdateCustomerFlag": true,
+          "canUpdateCustomerAddressFlag": false,
+          "canUpdateCustomerContactFlag": false,
+          "doPutCustomerAddressesFlag": false,
+          "doPutCustomerContactsFlag": false
         }
       },
       "documentDef": {

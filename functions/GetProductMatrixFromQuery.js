@@ -139,6 +139,13 @@ let GetProductMatrixFromQuery = function (ncUtil, channelProfile, flowContext, p
       args.filter.push(obj);
     }
 
+    if (flowContext && flowContext.field && flowContext.criteria) {
+      let obj = {};
+      obj["Field"] = flowContext.field;
+      obj["Criteria"] = flowContext.criteria; // The pipe '|' symbol is a NAV filter for 'OR'
+      args.filter.push(obj);
+    }
+
     // Paging Context
     if (payload.doc.pagingContext) {
       args.bookmarkKey = payload.doc.pagingContext.key;

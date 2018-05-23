@@ -16,7 +16,16 @@
       "orderUrl": "https://nav2013-demo.nchannel.local:7047/DynamicsNAV71/WS/CRONUS%20USA,%20Inc./Page/Order",
       "salesShipmentUrl": "https://nav2013-demo.nchannel.local:7047/DynamicsNAV71/WS/CRONUS%20USA,%20Inc./Page/Sales_Shipment",
       "itemUrl": "https://nav2013-demo.nchannel.local:7047/DynamicsNAV71/WS/CRONUS%20USA,%20Inc./Page/Item",
-      "itemVariantsUrl": "https://nav2013-demo.nchannel.local:7047/DynamicsNAV71/WS/CRONUS%20USA,%20Inc./Page/Item_Variants"
+      "itemVariantsUrl": "https://nav2013-demo.nchannel.local:7047/DynamicsNAV71/WS/CRONUS%20USA,%20Inc./Page/Item_Variants",
+      "itemLedgerUrl": "https://nav2013-demo.nchannel.local:7047/DynamicsNAV71/WS/CRONUS%20USA,%20Inc./Page/Item_Ledger",
+      "inventoryUrl": "https://nav2013-demo.nchannel.local:7047/DynamicsNAV71/WS/CRONUS%20USA,%20Inc./Page/Variant_Inventory",
+      "customerServiceName": "Customer",
+      "salesShipmentServiceName": "Sales_Shipment",
+      "itemServiceName": "Item",
+      "itemVariantsServiceName": "Item_Variants",
+      "inventoryServiceName": "Variant_Inventory",
+      "itemLedgerServiceName": "Item_Ledger",
+      "orderServiceName": "Order"
     }
   },
   "docs": [
@@ -34,8 +43,6 @@
             }
           },
           "wsdlUri": "https://nav2013-demo.nchannel.local:7047/DynamicsNAV71/WS/CRONUS%20USA,%20Inc./Page/Customer",
-          "service": "Customer_Service",
-          "servicePort": "Customer_Port",
           "links": [
             {
               "function": "ReadMultiple",
@@ -110,8 +117,6 @@
             }
           },
           "wsdlUri": "https://nav2013-demo.nchannel.local:7047/DynamicsNAV71/WS/CRONUS%20USA,%20Inc./Page/Customer",
-          "service": "Customer_Service",
-          "servicePort": "Customer_Port",
           "links": [
             {
               "function": "ReadMultiple",
@@ -135,8 +140,6 @@
             }
           },
           "wsdlUri": "https://nav2013-demo.nchannel.local:7047/DynamicsNAV71/WS/CRONUS%20USA,%20Inc./Page/Customer",
-          "service": "Customer_Service",
-          "servicePort": "Customer_Port",
           "links": [
             {
               "function": "ReadMultiple",
@@ -258,8 +261,6 @@
             "doc": {}
           },
           "wsdlUri": "https://nav2013-demo.nchannel.local:7047/DynamicsNAV71/WS/CRONUS%20USA,%20Inc./Page/Customer",
-          "service": "Customer_Service",
-          "servicePort": "Customer_Port",
           "links": [
             {
               "function": "ReadMultiple",
@@ -283,8 +284,6 @@
             }
           },
           "wsdlUri": "https://nav2013-demo.nchannel.local:7047/DynamicsNAV71/WS/CRONUS%20USA,%20Inc./Page/Customer",
-          "service": "Customer_Service",
-          "servicePort": "Customer_Port",
           "links": [
             {
               "function": "ReadMultiple",
@@ -303,8 +302,6 @@
             "doc": {}
           },
           "wsdlUri": "https://nav2013-demo.nchannel.local:7047/DynamicsNAV71/WS/CRONUS%20USA,%20Inc./Page/Customer",
-          "service": "Customer_Service",
-          "servicePort": "Customer_Port",
           "links": [
             {
               "function": "ReadMultiple",
@@ -342,8 +339,6 @@
             }
           },
           "wsdlUri": "https://nav2013-demo.nchannel.local:7047/DynamicsNAV71/WS/CRONUS%20USA,%20Inc./Page/Customer",
-          "service": "Customer_Service",
-          "servicePort": "Customer_Port",
           "links": [
             {
               "function": "Create",
@@ -401,8 +396,6 @@
             "doc": {}
           },
           "wsdlUri": "https://nav2013-demo.nchannel.local:7047/DynamicsNAV71/WS/CRONUS%20USA,%20Inc./Page/Customer",
-          "service": "Customer_Service",
-          "servicePort": "Customer_Port",
           "links": [
             {
               "function": "Create",
@@ -433,8 +426,6 @@
             }
           },
           "wsdlUri": "https://nav2013-demo.nchannel.local:7047/DynamicsNAV71/WS/CRONUS%20USA,%20Inc./Page/Customer",
-          "service": "Customer_Service",
-          "servicePort": "Customer_Port",
           "links": [
             {
               "function": "Create",
@@ -465,8 +456,6 @@
             }
           },
           "wsdlUri": "https://nav2013-demo.nchannel.local:7047/DynamicsNAV71/WS/CRONUS%20USA,%20Inc./Page/Customer",
-          "service": "Customer_Service",
-          "servicePort": "Customer_Port",
           "links": [
             {
               "function": "Create",
@@ -503,8 +492,6 @@
             }
           },
           "wsdlUri": "https://nav2013-demo.nchannel.local:7047/DynamicsNAV71/WS/CRONUS%20USA,%20Inc./Page/Customer",
-          "service": "Customer_Service",
-          "servicePort": "Customer_Port",
           "links": [
             {
               "function": "Read",
@@ -619,8 +606,6 @@
             }
           },
           "wsdlUri": "https://nav2013-demo.nchannel.local:7047/DynamicsNAV71/WS/CRONUS%20USA,%20Inc./Page/Customer",
-          "service": "Customer_Service",
-          "servicePort": "Customer_Port",
           "links": [
             {
               "function": "Read",
@@ -696,8 +681,6 @@
             }
           },
           "wsdlUri": "https://nav2013-demo.nchannel.local:7047/DynamicsNAV71/WS/CRONUS%20USA,%20Inc./Page/Customer",
-          "service": "Customer_Service",
-          "servicePort": "Customer_Port",
           "links": [
             {
               "function": "Read",
@@ -773,8 +756,6 @@
             }
           },
           "wsdlUri": "https://nav2013-demo.nchannel.local:7047/DynamicsNAV71/WS/CRONUS%20USA,%20Inc./Page/Customer",
-          "service": "Customer_Service",
-          "servicePort": "Customer_Port",
           "links": [
             {
               "function": "Read",
@@ -1021,8 +1002,6 @@
             }
           },
           "wsdlUri": "https://nav2013-demo.nchannel.local:7047/DynamicsNAV71/WS/CRONUS%20USA,%20Inc./Page/Order",
-          "service": "Order_Service",
-          "servicePort": "Order_Port",
           "links": [
             {
               "function": "Create",
@@ -1288,8 +1267,6 @@
             "doc": {}
           },
           "wsdlUri": "https://nav2013-demo.nchannel.local:7047/DynamicsNAV71/WS/CRONUS%20USA,%20Inc./Page/Order",
-          "service": "Order_Service",
-          "servicePort": "Order_Port",
           "links": [
             {
               "function": "Create",
@@ -1320,8 +1297,6 @@
             }
           },
           "wsdlUri": "https://nav2013-demo.nchannel.local:7047/DynamicsNAV71/WS/CRONUS%20USA,%20Inc./Page/Order",
-          "service": "Order_Service",
-          "servicePort": "Order_Port",
           "links": [
             {
               "function": "Create",
@@ -1352,8 +1327,6 @@
             }
           },
           "wsdlUri": "https://nav2013-demo.nchannel.local:7047/DynamicsNAV71/WS/CRONUS%20USA,%20Inc./Page/Order",
-          "service": "Order_Service",
-          "servicePort": "Order_Port",
           "links": [
             {
               "function": "Create",
@@ -1459,8 +1432,6 @@
             }
           },
           "wsdlUri": "https://nav2013-demo.nchannel.local:7047/DynamicsNAV71/WS/CRONUS%20USA,%20Inc./Page/Sales_Shipment",
-          "service": "Sales_Shipment_Service",
-          "servicePort": "Sales_Shipment_Port",
           "links": [
             {
               "function": "ReadMultiple",
@@ -1565,8 +1536,6 @@
             }
           },
           "wsdlUri": "https://nav2013-demo.nchannel.local:7047/DynamicsNAV71/WS/CRONUS%20USA,%20Inc./Page/Sales_Shipment",
-          "service": "Sales_Shipment_Service",
-          "servicePort": "Sales_Shipment_Port",
           "links": [
             {
               "function": "ReadMultiple",
@@ -1592,8 +1561,6 @@
             }
           },
           "wsdlUri": "https://nav2013-demo.nchannel.local:7047/DynamicsNAV71/WS/CRONUS%20USA,%20Inc./Page/Sales_Shipment",
-          "service": "Sales_Shipment_Service",
-          "servicePort": "Sales_Shipment_Port",
           "links": [
             {
               "function": "ReadMultiple",
@@ -1774,8 +1741,6 @@
             "doc": {}
           },
           "wsdlUri": "https://nav2013-demo.nchannel.local:7047/DynamicsNAV71/WS/CRONUS%20USA,%20Inc./Page/Sales_Shipment",
-          "service": "Sales_Shipment_Service",
-          "servicePort": "Sales_Shipment_Port",
           "links": [
             {
               "function": "ReadMultiple",
@@ -1800,8 +1765,6 @@
             }
           },
           "wsdlUri": "https://nav2013-demo.nchannel.local:7047/DynamicsNAV71/WS/CRONUS%20USA,%20Inc./Page/Sales_Shipment",
-          "service": "Sales_Shipment_Service",
-          "servicePort": "Sales_Shipment_Port",
           "links": [
             {
               "function": "ReadMultiple",
@@ -1826,8 +1789,6 @@
             }
           },
           "wsdlUri": "https://nav2013-demo.nchannel.local:7047/DynamicsNAV71/WS/CRONUS%20USA,%20Inc./Page/Sales_Shipment",
-          "service": "Sales_Shipment_Service",
-          "servicePort": "Sales_Shipment_Port",
           "links": [
             {
               "function": "ReadMultiple",
@@ -1859,8 +1820,6 @@
           "links": [
             {
               "wsdlUri": "https://nav2013-demo.nchannel.local:7047/DynamicsNAV71/WS/CRONUS%20USA,%20Inc./Page/Item",
-              "service": "Item_Service",
-              "servicePort": "Item_Port",
               "function": "ReadMultiple",
               "responsePayload": {
                "ReadMultiple_Result":{
@@ -1941,8 +1900,6 @@
             },
             {
               "wsdlUri": "https://nav2013-demo.nchannel.local:7047/DynamicsNAV71/WS/CRONUS%20USA,%20Inc./Page/Item_Variants",
-              "service": "Item_Variants_Service",
-              "servicePort": "Item_Variants_Port",
               "function": "ReadMultiple",
               "responsePayload": {
                  "ReadMultiple_Result":{
@@ -2023,8 +1980,6 @@
           "links": [
             {
               "wsdlUri": "https://nav2013-demo.nchannel.local:7047/DynamicsNAV71/WS/CRONUS%20USA,%20Inc./Page/Item",
-              "service": "Item_Service",
-              "servicePort": "Item_Port",
               "function": "ReadMultiple",
               "responsePayload": {
                  "ReadMultiple_Result": null
@@ -2049,8 +2004,6 @@
           "links": [
             {
               "wsdlUri": "https://nav2013-demo.nchannel.local:7047/DynamicsNAV71/WS/CRONUS%20USA,%20Inc./Page/Item",
-              "service": "Item_Service",
-              "servicePort": "Item_Port",
               "function": "ReadMultiple",
               "responsePayload": {
                "ReadMultiple_Result":{
@@ -2131,8 +2084,6 @@
             },
             {
               "wsdlUri": "https://nav2013-demo.nchannel.local:7047/DynamicsNAV71/WS/CRONUS%20USA,%20Inc./Page/Item_Variants",
-              "service": "Item_Variants_Service",
-              "servicePort": "Item_Variants_Port",
               "function": "ReadMultiple",
               "responsePayload": {
                  "ReadMultiple_Result":{
@@ -2223,8 +2174,6 @@
           "links": [
             {
               "wsdlUri": "https://nav2013-demo.nchannel.local:7047/DynamicsNAV71/WS/CRONUS%20USA,%20Inc./Page/Item",
-              "service": "Item_Service",
-              "servicePort": "Item_Port",
               "function": "ReadMultiple",
               "responsePayload": {
                  "ReadMultiple_Result": {
@@ -2234,8 +2183,6 @@
             },
             {
               "wsdlUri": "https://nav2013-demo.nchannel.local:7047/DynamicsNAV71/WS/CRONUS%20USA,%20Inc./Page/Item_Variants",
-              "service": "Item_Variants_Service",
-              "servicePort": "Item_Variants_Port",
               "function": "ReadMultiple",
               "responsePayload": {
                  "ReadMultiple_Result": {
@@ -2261,8 +2208,6 @@
           "links": [
             {
               "wsdlUri": "https://nav2013-demo.nchannel.local:7047/DynamicsNAV71/WS/CRONUS%20USA,%20Inc./Page/Item",
-              "service": "Item_Service",
-              "servicePort": "Item_Port",
               "function": "ReadMultiple",
               "responsePayload": {
                  "ReadMultiple_Result": {}
@@ -2270,8 +2215,6 @@
             },
             {
               "wsdlUri": "https://nav2013-demo.nchannel.local:7047/DynamicsNAV71/WS/CRONUS%20USA,%20Inc./Page/Item_Variants",
-              "service": "Item_Variants_Service",
-              "servicePort": "Item_Variants_Port",
               "function": "ReadMultiple",
               "responsePayload": {
                  "ReadMultiple_Result": {}
@@ -2300,8 +2243,6 @@
           "links": [
             {
               "wsdlUri": "https://nav2013-demo.nchannel.local:7047/DynamicsNAV71/WS/CRONUS%20USA,%20Inc./Page/Item_Ledger",
-              "service": "Item_Ledger_Service",
-              "servicePort": "Item_Ledger_Port",
               "function": "ReadMultiple",
               "responsePayload": {
                 "ReadMultiple_Result":{
@@ -2345,8 +2286,6 @@
             },
             {
               "wsdlUri": "https://nav2013-demo.nchannel.local:7047/DynamicsNAV71/WS/CRONUS%20USA,%20Inc./Page/Item",
-              "service": "Item_Service",
-              "servicePort": "Item_Port",
               "function": "Read",
               "responsePayload": {
                  "Item": {
@@ -2426,8 +2365,6 @@
             },
             {
               "wsdlUri": "https://nav2013-demo.nchannel.local:7047/DynamicsNAV71/WS/CRONUS%20USA,%20Inc./Page/Variant_Inventory",
-              "service": "Variant_Inventory_Service",
-              "servicePort": "Variant_Inventory_Port",
               "function": "Read",
               "responsePayload": {
                  "Variant_Inventory": {
@@ -2475,8 +2412,6 @@
           "links": [
             {
               "wsdlUri": "https://nav2013-demo.nchannel.local:7047/DynamicsNAV71/WS/CRONUS%20USA,%20Inc./Page/Item_Ledger",
-              "service": "Item_Ledger_Service",
-              "servicePort": "Item_Ledger_Port",
               "function": "ReadMultiple",
               "responsePayload": {
                 "ReadMultiple_Result": null
@@ -2501,8 +2436,6 @@
           "links": [
             {
               "wsdlUri": "https://nav2013-demo.nchannel.local:7047/DynamicsNAV71/WS/CRONUS%20USA,%20Inc./Page/Item_Ledger",
-              "service": "Item_Ledger_Service",
-              "servicePort": "Item_Ledger_Port",
               "function": "ReadMultiple",
               "responsePayload": {
                 "ReadMultiple_Result":{
@@ -2546,8 +2479,6 @@
             },
             {
               "wsdlUri": "https://nav2013-demo.nchannel.local:7047/DynamicsNAV71/WS/CRONUS%20USA,%20Inc./Page/Item",
-              "service": "Item_Service",
-              "servicePort": "Item_Port",
               "function": "Read",
               "responsePayload": {
                  "Item": {
@@ -2627,8 +2558,6 @@
             },
             {
               "wsdlUri": "https://nav2013-demo.nchannel.local:7047/DynamicsNAV71/WS/CRONUS%20USA,%20Inc./Page/Variant_Inventory",
-              "service": "Variant_Inventory_Service",
-              "servicePort": "Variant_Inventory_Port",
               "function": "Read",
               "responsePayload": {
                  "Variant_Inventory": {
@@ -2686,8 +2615,6 @@
           "links": [
             {
               "wsdlUri": "https://nav2013-demo.nchannel.local:7047/DynamicsNAV71/WS/CRONUS%20USA,%20Inc./Page/Item_Ledger",
-              "service": "Item_Ledger_Service",
-              "servicePort": "Item_Ledger_Port",
               "function": "ReadMultiple",
               "responsePayload": {
                 "ReadMultiple_Result":{}
@@ -2695,15 +2622,11 @@
             },
             {
               "wsdlUri": "https://nav2013-demo.nchannel.local:7047/DynamicsNAV71/WS/CRONUS%20USA,%20Inc./Page/Item",
-              "service": "Item_Service",
-              "servicePort": "Item_Port",
               "function": "Read",
               "responsePayload": {}
             },
             {
               "wsdlUri": "https://nav2013-demo.nchannel.local:7047/DynamicsNAV71/WS/CRONUS%20USA,%20Inc./Page/Variant_Inventory",
-              "service": "Variant_Inventory_Service",
-              "servicePort": "Variant_Inventory_Port",
               "function": "Read",
               "responsePayload": {}
             }
@@ -2725,8 +2648,6 @@
           "links": [
             {
               "wsdlUri": "https://nav2013-demo.nchannel.local:7047/DynamicsNAV71/WS/CRONUS%20USA,%20Inc./Page/Item_Ledger",
-              "service": "Item_Ledger_Service",
-              "servicePort": "Item_Ledger_Port",
               "function": "ReadMultiple",
               "responsePayload": {
                 "ReadMultiple_Result":{}
@@ -2734,15 +2655,11 @@
             },
             {
               "wsdlUri": "https://nav2013-demo.nchannel.local:7047/DynamicsNAV71/WS/CRONUS%20USA,%20Inc./Page/Item",
-              "service": "Item_Service",
-              "servicePort": "Item_Port",
               "function": "Read",
               "responsePayload": {}
             },
             {
               "wsdlUri": "https://nav2013-demo.nchannel.local:7047/DynamicsNAV71/WS/CRONUS%20USA,%20Inc./Page/Variant_Inventory",
-              "service": "Variant_Inventory_Service",
-              "servicePort": "Variant_Inventory_Port",
               "function": "Read",
               "responsePayload": {}
             }
