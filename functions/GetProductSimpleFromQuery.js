@@ -162,4 +162,4 @@ function log(msg, ncUtil) {
   console.log("[info] " + msg);
 }
 
-module.exports.GetProductSimpleFromQuery = GetProductFromQuery;
+module.exports.GetProductSimpleFromQuery = GetProductSimpleFromQuery;

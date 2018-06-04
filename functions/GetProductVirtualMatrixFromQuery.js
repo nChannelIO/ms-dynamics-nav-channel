@@ -162,4 +162,4 @@ function log(msg, ncUtil) {
   console.log("[info] " + msg);
 }
 
-module.exports.GetProductVirtualMatrixFromQuery = GetProductFromQuery;
+module.exports.GetProductVirtualMatrixFromQuery = GetProductVirtualMatrixFromQuery;
