@@ -383,8 +383,7 @@
           },
           "password": {
             "title": "Password",
-            "type": "string",
-            "format": "password"
+            "type": "string"
           },
           "domain": {
             "title": "Domain",
@@ -471,6 +470,7 @@
 				},
         {
           "key": "password",
+          "type": "password",
           "title": "Password"
         },
         {
