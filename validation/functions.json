@@ -38,6 +38,15 @@
   "GetFulfillmentFromQuery": {
     "statusCodes": [200, 204, 206, 400, 429, 500]
   },
+  "GetProductMatrixFromQuery": {
+    "statusCodes": [200, 204, 206, 400, 429, 500]
+  },
+  "GetProductSimpleFromQuery": {
+    "statusCodes": [200, 204, 206, 400, 429, 500]
+  },
+  "GetProductVirtualMatrixFromQuery": {
+    "statusCodes": [200, 204, 206, 400, 429, 500]
+  },
   "GetSalesOrderFromQuery": {
     "statusCodes": [200, 204, 206, 400, 429, 500]
   },
