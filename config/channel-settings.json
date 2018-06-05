@@ -75,9 +75,6 @@
           "doGetMatrixProducts",
           "doGetVirtualMatrixProducts",
           "doGetSimpleProducts",
-          "canGetMatrixProducts",
-          "canGetVirtualMatrixProducts",
-          "canGetSimpleProducts",
           "lastmodifieddate",
           "internalid",
           "webEnabledFlag"
@@ -174,10 +171,7 @@
           "doPutCustomerContactsFlag" : false
         },
         "configView" : [
-          "canUpdateOrderFlag",
-          "canUpdateCustomerFlag",
-          "canUpdateCustomerAddressFlag",
-          "canUpdateCustomerContactFlag"
+          "doPutCustomerFlag"
         ],
         "configModel" : {
           "required" : [
@@ -334,9 +328,7 @@
             "doPutCustomerContactsFlag"
           ]
         },
-        "configView" : [
-          "canUpdateCustomerFlag"
-        ],
+        "configView" : [],
         "configValues" : {
           "canUpdateCustomerFlag": true,
           "canUpdateCustomerAddressFlag": false,
@@ -391,7 +383,8 @@
           },
           "password": {
             "title": "Password",
-            "type": "string"
+            "type": "string",
+            "format": "password"
           },
           "domain": {
             "title": "Domain",
