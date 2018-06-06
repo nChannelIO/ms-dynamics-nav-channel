@@ -54,30 +54,13 @@
             "canGetSimpleProducts": {
               "type": "boolean",
               "title": "GET Product, canGetSimpleProducts"
-            },
-            "lastmodifieddate": {
-              "type": "date",
-              "title": "Last Updated Date"
-            },
-            "internalid": {
-              "type": "number",
-              "title": "Internal ID"
-            },
-            "webEnabledFlag": {
-              "type": "boolean",
-              "title": "Available on Web"
             }
           }
         },
         "configView": [
           "field",
           "criteria",
-          "doGetMatrixProducts",
-          "doGetVirtualMatrixProducts",
-          "doGetSimpleProducts",
-          "lastmodifieddate",
-          "internalid",
-          "webEnabledFlag"
+          "doGetMatrixProducts"
         ],
         "configValues": {
           "doGetMatrixProducts": true,
@@ -86,9 +69,6 @@
           "canGetMatrixProducts": true,
           "canGetVirtualMatrixProducts": false,
           "canGetSimpleProducts": false,
-          "lastmodifieddate": "",
-          "internalid": "",
-          "webEnabledFlag": true,
           "field": "",
           "criteria": ""
         }
@@ -118,34 +98,16 @@
             "criteria": {
               "type": "string",
               "title": "Filter Criteria"
-            },
-            "lastmodifieddate": {
-              "type": "date",
-              "title": "Last Updated Date"
-            },
-            "internalid": {
-              "type": "number",
-              "title": "Internal ID"
-            },
-            "webEnabledFlag": {
-              "type": "boolean",
-              "title": "Available on Web"
             }
           }
         },
         "configView": [
           "field",
-          "criteria",
-          "lastmodifieddate",
-          "internalid",
-          "webEnabledFlag"
+          "criteria"
         ],
         "configValues": {
           "field": "",
-          "criteria": "",
-          "lastmodifieddate": "",
-          "internalid": "",
-          "webEnabledFlag": true
+          "criteria": ""
         }
       },
       "documentDef": {
@@ -248,35 +210,9 @@
         "defaultRuleValues": {}
       },
       "configDef" : {
-        "configValues" : {
-          "orderType" : "Posted",
-          "lastmodifieddate": "",
-          "internalid": ""
-        },
-        "configView" : [
-          "orderType",
-          "lastmodifieddate",
-          "internalid"
-        ],
-        "configModel" : {
-          "required" : [
-            "orderType"
-          ],
-          "properties" : {
-            "orderType" : {
-              "type" : "string",
-              "title" : "Order Type"
-            },
-            "lastmodifieddate": {
-              "type": "date",
-              "title": "Last Updated Date"
-            },
-            "internalid": {
-              "type": "number",
-              "title": "Internal ID"
-            }
-          }
-        }
+        "configValues" : {},
+        "configView" : [],
+        "configModel" : {}
       },
       "documentDef": {
         "schema": {},
