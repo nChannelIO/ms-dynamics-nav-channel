@@ -1,0 +1,16 @@
+steps:
+#
+# Build and run unit tests
+#
+- name: 'docker/compose:1.18.0'
+  args: ['-f', 'Docker-compose-test.yml', 'run', 'sut' ]
+#
+# npm auth
+#
+- name: 'gcr.io/cloud-builders/npm'
+  args: ['config','set', '//registry.npmjs.org/:_authToken', '${_NPM_TOKEN}']
+#
+# publish components
+#
+- name: 'gcr.io/cloud-builders/npm'
+  args: ['publish','--tag', 'notcertified', '--access', 'public']
