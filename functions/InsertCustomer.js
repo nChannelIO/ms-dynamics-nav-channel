@@ -1,8 +1,6 @@
-let InsertCustomer = function (ncUtil,
-                                 channelProfile,
-                                 flowContext,
-                                 payload,
-                                 callback) {
+'use strict'
+
+let InsertCustomer = function (ncUtil, channelProfile, flowContext, payload, callback) {
 
   log("Building response object...", ncUtil);
   let out = {
@@ -14,13 +12,12 @@ let InsertCustomer = function (ncUtil,
   let invalid = false;
   let invalidMsg = "";
 
-  //If ncUtil does not contain a request object, the request can't be sent
   if (!ncUtil) {
     invalid = true;
     invalidMsg = "ncUtil was not provided"
   }
 
-  //If channelProfile does not contain channelSettingsValues, channelAuthValues or customerBusinessReferences, the request can't be sent
+  // Sanity Checking
   if (!channelProfile) {
     invalid = true;
     invalidMsg = "channelProfile was not provided"
@@ -33,6 +30,15 @@ let InsertCustomer = function (ncUtil,
   } else if (!channelProfile.channelAuthValues) {
     invalid = true;
     invalidMsg = "channelProfile.channelAuthValues was not provided"
+  } else if (!channelProfile.channelAuthValues.username) {
+    invalid = true;
+    invalidMsg = "channelProfile.channelAuthValues.username was not provided"
+  } else if (!channelProfile.channelAuthValues.password) {
+    invalid = true;
+    invalidMsg = "channelProfile.channelAuthValues.password was not provided"
+  } else if (!channelProfile.channelAuthValues.customerUrl) {
+    invalid = true;
+    invalidMsg = "channelProfile.channelAuthValues.customerUrl was not provided"
   } else if (!channelProfile.customerBusinessReferences) {
     invalid = true;
     invalidMsg = "channelProfile.customerBusinessReferences was not provided"
@@ -44,7 +50,7 @@ let InsertCustomer = function (ncUtil,
     invalidMsg = "channelProfile.customerBusinessReferences is empty"
   }
 
-  //If a sales order document was not passed in, the request is invalid
+  // Payload Checking
   if (!payload) {
     invalid = true;
     invalidMsg = "payload was not provided"
@@ -53,7 +59,7 @@ let InsertCustomer = function (ncUtil,
     invalidMsg = "payload.doc was not provided";
   }
 
-  //If callback is not a function
+  // Callback Checking
   if (!callback) {
     throw new Error("A callback function was not provided");
   } else if (typeof callback !== 'function') {
@@ -61,58 +67,83 @@ let InsertCustomer = function (ncUtil,
   }
 
   if (!invalid) {
-    // Using request for example - A different npm module may be needed depending on the API communication is being made to
-    // The `soap` module can be used in place of `request` but the logic and data being sent will be different
-    let request = require('request');
 
-    let url = "https://localhost/";
+    // Require SOAP
+    const soap = require('strong-soap/src/soap');
+    const NTLMSecurity = require('strong-soap').NTLMSecurity;
+    const nc = require('../util/common');
 
-    // Add any headers for the request
-    let headers = {
+    // Setup Request Arguments
+    let args = payload.doc;
 
-    };
+    // https://<baseUrl>:<port>/<serverInstance>/WS/<companyName>/Page/Customer
+    let username = channelProfile.channelAuthValues.username;
+    let password = channelProfile.channelAuthValues.password;
+    let domain = channelProfile.channelAuthValues.domain;
+    let workstation = channelProfile.channelAuthValues.workstation;
+    let url = channelProfile.channelAuthValues.customerUrl;
+    let customerServiceName = channelProfile.channelAuthValues.customerServiceName;
+
+    let wsdlAuthRequired = true;
+    let ntlmSecurity = new NTLMSecurity(username, password, domain, workstation, wsdlAuthRequired);
 
     // Log URL
     log("Using URL [" + url + "]", ncUtil);
 
-    // Set options
     let options = {
-      url: url,
-      method: "POST",
-      headers: headers,
-      body: payload.doc,
-      json: true
+      NTLMSecurity: ntlmSecurity
     };
 
     try {
-      // Pass in our URL and headers
-      request(options, function (error, response, body) {
-        if (!error) {
-          // If no errors, process results here
-          if (response.statusCode === 201) {
-            out.ncStatusCode = 201;
-          } else if (response.statusCode == 429) {
-            out.ncStatusCode = 429;
-            out.payload.error = body;
-          } else if (response.statusCode == 500) {
-            out.ncStatusCode = 500;
-            out.payload.error = body;
-          } else {
-            out.ncStatusCode = 400;
-            out.payload.error = body;
-          }
-          callback(out);
+      soap.createClient(url, options, function(err, client) {
+        if (!err) {
+          client.Create(args, function(error, body, envelope, soapHeader) {
+            if (!error) {
+              if (body[customerServiceName]) {
+                out.ncStatusCode = 201;
+                out.payload = {
+                  doc: body,
+                  customerRemoteID: body[customerServiceName].No,
+                  customerBusinessReference: nc.extractBusinessReference(channelProfile.customerBusinessReferences, body)
+                };
+              } else {
+                out.ncStatusCode = 400;
+                out.payload.error = body;
+              }
+              callback(out);
+            } else {
+              if (error.response) {
+                logError("Error - Returning Response as 400 - " + error, ncUtil);
+                out.ncStatusCode = 400;
+                out.payload.error = { err: error };
+                callback(out);
+              } else {
+                logError("InsertCustomer Callback error - " + error, ncUtil);
+                out.ncStatusCode = 500;
+                out.payload.error = { err: error };
+                callback(out);
+              }
+            }
+          });
         } else {
-          // If an error occurs, log the error here
-          logError("Do InsertCustomer Callback error - " + error, ncUtil);
-          out.ncStatusCode = 500;
-          out.payload.error = {err: error};
+          let errStr = String(err);
+
+          if (errStr.indexOf("Code: 401") !== -1) {
+            logError("401 Unauthorized (Invalid Credentials) " + errStr);
+            out.ncStatusCode = 400;
+            out.response.endpointStatusCode = 401;
+            out.response.endpointStatusMessage = "Unauthorized";
+          } else {
+            logError("InsertCustomer Callback error - " + err, ncUtil);
+            out.ncStatusCode = 500;
+            out.payload.error = { err: err };
+          }
           callback(out);
         }
       });
     } catch (err) {
       // Exception Handling
-      logError("Exception occurred in InsertSalesOrder - " + err, ncUtil);
+      logError("Exception occurred in InsertCustomer - " + err, ncUtil);
       out.ncStatusCode = 500;
       out.payload.error = {err: err, stack: err.stackTrace};
       callback(out);

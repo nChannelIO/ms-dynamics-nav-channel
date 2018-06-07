@@ -1,8 +1,6 @@
-let GetProductMatrixFromQuery = function (ncUtil,
-                                 channelProfile,
-                                 flowContext,
-                                 payload,
-                                 callback) {
+'use strict'
+
+let GetProductMatrixFromQuery = function (ncUtil, channelProfile, flowContext, payload, callback) {
 
   log("Building response object...", ncUtil);
   let out = {
@@ -14,13 +12,12 @@ let GetProductMatrixFromQuery = function (ncUtil,
   let invalid = false;
   let invalidMsg = "";
 
-  //If ncUtil does not contain a request object, the request can't be sent
   if (!ncUtil) {
     invalid = true;
     invalidMsg = "ncUtil was not provided"
   }
 
-  //If channelProfile does not contain channelSettingsValues, channelAuthValues or productBusinessReferences, the request can't be sent
+  // Sanity Checking
   if (!channelProfile) {
     invalid = true;
     invalidMsg = "channelProfile was not provided"
@@ -33,6 +30,15 @@ let GetProductMatrixFromQuery = function (ncUtil,
   } else if (!channelProfile.channelAuthValues) {
     invalid = true;
     invalidMsg = "channelProfile.channelAuthValues was not provided"
+  } else if (!channelProfile.channelAuthValues.username) {
+    invalid = true;
+    invalidMsg = "channelProfile.channelAuthValues.username was not provided"
+  } else if (!channelProfile.channelAuthValues.password) {
+    invalid = true;
+    invalidMsg = "channelProfile.channelAuthValues.password was not provided"
+  } else if (!channelProfile.channelAuthValues.itemUrl) {
+    invalid = true;
+    invalidMsg = "channelProfile.channelAuthValues.itemUrl was not provided"
   } else if (!channelProfile.productBusinessReferences) {
     invalid = true;
     invalidMsg = "channelProfile.productBusinessReferences was not provided"
@@ -44,16 +50,42 @@ let GetProductMatrixFromQuery = function (ncUtil,
     invalidMsg = "channelProfile.productBusinessReferences is empty"
   }
 
-  //If a sales order document was not passed in, the request is invalid
+  // Payload Checking
   if (!payload) {
     invalid = true;
     invalidMsg = "payload was not provided"
   } else if (!payload.doc) {
     invalid = true;
     invalidMsg = "payload.doc was not provided";
+  } else if (!payload.doc.remoteIDs && !payload.doc.searchFields && !payload.doc.modifiedDateRange) {
+    invalid = true;
+    invalidMsg = "either payload.doc.remoteIDs or payload.doc.searchFields or payload.doc.modifiedDateRange must be provided"
+  } else if (payload.doc.remoteIDs && (payload.doc.searchFields || payload.doc.modifiedDateRange)) {
+    invalid = true;
+    invalidMsg = "only one of payload.doc.remoteIDs or payload.doc.searchFields or payload.doc.modifiedDateRange may be provided"
+  } else if (payload.doc.remoteIDs && (!Array.isArray(payload.doc.remoteIDs) || payload.doc.remoteIDs.length === 0)) {
+    invalid = true;
+    invalidMsg = "payload.doc.remoteIDs must be an Array with at least 1 remoteID"
+  } else if (payload.doc.searchFields && (!Array.isArray(payload.doc.searchFields) || payload.doc.searchFields.length === 0)) {
+    invalid = true;
+    invalidMsg = "payload.doc.searchFields must be an Array with at least 1 key value pair: {searchField: 'key', searchValues: ['value_1']}"
+  } else if (payload.doc.searchFields) {
+    for (let i = 0; i < payload.doc.searchFields.length; i++) {
+      if (!payload.doc.searchFields[i].searchField || !Array.isArray(payload.doc.searchFields[i].searchValues) || payload.doc.searchFields[i].searchValues.length === 0) {
+        invalid = true;
+        invalidMsg = "payload.doc.searchFields[" + i + "] must be a key value pair: {searchField: 'key', searchValues: ['value_1']}";
+        break;
+      }
+    }
+  } else if (payload.doc.modifiedDateRange && !(payload.doc.modifiedDateRange.startDateGMT || payload.doc.modifiedDateRange.endDateGMT)) {
+    invalid = true;
+    invalidMsg = "at least one of payload.doc.modifiedDateRange.startDateGMT or payload.doc.modifiedDateRange.endDateGMT must be provided"
+  } else if (payload.doc.modifiedDateRange && payload.doc.modifiedDateRange.startDateGMT && payload.doc.modifiedDateRange.endDateGMT && (payload.doc.modifiedDateRange.startDateGMT > payload.doc.modifiedDateRange.endDateGMT)) {
+    invalid = true;
+    invalidMsg = "startDateGMT must have a date before endDateGMT";
   }
 
-  //If callback is not a function
+  // Callback Checking
   if (!callback) {
     throw new Error("A callback function was not provided");
   } else if (typeof callback !== 'function') {
@@ -61,80 +93,288 @@ let GetProductMatrixFromQuery = function (ncUtil,
   }
 
   if (!invalid) {
-    // Using request for example - A different npm module may be needed depending on the API communication is being made to
-    // The `soap` module can be used in place of `request` but the logic and data being sent will be different
-    let request = require('request');
 
-    let url = "https://localhost/";
+    // Require SOAP
+    const soap = require('strong-soap/src/soap');
+    const NTLMSecurity = require('strong-soap').NTLMSecurity;
+    const nc = require('../util/common');
 
-    // Add any headers for the request
-    let headers = {
-
+    // Setup Request Arguments
+    let args = {
+      filter: []
     };
 
-    // Log URL
-    log("Using URL [" + url + "]", ncUtil);
+    if (payload.doc.searchFields) {
 
-    // Set options
+      payload.doc.searchFields.forEach(function (searchField) {
+        let obj = {};
+        obj["Field"] = searchField.searchField;
+        obj["Criteria"] = searchField.searchValues.join('|'); // The pipe '|' symbol is a NAV filter for 'OR'
+        args.filter.push(obj);
+      });
+
+    } else if (payload.doc.remoteIDs) {
+
+      let obj = {};
+      obj["Field"] = "No";
+      obj["Criteria"] = payload.doc.remoteIDs.join('|'); // The pipe '|' symbol is a NAV filter for 'OR'
+      args.filter.push(obj);
+
+    } else if (payload.doc.modifiedDateRange) {
+
+      let obj = {};
+      obj["Field"] = "Last_Date_Modified";
+
+      if (payload.doc.modifiedDateRange.startDateGMT && !payload.doc.modifiedDateRange.endDateGMT) {
+        // '..' is a NAV filter for interval. Using as a suffix pulls records after the startDate
+        obj["Criteria"] = nc.formatDate(new Date(Date.parse(payload.doc.modifiedDateRange.startDateGMT) - 1).toISOString()) + "..";
+      } else if (payload.doc.modifiedDateRange.endDateGMT && !payload.doc.modifiedDateRange.startDateGMT) {
+        // '..' is a NAV filter for interval. Using as a prefix pulls records before the endDate
+        obj["Criteria"] = ".." + nc.formatDate(new Date(Date.parse(payload.doc.modifiedDateRange.endDateGMT) + 1).toISOString());
+      } else if (payload.doc.modifiedDateRange.startDateGMT && payload.doc.modifiedDateRange.endDateGMT) {
+        // '..' is a NAV filter for interval. Using between two dates as part of the string pulls records between startDate and endDate
+        obj["Criteria"] = nc.formatDate(new Date(Date.parse(payload.doc.modifiedDateRange.startDateGMT) - 1).toISOString()) + ".." + nc.formatDate(new Date(Date.parse(payload.doc.modifiedDateRange.endDateGMT) + 1).toISOString());
+      }
+
+      args.filter.push(obj);
+    }
+
+    if (flowContext && flowContext.field && flowContext.criteria) {
+      let obj = {};
+      obj["Field"] = flowContext.field;
+      obj["Criteria"] = flowContext.criteria; // The pipe '|' symbol is a NAV filter for 'OR'
+      args.filter.push(obj);
+    }
+
+    // Paging Context
+    if (payload.doc.pagingContext) {
+      args.bookmarkKey = payload.doc.pagingContext.key;
+    }
+
+    // Page Size
+    if (payload.doc.pageSize) {
+      args.setSize = payload.doc.pageSize;
+    }
+
+    // https://<baseUrl>:<port>/<serverInstance>/WS/<companyName>/Page/Item
+    let username = channelProfile.channelAuthValues.username;
+    let password = channelProfile.channelAuthValues.password;
+    let domain = channelProfile.channelAuthValues.domain;
+    let workstation = channelProfile.channelAuthValues.workstation;
+    let itemUrl = channelProfile.channelAuthValues.itemUrl;
+    let itemVariantsUrl = channelProfile.channelAuthValues.itemVariantsUrl;
+    let itemServiceName = channelProfile.channelAuthValues.itemServiceName;
+    let itemVariantsServiceName = channelProfile.channelAuthValues.itemVariantsServiceName;
+
+    let wsdlAuthRequired = true;
+    let ntlmSecurity = new NTLMSecurity(username, password, domain, workstation, wsdlAuthRequired);
+
+    // Log URL
+    log("Connecting to URL [" + itemUrl + "]", ncUtil);
+
     let options = {
-      url: url,
-      method: "GET",
-      headers: headers,
-      body: payload.doc,
-      json: true
+      NTLMSecurity: ntlmSecurity
     };
 
     try {
-      // Pass in our URL and headers
-      request(options, function (error, response, body) {
-        if (!error) {
-          // If no errors, process results here
-          log("Do GetProductMatrixFromQuery Callback", ncUtil);
-          out.response.endpointStatusCode = response.statusCode;
-          out.response.endpointStatusMessage = response.statusMessage;
+      // Item Endpoint Client
+      soap.createClient(itemUrl, options, function(itemErr, itemClient) {
+        if (!itemErr) {
+          log("Connecting to URL [" + itemVariantsUrl + "]", ncUtil);
 
-          let docs = [];
-          let data = body;
+          // Item_Variants Endpoint Client
+          soap.createClient(itemVariantsUrl, options, function(itemVariantsErr, variantClient) {
+            if (!itemVariantsErr) {
+              itemClient.ReadMultiple(args, function(error, result, envelope, soapHeader) {
 
-          if (response.statusCode === 200) {
-            if (data.products && data.products.length > 0) {
-              for (let i = 0; i < data.products.length; i++) {
-                let product = {
-                  product: body.products[i]
-                };
-                docs.push({
-                  doc: product,
-                  productRemoteID: product.product.id,
-                  productBusinessReference: product.product.id
-                });
-              }
-              if (docs.length === payload.doc.pageSize) {
-                out.ncStatusCode = 206;
-              } else {
-                out.ncStatusCode = 200;
-              }
-              out.payload = docs;
+                let docs = [];
+                let data = result;
+
+                if (!error) {
+                  if (!result.ReadMultiple_Result) {
+                    // If ReadMultiple_Result is undefined, no results were returned
+                    out.ncStatusCode = 204;
+                    out.payload = data;
+                    callback(out);
+                  } else {
+
+                    // Process Items
+                    function processItems(body) {
+                      return new Promise((resolve, reject) => {
+                        if (Array.isArray(body.ReadMultiple_Result[itemServiceName])) {
+
+                          let p = [];
+
+                          // Process Each Item and their Variants if any
+                          for (let i = 0; i < body.ReadMultiple_Result[itemServiceName].length; i++) {
+                            let product = {
+                              Item: body.ReadMultiple_Result[itemServiceName][i]
+                            };
+
+                            if (!payload.doc.pagingContext) {
+                              payload.doc.pagingContext = {};
+                            }
+
+                            // Set Key to resume from if an error occurs or when getting the next set of items
+                            payload.doc.pagingContext.key = body.ReadMultiple_Result[itemServiceName][i].Key;
+
+                            // Process all Item_Variant Records for current Item
+                            p.push(processVariants(variantClient, product).then((doc) =>{
+                              docs.push({
+                                doc: doc,
+                                productRemoteID: doc.Item.No,
+                                productBusinessReference: nc.extractBusinessReference(channelProfile.productBusinessReferences, doc)
+                              });
+                            }).catch((err) => {
+                              reject(err);
+                            }));
+                          }
+
+                          // Return from stub function when all items have been processed from current set
+                          Promise.all(p).then(() => {
+                            resolve();
+                          }).catch((err) => {
+                            reject(err);
+                          });
+                        } else if (typeof body.ReadMultiple_Result[itemServiceName] === 'object') {
+                          let product = {
+                            Item: body.ReadMultiple_Result[itemServiceName]
+                          };
+
+                          if (!payload.doc.pagingContext) {
+                            payload.doc.pagingContext = {};
+                          }
+
+                          // Set Key to resume from if an error occurs or when getting the next set of items
+                          payload.doc.pagingContext.key = body.ReadMultiple_Result[itemServiceName].Key;
+
+                          // Process Item_Variant Records for Item
+                          processVariants(variantClient, product).then((doc) =>{
+                            docs.push({
+                              doc: doc,
+                              productRemoteID: doc.Item.No,
+                              productBusinessReference: nc.extractBusinessReference(channelProfile.productBusinessReferences, doc)
+                            });
+                            resolve();
+                          }).catch((err) => {
+                            reject(err);
+                          });
+                        }
+                      });
+                    }
+
+                    // Process Variants
+                    function processVariants(client, doc, key) {
+                      return new Promise((resolve, reject) => {
+                        args = {
+                          filter: [
+                            {
+                              Field: "Item_No",
+                              Criteria: doc.Item.No
+                            }
+                          ]
+                        }
+
+                        // Set key when provided in a recursive call
+                        if (key) {
+                          args.bookmarkKey = key;
+                        }
+
+                        if (!doc.Item.Item_Variants) {
+                          doc.Item.Item_Variants = [];
+                        }
+
+                        client.ReadMultiple(args, function(error, body, envelope, soapHeader) {
+                          if (!body.ReadMultiple_Result) {
+                            // Return if there are no more variants to process
+                            resolve(doc);
+                          } else {
+                            if (Array.isArray(body.ReadMultiple_Result[itemVariantsServiceName])) {
+
+                              // Join existing Item_Variants with those pulled
+                              doc.Item.Item_Variants = doc.Item.Item_Variants.concat(body.ReadMultiple_Result[itemVariantsServiceName]);
+                              let n = body.ReadMultiple_Result[itemVariantsServiceName].length - 1;
+
+                              // Recursively call processVariants to determine if there are more variants using the key from the last variant pulled
+                              processVariants(client, doc, body.ReadMultiple_Result[itemVariantsServiceName][n].Key).then((result) => {
+                                resolve(result);
+                              }).catch((err) => {
+                                reject(err);
+                              });
+                            } else if (typeof body.ReadMultiple_Result[itemVariantsServiceName] === 'object') {
+                              doc.Item.Item_Variants.push(body.ReadMultiple_Result[itemVariantsServiceName]);
+
+                              // Recursively call processVariants to determine if there are more variants using the key from the last variant pulled
+                              processVariants(client, doc, body.ReadMultiple_Result[itemVariantsServiceName].Key).then((result) => {
+                                resolve(result);
+                              }).catch((err) => {
+                                reject(err);
+                              });
+                            }
+                          }
+                        });
+                      });
+                    }
+
+                    // Begin processing Items
+                    processItems(result).then(() => {
+                      if (docs.length === payload.doc.pageSize) {
+                        out.ncStatusCode = 206;
+                      } else {
+                        out.ncStatusCode = 200;
+                      }
+                      out.payload = docs;
+                      callback(out);
+                    }).catch((err) => {
+                      logError("Error - Returning Response as 400 - " + err, ncUtil);
+                      out.ncStatusCode = 400;
+                      out.payload.error = { err: err };
+                      callback(out);
+                    });
+                  }
+                } else {
+                  if (error.response) {
+                    logError("Error - Returning Response as 400 - " + error, ncUtil);
+                    out.ncStatusCode = 400;
+                    out.payload.error = { err: error };
+                    callback(out);
+                  } else {
+                    logError("GetProductMatrixFromQuery Callback error - " + error, ncUtil);
+                    out.ncStatusCode = 500;
+                    out.payload.error = { err: error };
+                    callback(out);
+                  }
+                }
+              });
             } else {
-              out.ncStatusCode = 204;
-              out.payload = data;
-            }
-          } else if (response.statusCode === 429) {
-            out.ncStatusCode = 429;
-            out.payload.error = data;
-          } else if (response.statusCode === 500) {
-            out.ncStatusCode = 500;
-            out.payload.error = data;
-          } else {
-            out.ncStatusCode = 400;
-            out.payload.error = data;
-          }
+              let errStr = String(itemVariantsErr);
 
-          callback(out);
+              if (errStr.indexOf("Code: 401") !== -1) {
+                logError("401 Unauthorized (Invalid Credentials) " + errStr);
+                out.ncStatusCode = 400;
+                out.response.endpointStatusCode = 401;
+                out.response.endpointStatusMessage = "Unauthorized";
+              } else {
+                logError("GetProductMatrixFromQuery Callback error - " + itemVariantsErr, ncUtil);
+                out.ncStatusCode = 500;
+                out.payload.error = { err: itemVariantsErr };
+              }
+              callback(out);
+            }
+          });
         } else {
-          // If an error occurs, log the error here
-          logError("Do GetProductMatrixFromQuery Callback error - " + error, ncUtil);
-          out.ncStatusCode = 500;
-          out.payload.error = {err: error};
+          let errStr = String(itemErr);
+
+          if (errStr.indexOf("Code: 401") !== -1) {
+            logError("401 Unauthorized (Invalid Credentials) " + errStr);
+            out.ncStatusCode = 400;
+            out.response.endpointStatusCode = 401;
+            out.response.endpointStatusMessage = "Unauthorized";
+          } else {
+            logError("GetProductMatrixFromQuery Callback error - " + itemErr, ncUtil);
+            out.ncStatusCode = 500;
+            out.payload.error = { err: itemErr };
+          }
           callback(out);
         }
       });
