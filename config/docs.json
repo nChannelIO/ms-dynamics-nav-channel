@@ -1,11 +1,32 @@
 {
-  "unitTestPackage": "nock",
+  "unitTestPackage": "soap",
+  "packageName": "strong-soap/src/soap",
   "ncUtil": {
-    "request": {},
     "logger": null
   },
   "channelProfile": {
-    "channelAuthValues": {}
+    "channelSettingsValues": {
+      "protocol": "https"
+    },
+    "channelAuthValues": {
+      "username": "test",
+      "password": "test",
+      "domain": "test",
+      "customerUrl": "https://nav2013-demo.nchannel.local:7047/DynamicsNAV71/WS/CRONUS%20USA,%20Inc./Page/Customer",
+      "orderUrl": "https://nav2013-demo.nchannel.local:7047/DynamicsNAV71/WS/CRONUS%20USA,%20Inc./Page/Order",
+      "salesShipmentUrl": "https://nav2013-demo.nchannel.local:7047/DynamicsNAV71/WS/CRONUS%20USA,%20Inc./Page/Sales_Shipment",
+      "itemUrl": "https://nav2013-demo.nchannel.local:7047/DynamicsNAV71/WS/CRONUS%20USA,%20Inc./Page/Item",
+      "itemVariantsUrl": "https://nav2013-demo.nchannel.local:7047/DynamicsNAV71/WS/CRONUS%20USA,%20Inc./Page/Item_Variants",
+      "itemLedgerUrl": "https://nav2013-demo.nchannel.local:7047/DynamicsNAV71/WS/CRONUS%20USA,%20Inc./Page/Item_Ledger",
+      "inventoryUrl": "https://nav2013-demo.nchannel.local:7047/DynamicsNAV71/WS/CRONUS%20USA,%20Inc./Page/Variant_Inventory",
+      "customerServiceName": "Customer",
+      "salesShipmentServiceName": "Sales_Shipment",
+      "itemServiceName": "Item",
+      "itemVariantsServiceName": "Item_Variants",
+      "inventoryServiceName": "Variant_Inventory",
+      "itemLedgerServiceName": "Item_Ledger",
+      "orderServiceName": "Order"
+    }
   },
   "docs": [
     {
@@ -14,85 +35,224 @@
         {
           "ncStatusCode": 200,
           "payload": {
-            "doc": {}
+            "doc": {
+              "Customer": {
+                "E_Mail": "candoxy.canada.inc@cronuscorp.net",
+                "Phone_No": "5555555555"
+              }
+            }
           },
-          "baseUri": "https://localhost",
-          "defaultHeaders": {},
+          "wsdlUri": "https://nav2013-demo.nchannel.local:7047/DynamicsNAV71/WS/CRONUS%20USA,%20Inc./Page/Customer",
           "links": [
             {
-              "uri": "/",
-              "method": "GET",
-              "replyHeaders": {},
-              "statusCode": 200,
+              "function": "ReadMultiple",
               "responsePayload": {
-                "customers": [
-                  {
-                    "id": 1073339459,
-                    "email": "derek.boytim@nchannel.com"
-                  }
-                ]
+                 "ReadMultiple_Result": {
+                    "Customer": {
+                          "Key":"32;EgAAAAJ7CDAAMQA5ADAANQA4ADkAMw==6;6604600;",
+                          "No":"01905893",
+                          "Name":"Candoxy Canada Inc.",
+                          "Address":"18 Cumberland Street",
+                          "City":"Thunder Bay",
+                          "County":"ON",
+                          "Post_Code":"P7B 5E2",
+                          "Country_Region_Code":"CA",
+                          "Phone_No":"5555555555",
+                          "Contact":"Mr. Rob Young",
+                          "Search_Name":"CANDOXY CANADA INC.",
+                          "Balance_LCY":0,
+                          "Credit_Limit_LCY":0,
+                          "Salesperson_Code":"JR",
+                          "Service_Zone_Code":"X",
+                          "Blocked":"_blank_",
+                          "Last_Date_Modified":"2013-09-23T00:00:00.000Z",
+                          "E_Mail":"candoxy.canada.inc@cronuscorp.net",
+                          "Invoice_Copies":0,
+                          "Invoice_Disc_Code":"01905893",
+                          "Copy_Sell_to_Addr_to_Qte_From":"Company",
+                          "Tax_Liable":false,
+                          "Tax_Identification_Type":"Legal_Entity",
+                          "Gen_Bus_Posting_Group":"EXPORT",
+                          "Customer_Posting_Group":"FOREIGN",
+                          "Customer_Price_Group":"1",
+                          "Allow_Line_Disc":true,
+                          "Prices_Including_VAT":false,
+                          "Prepayment_Percent":0,
+                          "Application_Method":"Manual",
+                          "Partner_Type":"_blank_",
+                          "Payment_Terms_Code":"1M(8D)",
+                          "Reminder_Terms_Code":"FOREIGN",
+                          "Fin_Charge_Terms_Code":"2.0 FOR.",
+                          "Print_Statements":true,
+                          "Last_Statement_No":0,
+                          "Block_Payment_Tolerance":false,
+                          "Location_Code":"YELLOW",
+                          "Combine_Shipments":true,
+                          "Reserve":"Optional",
+                          "Shipping_Advice":"Partial",
+                          "Shipment_Method_Code":"EXW",
+                          "Customized_Calendar":"No",
+                          "Currency_Code":"CAD",
+                          "Language_Code":"ENC",
+                          "Bank_Communication":"E_English",
+                          "Check_Date_Format":"_blank_",
+                          "Check_Date_Separator":"_blank_"
+                       }
+                 }
               }
             }
           ],
           "channelProfile": {
-            "customerBusinessReferences": ["email"]
+            "customerBusinessReferences": ["Customer.E_Mail", "Customer.Phone_No"]
           }
         },
         {
           "ncStatusCode": 204,
           "payload": {
             "doc": {
-              "customer": {
-                "email": "derek.boytim@nchannel.com"
+              "Customer": {
+                "E_Mail": "candoxy.canada.inc@cronuscorp.net",
+                "Phone_No": "5555555555"
               }
             }
           },
-          "baseUri": "https://localhost",
-          "defaultHeaders": {},
+          "wsdlUri": "https://nav2013-demo.nchannel.local:7047/DynamicsNAV71/WS/CRONUS%20USA,%20Inc./Page/Customer",
           "links": [
             {
-              "uri": "/",
-              "method": "GET",
-              "replyHeaders": {},
-              "statusCode": 200,
+              "function": "ReadMultiple",
               "responsePayload": {
-                "customers": []
+                 "ReadMultiple_Result": null
               }
             }
           ],
           "channelProfile": {
-            "customerBusinessReferences": ["email"]
+            "customerBusinessReferences": ["Customer.E_Mail", "Customer.Phone_No"]
           }
         },
         {
           "ncStatusCode": 409,
           "payload": {
-            "doc": {}
+            "doc": {
+              "Customer": {
+                "E_Mail": "candoxy.canada.inc@cronuscorp.net",
+                "Phone_No": "5555555555"
+              }
+            }
           },
-          "baseUri": "https://localhost",
-          "defaultHeaders": {},
+          "wsdlUri": "https://nav2013-demo.nchannel.local:7047/DynamicsNAV71/WS/CRONUS%20USA,%20Inc./Page/Customer",
           "links": [
             {
-              "uri": "/",
-              "method": "GET",
-              "replyHeaders": {},
-              "statusCode": 200,
+              "function": "ReadMultiple",
               "responsePayload": {
-                "customers": [
-                  {
-                    "id": 1073339459,
-                    "email": "derek.boytim@nchannel.com"
-                  },
-                  {
-                    "id": 1073339459,
-                    "email": "derek.boytim@nchannel.com"
-                  }
-                ]
+                 "ReadMultiple_Result": {
+                    "Customer": [
+                       {
+                          "Key":"32;EgAAAAJ7CDAAMQA5ADAANQA4ADkAMw==6;6604600;",
+                          "No":"01905893",
+                          "Name":"Candoxy Canada Inc.",
+                          "Address":"18 Cumberland Street",
+                          "City":"Thunder Bay",
+                          "County":"ON",
+                          "Post_Code":"P7B 5E2",
+                          "Country_Region_Code":"CA",
+                          "Phone_No":"5555555555",
+                          "Contact":"Mr. Rob Young",
+                          "Search_Name":"CANDOXY CANADA INC.",
+                          "Balance_LCY":0,
+                          "Credit_Limit_LCY":0,
+                          "Salesperson_Code":"JR",
+                          "Service_Zone_Code":"X",
+                          "Blocked":"_blank_",
+                          "Last_Date_Modified":"2013-09-23T00:00:00.000Z",
+                          "E_Mail":"candoxy.canada.inc@cronuscorp.net",
+                          "Invoice_Copies":0,
+                          "Invoice_Disc_Code":"01905893",
+                          "Copy_Sell_to_Addr_to_Qte_From":"Company",
+                          "Tax_Liable":false,
+                          "Tax_Identification_Type":"Legal_Entity",
+                          "Gen_Bus_Posting_Group":"EXPORT",
+                          "Customer_Posting_Group":"FOREIGN",
+                          "Customer_Price_Group":"1",
+                          "Allow_Line_Disc":true,
+                          "Prices_Including_VAT":false,
+                          "Prepayment_Percent":0,
+                          "Application_Method":"Manual",
+                          "Partner_Type":"_blank_",
+                          "Payment_Terms_Code":"1M(8D)",
+                          "Reminder_Terms_Code":"FOREIGN",
+                          "Fin_Charge_Terms_Code":"2.0 FOR.",
+                          "Print_Statements":true,
+                          "Last_Statement_No":0,
+                          "Block_Payment_Tolerance":false,
+                          "Location_Code":"YELLOW",
+                          "Combine_Shipments":true,
+                          "Reserve":"Optional",
+                          "Shipping_Advice":"Partial",
+                          "Shipment_Method_Code":"EXW",
+                          "Customized_Calendar":"No",
+                          "Currency_Code":"CAD",
+                          "Language_Code":"ENC",
+                          "Bank_Communication":"E_English",
+                          "Check_Date_Format":"_blank_",
+                          "Check_Date_Separator":"_blank_"
+                       },
+                       {
+                          "Key":"32;EgAAAAJ7CDAAMQA5ADAANQA4ADkAMw==6;6604600;",
+                          "No":"01905893",
+                          "Name":"Candoxy Canada Inc.",
+                          "Address":"18 Cumberland Street",
+                          "City":"Thunder Bay",
+                          "County":"ON",
+                          "Post_Code":"P7B 5E2",
+                          "Country_Region_Code":"CA",
+                          "Phone_No":"5555555555",
+                          "Contact":"Mr. Rob Young",
+                          "Search_Name":"CANDOXY CANADA INC.",
+                          "Balance_LCY":0,
+                          "Credit_Limit_LCY":0,
+                          "Salesperson_Code":"JR",
+                          "Service_Zone_Code":"X",
+                          "Blocked":"_blank_",
+                          "Last_Date_Modified":"2013-09-23T00:00:00.000Z",
+                          "E_Mail":"candoxy.canada.inc@cronuscorp.net",
+                          "Invoice_Copies":0,
+                          "Invoice_Disc_Code":"01905893",
+                          "Copy_Sell_to_Addr_to_Qte_From":"Company",
+                          "Tax_Liable":false,
+                          "Tax_Identification_Type":"Legal_Entity",
+                          "Gen_Bus_Posting_Group":"EXPORT",
+                          "Customer_Posting_Group":"FOREIGN",
+                          "Customer_Price_Group":"1",
+                          "Allow_Line_Disc":true,
+                          "Prices_Including_VAT":false,
+                          "Prepayment_Percent":0,
+                          "Application_Method":"Manual",
+                          "Partner_Type":"_blank_",
+                          "Payment_Terms_Code":"1M(8D)",
+                          "Reminder_Terms_Code":"FOREIGN",
+                          "Fin_Charge_Terms_Code":"2.0 FOR.",
+                          "Print_Statements":true,
+                          "Last_Statement_No":0,
+                          "Block_Payment_Tolerance":false,
+                          "Location_Code":"YELLOW",
+                          "Combine_Shipments":true,
+                          "Reserve":"Optional",
+                          "Shipping_Advice":"Partial",
+                          "Shipment_Method_Code":"EXW",
+                          "Customized_Calendar":"No",
+                          "Currency_Code":"CAD",
+                          "Language_Code":"ENC",
+                          "Bank_Communication":"E_English",
+                          "Check_Date_Format":"_blank_",
+                          "Check_Date_Separator":"_blank_"
+                       }
+                    ]
+                 }
               }
             }
           ],
           "channelProfile": {
-            "customerBusinessReferences": ["email"]
+            "customerBusinessReferences": ["Customer.E_Mail", "Customer.Phone_No"]
           }
         },
         {
@@ -100,43 +260,40 @@
           "payload": {
             "doc": {}
           },
-          "baseUri": "https://localhost",
-          "defaultHeaders": {},
+          "wsdlUri": "https://nav2013-demo.nchannel.local:7047/DynamicsNAV71/WS/CRONUS%20USA,%20Inc./Page/Customer",
           "links": [
             {
-              "uri": "/",
-              "method": "GET",
-              "replyHeaders": {},
-              "statusCode": 401,
+              "function": "ReadMultiple",
               "responsePayload": {
-                "customers": []
+                 "ReadMultiple_Result": "not an object"
               }
             }
           ],
           "channelProfile": {
-            "customerBusinessReferences": ["email"]
+            "customerBusinessReferences": ["Customer.E_Mail", "Customer.Phone_No"]
           }
         },
         {
           "ncStatusCode": 429,
           "payload": {
-            "doc": {}
+            "doc": {
+              "Customer": {
+                "E_Mail": "candoxy.canada.inc@cronuscorp.net",
+                "Phone_No": "5555555555"
+              }
+            }
           },
-          "baseUri": "https://localhost",
-          "defaultHeaders": {},
+          "wsdlUri": "https://nav2013-demo.nchannel.local:7047/DynamicsNAV71/WS/CRONUS%20USA,%20Inc./Page/Customer",
           "links": [
             {
-              "uri": "/",
-              "method": "GET",
-              "replyHeaders": {},
-              "statusCode": 429,
+              "function": "ReadMultiple",
               "responsePayload": {
-                "customers": []
+                 "ReadMultiple_Result": "not an object"
               }
             }
           ],
           "channelProfile": {
-            "customerBusinessReferences": ["email"]
+            "customerBusinessReferences": ["Customer.E_Mail", "Customer.Phone_No"]
           }
         },
         {
@@ -144,106 +301,93 @@
           "payload": {
             "doc": {}
           },
-          "baseUri": "https://localhost",
-          "defaultHeaders": {},
+          "wsdlUri": "https://nav2013-demo.nchannel.local:7047/DynamicsNAV71/WS/CRONUS%20USA,%20Inc./Page/Customer",
           "links": [
             {
-              "uri": "/",
-              "method": "GET",
-              "replyHeaders": {},
-              "statusCode": 500,
+              "function": "ReadMultiple",
               "responsePayload": {
-                "customers": []
+                 "ReadMultiple_Result": "not an object"
               }
             }
           ],
           "channelProfile": {
-            "customerBusinessReferences": ["email"]
+            "customerBusinessReferences": ["Customer.E_Mail", "Customer.Phone_No"]
           }
         }
       ]
     },
     {
-      "functionName": "CheckForProduct",
+      "functionName": "InsertCustomer",
       "tests": [
         {
-          "ncStatusCode": 200,
+          "ncStatusCode": 201,
           "payload": {
-            "doc": {}
+            "doc": {
+              "Customer": {
+                "Name": "Fake Customer Test",
+                "Address": "123 Ave Way",
+                "Address_2": "Suite 203 - U",
+                "City": "Bellefountaine _ U",
+                "County": "OH",
+                "Post_Code": "12345",
+                "Country_Region_Code": "US",
+                "Phone_No": "5555555555",
+                "Contact": "Fake Customer",
+                "Search_Name": "INSERT FAKE RECORD",
+                "E_Mail": "candoxy.canada.inc@cronuscorp.net"
+              }
+            }
           },
-          "baseUri": "https://localhost",
-          "defaultHeaders": {},
+          "wsdlUri": "https://nav2013-demo.nchannel.local:7047/DynamicsNAV71/WS/CRONUS%20USA,%20Inc./Page/Customer",
           "links": [
             {
-              "uri": "/",
-              "method": "GET",
-              "replyHeaders": {},
-              "statusCode": 200,
+              "function": "Create",
               "responsePayload": {
-                "products": [
-                  {
-                    "id": 1073339459,
-                    "sku": "test"
-                  }
-                ]
+                 "Customer": {
+                    "Key":"24;EgAAAAJ7/0MAMAAwADMANgAw7;41460840;",
+                    "No":"C00360",
+                    "Name":"Fake Customer Test",
+                    "Address":"123 Ave Way",
+                    "Address_2":"Suite 203 - U",
+                    "City":"Bellefountaine _ U",
+                    "County":"OH",
+                    "Post_Code":"12345",
+                    "Country_Region_Code":"US",
+                    "Phone_No":"5555555555",
+                    "Primary_Contact_No":"CT000191",
+                    "Contact":"Fake Customer",
+                    "Search_Name":"INSERT FAKE RECORD",
+                    "Balance_LCY":0,
+                    "Credit_Limit_LCY":0,
+                    "Blocked":"_blank_",
+                    "Last_Date_Modified":"2018-04-27T00:00:00.000Z",
+                    "E_Mail":"candoxy.canada.inc@cronuscorp.net",
+                    "Invoice_Copies":0,
+                    "Invoice_Disc_Code":"C00360",
+                    "Copy_Sell_to_Addr_to_Qte_From":"Company",
+                    "Tax_Liable":false,
+                    "Tax_Identification_Type":"Legal_Entity",
+                    "Allow_Line_Disc":true,
+                    "Prices_Including_VAT":false,
+                    "Prepayment_Percent":0,
+                    "Application_Method":"Manual",
+                    "Partner_Type":"_blank_",
+                    "Print_Statements":false,
+                    "Last_Statement_No":0,
+                    "Block_Payment_Tolerance":false,
+                    "Combine_Shipments":false,
+                    "Reserve":"Optional",
+                    "Shipping_Advice":"Partial",
+                    "Customized_Calendar":"No",
+                    "Bank_Communication":"E_English",
+                    "Check_Date_Format":"_blank_",
+                    "Check_Date_Separator":"_blank_"
+                 }
               }
             }
           ],
           "channelProfile": {
-            "productBusinessReferences": ["productid"]
-          }
-        },
-        {
-          "ncStatusCode": 204,
-          "payload": {
-            "doc": {}
-          },
-          "baseUri": "https://localhost",
-          "defaultHeaders": {},
-          "links": [
-            {
-              "uri": "/",
-              "method": "GET",
-              "replyHeaders": {},
-              "statusCode": 200,
-              "responsePayload": {
-                "products": []
-              }
-            }
-          ],
-          "channelProfile": {
-            "productBusinessReferences": ["productid"]
-          }
-        },
-        {
-          "ncStatusCode": 409,
-          "payload": {
-            "doc": {}
-          },
-          "baseUri": "https://localhost",
-          "defaultHeaders": {},
-          "links": [
-            {
-              "uri": "/",
-              "method": "GET",
-              "replyHeaders": {},
-              "statusCode": 200,
-              "responsePayload": {
-                "products": [
-                  {
-                    "id": 1073339459,
-                    "sku": "test"
-                  },
-                  {
-                    "id": 1073339459,
-                    "sku": "test"
-                  }
-                ]
-              }
-            }
-          ],
-          "channelProfile": {
-            "productBusinessReferences": ["productid"]
+            "customerBusinessReferences": ["Customer.E_Mail", "Customer.Phone_No"]
           }
         },
         {
@@ -251,549 +395,946 @@
           "payload": {
             "doc": {}
           },
-          "baseUri": "https://localhost",
-          "defaultHeaders": {},
+          "wsdlUri": "https://nav2013-demo.nchannel.local:7047/DynamicsNAV71/WS/CRONUS%20USA,%20Inc./Page/Customer",
           "links": [
             {
-              "uri": "/",
-              "method": "GET",
-              "replyHeaders": {},
-              "statusCode": 401,
-              "responsePayload": {
-                "products": []
-              }
+              "function": "Create",
+              "responsePayload": {}
             }
           ],
           "channelProfile": {
-            "productBusinessReferences": ["productid"]
+            "customerBusinessReferences": ["Customer.E_Mail", "Customer.Phone_No"]
           }
         },
         {
           "ncStatusCode": 429,
           "payload": {
-            "doc": {}
+            "doc": {
+              "Customer": {
+                "Name": "Fake Customer Test",
+                "Address": "123 Ave Way",
+                "Address_2": "Suite 203 - U",
+                "City": "Bellefountaine _ U",
+                "County": "OH",
+                "Post_Code": "12345",
+                "Country_Region_Code": "US",
+                "Phone_No": "5555555555",
+                "Contact": "Fake Customer",
+                "Search_Name": "INSERT FAKE RECORD",
+                "E_Mail": "candoxy.canada.inc@cronuscorp.net"
+              }
+            }
           },
-          "baseUri": "https://localhost",
-          "defaultHeaders": {},
+          "wsdlUri": "https://nav2013-demo.nchannel.local:7047/DynamicsNAV71/WS/CRONUS%20USA,%20Inc./Page/Customer",
           "links": [
             {
-              "uri": "/",
-              "method": "GET",
-              "replyHeaders": {},
-              "statusCode": 429,
-              "responsePayload": {
-                "products": []
-              }
+              "function": "Create",
+              "responsePayload": {}
             }
           ],
           "channelProfile": {
-            "productBusinessReferences": ["productid"]
+            "customerBusinessReferences": ["Customer.E_Mail", "Customer.Phone_No"]
           }
         },
         {
           "ncStatusCode": 500,
           "payload": {
-            "doc": {}
+            "doc": {
+              "Customer": {
+                "Name": "Fake Customer Test",
+                "Address": "123 Ave Way",
+                "Address_2": "Suite 203 - U",
+                "City": "Bellefountaine _ U",
+                "County": "OH",
+                "Post_Code": "12345",
+                "Country_Region_Code": "US",
+                "Phone_No": "5555555555",
+                "Contact": "Fake Customer",
+                "Search_Name": "INSERT FAKE RECORD",
+                "E_Mail": "candoxy.canada.inc@cronuscorp.net"
+              }
+            }
           },
-          "baseUri": "https://localhost",
-          "defaultHeaders": {},
+          "wsdlUri": "https://nav2013-demo.nchannel.local:7047/DynamicsNAV71/WS/CRONUS%20USA,%20Inc./Page/Customer",
           "links": [
             {
-              "uri": "/",
-              "method": "GET",
-              "replyHeaders": {},
-              "statusCode": 500,
-              "responsePayload": {
-                "products": []
-              }
+              "function": "Create",
+              "responsePayload": {}
             }
           ],
           "channelProfile": {
-            "productBusinessReferences": ["productid"]
+            "customerBusinessReferences": ["Customer.E_Mail", "Customer.Phone_No"]
           }
         }
       ]
     },
     {
-      "functionName": "CheckForProductGroup",
-      "tests": [
-        {
-          "ncStatusCode": 200,
-          "payload": {
-            "doc": {}
-          },
-          "baseUri": "https://localhost",
-          "defaultHeaders": {},
-          "links": [
-            {
-              "uri": "/",
-              "method": "GET",
-              "replyHeaders": {},
-              "statusCode": 200,
-              "responsePayload": {
-                "products": [
-                  {
-                    "id": 1073339459,
-                    "sku": "test"
-                  }
-                ]
-              }
-            }
-          ],
-          "channelProfile": {
-            "productGroupBusinessReferences": ["productgroupid"]
-          }
-        },
-        {
-          "ncStatusCode": 204,
-          "payload": {
-            "doc": {}
-          },
-          "baseUri": "https://localhost",
-          "defaultHeaders": {},
-          "links": [
-            {
-              "uri": "/",
-              "method": "GET",
-              "replyHeaders": {},
-              "statusCode": 200,
-              "responsePayload": {
-                "products": []
-              }
-            }
-          ],
-          "channelProfile": {
-            "productGroupBusinessReferences": ["productgroupid"]
-          }
-        },
-        {
-          "ncStatusCode": 409,
-          "payload": {
-            "doc": {}
-          },
-          "baseUri": "https://localhost",
-          "defaultHeaders": {},
-          "links": [
-            {
-              "uri": "/",
-              "method": "GET",
-              "replyHeaders": {},
-              "statusCode": 200,
-              "responsePayload": {
-                "products": [
-                  {
-                    "id": 1073339459,
-                    "sku": "test"
-                  },
-                  {
-                    "id": 1073339459,
-                    "sku": "test"
-                  }
-                ]
-              }
-            }
-          ],
-          "channelProfile": {
-            "productGroupBusinessReferences": ["productgroupid"]
-          }
-        },
-        {
-          "ncStatusCode": 400,
-          "payload": {
-            "doc": {}
-          },
-          "baseUri": "https://localhost",
-          "defaultHeaders": {},
-          "links": [
-            {
-              "uri": "/",
-              "method": "GET",
-              "replyHeaders": {},
-              "statusCode": 401,
-              "responsePayload": {
-                "products": []
-              }
-            }
-          ],
-          "channelProfile": {
-            "productGroupBusinessReferences": ["productgroupid"]
-          }
-        },
-        {
-          "ncStatusCode": 429,
-          "payload": {
-            "doc": {}
-          },
-          "baseUri": "https://localhost",
-          "defaultHeaders": {},
-          "links": [
-            {
-              "uri": "/",
-              "method": "GET",
-              "replyHeaders": {},
-              "statusCode": 429,
-              "responsePayload": {
-                "products": []
-              }
-            }
-          ],
-          "channelProfile": {
-            "productGroupBusinessReferences": ["productgroupid"]
-          }
-        },
-        {
-          "ncStatusCode": 500,
-          "payload": {
-            "doc": {}
-          },
-          "baseUri": "https://localhost",
-          "defaultHeaders": {},
-          "links": [
-            {
-              "uri": "/",
-              "method": "GET",
-              "replyHeaders": {},
-              "statusCode": 500,
-              "responsePayload": {
-                "products": []
-              }
-            }
-          ],
-          "channelProfile": {
-            "productGroupBusinessReferences": ["productgroupid"]
-          }
-        }
-      ]
-    },
-    {
-      "functionName": "CheckForProductPricing",
-      "tests": [
-        {
-          "ncStatusCode": 200,
-          "payload": {
-            "doc": {}
-          },
-          "baseUri": "https://localhost",
-          "defaultHeaders": {},
-          "links": [
-            {
-              "uri": "/",
-              "method": "GET",
-              "replyHeaders": {},
-              "statusCode": 200,
-              "responsePayload": {
-                "products": [
-                  {
-                    "id": 1073339459,
-                    "sku": "test"
-                  }
-                ]
-              }
-            }
-          ],
-          "channelProfile": {
-            "productPricingBusinessReferences": ["productpricingid"]
-          }
-        },
-        {
-          "ncStatusCode": 204,
-          "payload": {
-            "doc": {}
-          },
-          "baseUri": "https://localhost",
-          "defaultHeaders": {},
-          "links": [
-            {
-              "uri": "/",
-              "method": "GET",
-              "replyHeaders": {},
-              "statusCode": 200,
-              "responsePayload": {
-                "products": []
-              }
-            }
-          ],
-          "channelProfile": {
-            "productPricingBusinessReferences": ["productpricingid"]
-          }
-        },
-        {
-          "ncStatusCode": 409,
-          "payload": {
-            "doc": {}
-          },
-          "baseUri": "https://localhost",
-          "defaultHeaders": {},
-          "links": [
-            {
-              "uri": "/",
-              "method": "GET",
-              "replyHeaders": {},
-              "statusCode": 200,
-              "responsePayload": {
-                "products": [
-                  {
-                    "id": 1073339459,
-                    "sku": "test"
-                  },
-                  {
-                    "id": 1073339459,
-                    "sku": "test"
-                  }
-                ]
-              }
-            }
-          ],
-          "channelProfile": {
-            "productPricingBusinessReferences": ["productpricingid"]
-          }
-        },
-        {
-          "ncStatusCode": 400,
-          "payload": {
-            "doc": {}
-          },
-          "baseUri": "https://localhost",
-          "defaultHeaders": {},
-          "links": [
-            {
-              "uri": "/",
-              "method": "GET",
-              "replyHeaders": {},
-              "statusCode": 401,
-              "responsePayload": {
-                "products": []
-              }
-            }
-          ],
-          "channelProfile": {
-            "productPricingBusinessReferences": ["productpricingid"]
-          }
-        },
-        {
-          "ncStatusCode": 429,
-          "payload": {
-            "doc": {}
-          },
-          "baseUri": "https://localhost",
-          "defaultHeaders": {},
-          "links": [
-            {
-              "uri": "/",
-              "method": "GET",
-              "replyHeaders": {},
-              "statusCode": 429,
-              "responsePayload": {
-                "products": []
-              }
-            }
-          ],
-          "channelProfile": {
-            "productPricingBusinessReferences": ["productpricingid"]
-          }
-        },
-        {
-          "ncStatusCode": 500,
-          "payload": {
-            "doc": {}
-          },
-          "baseUri": "https://localhost",
-          "defaultHeaders": {},
-          "links": [
-            {
-              "uri": "/",
-              "method": "GET",
-              "replyHeaders": {},
-              "statusCode": 500,
-              "responsePayload": {
-                "products": []
-              }
-            }
-          ],
-          "channelProfile": {
-            "productPricingBusinessReferences": ["productpricingid"]
-          }
-        }
-      ]
-    },
-    {
-      "functionName": "CheckForProductQuantity",
-      "tests": [
-        {
-          "ncStatusCode": 200,
-          "payload": {
-            "doc": {}
-          },
-          "baseUri": "https://localhost",
-          "defaultHeaders": {},
-          "links": [
-            {
-              "uri": "/",
-              "method": "GET",
-              "replyHeaders": {},
-              "statusCode": 200,
-              "responsePayload": {
-                "products": [
-                  {
-                    "id": 1073339459,
-                    "sku": "test"
-                  }
-                ]
-              }
-            }
-          ],
-          "channelProfile": {
-            "productQuantityBusinessReferences": ["productquantityid"]
-          }
-        },
-        {
-          "ncStatusCode": 204,
-          "payload": {
-            "doc": {}
-          },
-          "baseUri": "https://localhost",
-          "defaultHeaders": {},
-          "links": [
-            {
-              "uri": "/",
-              "method": "GET",
-              "replyHeaders": {},
-              "statusCode": 200,
-              "responsePayload": {
-                "products": []
-              }
-            }
-          ],
-          "channelProfile": {
-            "productQuantityBusinessReferences": ["productquantityid"]
-          }
-        },
-        {
-          "ncStatusCode": 409,
-          "payload": {
-            "doc": {}
-          },
-          "baseUri": "https://localhost",
-          "defaultHeaders": {},
-          "links": [
-            {
-              "uri": "/",
-              "method": "GET",
-              "replyHeaders": {},
-              "statusCode": 200,
-              "responsePayload": {
-                "products": [
-                  {
-                    "id": 1073339459,
-                    "sku": "test"
-                  },
-                  {
-                    "id": 1073339459,
-                    "sku": "test"
-                  }
-                ]
-              }
-            }
-          ],
-          "channelProfile": {
-            "productQuantityBusinessReferences": ["productquantityid"]
-          }
-        },
-        {
-          "ncStatusCode": 400,
-          "payload": {
-            "doc": {}
-          },
-          "baseUri": "https://localhost",
-          "defaultHeaders": {},
-          "links": [
-            {
-              "uri": "/",
-              "method": "GET",
-              "replyHeaders": {},
-              "statusCode": 401,
-              "responsePayload": {
-                "products": []
-              }
-            }
-          ],
-          "channelProfile": {
-            "productQuantityBusinessReferences": ["productquantityid"]
-          }
-        },
-        {
-          "ncStatusCode": 429,
-          "payload": {
-            "doc": {}
-          },
-          "baseUri": "https://localhost",
-          "defaultHeaders": {},
-          "links": [
-            {
-              "uri": "/",
-              "method": "GET",
-              "replyHeaders": {},
-              "statusCode": 429,
-              "responsePayload": {
-                "products": []
-              }
-            }
-          ],
-          "channelProfile": {
-            "productQuantityBusinessReferences": ["productquantityid"]
-          }
-        },
-        {
-          "ncStatusCode": 500,
-          "payload": {
-            "doc": {}
-          },
-          "baseUri": "https://localhost",
-          "defaultHeaders": {},
-          "links": [
-            {
-              "uri": "/",
-              "method": "GET",
-              "replyHeaders": {},
-              "statusCode": 500,
-              "responsePayload": {
-                "products": []
-              }
-            }
-          ],
-          "channelProfile": {
-            "productQuantityBusinessReferences": ["productquantityid"]
-          }
-        }
-      ]
-    },
-    {
-      "functionName": "ExtractBillingAddressFromSalesOrder",
+      "functionName": "UpdateCustomer",
       "tests": [
         {
           "ncStatusCode": 200,
           "payload": {
             "doc": {
-              "BillingAddress": {}
+              "Customer": {
+                "No": "C00360",
+                "Name": "Fake Customer Test",
+                "Address": "123 Ave Way",
+                "Address_2": "Suite 203 - U",
+                "City": "Bellefountaine _ U",
+                "County": "OH",
+                "Post_Code": "12345",
+                "Country_Region_Code": "US",
+                "Phone_No": "5555555555",
+                "Contact": "Fake Customer",
+                "Search_Name": "INSERT FAKE RECORD",
+                "E_Mail": "candoxy.canada.inc@cronuscorp.net"
+              }
             }
           },
-          "baseUri": "https://localhost",
-          "defaultHeaders": {},
-          "links": [],
+          "wsdlUri": "https://nav2013-demo.nchannel.local:7047/DynamicsNAV71/WS/CRONUS%20USA,%20Inc./Page/Customer",
+          "links": [
+            {
+              "function": "Read",
+              "responsePayload": {
+                 "Customer": {
+                    "Key":"24;EgAAAAJ7/0MAMAAwADMANgAw7;41460840;",
+                    "No":"C00360",
+                    "Name":"Fake Customer Test",
+                    "Address":"123 Ave Way",
+                    "Address_2":"Suite 203 - U",
+                    "City":"Bellefountaine _ U",
+                    "County":"OH",
+                    "Post_Code":"12345",
+                    "Country_Region_Code":"US",
+                    "Phone_No":"5555555555",
+                    "Primary_Contact_No":"CT000191",
+                    "Contact":"Fake Customer",
+                    "Search_Name":"INSERT FAKE RECORD",
+                    "Balance_LCY":0,
+                    "Credit_Limit_LCY":0,
+                    "Blocked":"_blank_",
+                    "Last_Date_Modified":"2018-04-27T00:00:00.000Z",
+                    "E_Mail":"candoxy.canada.inc@cronuscorp.net",
+                    "Invoice_Copies":0,
+                    "Invoice_Disc_Code":"C00360",
+                    "Copy_Sell_to_Addr_to_Qte_From":"Company",
+                    "Tax_Liable":false,
+                    "Tax_Identification_Type":"Legal_Entity",
+                    "Allow_Line_Disc":true,
+                    "Prices_Including_VAT":false,
+                    "Prepayment_Percent":0,
+                    "Application_Method":"Manual",
+                    "Partner_Type":"_blank_",
+                    "Print_Statements":false,
+                    "Last_Statement_No":0,
+                    "Block_Payment_Tolerance":false,
+                    "Combine_Shipments":false,
+                    "Reserve":"Optional",
+                    "Shipping_Advice":"Partial",
+                    "Customized_Calendar":"No",
+                    "Bank_Communication":"E_English",
+                    "Check_Date_Format":"_blank_",
+                    "Check_Date_Separator":"_blank_"
+                 }
+              }
+            },
+            {
+              "function": "Update",
+              "responsePayload": {
+                 "Customer": {
+                    "Key":"24;EgAAAAJ7/0MAMAAwADMANgAw7;41460840;",
+                    "No":"C00360",
+                    "Name":"Fake Customer Test",
+                    "Address":"123 Ave Way",
+                    "Address_2":"Suite 203 - U",
+                    "City":"Bellefountaine _ U",
+                    "County":"OH",
+                    "Post_Code":"12345",
+                    "Country_Region_Code":"US",
+                    "Phone_No":"5555555555",
+                    "Primary_Contact_No":"CT000191",
+                    "Contact":"Fake Customer",
+                    "Search_Name":"INSERT FAKE RECORD",
+                    "Balance_LCY":0,
+                    "Credit_Limit_LCY":0,
+                    "Blocked":"_blank_",
+                    "Last_Date_Modified":"2018-04-27T00:00:00.000Z",
+                    "E_Mail":"candoxy.canada.inc@cronuscorp.net",
+                    "Invoice_Copies":0,
+                    "Invoice_Disc_Code":"C00360",
+                    "Copy_Sell_to_Addr_to_Qte_From":"Company",
+                    "Tax_Liable":false,
+                    "Tax_Identification_Type":"Legal_Entity",
+                    "Allow_Line_Disc":true,
+                    "Prices_Including_VAT":false,
+                    "Prepayment_Percent":0,
+                    "Application_Method":"Manual",
+                    "Partner_Type":"_blank_",
+                    "Print_Statements":false,
+                    "Last_Statement_No":0,
+                    "Block_Payment_Tolerance":false,
+                    "Combine_Shipments":false,
+                    "Reserve":"Optional",
+                    "Shipping_Advice":"Partial",
+                    "Customized_Calendar":"No",
+                    "Bank_Communication":"E_English",
+                    "Check_Date_Format":"_blank_",
+                    "Check_Date_Separator":"_blank_"
+                 }
+              }
+            }
+          ],
           "channelProfile": {
-            "salesOrderBusinessReferences": ["orderid"]
+            "customerBusinessReferences": ["Customer.E_Mail", "Customer.Phone_No"]
           }
         },
         {
-          "ncStatusCode": 204,
+          "ncStatusCode": 400,
+          "payload": {
+            "Customer": {
+              "Name": "Fake Customer Test",
+              "Address": "123 Ave Way",
+              "Address_2": "Suite 203 - U",
+              "City": "Bellefountaine _ U",
+              "County": "OH",
+              "Post_Code": "12345",
+              "Country_Region_Code": "US",
+              "Phone_No": "5555555555",
+              "Contact": "Fake Customer",
+              "Search_Name": "INSERT FAKE RECORD",
+              "E_Mail": "candoxy.canada.inc@cronuscorp.net"
+            }
+          },
+          "wsdlUri": "https://nav2013-demo.nchannel.local:7047/DynamicsNAV71/WS/CRONUS%20USA,%20Inc./Page/Customer",
+          "links": [
+            {
+              "function": "Read",
+              "responsePayload": {
+                 "Customer": {
+                    "Key":"24;EgAAAAJ7/0MAMAAwADMANgAw7;41460840;",
+                    "No":"C00360",
+                    "Name":"Fake Customer Test",
+                    "Address":"123 Ave Way",
+                    "Address_2":"Suite 203 - U",
+                    "City":"Bellefountaine _ U",
+                    "County":"OH",
+                    "Post_Code":"12345",
+                    "Country_Region_Code":"US",
+                    "Phone_No":"5555555555",
+                    "Primary_Contact_No":"CT000191",
+                    "Contact":"Fake Customer",
+                    "Search_Name":"INSERT FAKE RECORD",
+                    "Balance_LCY":0,
+                    "Credit_Limit_LCY":0,
+                    "Blocked":"_blank_",
+                    "Last_Date_Modified":"2018-04-27T00:00:00.000Z",
+                    "E_Mail":"candoxy.canada.inc@cronuscorp.net",
+                    "Invoice_Copies":0,
+                    "Invoice_Disc_Code":"C00360",
+                    "Copy_Sell_to_Addr_to_Qte_From":"Company",
+                    "Tax_Liable":false,
+                    "Tax_Identification_Type":"Legal_Entity",
+                    "Allow_Line_Disc":true,
+                    "Prices_Including_VAT":false,
+                    "Prepayment_Percent":0,
+                    "Application_Method":"Manual",
+                    "Partner_Type":"_blank_",
+                    "Print_Statements":false,
+                    "Last_Statement_No":0,
+                    "Block_Payment_Tolerance":false,
+                    "Combine_Shipments":false,
+                    "Reserve":"Optional",
+                    "Shipping_Advice":"Partial",
+                    "Customized_Calendar":"No",
+                    "Bank_Communication":"E_English",
+                    "Check_Date_Format":"_blank_",
+                    "Check_Date_Separator":"_blank_"
+                 }
+              }
+            },
+            {
+              "function": "Update",
+              "responsePayload": {}
+            }
+          ],
+          "channelProfile": {
+            "customerBusinessReferences": ["Customer.E_Mail", "Customer.Phone_No"]
+          }
+        },
+        {
+          "ncStatusCode": 429,
+          "payload": {
+            "doc": {
+              "Customer": {
+                "Name": "Fake Customer Test",
+                "Address": "123 Ave Way",
+                "Address_2": "Suite 203 - U",
+                "City": "Bellefountaine _ U",
+                "County": "OH",
+                "Post_Code": "12345",
+                "Country_Region_Code": "US",
+                "Phone_No": "5555555555",
+                "Contact": "Fake Customer",
+                "Search_Name": "INSERT FAKE RECORD",
+                "E_Mail": "candoxy.canada.inc@cronuscorp.net"
+              }
+            }
+          },
+          "wsdlUri": "https://nav2013-demo.nchannel.local:7047/DynamicsNAV71/WS/CRONUS%20USA,%20Inc./Page/Customer",
+          "links": [
+            {
+              "function": "Read",
+              "responsePayload": {
+                 "Customer": {
+                    "Key":"24;EgAAAAJ7/0MAMAAwADMANgAw7;41460840;",
+                    "No":"C00360",
+                    "Name":"Fake Customer Test",
+                    "Address":"123 Ave Way",
+                    "Address_2":"Suite 203 - U",
+                    "City":"Bellefountaine _ U",
+                    "County":"OH",
+                    "Post_Code":"12345",
+                    "Country_Region_Code":"US",
+                    "Phone_No":"5555555555",
+                    "Primary_Contact_No":"CT000191",
+                    "Contact":"Fake Customer",
+                    "Search_Name":"INSERT FAKE RECORD",
+                    "Balance_LCY":0,
+                    "Credit_Limit_LCY":0,
+                    "Blocked":"_blank_",
+                    "Last_Date_Modified":"2018-04-27T00:00:00.000Z",
+                    "E_Mail":"candoxy.canada.inc@cronuscorp.net",
+                    "Invoice_Copies":0,
+                    "Invoice_Disc_Code":"C00360",
+                    "Copy_Sell_to_Addr_to_Qte_From":"Company",
+                    "Tax_Liable":false,
+                    "Tax_Identification_Type":"Legal_Entity",
+                    "Allow_Line_Disc":true,
+                    "Prices_Including_VAT":false,
+                    "Prepayment_Percent":0,
+                    "Application_Method":"Manual",
+                    "Partner_Type":"_blank_",
+                    "Print_Statements":false,
+                    "Last_Statement_No":0,
+                    "Block_Payment_Tolerance":false,
+                    "Combine_Shipments":false,
+                    "Reserve":"Optional",
+                    "Shipping_Advice":"Partial",
+                    "Customized_Calendar":"No",
+                    "Bank_Communication":"E_English",
+                    "Check_Date_Format":"_blank_",
+                    "Check_Date_Separator":"_blank_"
+                 }
+              }
+            },
+            {
+              "function": "Update",
+              "responsePayload": {}
+            }
+          ],
+          "channelProfile": {
+            "customerBusinessReferences": ["Customer.E_Mail", "Customer.Phone_No"]
+          }
+        },
+        {
+          "ncStatusCode": 500,
+          "payload": {
+            "doc": {
+              "Customer": {
+                "Name": "Fake Customer Test",
+                "Address": "123 Ave Way",
+                "Address_2": "Suite 203 - U",
+                "City": "Bellefountaine _ U",
+                "County": "OH",
+                "Post_Code": "12345",
+                "Country_Region_Code": "US",
+                "Phone_No": "5555555555",
+                "Contact": "Fake Customer",
+                "Search_Name": "INSERT FAKE RECORD",
+                "E_Mail": "candoxy.canada.inc@cronuscorp.net"
+              }
+            }
+          },
+          "wsdlUri": "https://nav2013-demo.nchannel.local:7047/DynamicsNAV71/WS/CRONUS%20USA,%20Inc./Page/Customer",
+          "links": [
+            {
+              "function": "Read",
+              "responsePayload": {
+                 "Customer": {
+                    "Key":"24;EgAAAAJ7/0MAMAAwADMANgAw7;41460840;",
+                    "No":"C00360",
+                    "Name":"Fake Customer Test",
+                    "Address":"123 Ave Way",
+                    "Address_2":"Suite 203 - U",
+                    "City":"Bellefountaine _ U",
+                    "County":"OH",
+                    "Post_Code":"12345",
+                    "Country_Region_Code":"US",
+                    "Phone_No":"5555555555",
+                    "Primary_Contact_No":"CT000191",
+                    "Contact":"Fake Customer",
+                    "Search_Name":"INSERT FAKE RECORD",
+                    "Balance_LCY":0,
+                    "Credit_Limit_LCY":0,
+                    "Blocked":"_blank_",
+                    "Last_Date_Modified":"2018-04-27T00:00:00.000Z",
+                    "E_Mail":"candoxy.canada.inc@cronuscorp.net",
+                    "Invoice_Copies":0,
+                    "Invoice_Disc_Code":"C00360",
+                    "Copy_Sell_to_Addr_to_Qte_From":"Company",
+                    "Tax_Liable":false,
+                    "Tax_Identification_Type":"Legal_Entity",
+                    "Allow_Line_Disc":true,
+                    "Prices_Including_VAT":false,
+                    "Prepayment_Percent":0,
+                    "Application_Method":"Manual",
+                    "Partner_Type":"_blank_",
+                    "Print_Statements":false,
+                    "Last_Statement_No":0,
+                    "Block_Payment_Tolerance":false,
+                    "Combine_Shipments":false,
+                    "Reserve":"Optional",
+                    "Shipping_Advice":"Partial",
+                    "Customized_Calendar":"No",
+                    "Bank_Communication":"E_English",
+                    "Check_Date_Format":"_blank_",
+                    "Check_Date_Separator":"_blank_"
+                 }
+              }
+            },
+            {
+              "function": "Update",
+              "responsePayload": {}
+            }
+          ],
+          "channelProfile": {
+            "customerBusinessReferences": ["Customer.E_Mail", "Customer.Phone_No"]
+          }
+        }
+      ]
+    },
+    {
+      "functionName": "InsertSalesOrder",
+      "tests": [
+        {
+          "ncStatusCode": 201,
+          "payload": {
+            "doc": {
+              "Order": {
+                 "Sell_to_Customer_No":"43687129",
+                 "Sell_to_Customer_Name":"Designstudio Gmunden",
+                 "Sell_to_Address":"Seepromenade 1b",
+                 "Sell_to_City":"Gmunden",
+                 "Sell_to_Post_Code":"AT-4810",
+                 "Sell_to_Contact":"Fr. Birgitte Vestphael",
+                 "Bill_to_Customer_No":"43687129",
+                 "Bill_to_Name":"Designstudio Gmunden",
+                 "Bill_to_Address":"Seepromenade 1b",
+                 "Bill_to_City":"Gmunden",
+                 "Bill_to_Post_Code":"AT-4810",
+                 "Bill_to_Contact":"Fr. Birgitte Vestphael",
+                 "Ship_to_Name":"Designstudio Gmunden",
+                 "Ship_to_Address":"Seepromenade 1b",
+                 "Ship_to_City":"Gmunden",
+                 "Ship_to_Post_Code":"AT-4810",
+                 "Ship_to_Contact":"Fr. Birgitte Vestphael",
+                 "SalesLines":{
+                    "Sales_Order_Line":[
+                       {
+                          "Type":"Item",
+                          "No":"1920-S",
+                          "IC_Partner_Ref_Type":"_blank_",
+                          "Substitution_Available":false,
+                          "Nonstock":false,
+                          "Description":"ANTWERP Conference Table",
+                          "Drop_Shipment":false,
+                          "Special_Order":false,
+                          "Location_Code":"GREEN",
+                          "Reserve":"Optional",
+                          "Quantity":5,
+                          "Qty_to_Assemble_to_Order":0,
+                          "Reserved_Quantity":0,
+                          "Unit_of_Measure_Code":"PCS",
+                          "Unit_of_Measure":"Piece",
+                          "Unit_Cost_LCY":505.4,
+                          "SalesPriceExist":false,
+                          "Unit_Price":523.686,
+                          "Tax_Liable":false,
+                          "Tax_Group_Code":"FURNITURE",
+                          "Line_Amount":2618.43,
+                          "SalesLineDiscExists":false,
+                          "Line_Discount_Percent":0,
+                          "Line_Discount_Amount":0,
+                          "Prepayment_Percent":0,
+                          "Prepmt_Line_Amount":0,
+                          "Prepmt_Amt_Inv":0,
+                          "Allow_Invoice_Disc":true,
+                          "Inv_Discount_Amount":0,
+                          "Qty_to_Ship":0,
+                          "Qty_to_Invoice":0,
+                          "Prepmt_Amt_to_Deduct":0,
+                          "Prepmt_Amt_Deducted":0,
+                          "Allow_Item_Charge_Assignment":true,
+                          "Qty_to_Assign":0,
+                          "Qty_Assigned":0,
+                          "Whse_Outstanding_Qty":0,
+                          "Whse_Outstanding_Qty_Base":0,
+                          "ATO_Whse_Outstanding_Qty":0,
+                          "ATO_Whse_Outstd_Qty_Base":0,
+                          "Outbound_Whse_Handling_Time":"1D",
+                          "Blanket_Order_Line_No":0,
+                          "Depr_until_FA_Posting_Date":false,
+                          "Use_Duplication_List":false,
+                          "Appl_from_Item_Entry":0,
+                          "Appl_to_Item_Entry":0,
+                          "Shortcut_Dimension_1_Code":"SALES",
+                          "ShortcutDimCode_x005B_3_x005D_":"SMALL",
+                          "ShortcutDimCode_x005B_4_x005D_":"30",
+                          "ShortcutDimCode_x005B_5_x005D_":"OFFICE"
+                       },
+                       {
+                          "Type":"Item",
+                          "No":"1900-S",
+                          "IC_Partner_Ref_Type":"_blank_",
+                          "Substitution_Available":false,
+                          "Nonstock":false,
+                          "Description":"PARIS Guest Chair, black",
+                          "Drop_Shipment":false,
+                          "Special_Order":false,
+                          "Location_Code":"GREEN",
+                          "Reserve":"Optional",
+                          "Quantity":12,
+                          "Qty_to_Assemble_to_Order":0,
+                          "Reserved_Quantity":0,
+                          "Unit_of_Measure_Code":"PCS",
+                          "Unit_of_Measure":"Piece",
+                          "Unit_Cost_LCY":150.3,
+                          "SalesPriceExist":false,
+                          "Unit_Price":155.861,
+                          "Tax_Liable":false,
+                          "Tax_Group_Code":"FURNITURE",
+                          "Line_Amount":1870.33,
+                          "SalesLineDiscExists":false,
+                          "Line_Discount_Percent":0,
+                          "Line_Discount_Amount":0,
+                          "Prepayment_Percent":0,
+                          "Prepmt_Line_Amount":0,
+                          "Prepmt_Amt_Inv":0,
+                          "Allow_Invoice_Disc":true,
+                          "Inv_Discount_Amount":0,
+                          "Qty_to_Ship":0,
+                          "Qty_to_Invoice":0,
+                          "Prepmt_Amt_to_Deduct":0,
+                          "Prepmt_Amt_Deducted":0,
+                          "Allow_Item_Charge_Assignment":true,
+                          "Qty_to_Assign":0,
+                          "Qty_Assigned":0,
+                          "Whse_Outstanding_Qty":0,
+                          "Whse_Outstanding_Qty_Base":0,
+                          "ATO_Whse_Outstanding_Qty":0,
+                          "ATO_Whse_Outstd_Qty_Base":0,
+                          "Outbound_Whse_Handling_Time":"1D",
+                          "Blanket_Order_Line_No":0,
+                          "Depr_until_FA_Posting_Date":false,
+                          "Use_Duplication_List":false,
+                          "Appl_from_Item_Entry":0,
+                          "Appl_to_Item_Entry":0,
+                          "Shortcut_Dimension_1_Code":"SALES",
+                          "ShortcutDimCode_x005B_3_x005D_":"SMALL",
+                          "ShortcutDimCode_x005B_4_x005D_":"30",
+                          "ShortcutDimCode_x005B_5_x005D_":"OFFICE"
+                       },
+                       {
+                          "Type":"Item",
+                          "No":"1996-S",
+                          "IC_Partner_Ref_Type":"_blank_",
+                          "Substitution_Available":false,
+                          "Nonstock":false,
+                          "Description":"ATLANTA Whiteboard, base",
+                          "Drop_Shipment":false,
+                          "Special_Order":false,
+                          "Location_Code":"GREEN",
+                          "Reserve":"Optional",
+                          "Quantity":1,
+                          "Qty_to_Assemble_to_Order":0,
+                          "Reserved_Quantity":0,
+                          "Unit_of_Measure_Code":"PCS",
+                          "Unit_of_Measure":"Piece",
+                          "Unit_Cost_LCY":1089.9,
+                          "SalesPriceExist":false,
+                          "Unit_Price":1129.588,
+                          "Tax_Liable":false,
+                          "Tax_Group_Code":"FURNITURE",
+                          "Line_Amount":1129.59,
+                          "SalesLineDiscExists":false,
+                          "Line_Discount_Percent":0,
+                          "Line_Discount_Amount":0,
+                          "Prepayment_Percent":0,
+                          "Prepmt_Line_Amount":0,
+                          "Prepmt_Amt_Inv":0,
+                          "Allow_Invoice_Disc":true,
+                          "Inv_Discount_Amount":0,
+                          "Qty_to_Ship":0,
+                          "Qty_to_Invoice":0,
+                          "Prepmt_Amt_to_Deduct":0,
+                          "Prepmt_Amt_Deducted":0,
+                          "Allow_Item_Charge_Assignment":true,
+                          "Qty_to_Assign":0,
+                          "Qty_Assigned":0,
+                          "Whse_Outstanding_Qty":0,
+                          "Whse_Outstanding_Qty_Base":0,
+                          "ATO_Whse_Outstanding_Qty":0,
+                          "ATO_Whse_Outstd_Qty_Base":0,
+                          "Outbound_Whse_Handling_Time":"1D",
+                          "Blanket_Order_Line_No":0,
+                          "Depr_until_FA_Posting_Date":false,
+                          "Use_Duplication_List":false,
+                          "Appl_from_Item_Entry":0,
+                          "Appl_to_Item_Entry":0,
+                          "Shortcut_Dimension_1_Code":"SALES",
+                          "ShortcutDimCode_x005B_3_x005D_":"SMALL",
+                          "ShortcutDimCode_x005B_4_x005D_":"30",
+                          "ShortcutDimCode_x005B_5_x005D_":"OFFICE"
+                       }
+                    ]
+                 }
+              }
+            }
+          },
+          "wsdlUri": "https://nav2013-demo.nchannel.local:7047/DynamicsNAV71/WS/CRONUS%20USA,%20Inc./Page/Order",
+          "links": [
+            {
+              "function": "Create",
+              "responsePayload": {
+                 "Order":{
+                    "Key":"28;JAAAAACLAQAAAAJ7BDEAMAA1ADQ=7;41462631;10;SalesLines3;36;JQAAAACLAQAAAAJ7BDEAMAA1ADQAAAAAhxAn7;41462650;36;JQAAAACLAQAAAAJ7BDEAMAA1ADQAAAAAhyBO7;41462670;36;JQAAAACLAQAAAAJ7BDEAMAA1ADQAAAAAhzB17;41462690;",
+                    "No":"1054",
+                    "Sell_to_Customer_No":"43687129",
+                    "Sell_to_Contact_No":"CT000044",
+                    "Sell_to_Customer_Name":"Designstudio Gmunden",
+                    "Sell_to_Address":"Seepromenade 1b",
+                    "Sell_to_City":"Gmunden",
+                    "Sell_to_Post_Code":"AT-4810",
+                    "Sell_to_Contact":"Fr. Birgitte Vestphael",
+                    "No_of_Archived_Versions":0,
+                    "Posting_Date":"2018-04-27T00:00:00.000Z",
+                    "Order_Date":"2018-04-27T00:00:00.000Z",
+                    "Document_Date":"2018-04-27T00:00:00.000Z",
+                    "Requested_Delivery_Date":"0001-01-01T00:00:00.000Z",
+                    "Promised_Delivery_Date":"0001-01-01T00:00:00.000Z",
+                    "Salesperson_Code":"JR",
+                    "Job_Queue_Status":"_blank_",
+                    "Status":"Open",
+                    "Bill_to_Customer_No":"43687129",
+                    "Bill_to_Contact_No":"CT000044",
+                    "Bill_to_Name":"Designstudio Gmunden",
+                    "Bill_to_Address":"Seepromenade 1b",
+                    "Bill_to_City":"Gmunden",
+                    "Bill_to_Post_Code":"AT-4810",
+                    "Bill_to_Contact":"Fr. Birgitte Vestphael",
+                    "Shortcut_Dimension_1_Code":"SALES",
+                    "Payment_Terms_Code":"1M(8D)",
+                    "Due_Date":"2018-05-27T00:00:00.000Z",
+                    "Payment_Discount_Percent":2,
+                    "Pmt_Discount_Date":"2018-05-05T00:00:00.000Z",
+                    "Tax_Liable":false,
+                    "Ship_to_Name":"Designstudio Gmunden",
+                    "Ship_to_Address":"Seepromenade 1b",
+                    "Ship_to_City":"Gmunden",
+                    "Ship_to_Post_Code":"AT-4810",
+                    "Ship_to_Contact":"Fr. Birgitte Vestphael",
+                    "Location_Code":"RED",
+                    "Shipment_Method_Code":"EXW",
+                    "Late_Order_Shipping":false,
+                    "Shipment_Date":"2018-04-27T00:00:00.000Z",
+                    "Shipping_Advice":"Partial",
+                    "Currency_Code":"EUR",
+                    "EU_3_Party_Trade":false,
+                    "Prepayment_Percent":0,
+                    "Compress_Prepayment":true,
+                    "Prepmt_Payment_Terms_Code":"1M(8D)",
+                    "Prepayment_Due_Date":"2018-05-27T00:00:00.000Z",
+                    "Prepmt_Payment_Discount_Percent":2,
+                    "Prepmt_Pmt_Discount_Date":"2018-05-05T00:00:00.000Z",
+                    "Prepmt_Include_Tax":false,
+                    "SalesLines":{
+                       "Sales_Order_Line":[
+                          {
+                             "Key":"36;JQAAAACLAQAAAAJ7BDEAMAA1ADQAAAAAhxAn7;41462650;",
+                             "Type":"Item",
+                             "No":"1920-S",
+                             "IC_Partner_Ref_Type":"_blank_",
+                             "Substitution_Available":false,
+                             "Nonstock":false,
+                             "Description":"ANTWERP Conference Table",
+                             "Drop_Shipment":false,
+                             "Special_Order":false,
+                             "Location_Code":"GREEN",
+                             "Reserve":"Optional",
+                             "Quantity":5,
+                             "Qty_to_Assemble_to_Order":0,
+                             "Reserved_Quantity":0,
+                             "Unit_of_Measure_Code":"PCS",
+                             "Unit_of_Measure":"Piece",
+                             "Unit_Cost_LCY":505.4,
+                             "SalesPriceExist":false,
+                             "Unit_Price":523.686,
+                             "Tax_Liable":false,
+                             "Tax_Group_Code":"FURNITURE",
+                             "Line_Amount":2618.43,
+                             "Amount_Including_VAT":2618.43,
+                             "SalesLineDiscExists":false,
+                             "Line_Discount_Percent":0,
+                             "Line_Discount_Amount":0,
+                             "Prepayment_Percent":0,
+                             "Prepmt_Line_Amount":0,
+                             "Prepmt_Amt_Inv":0,
+                             "Allow_Invoice_Disc":true,
+                             "Inv_Discount_Amount":0,
+                             "Qty_to_Ship":0,
+                             "Quantity_Shipped":0,
+                             "Qty_to_Invoice":0,
+                             "Quantity_Invoiced":0,
+                             "Prepmt_Amt_to_Deduct":0,
+                             "Prepmt_Amt_Deducted":0,
+                             "Allow_Item_Charge_Assignment":true,
+                             "Qty_to_Assign":0,
+                             "Qty_Assigned":0,
+                             "Requested_Delivery_Date":"0001-01-01T00:00:00.000Z",
+                             "Promised_Delivery_Date":"0001-01-01T00:00:00.000Z",
+                             "Planned_Delivery_Date":"2018-04-28T00:00:00.000Z",
+                             "Planned_Shipment_Date":"2018-04-28T00:00:00.000Z",
+                             "Shipment_Date":"2018-04-27T00:00:00.000Z",
+                             "Whse_Outstanding_Qty":0,
+                             "Whse_Outstanding_Qty_Base":0,
+                             "ATO_Whse_Outstanding_Qty":0,
+                             "ATO_Whse_Outstd_Qty_Base":0,
+                             "Outbound_Whse_Handling_Time":"1D",
+                             "Blanket_Order_Line_No":0,
+                             "FA_Posting_Date":"0001-01-01T00:00:00.000Z",
+                             "Depr_until_FA_Posting_Date":false,
+                             "Use_Duplication_List":false,
+                             "Appl_from_Item_Entry":0,
+                             "Appl_to_Item_Entry":0,
+                             "Shortcut_Dimension_1_Code":"SALES",
+                             "ShortcutDimCode_x005B_3_x005D_":"SMALL",
+                             "ShortcutDimCode_x005B_4_x005D_":"30",
+                             "ShortcutDimCode_x005B_5_x005D_":"OFFICE",
+                             "Document_No":"1054",
+                             "Line_No":10000
+                          },
+                          {
+                             "Key":"36;JQAAAACLAQAAAAJ7BDEAMAA1ADQAAAAAhyBO7;41462670;",
+                             "Type":"Item",
+                             "No":"1900-S",
+                             "IC_Partner_Ref_Type":"_blank_",
+                             "Substitution_Available":false,
+                             "Nonstock":false,
+                             "Description":"PARIS Guest Chair, black",
+                             "Drop_Shipment":false,
+                             "Special_Order":false,
+                             "Location_Code":"GREEN",
+                             "Reserve":"Optional",
+                             "Quantity":12,
+                             "Qty_to_Assemble_to_Order":0,
+                             "Reserved_Quantity":0,
+                             "Unit_of_Measure_Code":"PCS",
+                             "Unit_of_Measure":"Piece",
+                             "Unit_Cost_LCY":150.3,
+                             "SalesPriceExist":false,
+                             "Unit_Price":155.861,
+                             "Tax_Liable":false,
+                             "Tax_Group_Code":"FURNITURE",
+                             "Line_Amount":1870.33,
+                             "Amount_Including_VAT":1870.33,
+                             "SalesLineDiscExists":false,
+                             "Line_Discount_Percent":0,
+                             "Line_Discount_Amount":0,
+                             "Prepayment_Percent":0,
+                             "Prepmt_Line_Amount":0,
+                             "Prepmt_Amt_Inv":0,
+                             "Allow_Invoice_Disc":true,
+                             "Inv_Discount_Amount":0,
+                             "Qty_to_Ship":0,
+                             "Quantity_Shipped":0,
+                             "Qty_to_Invoice":0,
+                             "Quantity_Invoiced":0,
+                             "Prepmt_Amt_to_Deduct":0,
+                             "Prepmt_Amt_Deducted":0,
+                             "Allow_Item_Charge_Assignment":true,
+                             "Qty_to_Assign":0,
+                             "Qty_Assigned":0,
+                             "Requested_Delivery_Date":"0001-01-01T00:00:00.000Z",
+                             "Promised_Delivery_Date":"0001-01-01T00:00:00.000Z",
+                             "Planned_Delivery_Date":"2018-04-28T00:00:00.000Z",
+                             "Planned_Shipment_Date":"2018-04-28T00:00:00.000Z",
+                             "Shipment_Date":"2018-04-27T00:00:00.000Z",
+                             "Whse_Outstanding_Qty":0,
+                             "Whse_Outstanding_Qty_Base":0,
+                             "ATO_Whse_Outstanding_Qty":0,
+                             "ATO_Whse_Outstd_Qty_Base":0,
+                             "Outbound_Whse_Handling_Time":"1D",
+                             "Blanket_Order_Line_No":0,
+                             "FA_Posting_Date":"0001-01-01T00:00:00.000Z",
+                             "Depr_until_FA_Posting_Date":false,
+                             "Use_Duplication_List":false,
+                             "Appl_from_Item_Entry":0,
+                             "Appl_to_Item_Entry":0,
+                             "Shortcut_Dimension_1_Code":"SALES",
+                             "ShortcutDimCode_x005B_3_x005D_":"SMALL",
+                             "ShortcutDimCode_x005B_4_x005D_":"30",
+                             "ShortcutDimCode_x005B_5_x005D_":"OFFICE",
+                             "Document_No":"1054",
+                             "Line_No":20000
+                          },
+                          {
+                             "Key":"36;JQAAAACLAQAAAAJ7BDEAMAA1ADQAAAAAhzB17;41462690;",
+                             "Type":"Item",
+                             "No":"1996-S",
+                             "IC_Partner_Ref_Type":"_blank_",
+                             "Substitution_Available":false,
+                             "Nonstock":false,
+                             "Description":"ATLANTA Whiteboard, base",
+                             "Drop_Shipment":false,
+                             "Special_Order":false,
+                             "Location_Code":"GREEN",
+                             "Reserve":"Optional",
+                             "Quantity":1,
+                             "Qty_to_Assemble_to_Order":0,
+                             "Reserved_Quantity":0,
+                             "Unit_of_Measure_Code":"PCS",
+                             "Unit_of_Measure":"Piece",
+                             "Unit_Cost_LCY":1089.9,
+                             "SalesPriceExist":false,
+                             "Unit_Price":1129.588,
+                             "Tax_Liable":false,
+                             "Tax_Group_Code":"FURNITURE",
+                             "Line_Amount":1129.59,
+                             "Amount_Including_VAT":1129.59,
+                             "SalesLineDiscExists":false,
+                             "Line_Discount_Percent":0,
+                             "Line_Discount_Amount":0,
+                             "Prepayment_Percent":0,
+                             "Prepmt_Line_Amount":0,
+                             "Prepmt_Amt_Inv":0,
+                             "Allow_Invoice_Disc":true,
+                             "Inv_Discount_Amount":0,
+                             "Qty_to_Ship":0,
+                             "Quantity_Shipped":0,
+                             "Qty_to_Invoice":0,
+                             "Quantity_Invoiced":0,
+                             "Prepmt_Amt_to_Deduct":0,
+                             "Prepmt_Amt_Deducted":0,
+                             "Allow_Item_Charge_Assignment":true,
+                             "Qty_to_Assign":0,
+                             "Qty_Assigned":0,
+                             "Requested_Delivery_Date":"0001-01-01T00:00:00.000Z",
+                             "Promised_Delivery_Date":"0001-01-01T00:00:00.000Z",
+                             "Planned_Delivery_Date":"2018-04-28T00:00:00.000Z",
+                             "Planned_Shipment_Date":"2018-04-28T00:00:00.000Z",
+                             "Shipment_Date":"2018-04-27T00:00:00.000Z",
+                             "Whse_Outstanding_Qty":0,
+                             "Whse_Outstanding_Qty_Base":0,
+                             "ATO_Whse_Outstanding_Qty":0,
+                             "ATO_Whse_Outstd_Qty_Base":0,
+                             "Outbound_Whse_Handling_Time":"1D",
+                             "Blanket_Order_Line_No":0,
+                             "FA_Posting_Date":"0001-01-01T00:00:00.000Z",
+                             "Depr_until_FA_Posting_Date":false,
+                             "Use_Duplication_List":false,
+                             "Appl_from_Item_Entry":0,
+                             "Appl_to_Item_Entry":0,
+                             "Shortcut_Dimension_1_Code":"SALES",
+                             "ShortcutDimCode_x005B_3_x005D_":"SMALL",
+                             "ShortcutDimCode_x005B_4_x005D_":"30",
+                             "ShortcutDimCode_x005B_5_x005D_":"OFFICE",
+                             "Document_No":"1054",
+                             "Line_No":30000
+                          }
+                       ]
+                    }
+                 }
+              }
+            }
+          ],
+          "channelProfile": {
+            "salesOrderBusinessReferences": ["Order.No"]
+          }
+        },
+        {
+          "ncStatusCode": 400,
           "payload": {
             "doc": {}
           },
-          "baseUri": "https://localhost",
-          "defaultHeaders": {},
-          "links": [],
+          "wsdlUri": "https://nav2013-demo.nchannel.local:7047/DynamicsNAV71/WS/CRONUS%20USA,%20Inc./Page/Order",
+          "links": [
+            {
+              "function": "Create",
+              "responsePayload": {}
+            }
+          ],
           "channelProfile": {
-            "salesOrderBusinessReferences": ["orderid"]
+            "salesOrderBusinessReferences": ["Order.No"]
+          }
+        },
+        {
+          "ncStatusCode": 429,
+          "payload": {
+            "doc": {
+              "Customer": {
+                "Name": "Fake Customer Test",
+                "Address": "123 Ave Way",
+                "Address_2": "Suite 203 - U",
+                "City": "Bellefountaine _ U",
+                "County": "OH",
+                "Post_Code": "12345",
+                "Country_Region_Code": "US",
+                "Phone_No": "5555555555",
+                "Contact": "Fake Customer",
+                "Search_Name": "INSERT FAKE RECORD",
+                "E_Mail": "candoxy.canada.inc@cronuscorp.net"
+              }
+            }
+          },
+          "wsdlUri": "https://nav2013-demo.nchannel.local:7047/DynamicsNAV71/WS/CRONUS%20USA,%20Inc./Page/Order",
+          "links": [
+            {
+              "function": "Create",
+              "responsePayload": {}
+            }
+          ],
+          "channelProfile": {
+            "salesOrderBusinessReferences": ["Order.No"]
+          }
+        },
+        {
+          "ncStatusCode": 500,
+          "payload": {
+            "doc": {
+              "Customer": {
+                "Name": "Fake Customer Test",
+                "Address": "123 Ave Way",
+                "Address_2": "Suite 203 - U",
+                "City": "Bellefountaine _ U",
+                "County": "OH",
+                "Post_Code": "12345",
+                "Country_Region_Code": "US",
+                "Phone_No": "5555555555",
+                "Contact": "Fake Customer",
+                "Search_Name": "INSERT FAKE RECORD",
+                "E_Mail": "candoxy.canada.inc@cronuscorp.net"
+              }
+            }
+          },
+          "wsdlUri": "https://nav2013-demo.nchannel.local:7047/DynamicsNAV71/WS/CRONUS%20USA,%20Inc./Page/Order",
+          "links": [
+            {
+              "function": "Create",
+              "responsePayload": {}
+            }
+          ],
+          "channelProfile": {
+            "salesOrderBusinessReferences": ["Order.No"]
           }
         }
       ]
@@ -805,328 +1346,74 @@
           "ncStatusCode": 200,
           "payload": {
             "doc": {
-              "BillingCustomer": {}
-            }
-          },
-          "baseUri": "https://localhost",
-          "defaultHeaders": {},
-          "links": [],
-          "channelProfile": {
-            "salesOrderBusinessReferences": ["orderid"]
-          }
-        },
-        {
-          "ncStatusCode": 204,
-          "payload": {
-            "doc": {}
-          },
-          "baseUri": "https://localhost",
-          "defaultHeaders": {},
-          "links": [],
-          "channelProfile": {
-            "salesOrderBusinessReferences": ["orderid"]
-          }
-        }
-      ]
-    },
-    {
-      "functionName": "ExtractCustomerAddressesFromCustomer",
-      "tests": [
-        {
-          "ncStatusCode": 200,
-          "payload": {
-            "doc": {
-              "Addresses": [
-                {}
-              ]
-            }
-          },
-          "baseUri": "https://localhost",
-          "defaultHeaders": {},
-          "links": [],
-          "channelProfile": {
-            "customerBusinessReferences": ["email"]
-          }
-        },
-        {
-          "ncStatusCode": 204,
-          "payload": {
-            "doc": {}
-          },
-          "baseUri": "https://localhost",
-          "defaultHeaders": {},
-          "links": [],
-          "channelProfile": {
-            "customerBusinessReferences": ["email"]
-          }
-        }
-      ]
-    },
-    {
-      "functionName": "ExtractCustomerContactsFromCustomer",
-      "tests": [
-        {
-          "ncStatusCode": 200,
-          "payload": {
-            "doc": {
-              "ContactMethods": [
-                {}
-              ]
-            }
-          },
-          "baseUri": "https://localhost",
-          "defaultHeaders": {},
-          "links": [],
-          "channelProfile": {
-            "customerBusinessReferences": ["email"]
-          }
-        },
-        {
-          "ncStatusCode": 204,
-          "payload": {
-            "doc": {}
-          },
-          "baseUri": "https://localhost",
-          "defaultHeaders": {},
-          "links": [],
-          "channelProfile": {
-            "customerBusinessReferences": ["email"]
-          }
-        }
-      ]
-    },
-    {
-      "functionName": "ExtractProductFromProductGroup",
-      "tests": [
-        {
-          "ncStatusCode": 200,
-          "payload": {
-            "doc": {
-              "product": {
-                "id": 12020548676,
-                "title": "2asdfs45",
-                "vendor": "ci-sales-01",
-                "variants": [
-                  {
-                    "id": 52668187844,
-                    "product_id": 12020548676
-                  }
-                ]
+              "Order": {
+                 "Sell_to_Customer_No":"43687129",
+                 "Sell_to_Customer_Name":"Designstudio Gmunden",
+                 "Sell_to_Address":"Seepromenade 1b",
+                 "Sell_to_City":"Gmunden",
+                 "Sell_to_Post_Code":"AT-4810",
+                 "Sell_to_Contact":"Fr. Birgitte Vestphael",
+                 "Bill_to_Customer_No":"43687129",
+                 "Bill_to_Name":"Designstudio Gmunden",
+                 "Bill_to_Address":"Seepromenade 1b",
+                 "Bill_to_City":"Gmunden",
+                 "Bill_to_Post_Code":"AT-4810",
+                 "Bill_to_Contact":"Fr. Birgitte Vestphael",
+                 "Ship_to_Name":"Designstudio Gmunden",
+                 "Ship_to_Address":"Seepromenade 1b",
+                 "Ship_to_City":"Gmunden",
+                 "Ship_to_Post_Code":"AT-4810",
+                 "Ship_to_Contact":"Fr. Birgitte Vestphael",
+                 "Customer": {
+                   "Name": "Fake Customer Test",
+                   "Address": "123 Ave Way",
+                   "Address_2": "Suite 203 - U",
+                   "City": "Bellefountaine _ U",
+                   "County": "OH",
+                   "Post_Code": "12345",
+                   "Country_Region_Code": "US",
+                   "Phone_No": "5555555555",
+                   "Contact": "Fake Customer",
+                   "E_Mail": "candoxy.canada.inc@cronuscorp.net"
+                 }
               }
             }
           },
-          "baseUri": "https://localhost",
-          "defaultHeaders": {},
+          "wsdlUri": "",
           "links": [],
           "channelProfile": {
-            "productGroupBusinessReferences": ["productgroupid"]
+            "salesOrderBusinessReferences": ["Order.No"]
           }
         },
         {
           "ncStatusCode": 204,
           "payload": {
             "doc": {
-              "product": {
-                "id": 12020548676,
-                "title": "2asdfs45",
-                "vendor": "ci-sales-01",
-                "variants": []
+              "Order": {
+                 "Sell_to_Customer_No":"43687129",
+                 "Sell_to_Customer_Name":"Designstudio Gmunden",
+                 "Sell_to_Address":"Seepromenade 1b",
+                 "Sell_to_City":"Gmunden",
+                 "Sell_to_Post_Code":"AT-4810",
+                 "Sell_to_Contact":"Fr. Birgitte Vestphael",
+                 "Bill_to_Customer_No":"43687129",
+                 "Bill_to_Name":"Designstudio Gmunden",
+                 "Bill_to_Address":"Seepromenade 1b",
+                 "Bill_to_City":"Gmunden",
+                 "Bill_to_Post_Code":"AT-4810",
+                 "Bill_to_Contact":"Fr. Birgitte Vestphael",
+                 "Ship_to_Name":"Designstudio Gmunden",
+                 "Ship_to_Address":"Seepromenade 1b",
+                 "Ship_to_City":"Gmunden",
+                 "Ship_to_Post_Code":"AT-4810",
+                 "Ship_to_Contact":"Fr. Birgitte Vestphael"
               }
             }
           },
-          "baseUri": "https://localhost",
-          "defaultHeaders": {},
+          "wsdlUri": "",
           "links": [],
           "channelProfile": {
-            "productGroupBusinessReferences": ["productgroupid"]
-          }
-        }
-      ]
-    },
-    {
-      "functionName": "ExtractShippingAddressFromSalesOrder",
-      "tests": [
-        {
-          "ncStatusCode": 200,
-          "payload": {
-            "doc": {
-              "ShippingAddress": {}
-            }
-          },
-          "baseUri": "https://localhost",
-          "defaultHeaders": {},
-          "links": [],
-          "channelProfile": {
-            "salesOrderBusinessReferences": ["orderid"]
-          }
-        },
-        {
-          "ncStatusCode": 204,
-          "payload": {
-            "doc": {}
-          },
-          "baseUri": "https://localhost",
-          "defaultHeaders": {},
-          "links": [],
-          "channelProfile": {
-            "salesOrderBusinessReferences": ["orderid"]
-          }
-        }
-      ]
-    },
-    {
-      "functionName": "GetCustomerFromQuery",
-      "tests": [
-        {
-          "ncStatusCode": 200,
-          "payload": {
-            "doc": {}
-          },
-          "baseUri": "https://localhost",
-          "defaultHeaders": {},
-          "links": [
-            {
-              "uri": "/",
-              "method": "GET",
-              "replyHeaders": {},
-              "statusCode": 200,
-              "responsePayload": {
-                "customers": [
-                  {
-                    "id": 1073339459,
-                    "email": "derek.boytim@nchannel.com"
-                  }
-                ]
-              }
-            }
-          ],
-          "channelProfile": {
-            "customerBusinessReferences": ["email"]
-          }
-        },
-        {
-          "ncStatusCode": 204,
-          "payload": {
-            "doc": {
-              "customer": {
-                "email": "derek.boytim@nchannel.com"
-              }
-            }
-          },
-          "baseUri": "https://localhost",
-          "defaultHeaders": {},
-          "links": [
-            {
-              "uri": "/",
-              "method": "GET",
-              "replyHeaders": {},
-              "statusCode": 200,
-              "responsePayload": {
-                "customers": []
-              }
-            }
-          ],
-          "channelProfile": {
-            "customerBusinessReferences": ["email"]
-          }
-        },
-        {
-          "ncStatusCode": 206,
-          "payload": {
-            "doc": {
-              "pageSize": 2
-            }
-          },
-          "baseUri": "https://localhost",
-          "defaultHeaders": {},
-          "links": [
-            {
-              "uri": "/",
-              "method": "GET",
-              "replyHeaders": {},
-              "statusCode": 200,
-              "responsePayload": {
-                "customers": [
-                  {
-                    "id": 1073339459,
-                    "email": "derek.boytim@nchannel.com"
-                  },
-                  {
-                    "id": 1073339459,
-                    "email": "derek.boytim@nchannel.com"
-                  }
-                ]
-              }
-            }
-          ],
-          "channelProfile": {
-            "customerBusinessReferences": ["email"]
-          }
-        },
-        {
-          "ncStatusCode": 400,
-          "payload": {
-            "doc": {}
-          },
-          "baseUri": "https://localhost",
-          "defaultHeaders": {},
-          "links": [
-            {
-              "uri": "/",
-              "method": "GET",
-              "replyHeaders": {},
-              "statusCode": 401,
-              "responsePayload": {
-                "customers": []
-              }
-            }
-          ],
-          "channelProfile": {
-            "customerBusinessReferences": ["email"]
-          }
-        },
-        {
-          "ncStatusCode": 429,
-          "payload": {
-            "doc": {}
-          },
-          "baseUri": "https://localhost",
-          "defaultHeaders": {},
-          "links": [
-            {
-              "uri": "/",
-              "method": "GET",
-              "replyHeaders": {},
-              "statusCode": 429,
-              "responsePayload": {
-                "customers": []
-              }
-            }
-          ],
-          "channelProfile": {
-            "customerBusinessReferences": ["email"]
-          }
-        },
-        {
-          "ncStatusCode": 500,
-          "payload": {
-            "doc": {}
-          },
-          "baseUri": "https://localhost",
-          "defaultHeaders": {},
-          "links": [
-            {
-              "uri": "/",
-              "method": "GET",
-              "replyHeaders": {},
-              "statusCode": 500,
-              "responsePayload": {
-                "customers": []
-              }
-            }
-          ],
-          "channelProfile": {
-            "customerBusinessReferences": ["email"]
+            "salesOrderBusinessReferences": ["Order.No"]
           }
         }
       ]
@@ -1137,80 +1424,315 @@
         {
           "ncStatusCode": 200,
           "payload": {
-            "doc": {}
+            "doc": {
+              "modifiedDateRange": {
+                "startDateGMT": "2015-01-01T10:00:00.000Z",
+                "endDateGMT": "2015-01-07T12:00:00.000Z"
+              }
+            }
           },
-          "baseUri": "https://localhost",
-          "defaultHeaders": {},
+          "wsdlUri": "https://nav2013-demo.nchannel.local:7047/DynamicsNAV71/WS/CRONUS%20USA,%20Inc./Page/Sales_Shipment",
           "links": [
             {
-              "uri": "/",
-              "method": "GET",
-              "replyHeaders": {},
-              "statusCode": 200,
+              "function": "ReadMultiple",
               "responsePayload": {
-                "fulfillments": [
-                  {
-                    "id": 1073339459
-                  }
-                ]
+                 "ReadMultiple_Result": {
+                   "Sales_Shipment": {
+                       "Key":"24;bgAAAAJ7BjEAMAAyADAAMAAx6;3710631;15;SalesShipmLines2;36;bwAAAAJ7BjEAMAAyADAAMAAxAAAAAIcQJw==6;3712380;36;bwAAAAJ7BjEAMAAyADAAMAAxAAAAAIcgTg==6;3712520;",
+                       "No":"102001",
+                       "Sell_to_Customer_No":"10000",
+                       "Sell_to_Customer_Name":"The Cannon Group PLC",
+                       "Sell_to_Address":"192 Market Square",
+                       "Sell_to_City":"Atlanta",
+                       "Sell_to_County":"GA",
+                       "Sell_to_Post_Code":"31772",
+                       "Sell_to_Contact":"Mr. Andy Teal",
+                       "No_Printed":0,
+                       "Posting_Date":"2015-01-01T00:00:00.000Z",
+                       "Document_Date":"2015-01-01T00:00:00.000Z",
+                       "Requested_Delivery_Date":"0001-01-01T00:00:00.000Z",
+                       "Promised_Delivery_Date":"0001-01-01T00:00:00.000Z",
+                       "Order_No":"101001",
+                       "Salesperson_Code":"PS",
+                       "Bill_to_Customer_No":"10000",
+                       "Bill_to_Name":"The Cannon Group PLC",
+                       "Bill_to_Address":"192 Market Square",
+                       "Bill_to_City":"Atlanta",
+                       "Bill_to_County":"GA",
+                       "Bill_to_Post_Code":"31772",
+                       "Bill_to_Contact":"Mr. Andy Teal",
+                       "Shortcut_Dimension_1_Code":"SALES",
+                       "Ship_to_Name":"The Cannon Group PLC",
+                       "Ship_to_Address":"192 Market Square",
+                       "Ship_to_City":"Atlanta",
+                       "Ship_to_County":"GA",
+                       "Ship_to_Post_Code":"31772",
+                       "Ship_to_Contact":"Mr. Andy Teal",
+                       "Location_Code":"BLUE",
+                       "Shipment_Method_Code":"EXW",
+                       "Shipment_Date":"2015-01-01T00:00:00.000Z",
+                       "SalesShipmLines":{
+                          "Posted_Sales_Shpt_Line":[
+                             {
+                                "Key":"36;bwAAAAJ7BjEAMAAyADAAMAAxAAAAAIcQJw==6;3712380;",
+                                "Type":"Item",
+                                "No":"1968-S",
+                                "Description":"MEXICO Swivel Chair, black",
+                                "Location_Code":"RED",
+                                "Quantity":2,
+                                "Unit_of_Measure_Code":"PCS",
+                                "Unit_of_Measure":"Piece",
+                                "Quantity_Invoiced":2,
+                                "Qty_Shipped_Not_Invoiced":0,
+                                "Requested_Delivery_Date":"0001-01-01T00:00:00.000Z",
+                                "Promised_Delivery_Date":"0001-01-01T00:00:00.000Z",
+                                "Planned_Delivery_Date":"2015-01-01T00:00:00.000Z",
+                                "Planned_Shipment_Date":"2015-01-01T00:00:00.000Z",
+                                "Shipment_Date":"2015-01-01T00:00:00.000Z",
+                                "Appl_to_Item_Entry":0,
+                                "Shortcut_Dimension_1_Code":"SALES",
+                                "Correction":false
+                             },
+                             {
+                                "Key":"36;bwAAAAJ7BjEAMAAyADAAMAAxAAAAAIcgTg==6;3712520;",
+                                "Type":"Item",
+                                "No":"1996-S",
+                                "Description":"ATLANTA Whiteboard, base",
+                                "Location_Code":"RED",
+                                "Quantity":3,
+                                "Unit_of_Measure_Code":"PCS",
+                                "Unit_of_Measure":"Piece",
+                                "Quantity_Invoiced":3,
+                                "Qty_Shipped_Not_Invoiced":0,
+                                "Requested_Delivery_Date":"0001-01-01T00:00:00.000Z",
+                                "Promised_Delivery_Date":"0001-01-01T00:00:00.000Z",
+                                "Planned_Delivery_Date":"2015-01-01T00:00:00.000Z",
+                                "Planned_Shipment_Date":"2015-01-01T00:00:00.000Z",
+                                "Shipment_Date":"2015-01-01T00:00:00.000Z",
+                                "Appl_to_Item_Entry":0,
+                                "Shortcut_Dimension_1_Code":"SALES",
+                                "Correction":false
+                             }
+                          ]
+                       }
+                    }
+                 }
               }
             }
           ],
           "channelProfile": {
-            "fulfillmentBusinessReferences": ["fulfillmentid"]
+            "fulfillmentBusinessReferences": ["Sales_Shipment.No"],
+            "salesOrderBusinessReferences": ["Order.No"]
           }
         },
         {
           "ncStatusCode": 204,
           "payload": {
-            "doc": {}
+            "doc": {
+              "modifiedDateRange": {
+                "startDateGMT": "2015-01-01T10:00:00.000Z",
+                "endDateGMT": "2015-01-07T12:00:00.000Z"
+              }
+            }
           },
-          "baseUri": "https://localhost",
-          "defaultHeaders": {},
+          "wsdlUri": "https://nav2013-demo.nchannel.local:7047/DynamicsNAV71/WS/CRONUS%20USA,%20Inc./Page/Sales_Shipment",
           "links": [
             {
-              "uri": "/",
-              "method": "GET",
-              "replyHeaders": {},
-              "statusCode": 200,
+              "function": "ReadMultiple",
               "responsePayload": {
-                "fulfillments": []
+                 "ReadMultiple_Result": null
               }
             }
           ],
           "channelProfile": {
-            "fulfillmentBusinessReferences": ["fulfillmentid"]
+            "fulfillmentBusinessReferences": ["Sales_Shipment.No"],
+            "salesOrderBusinessReferences": ["Order.No"]
           }
         },
         {
           "ncStatusCode": 206,
           "payload": {
             "doc": {
+              "modifiedDateRange": {
+                "startDateGMT": "2015-01-01T10:00:00.000Z",
+                "endDateGMT": "2015-01-07T12:00:00.000Z"
+              },
               "pageSize": 2
             }
           },
-          "baseUri": "https://localhost",
-          "defaultHeaders": {},
+          "wsdlUri": "https://nav2013-demo.nchannel.local:7047/DynamicsNAV71/WS/CRONUS%20USA,%20Inc./Page/Sales_Shipment",
           "links": [
             {
-              "uri": "/",
-              "method": "GET",
-              "replyHeaders": {},
-              "statusCode": 200,
+              "function": "ReadMultiple",
               "responsePayload": {
-                "fulfillments": [
-                  {
-                    "id": 1073339459
-                  },
-                  {
-                    "id": 1073339459
-                  }
-                ]
+                 "ReadMultiple_Result": {
+                   "Sales_Shipment": [
+                     {
+                       "Key":"24;bgAAAAJ7BjEAMAAyADAAMAAx6;3710631;15;SalesShipmLines2;36;bwAAAAJ7BjEAMAAyADAAMAAxAAAAAIcQJw==6;3712380;36;bwAAAAJ7BjEAMAAyADAAMAAxAAAAAIcgTg==6;3712520;",
+                       "No":"102001",
+                       "Sell_to_Customer_No":"10000",
+                       "Sell_to_Customer_Name":"The Cannon Group PLC",
+                       "Sell_to_Address":"192 Market Square",
+                       "Sell_to_City":"Atlanta",
+                       "Sell_to_County":"GA",
+                       "Sell_to_Post_Code":"31772",
+                       "Sell_to_Contact":"Mr. Andy Teal",
+                       "No_Printed":0,
+                       "Posting_Date":"2015-01-01T00:00:00.000Z",
+                       "Document_Date":"2015-01-01T00:00:00.000Z",
+                       "Requested_Delivery_Date":"0001-01-01T00:00:00.000Z",
+                       "Promised_Delivery_Date":"0001-01-01T00:00:00.000Z",
+                       "Order_No":"101001",
+                       "Salesperson_Code":"PS",
+                       "Bill_to_Customer_No":"10000",
+                       "Bill_to_Name":"The Cannon Group PLC",
+                       "Bill_to_Address":"192 Market Square",
+                       "Bill_to_City":"Atlanta",
+                       "Bill_to_County":"GA",
+                       "Bill_to_Post_Code":"31772",
+                       "Bill_to_Contact":"Mr. Andy Teal",
+                       "Shortcut_Dimension_1_Code":"SALES",
+                       "Ship_to_Name":"The Cannon Group PLC",
+                       "Ship_to_Address":"192 Market Square",
+                       "Ship_to_City":"Atlanta",
+                       "Ship_to_County":"GA",
+                       "Ship_to_Post_Code":"31772",
+                       "Ship_to_Contact":"Mr. Andy Teal",
+                       "Location_Code":"BLUE",
+                       "Shipment_Method_Code":"EXW",
+                       "Shipment_Date":"2015-01-01T00:00:00.000Z",
+                       "SalesShipmLines":{
+                          "Posted_Sales_Shpt_Line":[
+                             {
+                                "Key":"36;bwAAAAJ7BjEAMAAyADAAMAAxAAAAAIcQJw==6;3712380;",
+                                "Type":"Item",
+                                "No":"1968-S",
+                                "Description":"MEXICO Swivel Chair, black",
+                                "Location_Code":"RED",
+                                "Quantity":2,
+                                "Unit_of_Measure_Code":"PCS",
+                                "Unit_of_Measure":"Piece",
+                                "Quantity_Invoiced":2,
+                                "Qty_Shipped_Not_Invoiced":0,
+                                "Requested_Delivery_Date":"0001-01-01T00:00:00.000Z",
+                                "Promised_Delivery_Date":"0001-01-01T00:00:00.000Z",
+                                "Planned_Delivery_Date":"2015-01-01T00:00:00.000Z",
+                                "Planned_Shipment_Date":"2015-01-01T00:00:00.000Z",
+                                "Shipment_Date":"2015-01-01T00:00:00.000Z",
+                                "Appl_to_Item_Entry":0,
+                                "Shortcut_Dimension_1_Code":"SALES",
+                                "Correction":false
+                             },
+                             {
+                                "Key":"36;bwAAAAJ7BjEAMAAyADAAMAAxAAAAAIcgTg==6;3712520;",
+                                "Type":"Item",
+                                "No":"1996-S",
+                                "Description":"ATLANTA Whiteboard, base",
+                                "Location_Code":"RED",
+                                "Quantity":3,
+                                "Unit_of_Measure_Code":"PCS",
+                                "Unit_of_Measure":"Piece",
+                                "Quantity_Invoiced":3,
+                                "Qty_Shipped_Not_Invoiced":0,
+                                "Requested_Delivery_Date":"0001-01-01T00:00:00.000Z",
+                                "Promised_Delivery_Date":"0001-01-01T00:00:00.000Z",
+                                "Planned_Delivery_Date":"2015-01-01T00:00:00.000Z",
+                                "Planned_Shipment_Date":"2015-01-01T00:00:00.000Z",
+                                "Shipment_Date":"2015-01-01T00:00:00.000Z",
+                                "Appl_to_Item_Entry":0,
+                                "Shortcut_Dimension_1_Code":"SALES",
+                                "Correction":false
+                             }
+                          ]
+                       }
+                      },
+                      {
+                          "Key":"24;bgAAAAJ7BjEAMAAyADAAMAAx6;3710631;15;SalesShipmLines2;36;bwAAAAJ7BjEAMAAyADAAMAAxAAAAAIcQJw==6;3712380;36;bwAAAAJ7BjEAMAAyADAAMAAxAAAAAIcgTg==6;3712520;",
+                          "No":"102001",
+                          "Sell_to_Customer_No":"10000",
+                          "Sell_to_Customer_Name":"The Cannon Group PLC",
+                          "Sell_to_Address":"192 Market Square",
+                          "Sell_to_City":"Atlanta",
+                          "Sell_to_County":"GA",
+                          "Sell_to_Post_Code":"31772",
+                          "Sell_to_Contact":"Mr. Andy Teal",
+                          "No_Printed":0,
+                          "Posting_Date":"2015-01-01T00:00:00.000Z",
+                          "Document_Date":"2015-01-01T00:00:00.000Z",
+                          "Requested_Delivery_Date":"0001-01-01T00:00:00.000Z",
+                          "Promised_Delivery_Date":"0001-01-01T00:00:00.000Z",
+                          "Order_No":"101001",
+                          "Salesperson_Code":"PS",
+                          "Bill_to_Customer_No":"10000",
+                          "Bill_to_Name":"The Cannon Group PLC",
+                          "Bill_to_Address":"192 Market Square",
+                          "Bill_to_City":"Atlanta",
+                          "Bill_to_County":"GA",
+                          "Bill_to_Post_Code":"31772",
+                          "Bill_to_Contact":"Mr. Andy Teal",
+                          "Shortcut_Dimension_1_Code":"SALES",
+                          "Ship_to_Name":"The Cannon Group PLC",
+                          "Ship_to_Address":"192 Market Square",
+                          "Ship_to_City":"Atlanta",
+                          "Ship_to_County":"GA",
+                          "Ship_to_Post_Code":"31772",
+                          "Ship_to_Contact":"Mr. Andy Teal",
+                          "Location_Code":"BLUE",
+                          "Shipment_Method_Code":"EXW",
+                          "Shipment_Date":"2015-01-01T00:00:00.000Z",
+                          "SalesShipmLines":{
+                             "Posted_Sales_Shpt_Line":[
+                                {
+                                   "Key":"36;bwAAAAJ7BjEAMAAyADAAMAAxAAAAAIcQJw==6;3712380;",
+                                   "Type":"Item",
+                                   "No":"1968-S",
+                                   "Description":"MEXICO Swivel Chair, black",
+                                   "Location_Code":"RED",
+                                   "Quantity":2,
+                                   "Unit_of_Measure_Code":"PCS",
+                                   "Unit_of_Measure":"Piece",
+                                   "Quantity_Invoiced":2,
+                                   "Qty_Shipped_Not_Invoiced":0,
+                                   "Requested_Delivery_Date":"0001-01-01T00:00:00.000Z",
+                                   "Promised_Delivery_Date":"0001-01-01T00:00:00.000Z",
+                                   "Planned_Delivery_Date":"2015-01-01T00:00:00.000Z",
+                                   "Planned_Shipment_Date":"2015-01-01T00:00:00.000Z",
+                                   "Shipment_Date":"2015-01-01T00:00:00.000Z",
+                                   "Appl_to_Item_Entry":0,
+                                   "Shortcut_Dimension_1_Code":"SALES",
+                                   "Correction":false
+                                },
+                                {
+                                   "Key":"36;bwAAAAJ7BjEAMAAyADAAMAAxAAAAAIcgTg==6;3712520;",
+                                   "Type":"Item",
+                                   "No":"1996-S",
+                                   "Description":"ATLANTA Whiteboard, base",
+                                   "Location_Code":"RED",
+                                   "Quantity":3,
+                                   "Unit_of_Measure_Code":"PCS",
+                                   "Unit_of_Measure":"Piece",
+                                   "Quantity_Invoiced":3,
+                                   "Qty_Shipped_Not_Invoiced":0,
+                                   "Requested_Delivery_Date":"0001-01-01T00:00:00.000Z",
+                                   "Promised_Delivery_Date":"0001-01-01T00:00:00.000Z",
+                                   "Planned_Delivery_Date":"2015-01-01T00:00:00.000Z",
+                                   "Planned_Shipment_Date":"2015-01-01T00:00:00.000Z",
+                                   "Shipment_Date":"2015-01-01T00:00:00.000Z",
+                                   "Appl_to_Item_Entry":0,
+                                   "Shortcut_Dimension_1_Code":"SALES",
+                                   "Correction":false
+                                }
+                             ]
+                          }
+                       }
+                   ]
+                 }
               }
             }
           ],
           "channelProfile": {
-            "fulfillmentBusinessReferences": ["fulfillmentid"]
+            "fulfillmentBusinessReferences": ["Sales_Shipment.No"],
+            "salesOrderBusinessReferences": ["Order.No"]
           }
         },
         {
@@ -1218,665 +1740,856 @@
           "payload": {
             "doc": {}
           },
-          "baseUri": "https://localhost",
-          "defaultHeaders": {},
+          "wsdlUri": "https://nav2013-demo.nchannel.local:7047/DynamicsNAV71/WS/CRONUS%20USA,%20Inc./Page/Sales_Shipment",
           "links": [
             {
-              "uri": "/",
-              "method": "GET",
-              "replyHeaders": {},
-              "statusCode": 401,
+              "function": "ReadMultiple",
               "responsePayload": {
-                "fulfillments": []
+                 "ReadMultiple_Result": "not an object"
               }
             }
           ],
           "channelProfile": {
-            "fulfillmentBusinessReferences": ["fulfillmentid"]
+            "fulfillmentBusinessReferences": ["Sales_Shipment.No"],
+            "salesOrderBusinessReferences": ["Order.No"]
           }
         },
         {
           "ncStatusCode": 429,
           "payload": {
-            "doc": {}
+            "doc": {
+              "modifiedDateRange": {
+                "startDateGMT": "2015-01-01T10:00:00.000Z",
+                "endDateGMT": "2015-01-07T12:00:00.000Z"
+              }
+            }
           },
-          "baseUri": "https://localhost",
-          "defaultHeaders": {},
+          "wsdlUri": "https://nav2013-demo.nchannel.local:7047/DynamicsNAV71/WS/CRONUS%20USA,%20Inc./Page/Sales_Shipment",
           "links": [
             {
-              "uri": "/",
-              "method": "GET",
-              "replyHeaders": {},
-              "statusCode": 429,
+              "function": "ReadMultiple",
               "responsePayload": {
-                "fulfillments": []
+                 "ReadMultiple_Result": "not an object"
               }
             }
           ],
           "channelProfile": {
-            "fulfillmentBusinessReferences": ["fulfillmentid"]
+            "fulfillmentBusinessReferences": ["Sales_Shipment.No"],
+            "salesOrderBusinessReferences": ["Order.No"]
           }
         },
         {
           "ncStatusCode": 500,
           "payload": {
-            "doc": {}
+            "doc": {
+              "modifiedDateRange": {
+                "startDateGMT": "2015-01-01T10:00:00.000Z",
+                "endDateGMT": "2015-01-07T12:00:00.000Z"
+              }
+            }
           },
-          "baseUri": "https://localhost",
-          "defaultHeaders": {},
+          "wsdlUri": "https://nav2013-demo.nchannel.local:7047/DynamicsNAV71/WS/CRONUS%20USA,%20Inc./Page/Sales_Shipment",
           "links": [
             {
-              "uri": "/",
-              "method": "GET",
-              "replyHeaders": {},
-              "statusCode": 500,
+              "function": "ReadMultiple",
               "responsePayload": {
-                "fulfillments": []
+                 "ReadMultiple_Result": "not an object"
               }
             }
           ],
           "channelProfile": {
-            "fulfillmentBusinessReferences": ["fulfillmentid"]
+            "fulfillmentBusinessReferences": ["Sales_Shipment.No"],
+            "salesOrderBusinessReferences": ["Order.No"]
           }
         }
       ]
     },
     {
-      "functionName": "GetProductGroupFromQuery",
+      "functionName": "GetProductMatrixFromQuery",
       "tests": [
         {
           "ncStatusCode": 200,
           "payload": {
-            "doc": {}
+            "doc": {
+              "modifiedDateRange": {
+                "startDateGMT": "2015-01-01T10:00:00.000Z",
+                "endDateGMT": "2015-01-07T12:00:00.000Z"
+              }
+            }
           },
-          "baseUri": "https://localhost",
-          "defaultHeaders": {},
           "links": [
             {
-              "uri": "/",
-              "method": "GET",
-              "replyHeaders": {},
-              "statusCode": 200,
+              "wsdlUri": "https://nav2013-demo.nchannel.local:7047/DynamicsNAV71/WS/CRONUS%20USA,%20Inc./Page/Item",
+              "function": "ReadMultiple",
               "responsePayload": {
-                "products": [
-                  {
-                    "id": 1073339459,
-                    "sku": "test"
-                  }
-                ]
+               "ReadMultiple_Result":{
+                    "Item":{
+                       "Key":"20;GwAAAAJ7BDEAMQAxADI=7;38868060;",
+                       "No":"1112",
+                       "Description":"T-Shirt",
+                       "Base_Unit_of_Measure":"PCS",
+                       "Assembly_BOM":false,
+                       "Automatic_Ext_Texts":false,
+                       "Created_From_Nonstock_Item":false,
+                       "Item_Category_Code":"MISC",
+                       "Product_Group_Code":"SUPPLIERS",
+                       "Service_Item_Group":"CD ROM",
+                       "Search_Description":"T-SHIRT",
+                       "Inventory":177,
+                       "Qty_on_Purch_Order":0,
+                       "Qty_on_Prod_Order":0,
+                       "Qty_on_Component_Lines":0,
+                       "Qty_on_Sales_Order":3,
+                       "Qty_on_Service_Order":0,
+                       "Qty_on_Job_Order":0,
+                       "Qty_on_Assembly_Order":0,
+                       "Qty_on_Asm_Component":0,
+                       "Blocked":false,
+                       "Last_Date_Modified":"2018-01-31T00:00:00.000Z",
+                       "StockoutWarningDefaultYes":"Default",
+                       "PreventNegInventoryDefaultYes":"Default",
+                       "Costing_Method":"Standard",
+                       "Cost_is_Adjusted":false,
+                       "Cost_is_Posted_to_G_L":false,
+                       "Standard_Cost":0,
+                       "Unit_Cost":0,
+                       "Overhead_Rate":0,
+                       "Indirect_Cost_Percent":0,
+                       "Last_Direct_Cost":5,
+                       "Price_Profit_Calculation":"Profit_x003D_Price_Cost",
+                       "Profit_Percent":0,
+                       "Unit_Price":10,
+                       "Gen_Prod_Posting_Group":"RETAIL",
+                       "Inventory_Posting_Group":"FINISHED",
+                       "Net_Invoiced_Qty":177,
+                       "Allow_Invoice_Disc":true,
+                       "Sales_Unit_of_Measure":"PCS",
+                       "Replenishment_System":"Purchase",
+                       "Vendor_No":"01254796",
+                       "Vendor_Item_No":"1112",
+                       "Purch_Unit_of_Measure":"PCS",
+                       "Manufacturing_Policy":"Make_to_Stock",
+                       "Rounding_Precision":1,
+                       "Flushing_Method":"Manual",
+                       "Scrap_Percent":0,
+                       "Lot_Size":0,
+                       "Assembly_Policy":"Assemble_to_Stock",
+                       "Reordering_Policy":"_blank_",
+                       "Reserve":"Optional",
+                       "Order_Tracking_Policy":"None",
+                       "Stockkeeping_Unit_Exists":false,
+                       "Dampener_Quantity":0,
+                       "Critical":false,
+                       "Safety_Stock_Quantity":0,
+                       "Include_Inventory":false,
+                       "Reorder_Point":0,
+                       "Reorder_Quantity":0,
+                       "Maximum_Inventory":0,
+                       "Overflow_Level":0,
+                       "Minimum_Order_Quantity":0,
+                       "Maximum_Order_Quantity":0,
+                       "Order_Multiple":0,
+                       "Net_Weight":0,
+                       "Gross_Weight":0,
+                       "Last_Phys_Invt_Date":"0001-01-01T00:00:00.000Z",
+                       "Last_Counting_Period_Update":"0001-01-01T00:00:00.000Z",
+                       "Use_Cross_Docking":true
+                    }
+                 }
+              }
+            },
+            {
+              "wsdlUri": "https://nav2013-demo.nchannel.local:7047/DynamicsNAV71/WS/CRONUS%20USA,%20Inc./Page/Item_Variants",
+              "function": "ReadMultiple",
+              "responsePayload": {
+                 "ReadMultiple_Result":{
+                    "Item_Variants":[
+                       {
+                          "Key":"44;GRUAAAJ7BDEAMQAxADIAAAACe/9MAEcALQBCAEwASw==7;38858450;",
+                          "Item_No":"1112",
+                          "Code":"LG-BLK",
+                          "Description":"Large Black"
+                       },
+                       {
+                          "Key":"44;GRUAAAJ7BDEAMQAxADIAAAACe/9MAEcALQBCAEwAVQ==7;38858730;",
+                          "Item_No":"1112",
+                          "Code":"LG-BLU",
+                          "Description":"Large Blue"
+                       },
+                       {
+                          "Key":"44;GRUAAAJ7BDEAMQAxADIAAAACe/9MAEcALQBSAEUARA==7;38858470;",
+                          "Item_No":"1112",
+                          "Code":"LG-RED",
+                          "Description":"Large Red"
+                       },
+                       {
+                          "Key":"44;GRUAAAJ7BDEAMQAxADIAAAACe/9NAEQALQBCAEwASw==7;38858680;",
+                          "Item_No":"1112",
+                          "Code":"MD-BLK",
+                          "Description":"Medium Black"
+                       },
+                       {
+                          "Key":"44;GRUAAAJ7BDEAMQAxADIAAAACe/9NAEQALQBCAEwAVQ==7;38858620;",
+                          "Item_No":"1112",
+                          "Code":"MD-BLU",
+                          "Description":"Medium Blue"
+                       },
+                       {
+                          "Key":"44;GRUAAAJ7BDEAMQAxADIAAAACe/9NAEQALQBSAEUARA==7;38858630;",
+                          "Item_No":"1112",
+                          "Code":"MD-RED",
+                          "Description":"Medium Red"
+                       },
+                       {
+                          "Key":"44;GRUAAAJ7BDEAMQAxADIAAAACe/9TAE0ALQBCAEwASw==7;38858690;",
+                          "Item_No":"1112",
+                          "Code":"SM-BLK",
+                          "Description":"Small Black"
+                       },
+                       {
+                          "Key":"44;GRUAAAJ7BDEAMQAxADIAAAACe/9TAE0ALQBCAEwAVQ==7;38858710;",
+                          "Item_No":"1112",
+                          "Code":"SM-BLU",
+                          "Description":"Small Blue"
+                       },
+                       {
+                          "Key":"44;GRUAAAJ7BDEAMQAxADIAAAACe/9TAE0ALQBSAEUARA==7;38858700;",
+                          "Item_No":"1112",
+                          "Code":"SM-RED",
+                          "Description":"Small Red"
+                       }
+                    ]
+                 }
               }
             }
           ],
           "channelProfile": {
-            "productGroupBusinessReferences": ["productgroupid"]
+            "productBusinessReferences": ["Item.No"]
           }
         },
         {
           "ncStatusCode": 204,
           "payload": {
-            "doc": {}
+            "doc": {
+              "modifiedDateRange": {
+                "startDateGMT": "2015-01-01T10:00:00.000Z",
+                "endDateGMT": "2015-01-07T12:00:00.000Z"
+              }
+            }
           },
-          "baseUri": "https://localhost",
-          "defaultHeaders": {},
           "links": [
             {
-              "uri": "/",
-              "method": "GET",
-              "replyHeaders": {},
-              "statusCode": 200,
+              "wsdlUri": "https://nav2013-demo.nchannel.local:7047/DynamicsNAV71/WS/CRONUS%20USA,%20Inc./Page/Item",
+              "function": "ReadMultiple",
               "responsePayload": {
-                "products": []
+                 "ReadMultiple_Result": null
               }
             }
           ],
           "channelProfile": {
-            "productGroupBusinessReferences": ["productgroupid"]
-          }
-        },
-        {
-          "ncStatusCode": 204,
-          "payload": {
-            "doc": {}
-          },
-          "baseUri": "https://localhost",
-          "defaultHeaders": {},
-          "links": [
-            {
-              "uri": "/",
-              "method": "GET",
-              "replyHeaders": {},
-              "statusCode": 204,
-              "responsePayload": {
-                "products": [
-                  {
-                    "id": 1073339459,
-                    "sku": "test"
-                  },
-                  {
-                    "id": 1073339459,
-                    "sku": "test"
-                  }
-                ]
-              }
-            }
-          ],
-          "channelProfile": {
-            "productGroupBusinessReferences": ["productgroupid"]
-          }
-        },
-        {
-          "ncStatusCode": 400,
-          "payload": {
-            "doc": {}
-          },
-          "baseUri": "https://localhost",
-          "defaultHeaders": {},
-          "links": [
-            {
-              "uri": "/",
-              "method": "GET",
-              "replyHeaders": {},
-              "statusCode": 401,
-              "responsePayload": {
-                "products": []
-              }
-            }
-          ],
-          "channelProfile": {
-            "productGroupBusinessReferences": ["productgroupid"]
-          }
-        },
-        {
-          "ncStatusCode": 429,
-          "payload": {
-            "doc": {}
-          },
-          "baseUri": "https://localhost",
-          "defaultHeaders": {},
-          "links": [
-            {
-              "uri": "/",
-              "method": "GET",
-              "replyHeaders": {},
-              "statusCode": 429,
-              "responsePayload": {
-                "products": []
-              }
-            }
-          ],
-          "channelProfile": {
-            "productGroupBusinessReferences": ["productgroupid"]
-          }
-        },
-        {
-          "ncStatusCode": 500,
-          "payload": {
-            "doc": {}
-          },
-          "baseUri": "https://localhost",
-          "defaultHeaders": {},
-          "links": [
-            {
-              "uri": "/",
-              "method": "GET",
-              "replyHeaders": {},
-              "statusCode": 500,
-              "responsePayload": {
-                "products": []
-              }
-            }
-          ],
-          "channelProfile": {
-            "productGroupBusinessReferences": ["productgroupid"]
-          }
-        }
-      ]
-    },
-    {
-      "functionName": "GetSalesOrderFromQuery",
-      "tests": [
-        {
-          "ncStatusCode": 200,
-          "payload": {
-            "doc": {}
-          },
-          "baseUri": "https://localhost",
-          "defaultHeaders": {},
-          "links": [
-            {
-              "uri": "/",
-              "method": "GET",
-              "replyHeaders": {},
-              "statusCode": 200,
-              "responsePayload": {
-                "orders": [
-                  {
-                    "id": 1073339459
-                  }
-                ]
-              }
-            }
-          ],
-          "channelProfile": {
-            "salesOrderBusinessReferences": ["orderid"]
-          }
-        },
-        {
-          "ncStatusCode": 204,
-          "payload": {
-            "doc": {}
-          },
-          "baseUri": "https://localhost",
-          "defaultHeaders": {},
-          "links": [
-            {
-              "uri": "/",
-              "method": "GET",
-              "replyHeaders": {},
-              "statusCode": 200,
-              "responsePayload": {
-                "orders": []
-              }
-            }
-          ],
-          "channelProfile": {
-            "salesOrderBusinessReferences": ["orderid"]
+            "productBusinessReferences": ["Item.No"]
           }
         },
         {
           "ncStatusCode": 206,
           "payload": {
             "doc": {
-              "pageSize": 2
+              "modifiedDateRange": {
+                "startDateGMT": "2015-01-01T10:00:00.000Z",
+                "endDateGMT": "2015-01-07T12:00:00.000Z"
+              },
+              "pageSize": 1
             }
           },
-          "baseUri": "https://localhost",
-          "defaultHeaders": {},
           "links": [
             {
-              "uri": "/",
-              "method": "GET",
-              "replyHeaders": {},
-              "statusCode": 200,
+              "wsdlUri": "https://nav2013-demo.nchannel.local:7047/DynamicsNAV71/WS/CRONUS%20USA,%20Inc./Page/Item",
+              "function": "ReadMultiple",
               "responsePayload": {
-                "orders": [
-                  {
-                    "id": 1073339459
-                  },
-                  {
-                    "id": 1073339459
+               "ReadMultiple_Result":{
+                    "Item":{
+                       "Key":"20;GwAAAAJ7BDEAMQAxADI=7;38868060;",
+                       "No":"1112",
+                       "Description":"T-Shirt",
+                       "Base_Unit_of_Measure":"PCS",
+                       "Assembly_BOM":false,
+                       "Automatic_Ext_Texts":false,
+                       "Created_From_Nonstock_Item":false,
+                       "Item_Category_Code":"MISC",
+                       "Product_Group_Code":"SUPPLIERS",
+                       "Service_Item_Group":"CD ROM",
+                       "Search_Description":"T-SHIRT",
+                       "Inventory":177,
+                       "Qty_on_Purch_Order":0,
+                       "Qty_on_Prod_Order":0,
+                       "Qty_on_Component_Lines":0,
+                       "Qty_on_Sales_Order":3,
+                       "Qty_on_Service_Order":0,
+                       "Qty_on_Job_Order":0,
+                       "Qty_on_Assembly_Order":0,
+                       "Qty_on_Asm_Component":0,
+                       "Blocked":false,
+                       "Last_Date_Modified":"2018-01-31T00:00:00.000Z",
+                       "StockoutWarningDefaultYes":"Default",
+                       "PreventNegInventoryDefaultYes":"Default",
+                       "Costing_Method":"Standard",
+                       "Cost_is_Adjusted":false,
+                       "Cost_is_Posted_to_G_L":false,
+                       "Standard_Cost":0,
+                       "Unit_Cost":0,
+                       "Overhead_Rate":0,
+                       "Indirect_Cost_Percent":0,
+                       "Last_Direct_Cost":5,
+                       "Price_Profit_Calculation":"Profit_x003D_Price_Cost",
+                       "Profit_Percent":0,
+                       "Unit_Price":10,
+                       "Gen_Prod_Posting_Group":"RETAIL",
+                       "Inventory_Posting_Group":"FINISHED",
+                       "Net_Invoiced_Qty":177,
+                       "Allow_Invoice_Disc":true,
+                       "Sales_Unit_of_Measure":"PCS",
+                       "Replenishment_System":"Purchase",
+                       "Vendor_No":"01254796",
+                       "Vendor_Item_No":"1112",
+                       "Purch_Unit_of_Measure":"PCS",
+                       "Manufacturing_Policy":"Make_to_Stock",
+                       "Rounding_Precision":1,
+                       "Flushing_Method":"Manual",
+                       "Scrap_Percent":0,
+                       "Lot_Size":0,
+                       "Assembly_Policy":"Assemble_to_Stock",
+                       "Reordering_Policy":"_blank_",
+                       "Reserve":"Optional",
+                       "Order_Tracking_Policy":"None",
+                       "Stockkeeping_Unit_Exists":false,
+                       "Dampener_Quantity":0,
+                       "Critical":false,
+                       "Safety_Stock_Quantity":0,
+                       "Include_Inventory":false,
+                       "Reorder_Point":0,
+                       "Reorder_Quantity":0,
+                       "Maximum_Inventory":0,
+                       "Overflow_Level":0,
+                       "Minimum_Order_Quantity":0,
+                       "Maximum_Order_Quantity":0,
+                       "Order_Multiple":0,
+                       "Net_Weight":0,
+                       "Gross_Weight":0,
+                       "Last_Phys_Invt_Date":"0001-01-01T00:00:00.000Z",
+                       "Last_Counting_Period_Update":"0001-01-01T00:00:00.000Z",
+                       "Use_Cross_Docking":true
+                    }
+                 }
+              }
+            },
+            {
+              "wsdlUri": "https://nav2013-demo.nchannel.local:7047/DynamicsNAV71/WS/CRONUS%20USA,%20Inc./Page/Item_Variants",
+              "function": "ReadMultiple",
+              "responsePayload": {
+                 "ReadMultiple_Result":{
+                    "Item_Variants":[
+                       {
+                          "Key":"44;GRUAAAJ7BDEAMQAxADIAAAACe/9MAEcALQBCAEwASw==7;38858450;",
+                          "Item_No":"1112",
+                          "Code":"LG-BLK",
+                          "Description":"Large Black"
+                       },
+                       {
+                          "Key":"44;GRUAAAJ7BDEAMQAxADIAAAACe/9MAEcALQBCAEwAVQ==7;38858730;",
+                          "Item_No":"1112",
+                          "Code":"LG-BLU",
+                          "Description":"Large Blue"
+                       },
+                       {
+                          "Key":"44;GRUAAAJ7BDEAMQAxADIAAAACe/9MAEcALQBSAEUARA==7;38858470;",
+                          "Item_No":"1112",
+                          "Code":"LG-RED",
+                          "Description":"Large Red"
+                       },
+                       {
+                          "Key":"44;GRUAAAJ7BDEAMQAxADIAAAACe/9NAEQALQBCAEwASw==7;38858680;",
+                          "Item_No":"1112",
+                          "Code":"MD-BLK",
+                          "Description":"Medium Black"
+                       },
+                       {
+                          "Key":"44;GRUAAAJ7BDEAMQAxADIAAAACe/9NAEQALQBCAEwAVQ==7;38858620;",
+                          "Item_No":"1112",
+                          "Code":"MD-BLU",
+                          "Description":"Medium Blue"
+                       },
+                       {
+                          "Key":"44;GRUAAAJ7BDEAMQAxADIAAAACe/9NAEQALQBSAEUARA==7;38858630;",
+                          "Item_No":"1112",
+                          "Code":"MD-RED",
+                          "Description":"Medium Red"
+                       },
+                       {
+                          "Key":"44;GRUAAAJ7BDEAMQAxADIAAAACe/9TAE0ALQBCAEwASw==7;38858690;",
+                          "Item_No":"1112",
+                          "Code":"SM-BLK",
+                          "Description":"Small Black"
+                       },
+                       {
+                          "Key":"44;GRUAAAJ7BDEAMQAxADIAAAACe/9TAE0ALQBCAEwAVQ==7;38858710;",
+                          "Item_No":"1112",
+                          "Code":"SM-BLU",
+                          "Description":"Small Blue"
+                       },
+                       {
+                          "Key":"44;GRUAAAJ7BDEAMQAxADIAAAACe/9TAE0ALQBSAEUARA==7;38858700;",
+                          "Item_No":"1112",
+                          "Code":"SM-RED",
+                          "Description":"Small Red"
+                       }
+                    ]
+                 }
+              }
+            }
+          ],
+          "channelProfile": {
+            "productBusinessReferences": ["Item.No"]
+          }
+        },
+        {
+          "ncStatusCode": 400,
+          "payload": {
+            "doc": {}
+          },
+          "links": [],
+          "channelProfile": {
+            "productBusinessReferences": ["Item.No"]
+          }
+        },
+        {
+          "ncStatusCode": 429,
+          "payload": {
+            "doc": {
+              "modifiedDateRange": {
+                "startDateGMT": "2015-01-01T10:00:00.000Z",
+                "endDateGMT": "2015-01-07T12:00:00.000Z"
+              }
+            }
+          },
+          "links": [
+            {
+              "wsdlUri": "https://nav2013-demo.nchannel.local:7047/DynamicsNAV71/WS/CRONUS%20USA,%20Inc./Page/Item",
+              "function": "ReadMultiple",
+              "responsePayload": {
+                 "ReadMultiple_Result": {
+
+                 }
+              }
+            },
+            {
+              "wsdlUri": "https://nav2013-demo.nchannel.local:7047/DynamicsNAV71/WS/CRONUS%20USA,%20Inc./Page/Item_Variants",
+              "function": "ReadMultiple",
+              "responsePayload": {
+                 "ReadMultiple_Result": {
+
+                 }
+              }
+            }
+          ],
+          "channelProfile": {
+            "productBusinessReferences": ["Item.No"]
+          }
+        },
+        {
+          "ncStatusCode": 500,
+          "payload": {
+            "doc": {
+              "modifiedDateRange": {
+                "startDateGMT": "2015-01-01T10:00:00.000Z",
+                "endDateGMT": "2015-01-07T12:00:00.000Z"
+              }
+            }
+          },
+          "links": [
+            {
+              "wsdlUri": "https://nav2013-demo.nchannel.local:7047/DynamicsNAV71/WS/CRONUS%20USA,%20Inc./Page/Item",
+              "function": "ReadMultiple",
+              "responsePayload": {
+                 "ReadMultiple_Result": {}
+              }
+            },
+            {
+              "wsdlUri": "https://nav2013-demo.nchannel.local:7047/DynamicsNAV71/WS/CRONUS%20USA,%20Inc./Page/Item_Variants",
+              "function": "ReadMultiple",
+              "responsePayload": {
+                 "ReadMultiple_Result": {}
+              }
+            }
+          ],
+          "channelProfile": {
+            "productBusinessReferences": ["Item.No"]
+          }
+        }
+      ]
+    },
+    {
+      "functionName": "GetProductQuantityFromQuery",
+      "tests": [
+        {
+          "ncStatusCode": 200,
+          "payload": {
+            "doc": {
+              "modifiedDateRange": {
+                "startDateGMT": "2015-01-01T10:00:00.000Z",
+                "endDateGMT": "2015-01-07T12:00:00.000Z"
+              }
+            }
+          },
+          "links": [
+            {
+              "wsdlUri": "https://nav2013-demo.nchannel.local:7047/DynamicsNAV71/WS/CRONUS%20USA,%20Inc./Page/Item_Ledger",
+              "function": "ReadMultiple",
+              "responsePayload": {
+                "ReadMultiple_Result":{
+                   "Item_Ledger": {
+                     "Key":"12;IAAAAACHPgE=7;38864800;",
+                     "Posting_Date":"2015-01-28T00:00:00.000Z",
+                     "Entry_Type":"Purchase",
+                     "Document_Type":"_blank_",
+                     "Document_No":"T00001",
+                     "Document_Line_No":0,
+                     "Item_No":"1112",
+                     "Variant_Code":"LG-BLK",
+                     "Description":"Large Black",
+                     "Expiration_Date":"0001-01-01T00:00:00.000Z",
+                     "Quantity":10,
+                     "Invoiced_Quantity":10,
+                     "Remaining_Quantity":10,
+                     "Shipped_Qty_Not_Returned":0,
+                     "Reserved_Quantity":0,
+                     "Qty_per_Unit_of_Measure":1,
+                     "Sales_Amount_Expected":0,
+                     "Sales_Amount_Actual":0,
+                     "Cost_Amount_Expected":0,
+                     "Cost_Amount_Actual":0,
+                     "Cost_Amount_Non_Invtbl":0,
+                     "Cost_Amount_Expected_ACY":0,
+                     "Cost_Amount_Actual_ACY":0,
+                     "Cost_Amount_Non_Invtbl_ACY":0,
+                     "Completely_Invoiced":true,
+                     "Open":true,
+                     "Drop_Shipment":false,
+                     "Assemble_to_Order":false,
+                     "Applied_Entry_to_Adjust":false,
+                     "Order_Type":"_blank_",
+                     "Order_Line_No":0,
+                     "Prod_Order_Comp_Line_No":0,
+                     "Entry_No":318
                   }
-                ]
-              }
-            }
-          ],
-          "channelProfile": {
-            "salesOrderBusinessReferences": ["orderid"]
-          }
-        },
-        {
-          "ncStatusCode": 400,
-          "payload": {
-            "doc": {}
-          },
-          "baseUri": "https://localhost",
-          "defaultHeaders": {},
-          "links": [
-            {
-              "uri": "/",
-              "method": "GET",
-              "replyHeaders": {},
-              "statusCode": 401,
-              "responsePayload": {
-                "orders": []
-              }
-            }
-          ],
-          "channelProfile": {
-            "salesOrderBusinessReferences": ["orderid"]
-          }
-        },
-        {
-          "ncStatusCode": 429,
-          "payload": {
-            "doc": {}
-          },
-          "baseUri": "https://localhost",
-          "defaultHeaders": {},
-          "links": [
-            {
-              "uri": "/",
-              "method": "GET",
-              "replyHeaders": {},
-              "statusCode": 429,
-              "responsePayload": {
-                "orders": []
-              }
-            }
-          ],
-          "channelProfile": {
-            "salesOrderBusinessReferences": ["orderid"]
-          }
-        },
-        {
-          "ncStatusCode": 500,
-          "payload": {
-            "doc": {}
-          },
-          "baseUri": "https://localhost",
-          "defaultHeaders": {},
-          "links": [
-            {
-              "uri": "/",
-              "method": "GET",
-              "replyHeaders": {},
-              "statusCode": 500,
-              "responsePayload": {
-                "orders": []
-              }
-            }
-          ],
-          "channelProfile": {
-            "salesOrderBusinessReferences": ["orderid"]
-          }
-        }
-      ]
-    },
-    {
-      "functionName": "InsertCustomer",
-      "tests": [
-        {
-          "ncStatusCode": 201,
-          "payload": {
-            "doc": {}
-          },
-          "baseUri": "https://localhost",
-          "defaultHeaders": {},
-          "links": [
-            {
-              "uri": "/",
-              "method": "POST",
-              "replyHeaders": {},
-              "statusCode": 201,
-              "responsePayload": {
-                "customer": {
-                  "id": 1073339459,
-                  "email": "derek.boytim@nchannel.com"
                 }
               }
-            }
-          ],
-          "channelProfile": {
-            "customerBusinessReferences": ["email"]
-          }
-        },
-        {
-          "ncStatusCode": 400,
-          "payload": {
-            "doc": {}
-          },
-          "baseUri": "https://localhost",
-          "defaultHeaders": {},
-          "links": [
+            },
             {
-              "uri": "/",
-              "method": "POST",
-              "replyHeaders": {},
-              "statusCode": 400,
-              "responsePayload": {}
-            }
-          ],
-          "channelProfile": {
-            "customerBusinessReferences": ["email"]
-          }
-        },
-        {
-          "ncStatusCode": 429,
-          "payload": {
-            "doc": {}
-          },
-          "baseUri": "https://localhost",
-          "defaultHeaders": {},
-          "links": [
-            {
-              "uri": "/",
-              "method": "POST",
-              "replyHeaders": {},
-              "statusCode": 429,
-              "responsePayload": {}
-            }
-          ],
-          "channelProfile": {
-            "customerBusinessReferences": ["email"]
-          }
-        },
-        {
-          "ncStatusCode": 500,
-          "payload": {
-            "doc": {}
-          },
-          "baseUri": "https://localhost",
-          "defaultHeaders": {},
-          "links": [
-            {
-              "uri": "/",
-              "method": "POST",
-              "replyHeaders": {},
-              "statusCode": 500,
-              "responsePayload": {}
-            }
-          ],
-          "channelProfile": {
-            "customerBusinessReferences": ["email"]
-          }
-        }
-      ]
-    },
-    {
-      "functionName": "InsertFulfillment",
-      "tests": [
-        {
-          "ncStatusCode": 201,
-          "payload": {
-            "doc": {}
-          },
-          "baseUri": "https://localhost",
-          "defaultHeaders": {},
-          "links": [
-            {
-              "uri": "/",
-              "method": "POST",
-              "replyHeaders": {},
-              "statusCode": 201,
+              "wsdlUri": "https://nav2013-demo.nchannel.local:7047/DynamicsNAV71/WS/CRONUS%20USA,%20Inc./Page/Item",
+              "function": "Read",
               "responsePayload": {
-                "fulfillment": {
-                  "id": 1073339459
+                 "Item": {
+                   "Key":"24;GwAAAAJ7BTcAMAAxADAAMg==6;3697580;",
+                   "No":"70102",
+                   "Description":"Paint, blue",
+                   "Base_Unit_of_Measure":"CAN",
+                   "Assembly_BOM":false,
+                   "Shelf_No":"B3",
+                   "Automatic_Ext_Texts":false,
+                   "Created_From_Nonstock_Item":false,
+                   "Search_Description":"PAINT, BLUE",
+                   "Inventory":3229,
+                   "Qty_on_Purch_Order":0,
+                   "Qty_on_Prod_Order":0,
+                   "Qty_on_Component_Lines":0,
+                   "Qty_on_Sales_Order":0,
+                   "Qty_on_Service_Order":0,
+                   "Qty_on_Job_Order":0,
+                   "Qty_on_Assembly_Order":0,
+                   "Qty_on_Asm_Component":0,
+                   "Blocked":false,
+                   "Last_Date_Modified":"2013-09-23T00:00:00.000Z",
+                   "StockoutWarningDefaultYes":"Default",
+                   "PreventNegInventoryDefaultYes":"Default",
+                   "Costing_Method":"FIFO",
+                   "Cost_is_Adjusted":false,
+                   "Cost_is_Posted_to_G_L":false,
+                   "Standard_Cost":2.2,
+                   "Unit_Cost":2.2,
+                   "Overhead_Rate":0,
+                   "Indirect_Cost_Percent":0,
+                   "Last_Direct_Cost":2.2,
+                   "Price_Profit_Calculation":"Profit_x003D_Price_Cost",
+                   "Profit_Percent":46.34146,
+                   "Unit_Price":4.1,
+                   "Gen_Prod_Posting_Group":"RAW MAT",
+                   "Inventory_Posting_Group":"RAW MAT",
+                   "Net_Invoiced_Qty":3229,
+                   "Allow_Invoice_Disc":true,
+                   "Item_Disc_Group":"B",
+                   "Sales_Unit_of_Measure":"CAN",
+                   "Tax_Group_Code":"SUPPLIES",
+                   "Replenishment_System":"Purchase",
+                   "Vendor_No":"20000",
+                   "Vendor_Item_No":"20-129",
+                   "Purch_Unit_of_Measure":"CAN",
+                   "Manufacturing_Policy":"Make_to_Stock",
+                   "Rounding_Precision":1,
+                   "Flushing_Method":"Manual",
+                   "Scrap_Percent":0,
+                   "Lot_Size":0,
+                   "Assembly_Policy":"Assemble_to_Stock",
+                   "Reordering_Policy":"_blank_",
+                   "Reserve":"Optional",
+                   "Order_Tracking_Policy":"None",
+                   "Stockkeeping_Unit_Exists":false,
+                   "Dampener_Quantity":0,
+                   "Critical":false,
+                   "Safety_Stock_Quantity":0,
+                   "Include_Inventory":false,
+                   "Reorder_Point":150,
+                   "Reorder_Quantity":0,
+                   "Maximum_Inventory":0,
+                   "Overflow_Level":0,
+                   "Minimum_Order_Quantity":0,
+                   "Maximum_Order_Quantity":0,
+                   "Order_Multiple":0,
+                   "Tariff_No":"9999 99 99",
+                   "Net_Weight":1.6,
+                   "Gross_Weight":1.84,
+                   "Last_Phys_Invt_Date":"2014-12-31T00:00:00.000Z",
+                   "Last_Counting_Period_Update":"0001-01-01T00:00:00.000Z",
+                   "Use_Cross_Docking":true
                 }
+              }
+            },
+            {
+              "wsdlUri": "https://nav2013-demo.nchannel.local:7047/DynamicsNAV71/WS/CRONUS%20USA,%20Inc./Page/Variant_Inventory",
+              "function": "Read",
+              "responsePayload": {
+                 "Variant_Inventory": {
+                   "Key":"44;GRUAAAJ7BDEAMQAxADIAAAACe/9TAE0ALQBCAEwAVQ==7;38858710;",
+                   "Code":"SM-BLU",
+                   "Description":"Small Blue",
+                   "GrossRequirement":0,
+                   "ScheduledRcpt":0,
+                   "PlannedOrderRcpt":0,
+                   "ProjAvailableBalance":0,
+                   "Item_Inventory":0,
+                   "Item_Qty_on_Purch_Order":0,
+                   "Item_Qty_on_Sales_Order":0,
+                   "Item_Qty_on_Service_Order":0,
+                   "Item_Qty_on_Job_Order":0,
+                   "Item_Trans_Ord_Shipment_Qty":0,
+                   "Item_Qty_on_Asm_Component":0,
+                   "Item_Qty_on_Assembly_Order":0,
+                   "Item_Qty_in_Transit":0,
+                   "Item_Trans_Ord_Receipt_Qty":0,
+                   "ExpectedInventory":0,
+                   "QtyAvailable":0,
+                   "Item_Scheduled_Receipt_Qty":0,
+                   "Item_Scheduled_Need_Qty":0,
+                   "PlannedOrderReleases":0,
+                   "Item_Net_Change":0
+                 }
               }
             }
           ],
           "channelProfile": {
-            "fulfillmentBusinessReferences": ["fulfillmentid"]
+            "productBusinessReferences": ["Item.No"]
           }
         },
         {
-          "ncStatusCode": 400,
+          "ncStatusCode": 204,
           "payload": {
-            "doc": {}
-          },
-          "baseUri": "https://localhost",
-          "defaultHeaders": {},
-          "links": [
-            {
-              "uri": "/",
-              "method": "POST",
-              "replyHeaders": {},
-              "statusCode": 400,
-              "responsePayload": {}
+            "doc": {
+              "modifiedDateRange": {
+                "startDateGMT": "2015-01-01T10:00:00.000Z",
+                "endDateGMT": "2015-01-07T12:00:00.000Z"
+              }
             }
-          ],
-          "channelProfile": {
-            "fulfillmentBusinessReferences": ["fulfillmentid"]
-          }
-        },
-        {
-          "ncStatusCode": 429,
-          "payload": {
-            "doc": {}
           },
-          "baseUri": "https://localhost",
-          "defaultHeaders": {},
           "links": [
             {
-              "uri": "/",
-              "method": "POST",
-              "replyHeaders": {},
-              "statusCode": 429,
-              "responsePayload": {}
-            }
-          ],
-          "channelProfile": {
-            "fulfillmentBusinessReferences": ["fulfillmentid"]
-          }
-        },
-        {
-          "ncStatusCode": 500,
-          "payload": {
-            "doc": {}
-          },
-          "baseUri": "https://localhost",
-          "defaultHeaders": {},
-          "links": [
-            {
-              "uri": "/",
-              "method": "POST",
-              "replyHeaders": {},
-              "statusCode": 500,
-              "responsePayload": {}
-            }
-          ],
-          "channelProfile": {
-            "fulfillmentBusinessReferences": ["fulfillmentid"]
-          }
-        }
-      ]
-    },
-    {
-      "functionName": "InsertProduct",
-      "tests": [
-        {
-          "ncStatusCode": 201,
-          "payload": {
-            "doc": {}
-          },
-          "baseUri": "https://localhost",
-          "defaultHeaders": {},
-          "links": [
-            {
-              "uri": "/",
-              "method": "POST",
-              "replyHeaders": {},
-              "statusCode": 201,
+              "wsdlUri": "https://nav2013-demo.nchannel.local:7047/DynamicsNAV71/WS/CRONUS%20USA,%20Inc./Page/Item_Ledger",
+              "function": "ReadMultiple",
               "responsePayload": {
-                "product": {
-                  "id": 1073339459,
-                  "sku": "test"
-                }
+                "ReadMultiple_Result": null
               }
             }
           ],
           "channelProfile": {
-            "productBusinessReferences": ["productid"]
+            "productBusinessReferences": ["Item.No"]
           }
         },
         {
-          "ncStatusCode": 400,
+          "ncStatusCode": 206,
           "payload": {
-            "doc": {}
-          },
-          "baseUri": "https://localhost",
-          "defaultHeaders": {},
-          "links": [
-            {
-              "uri": "/",
-              "method": "POST",
-              "replyHeaders": {},
-              "statusCode": 400,
-              "responsePayload": {}
+            "doc": {
+              "modifiedDateRange": {
+                "startDateGMT": "2015-01-01T10:00:00.000Z",
+                "endDateGMT": "2015-01-07T12:00:00.000Z"
+              },
+              "pageSize": 1
             }
-          ],
-          "channelProfile": {
-            "productBusinessReferences": ["productid"]
-          }
-        },
-        {
-          "ncStatusCode": 429,
-          "payload": {
-            "doc": {}
           },
-          "baseUri": "https://localhost",
-          "defaultHeaders": {},
           "links": [
             {
-              "uri": "/",
-              "method": "POST",
-              "replyHeaders": {},
-              "statusCode": 429,
-              "responsePayload": {}
-            }
-          ],
-          "channelProfile": {
-            "productBusinessReferences": ["productid"]
-          }
-        },
-        {
-          "ncStatusCode": 500,
-          "payload": {
-            "doc": {}
-          },
-          "baseUri": "https://localhost",
-          "defaultHeaders": {},
-          "links": [
-            {
-              "uri": "/",
-              "method": "POST",
-              "replyHeaders": {},
-              "statusCode": 500,
-              "responsePayload": {}
-            }
-          ],
-          "channelProfile": {
-            "productBusinessReferences": ["productid"]
-          }
-        }
-      ]
-    },
-    {
-      "functionName": "InsertProductGroup",
-      "tests": [
-        {
-          "ncStatusCode": 201,
-          "payload": {
-            "doc": {}
-          },
-          "baseUri": "https://localhost",
-          "defaultHeaders": {},
-          "links": [
-            {
-              "uri": "/",
-              "method": "POST",
-              "replyHeaders": {},
-              "statusCode": 201,
+              "wsdlUri": "https://nav2013-demo.nchannel.local:7047/DynamicsNAV71/WS/CRONUS%20USA,%20Inc./Page/Item_Ledger",
+              "function": "ReadMultiple",
               "responsePayload": {
-                "product": {
-                  "id": 1073339459,
-                  "sku": "test"
+                "ReadMultiple_Result":{
+                   "Item_Ledger": {
+                     "Key":"12;IAAAAACHPgE=7;38864800;",
+                     "Posting_Date":"2015-01-28T00:00:00.000Z",
+                     "Entry_Type":"Purchase",
+                     "Document_Type":"_blank_",
+                     "Document_No":"T00001",
+                     "Document_Line_No":0,
+                     "Item_No":"1112",
+                     "Variant_Code":"LG-BLK",
+                     "Description":"Large Black",
+                     "Expiration_Date":"0001-01-01T00:00:00.000Z",
+                     "Quantity":10,
+                     "Invoiced_Quantity":10,
+                     "Remaining_Quantity":10,
+                     "Shipped_Qty_Not_Returned":0,
+                     "Reserved_Quantity":0,
+                     "Qty_per_Unit_of_Measure":1,
+                     "Sales_Amount_Expected":0,
+                     "Sales_Amount_Actual":0,
+                     "Cost_Amount_Expected":0,
+                     "Cost_Amount_Actual":0,
+                     "Cost_Amount_Non_Invtbl":0,
+                     "Cost_Amount_Expected_ACY":0,
+                     "Cost_Amount_Actual_ACY":0,
+                     "Cost_Amount_Non_Invtbl_ACY":0,
+                     "Completely_Invoiced":true,
+                     "Open":true,
+                     "Drop_Shipment":false,
+                     "Assemble_to_Order":false,
+                     "Applied_Entry_to_Adjust":false,
+                     "Order_Type":"_blank_",
+                     "Order_Line_No":0,
+                     "Prod_Order_Comp_Line_No":0,
+                     "Entry_No":318
+                  }
                 }
+              }
+            },
+            {
+              "wsdlUri": "https://nav2013-demo.nchannel.local:7047/DynamicsNAV71/WS/CRONUS%20USA,%20Inc./Page/Item",
+              "function": "Read",
+              "responsePayload": {
+                 "Item": {
+                   "Key":"24;GwAAAAJ7BTcAMAAxADAAMg==6;3697580;",
+                   "No":"70102",
+                   "Description":"Paint, blue",
+                   "Base_Unit_of_Measure":"CAN",
+                   "Assembly_BOM":false,
+                   "Shelf_No":"B3",
+                   "Automatic_Ext_Texts":false,
+                   "Created_From_Nonstock_Item":false,
+                   "Search_Description":"PAINT, BLUE",
+                   "Inventory":3229,
+                   "Qty_on_Purch_Order":0,
+                   "Qty_on_Prod_Order":0,
+                   "Qty_on_Component_Lines":0,
+                   "Qty_on_Sales_Order":0,
+                   "Qty_on_Service_Order":0,
+                   "Qty_on_Job_Order":0,
+                   "Qty_on_Assembly_Order":0,
+                   "Qty_on_Asm_Component":0,
+                   "Blocked":false,
+                   "Last_Date_Modified":"2013-09-23T00:00:00.000Z",
+                   "StockoutWarningDefaultYes":"Default",
+                   "PreventNegInventoryDefaultYes":"Default",
+                   "Costing_Method":"FIFO",
+                   "Cost_is_Adjusted":false,
+                   "Cost_is_Posted_to_G_L":false,
+                   "Standard_Cost":2.2,
+                   "Unit_Cost":2.2,
+                   "Overhead_Rate":0,
+                   "Indirect_Cost_Percent":0,
+                   "Last_Direct_Cost":2.2,
+                   "Price_Profit_Calculation":"Profit_x003D_Price_Cost",
+                   "Profit_Percent":46.34146,
+                   "Unit_Price":4.1,
+                   "Gen_Prod_Posting_Group":"RAW MAT",
+                   "Inventory_Posting_Group":"RAW MAT",
+                   "Net_Invoiced_Qty":3229,
+                   "Allow_Invoice_Disc":true,
+                   "Item_Disc_Group":"B",
+                   "Sales_Unit_of_Measure":"CAN",
+                   "Tax_Group_Code":"SUPPLIES",
+                   "Replenishment_System":"Purchase",
+                   "Vendor_No":"20000",
+                   "Vendor_Item_No":"20-129",
+                   "Purch_Unit_of_Measure":"CAN",
+                   "Manufacturing_Policy":"Make_to_Stock",
+                   "Rounding_Precision":1,
+                   "Flushing_Method":"Manual",
+                   "Scrap_Percent":0,
+                   "Lot_Size":0,
+                   "Assembly_Policy":"Assemble_to_Stock",
+                   "Reordering_Policy":"_blank_",
+                   "Reserve":"Optional",
+                   "Order_Tracking_Policy":"None",
+                   "Stockkeeping_Unit_Exists":false,
+                   "Dampener_Quantity":0,
+                   "Critical":false,
+                   "Safety_Stock_Quantity":0,
+                   "Include_Inventory":false,
+                   "Reorder_Point":150,
+                   "Reorder_Quantity":0,
+                   "Maximum_Inventory":0,
+                   "Overflow_Level":0,
+                   "Minimum_Order_Quantity":0,
+                   "Maximum_Order_Quantity":0,
+                   "Order_Multiple":0,
+                   "Tariff_No":"9999 99 99",
+                   "Net_Weight":1.6,
+                   "Gross_Weight":1.84,
+                   "Last_Phys_Invt_Date":"2014-12-31T00:00:00.000Z",
+                   "Last_Counting_Period_Update":"0001-01-01T00:00:00.000Z",
+                   "Use_Cross_Docking":true
+                }
+              }
+            },
+            {
+              "wsdlUri": "https://nav2013-demo.nchannel.local:7047/DynamicsNAV71/WS/CRONUS%20USA,%20Inc./Page/Variant_Inventory",
+              "function": "Read",
+              "responsePayload": {
+                 "Variant_Inventory": {
+                   "Key":"44;GRUAAAJ7BDEAMQAxADIAAAACe/9TAE0ALQBCAEwAVQ==7;38858710;",
+                   "Code":"SM-BLU",
+                   "Description":"Small Blue",
+                   "GrossRequirement":0,
+                   "ScheduledRcpt":0,
+                   "PlannedOrderRcpt":0,
+                   "ProjAvailableBalance":0,
+                   "Item_Inventory":0,
+                   "Item_Qty_on_Purch_Order":0,
+                   "Item_Qty_on_Sales_Order":0,
+                   "Item_Qty_on_Service_Order":0,
+                   "Item_Qty_on_Job_Order":0,
+                   "Item_Trans_Ord_Shipment_Qty":0,
+                   "Item_Qty_on_Asm_Component":0,
+                   "Item_Qty_on_Assembly_Order":0,
+                   "Item_Qty_in_Transit":0,
+                   "Item_Trans_Ord_Receipt_Qty":0,
+                   "ExpectedInventory":0,
+                   "QtyAvailable":0,
+                   "Item_Scheduled_Receipt_Qty":0,
+                   "Item_Scheduled_Need_Qty":0,
+                   "PlannedOrderReleases":0,
+                   "Item_Net_Change":0
+                 }
               }
             }
           ],
           "channelProfile": {
-            "productGroupBusinessReferences": ["productgroupid"]
+            "productBusinessReferences": ["Item.No"]
           }
         },
         {
@@ -1884,687 +2597,75 @@
           "payload": {
             "doc": {}
           },
-          "baseUri": "https://localhost",
-          "defaultHeaders": {},
-          "links": [
-            {
-              "uri": "/",
-              "method": "POST",
-              "replyHeaders": {},
-              "statusCode": 400,
-              "responsePayload": {}
-            }
-          ],
+          "links": [],
           "channelProfile": {
-            "productGroupBusinessReferences": ["productgroupid"]
+            "productBusinessReferences": ["Item.No"]
           }
         },
         {
           "ncStatusCode": 429,
           "payload": {
-            "doc": {}
-          },
-          "baseUri": "https://localhost",
-          "defaultHeaders": {},
-          "links": [
-            {
-              "uri": "/",
-              "method": "POST",
-              "replyHeaders": {},
-              "statusCode": 429,
-              "responsePayload": {}
-            }
-          ],
-          "channelProfile": {
-            "productGroupBusinessReferences": ["productgroupid"]
-          }
-        },
-        {
-          "ncStatusCode": 500,
-          "payload": {
-            "doc": {}
-          },
-          "baseUri": "https://localhost",
-          "defaultHeaders": {},
-          "links": [
-            {
-              "uri": "/",
-              "method": "POST",
-              "replyHeaders": {},
-              "statusCode": 500,
-              "responsePayload": {}
-            }
-          ],
-          "channelProfile": {
-            "productGroupBusinessReferences": ["productgroupid"]
-          }
-        }
-      ]
-    },
-    {
-      "functionName": "InsertSalesOrder",
-      "tests": [
-        {
-          "ncStatusCode": 201,
-          "payload": {
-            "doc": {}
-          },
-          "baseUri": "https://localhost",
-          "defaultHeaders": {},
-          "links": [
-            {
-              "uri": "/",
-              "method": "POST",
-              "replyHeaders": {},
-              "statusCode": 201,
-              "responsePayload": {
-                "order": {
-                  "id": 1073339459
-                }
+            "doc": {
+              "modifiedDateRange": {
+                "startDateGMT": "2015-01-01T10:00:00.000Z",
+                "endDateGMT": "2015-01-07T12:00:00.000Z"
               }
             }
-          ],
-          "channelProfile": {
-            "salesOrderBusinessReferences": ["orderid"]
-          }
-        },
-        {
-          "ncStatusCode": 400,
-          "payload": {
-            "doc": {}
           },
-          "baseUri": "https://localhost",
-          "defaultHeaders": {},
           "links": [
             {
-              "uri": "/",
-              "method": "POST",
-              "replyHeaders": {},
-              "statusCode": 400,
+              "wsdlUri": "https://nav2013-demo.nchannel.local:7047/DynamicsNAV71/WS/CRONUS%20USA,%20Inc./Page/Item_Ledger",
+              "function": "ReadMultiple",
+              "responsePayload": {
+                "ReadMultiple_Result":{}
+              }
+            },
+            {
+              "wsdlUri": "https://nav2013-demo.nchannel.local:7047/DynamicsNAV71/WS/CRONUS%20USA,%20Inc./Page/Item",
+              "function": "Read",
+              "responsePayload": {}
+            },
+            {
+              "wsdlUri": "https://nav2013-demo.nchannel.local:7047/DynamicsNAV71/WS/CRONUS%20USA,%20Inc./Page/Variant_Inventory",
+              "function": "Read",
               "responsePayload": {}
             }
           ],
           "channelProfile": {
-            "salesOrderBusinessReferences": ["orderid"]
-          }
-        },
-        {
-          "ncStatusCode": 429,
-          "payload": {
-            "doc": {}
-          },
-          "baseUri": "https://localhost",
-          "defaultHeaders": {},
-          "links": [
-            {
-              "uri": "/",
-              "method": "POST",
-              "replyHeaders": {},
-              "statusCode": 429,
-              "responsePayload": {}
-            }
-          ],
-          "channelProfile": {
-            "salesOrderBusinessReferences": ["orderid"]
+            "productBusinessReferences": ["Item.No"]
           }
         },
         {
           "ncStatusCode": 500,
           "payload": {
-            "doc": {}
-          },
-          "baseUri": "https://localhost",
-          "defaultHeaders": {},
-          "links": [
-            {
-              "uri": "/",
-              "method": "POST",
-              "replyHeaders": {},
-              "statusCode": 500,
-              "responsePayload": {}
-            }
-          ],
-          "channelProfile": {
-            "salesOrderBusinessReferences": ["orderid"]
-          }
-        }
-      ]
-    },
-    {
-      "functionName": "UpdateCustomer",
-      "tests": [
-        {
-          "ncStatusCode": 200,
-          "payload": {
-            "doc": {}
-          },
-          "baseUri": "https://localhost",
-          "defaultHeaders": {},
-          "links": [
-            {
-              "uri": "/",
-              "method": "PUT",
-              "replyHeaders": {},
-              "statusCode": 200,
-              "responsePayload": {
-                "customer": {
-                  "id": 1073339459,
-                  "email": "derek.boytim@nchannel.com"
-                }
+            "doc": {
+              "modifiedDateRange": {
+                "startDateGMT": "2015-01-01T10:00:00.000Z",
+                "endDateGMT": "2015-01-07T12:00:00.000Z"
               }
             }
-          ],
-          "channelProfile": {
-            "customerBusinessReferences": ["email"]
-          }
-        },
-        {
-          "ncStatusCode": 400,
-          "payload": {
-            "doc": {}
           },
-          "baseUri": "https://localhost",
-          "defaultHeaders": {},
           "links": [
             {
-              "uri": "/",
-              "method": "PUT",
-              "replyHeaders": {},
-              "statusCode": 400,
-              "responsePayload": {}
-            }
-          ],
-          "channelProfile": {
-            "customerBusinessReferences": ["email"]
-          }
-        },
-        {
-          "ncStatusCode": 429,
-          "payload": {
-            "doc": {}
-          },
-          "baseUri": "https://localhost",
-          "defaultHeaders": {},
-          "links": [
-            {
-              "uri": "/",
-              "method": "PUT",
-              "replyHeaders": {},
-              "statusCode": 429,
-              "responsePayload": {}
-            }
-          ],
-          "channelProfile": {
-            "customerBusinessReferences": ["email"]
-          }
-        },
-        {
-          "ncStatusCode": 500,
-          "payload": {
-            "doc": {}
-          },
-          "baseUri": "https://localhost",
-          "defaultHeaders": {},
-          "links": [
-            {
-              "uri": "/",
-              "method": "PUT",
-              "replyHeaders": {},
-              "statusCode": 500,
-              "responsePayload": {}
-            }
-          ],
-          "channelProfile": {
-            "customerBusinessReferences": ["email"]
-          }
-        }
-      ]
-    },
-    {
-      "functionName": "UpdateProduct",
-      "tests": [
-        {
-          "ncStatusCode": 200,
-          "payload": {
-            "doc": {}
-          },
-          "baseUri": "https://localhost",
-          "defaultHeaders": {},
-          "links": [
-            {
-              "uri": "/",
-              "method": "PUT",
-              "replyHeaders": {},
-              "statusCode": 200,
+              "wsdlUri": "https://nav2013-demo.nchannel.local:7047/DynamicsNAV71/WS/CRONUS%20USA,%20Inc./Page/Item_Ledger",
+              "function": "ReadMultiple",
               "responsePayload": {
-                "product": {
-                  "id": 1073339459,
-                  "sku": "test"
-                }
+                "ReadMultiple_Result":{}
               }
-            }
-          ],
-          "channelProfile": {
-            "productBusinessReferences": ["productid"]
-          }
-        },
-        {
-          "ncStatusCode": 400,
-          "payload": {
-            "doc": {}
-          },
-          "baseUri": "https://localhost",
-          "defaultHeaders": {},
-          "links": [
+            },
             {
-              "uri": "/",
-              "method": "PUT",
-              "replyHeaders": {},
-              "statusCode": 400,
+              "wsdlUri": "https://nav2013-demo.nchannel.local:7047/DynamicsNAV71/WS/CRONUS%20USA,%20Inc./Page/Item",
+              "function": "Read",
+              "responsePayload": {}
+            },
+            {
+              "wsdlUri": "https://nav2013-demo.nchannel.local:7047/DynamicsNAV71/WS/CRONUS%20USA,%20Inc./Page/Variant_Inventory",
+              "function": "Read",
               "responsePayload": {}
             }
           ],
           "channelProfile": {
-            "productBusinessReferences": ["productid"]
-          }
-        },
-        {
-          "ncStatusCode": 429,
-          "payload": {
-            "doc": {}
-          },
-          "baseUri": "https://localhost",
-          "defaultHeaders": {},
-          "links": [
-            {
-              "uri": "/",
-              "method": "PUT",
-              "replyHeaders": {},
-              "statusCode": 429,
-              "responsePayload": {}
-            }
-          ],
-          "channelProfile": {
-            "productBusinessReferences": ["productid"]
-          }
-        },
-        {
-          "ncStatusCode": 500,
-          "payload": {
-            "doc": {}
-          },
-          "baseUri": "https://localhost",
-          "defaultHeaders": {},
-          "links": [
-            {
-              "uri": "/",
-              "method": "PUT",
-              "replyHeaders": {},
-              "statusCode": 500,
-              "responsePayload": {}
-            }
-          ],
-          "channelProfile": {
-            "productBusinessReferences": ["productid"]
-          }
-        }
-      ]
-    },
-    {
-      "functionName": "UpdateProductGroup",
-      "tests": [
-        {
-          "ncStatusCode": 200,
-          "payload": {
-            "doc": {}
-          },
-          "baseUri": "https://localhost",
-          "defaultHeaders": {},
-          "links": [
-            {
-              "uri": "/",
-              "method": "PUT",
-              "replyHeaders": {},
-              "statusCode": 200,
-              "responsePayload": {
-                "product": {
-                  "id": 1073339459,
-                  "sku": "test"
-                }
-              }
-            }
-          ],
-          "channelProfile": {
-            "productGroupBusinessReferences": ["productgroupid"]
-          }
-        },
-        {
-          "ncStatusCode": 400,
-          "payload": {
-            "doc": {}
-          },
-          "baseUri": "https://localhost",
-          "defaultHeaders": {},
-          "links": [
-            {
-              "uri": "/",
-              "method": "PUT",
-              "replyHeaders": {},
-              "statusCode": 400,
-              "responsePayload": {}
-            }
-          ],
-          "channelProfile": {
-            "productGroupBusinessReferences": ["productgroupid"]
-          }
-        },
-        {
-          "ncStatusCode": 429,
-          "payload": {
-            "doc": {}
-          },
-          "baseUri": "https://localhost",
-          "defaultHeaders": {},
-          "links": [
-            {
-              "uri": "/",
-              "method": "PUT",
-              "replyHeaders": {},
-              "statusCode": 429,
-              "responsePayload": {}
-            }
-          ],
-          "channelProfile": {
-            "productGroupBusinessReferences": ["productgroupid"]
-          }
-        },
-        {
-          "ncStatusCode": 500,
-          "payload": {
-            "doc": {}
-          },
-          "baseUri": "https://localhost",
-          "defaultHeaders": {},
-          "links": [
-            {
-              "uri": "/",
-              "method": "PUT",
-              "replyHeaders": {},
-              "statusCode": 500,
-              "responsePayload": {}
-            }
-          ],
-          "channelProfile": {
-            "productGroupBusinessReferences": ["productgroupid"]
-          }
-        }
-      ]
-    },
-    {
-      "functionName": "UpdateProductPricing",
-      "tests": [
-        {
-          "ncStatusCode": 200,
-          "payload": {
-            "doc": {}
-          },
-          "baseUri": "https://localhost",
-          "defaultHeaders": {},
-          "links": [
-            {
-              "uri": "/",
-              "method": "PUT",
-              "replyHeaders": {},
-              "statusCode": 200,
-              "responsePayload": {
-                "product": {
-                  "id": 1073339459,
-                  "sku": "test"
-                }
-              }
-            }
-          ],
-          "channelProfile": {
-            "productPricingBusinessReferences": ["productpricingid"]
-          }
-        },
-        {
-          "ncStatusCode": 400,
-          "payload": {
-            "doc": {}
-          },
-          "baseUri": "https://localhost",
-          "defaultHeaders": {},
-          "links": [
-            {
-              "uri": "/",
-              "method": "PUT",
-              "replyHeaders": {},
-              "statusCode": 400,
-              "responsePayload": {}
-            }
-          ],
-          "channelProfile": {
-            "productPricingBusinessReferences": ["productpricingid"]
-          }
-        },
-        {
-          "ncStatusCode": 429,
-          "payload": {
-            "doc": {}
-          },
-          "baseUri": "https://localhost",
-          "defaultHeaders": {},
-          "links": [
-            {
-              "uri": "/",
-              "method": "PUT",
-              "replyHeaders": {},
-              "statusCode": 429,
-              "responsePayload": {}
-            }
-          ],
-          "channelProfile": {
-            "productPricingBusinessReferences": ["productpricingid"]
-          }
-        },
-        {
-          "ncStatusCode": 500,
-          "payload": {
-            "doc": {}
-          },
-          "baseUri": "https://localhost",
-          "defaultHeaders": {},
-          "links": [
-            {
-              "uri": "/",
-              "method": "PUT",
-              "replyHeaders": {},
-              "statusCode": 500,
-              "responsePayload": {}
-            }
-          ],
-          "channelProfile": {
-            "productPricingBusinessReferences": ["productpricingid"]
-          }
-        }
-      ]
-    },
-    {
-      "functionName": "UpdateProductQuantity",
-      "tests": [
-        {
-          "ncStatusCode": 200,
-          "payload": {
-            "doc": {}
-          },
-          "baseUri": "https://localhost",
-          "defaultHeaders": {},
-          "links": [
-            {
-              "uri": "/",
-              "method": "PUT",
-              "replyHeaders": {},
-              "statusCode": 200,
-              "responsePayload": {
-                "product": {
-                  "id": 1073339459,
-                  "sku": "test"
-                }
-              }
-            }
-          ],
-          "channelProfile": {
-            "productQuantityBusinessReferences": ["productquantityid"]
-          }
-        },
-        {
-          "ncStatusCode": 400,
-          "payload": {
-            "doc": {}
-          },
-          "baseUri": "https://localhost",
-          "defaultHeaders": {},
-          "links": [
-            {
-              "uri": "/",
-              "method": "PUT",
-              "replyHeaders": {},
-              "statusCode": 400,
-              "responsePayload": {}
-            }
-          ],
-          "channelProfile": {
-            "productQuantityBusinessReferences": ["productquantityid"]
-          }
-        },
-        {
-          "ncStatusCode": 429,
-          "payload": {
-            "doc": {}
-          },
-          "baseUri": "https://localhost",
-          "defaultHeaders": {},
-          "links": [
-            {
-              "uri": "/",
-              "method": "PUT",
-              "replyHeaders": {},
-              "statusCode": 429,
-              "responsePayload": {}
-            }
-          ],
-          "channelProfile": {
-            "productQuantityBusinessReferences": ["productquantityid"]
-          }
-        },
-        {
-          "ncStatusCode": 500,
-          "payload": {
-            "doc": {}
-          },
-          "baseUri": "https://localhost",
-          "defaultHeaders": {},
-          "links": [
-            {
-              "uri": "/",
-              "method": "PUT",
-              "replyHeaders": {},
-              "statusCode": 500,
-              "responsePayload": {}
-            }
-          ],
-          "channelProfile": {
-            "productQuantityBusinessReferences": ["productquantityid"]
-          }
-        }
-      ]
-    },
-    {
-      "functionName": "UpdateSalesOrder",
-      "tests": [
-        {
-          "ncStatusCode": 200,
-          "payload": {
-            "doc": {}
-          },
-          "baseUri": "https://localhost",
-          "defaultHeaders": {},
-          "links": [
-            {
-              "uri": "/",
-              "method": "PUT",
-              "replyHeaders": {},
-              "statusCode": 200,
-              "responsePayload": {
-                "order": {
-                  "id": 1073339459
-                }
-              }
-            }
-          ],
-          "channelProfile": {
-            "salesOrderBusinessReferences": ["orderid"]
-          }
-        },
-        {
-          "ncStatusCode": 400,
-          "payload": {
-            "doc": {}
-          },
-          "baseUri": "https://localhost",
-          "defaultHeaders": {},
-          "links": [
-            {
-              "uri": "/",
-              "method": "PUT",
-              "replyHeaders": {},
-              "statusCode": 400,
-              "responsePayload": {}
-            }
-          ],
-          "channelProfile": {
-            "salesOrderBusinessReferences": ["orderid"]
-          }
-        },
-        {
-          "ncStatusCode": 429,
-          "payload": {
-            "doc": {}
-          },
-          "baseUri": "https://localhost",
-          "defaultHeaders": {},
-          "links": [
-            {
-              "uri": "/",
-              "method": "PUT",
-              "replyHeaders": {},
-              "statusCode": 429,
-              "responsePayload": {}
-            }
-          ],
-          "channelProfile": {
-            "salesOrderBusinessReferences": ["orderid"]
-          }
-        },
-        {
-          "ncStatusCode": 500,
-          "payload": {
-            "doc": {}
-          },
-          "baseUri": "https://localhost",
-          "defaultHeaders": {},
-          "links": [
-            {
-              "uri": "/",
-              "method": "PUT",
-              "replyHeaders": {},
-              "statusCode": 500,
-              "responsePayload": {}
-            }
-          ],
-          "channelProfile": {
-            "salesOrderBusinessReferences": ["orderid"]
+            "productBusinessReferences": ["Item.No"]
           }
         }
       ]

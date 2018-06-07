@@ -3,7 +3,9 @@
   "author": "",
   "description": "",
   "dependencies": {
-    "request": "2.83.0"
+    "jsonata": "1.4.1",
+    "lodash": "4.17.4",
+    "strong-soap": "1.7.0"
   },
   "devDependencies": {
     "nock": "9.2.3",
@@ -13,6 +15,9 @@
     "lodash": "^4.17.4",
     "chai": "^3.5.0",
     "mocha": "^3.1.2"
+  },
+  "engines": {
+   "node": ">=7.6.0"
   },
   "scripts": {
     "test": "mocha --timeout 10000 validation/*.spec.js"
