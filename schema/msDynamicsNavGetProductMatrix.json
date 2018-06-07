@@ -1,0 +1,660 @@
+{
+	"name": "Microsoft Dynamics NAV Get Product Matrix",
+	"schemaDef": {
+	  "$schema": "http://json-schema.org/draft-06/schema#",
+	  "title": "Microsoft Dynamics NAV Get Product Matrix",
+	  "type": "object",
+	  "properties": {
+	    "Item": {
+	      "$ref": "#/definitions/Item"
+	    }
+	  },
+	  "required": [
+	    "Item"
+	  ],
+	  "additionalProperties": false,
+	  "definitions": {
+	    "Item": {
+	      "$id": "/properties/Item",
+	      "type": "object",
+	      "properties": {
+	        "Key": {
+	          "$id": "/properties/Item/properties/Key",
+	          "type": "string"
+	        },
+	        "No": {
+	          "$id": "/properties/Item/properties/No",
+	          "type": "string"
+	        },
+	        "Description": {
+	          "$id": "/properties/Item/properties/Description",
+	          "type": "string"
+	        },
+	        "Base_Unit_of_Measure": {
+	          "$id": "/properties/Item/properties/Base_Unit_of_Measure",
+	          "type": "string"
+	        },
+	        "Assembly_BOM": {
+	          "$id": "/properties/Item/properties/Assembly_BOM",
+	          "type": "boolean"
+	        },
+					"Assembly_BOMSpecified": {
+						"$id": "/properties/Item/properties/Assembly_BOMSpecified",
+						"type": "boolean"
+					},
+					"Shelf_No": {
+						"$id": "/properties/Item/properties/Shelf_No",
+						"type": "string"
+					},
+	        "Automatic_Ext_Texts": {
+	          "$id": "/properties/Item/properties/Automatic_Ext_Texts",
+	          "type": "boolean"
+	        },
+					"Automatic_Ext_TextsSpecified": {
+						"$id": "/properties/Item/properties/Automatic_Ext_Texts",
+						"type": "boolean"
+					},
+	        "Created_From_Nonstock_Item": {
+	          "$id": "/properties/Item/properties/Created_From_Nonstock_Item",
+	          "type": "boolean"
+	        },
+					"Created_From_Nonstock_ItemSpecified": {
+						"$id": "/properties/Item/properties/Created_From_Nonstock_ItemSpecified",
+						"type": "boolean"
+					},
+	        "Item_Category_Code": {
+	          "$id": "/properties/Item/properties/Item_Category_Code",
+	          "type": "string"
+	        },
+	        "Product_Group_Code": {
+	          "$id": "/properties/Item/properties/Product_Group_Code",
+	          "type": "string"
+	        },
+	        "Service_Item_Group": {
+	          "$id": "/properties/Item/properties/Service_Item_Group",
+	          "type": "string"
+	        },
+	        "Search_Description": {
+	          "$id": "/properties/Item/properties/Search_Description",
+	          "type": "string"
+	        },
+	        "Inventory": {
+	          "$id": "/properties/Item/properties/Inventory",
+	          "type": "number"
+	        },
+					"InventorySpecified": {
+						"$id": "/properties/Item/properties/InventorySpecified",
+						"type": "boolean"
+					},
+	        "Qty_on_Purch_Order": {
+	          "$id": "/properties/Item/properties/Qty_on_Purch_Order",
+	          "type": "number"
+	        },
+					"Qty_on_Purch_OrderSpecified": {
+						"$id": "/properties/Item/properties/Qty_on_Purch_OrderSpecified",
+						"type": "boolean"
+					},
+	        "Qty_on_Prod_Order": {
+	          "$id": "/properties/Item/properties/Qty_on_Prod_Order",
+	          "type": "number"
+	        },
+					"Qty_on_Prod_OrderSpecified": {
+						"$id": "/properties/Item/properties/Qty_on_Prod_OrderSpecified",
+						"type": "boolean"
+					},
+	        "Qty_on_Component_Lines": {
+	          "$id": "/properties/Item/properties/Qty_on_Component_Lines",
+	          "type": "number"
+	        },
+					"Qty_on_Component_LinesSpecified": {
+						"$id": "/properties/Item/properties/Qty_on_Component_LinesSpecified",
+						"type": "boolean"
+					},
+	        "Qty_on_Sales_Order": {
+	          "$id": "/properties/Item/properties/Qty_on_Sales_Order",
+	          "type": "number"
+	        },
+					"Qty_on_Sales_OrderSpecified": {
+						"$id": "/properties/Item/properties/Qty_on_Sales_OrderSpecified",
+						"type": "boolean"
+					},
+	        "Qty_on_Service_Order": {
+	          "$id": "/properties/Item/properties/Qty_on_Service_Order",
+	          "type": "number"
+	        },
+					"Qty_on_Service_OrderSpecified": {
+						"$id": "/properties/Item/properties/Qty_on_Service_OrderSpecified",
+						"type": "boolean"
+					},
+	        "Qty_on_Job_Order": {
+	          "$id": "/properties/Item/properties/Qty_on_Job_Order",
+	          "type": "number"
+	        },
+					"Qty_on_Job_OrderSpecified": {
+						"$id": "/properties/Item/properties/Qty_on_Job_OrderSpecified",
+						"type": "boolean"
+					},
+	        "Qty_on_Assembly_Order": {
+	          "$id": "/properties/Item/properties/Qty_on_Assembly_Order",
+	          "type": "number"
+	        },
+					"Qty_on_Assembly_OrderSpecified": {
+						"$id": "/properties/Item/properties/Qty_on_Assembly_OrderSpecified",
+						"type": "boolean"
+					},
+	        "Qty_on_Asm_Component": {
+	          "$id": "/properties/Item/properties/Qty_on_Asm_Component",
+	          "type": "number"
+	        },
+					"Qty_on_Asm_ComponentSpecified": {
+						"$id": "/properties/Item/properties/Qty_on_Asm_ComponentSpecified",
+						"type": "boolean"
+					},
+	        "Blocked": {
+	          "$id": "/properties/Item/properties/Blocked",
+	          "type": "boolean"
+	        },
+					"BlockedSpecified": {
+						"$id": "/properties/Item/properties/BlockedSpecified",
+						"type": "boolean"
+					},
+	        "Last_Date_Modified": {
+	          "$id": "/properties/Item/properties/Last_Date_Modified",
+	          "type": "string"
+	        },
+					"Last_Date_ModifiedSpecified": {
+						"$id": "/properties/Item/properties/Last_Date_ModifiedSpecified",
+						"type": "boolean"
+					},
+	        "StockoutWarningDefaultYes": {
+	          "$id": "/properties/Item/properties/StockoutWarningDefaultYes",
+	          "type": "string"
+	        },
+					"StockoutWarningDefaultYesSpecified": {
+						"$id": "/properties/Item/properties/StockoutWarningDefaultYesSpecified",
+						"type": "boolean"
+					},
+	        "PreventNegInventoryDefaultYes": {
+	          "$id": "/properties/Item/properties/PreventNegInventoryDefaultYes",
+	          "type": "string"
+	        },
+					"PreventNegInventoryDefaultYesSpecified": {
+						"$id": "/properties/Item/properties/PreventNegInventoryDefaultYesSpecified",
+						"type": "boolean"
+					},
+	        "Costing_Method": {
+	          "$id": "/properties/Item/properties/Costing_Method",
+	          "type": "string"
+	        },
+					"Costing_MethodSpecified": {
+						"$id": "/properties/Item/properties/Costing_MethodSpecified",
+						"type": "boolean"
+					},
+	        "Cost_is_Adjusted": {
+	          "$id": "/properties/Item/properties/Cost_is_Adjusted",
+	          "type": "boolean"
+	        },
+					"Cost_is_AdjustedSpecified": {
+						"$id": "/properties/Item/properties/Cost_is_AdjustedSpecified",
+						"type": "boolean"
+					},
+	        "Cost_is_Posted_to_G_L": {
+	          "$id": "/properties/Item/properties/Cost_is_Posted_to_G_L",
+	          "type": "boolean"
+	        },
+					"Cost_is_Posted_to_G_LSpecified": {
+						"$id": "/properties/Item/properties/Cost_is_Posted_to_G_LSpecified",
+						"type": "boolean"
+					},
+	        "Standard_Cost": {
+	          "$id": "/properties/Item/properties/Standard_Cost",
+	          "type": "number"
+	        },
+					"Standard_CostSpecified": {
+						"$id": "/properties/Item/properties/Standard_CostSpecified",
+						"type": "boolean"
+					},
+	        "Unit_Cost": {
+	          "$id": "/properties/Item/properties/Unit_Cost",
+	          "type": "number"
+	        },
+					"Unit_CostSpecified": {
+						"$id": "/properties/Item/properties/Unit_CostSpecified",
+						"type": "boolean"
+					},
+	        "Overhead_Rate": {
+	          "$id": "/properties/Item/properties/Overhead_Rate",
+	          "type": "number"
+	        },
+					"Overhead_RateSpecified": {
+						"$id": "/properties/Item/properties/Overhead_RateSpecified",
+						"type": "boolean"
+					},
+	        "Indirect_Cost_Percent": {
+	          "$id": "/properties/Item/properties/Indirect_Cost_Percent",
+	          "type": "number"
+	        },
+					"Indirect_Cost_PercentSpecified": {
+						"$id": "/properties/Item/properties/Indirect_Cost_PercentSpecified",
+						"type": "boolean"
+					},
+	        "Last_Direct_Cost": {
+	          "$id": "/properties/Item/properties/Last_Direct_Cost",
+	          "type": "number"
+	        },
+					"Last_Direct_CostSpecified": {
+						"$id": "/properties/Item/properties/Last_Direct_CostSpecified",
+						"type": "boolean"
+					},
+	        "Price_Profit_Calculation": {
+	          "$id": "/properties/Item/properties/Price_Profit_Calculation",
+	          "type": "string"
+	        },
+					"Price_Profit_CalculationSpecified": {
+						"$id": "/properties/Item/properties/Price_Profit_CalculationSpecified",
+						"type": "boolean"
+					},
+	        "Profit_Percent": {
+	          "$id": "/properties/Item/properties/Profit_Percent",
+	          "type": "number"
+	        },
+					"Profit_PercentSpecified": {
+						"$id": "/properties/Item/properties/Profit_PercentSpecified",
+						"type": "boolean"
+					},
+	        "Unit_Price": {
+	          "$id": "/properties/Item/properties/Unit_Price",
+	          "type": "number"
+	        },
+					"Unit_PriceSpecified": {
+						"$id": "/properties/Item/properties/Unit_PriceSpecified",
+						"type": "boolean"
+					},
+	        "Gen_Prod_Posting_Group": {
+	          "$id": "/properties/Item/properties/Gen_Prod_Posting_Group",
+	          "type": "string"
+	        },
+					"VAT_Prod_Posting_Group": {
+						"$id": "/properties/Item/properties/VAT_Prod_Posting_Group",
+						"type": "string"
+					},
+	        "Inventory_Posting_Group": {
+	          "$id": "/properties/Item/properties/Inventory_Posting_Group",
+	          "type": "string"
+	        },
+	        "Net_Invoiced_Qty": {
+	          "$id": "/properties/Item/properties/Net_Invoiced_Qty",
+	          "type": "number"
+	        },
+					"Net_Invoiced_QtySpecified": {
+						"$id": "/properties/Item/properties/Net_Invoiced_QtySpecified",
+						"type": "boolean"
+					},
+	        "Allow_Invoice_Disc": {
+	          "$id": "/properties/Item/properties/Allow_Invoice_Disc",
+	          "type": "boolean"
+	        },
+					"Allow_Invoice_DiscSpecified": {
+						"$id": "/properties/Item/properties/Allow_Invoice_DiscSpecified",
+						"type": "boolean"
+					},
+					"Item_Disc_Group": {
+						"$id": "/properties/Item/properties/Item_Disc_Group",
+						"type": "string"
+					},
+	        "Sales_Unit_of_Measure": {
+	          "$id": "/properties/Item/properties/Sales_Unit_of_Measure",
+	          "type": "string"
+	        },
+					"Application_Wksh_User_ID": {
+						"$id": "/properties/Item/properties/Application_Wksh_User_ID",
+						"type": "string"
+					},
+					"Tax_Group_Code": {
+						"$id": "/properties/Item/properties/Tax_Group_Code",
+						"type": "string"
+					},
+	        "Replenishment_System": {
+	          "$id": "/properties/Item/properties/Replenishment_System",
+	          "type": "string"
+	        },
+					"Replenishment_SystemSpecified": {
+						"$id": "/properties/Item/properties/Replenishment_SystemSpecified",
+						"type": "boolean"
+					},
+					"Lead_Time_Calculation": {
+						"$id": "/properties/Item/properties/Lead_Time_Calculation",
+						"type": "string"
+					},
+	        "Vendor_No": {
+	          "$id": "/properties/Item/properties/Vendor_No",
+	          "type": "string"
+	        },
+	        "Vendor_Item_No": {
+	          "$id": "/properties/Item/properties/Vendor_Item_No",
+	          "type": "string"
+	        },
+	        "Purch_Unit_of_Measure": {
+	          "$id": "/properties/Item/properties/Purch_Unit_of_Measure",
+	          "type": "string"
+	        },
+	        "Manufacturing_Policy": {
+	          "$id": "/properties/Item/properties/Manufacturing_Policy",
+	          "type": "string"
+	        },
+					"Manufacturing_PolicySpecified": {
+						"$id": "/properties/Item/properties/Manufacturing_PolicySpecified",
+						"type": "boolean"
+					},
+					"Routing_No": {
+						"$id": "/properties/Item/properties/Routing_No",
+						"type": "string"
+					},
+					"Production_BOM_No": {
+						"$id": "/properties/Item/properties/Production_BOM_No",
+						"type": "string"
+					},
+	        "Rounding_Precision": {
+	          "$id": "/properties/Item/properties/Rounding_Precision",
+	          "type": "number"
+	        },
+					"Rounding_PrecisionSpecified": {
+						"$id": "/properties/Item/properties/Rounding_PrecisionSpecified",
+						"type": "boolean"
+					},
+	        "Flushing_Method": {
+	          "$id": "/properties/Item/properties/Flushing_Method",
+	          "type": "string"
+	        },
+					"Flushing_MethodSpecified": {
+						"$id": "/properties/Item/properties/Flushing_MethodSpecified",
+						"type": "boolean"
+					},
+	        "Scrap_Percent": {
+	          "$id": "/properties/Item/properties/Scrap_Percent",
+	          "type": "number"
+	        },
+					"Scrap_PercentSpecified": {
+						"$id": "/properties/Item/properties/Scrap_PercentSpecified",
+						"type": "boolean"
+					},
+	        "Lot_Size": {
+	          "$id": "/properties/Item/properties/Lot_Size",
+	          "type": "number"
+	        },
+					"Lot_SizeSpecified": {
+						"$id": "/properties/Item/properties/Lot_SizeSpecified",
+						"type": "boolean"
+					},
+	        "Assembly_Policy": {
+	          "$id": "/properties/Item/properties/Assembly_Policy",
+	          "type": "string"
+	        },
+					"Assembly_PolicySpecified": {
+						"$id": "/properties/Item/properties/Assembly_PolicySpecified",
+						"type": "boolean"
+					},
+	        "Reordering_Policy": {
+	          "$id": "/properties/Item/properties/Reordering_Policy",
+	          "type": "string"
+	        },
+					"Reordering_PolicySpecified": {
+						"$id": "/properties/Item/properties/Reordering_PolicySpecified",
+						"type": "boolean"
+					},
+	        "Reserve": {
+	          "$id": "/properties/Item/properties/Reserve",
+	          "type": "string"
+	        },
+					"ReserveSpecified": {
+						"$id": "/properties/Item/properties/ReserveSpecified",
+						"type": "boolean"
+					},
+	        "Order_Tracking_Policy": {
+	          "$id": "/properties/Item/properties/Order_Tracking_Policy",
+	          "type": "string"
+	        },
+					"Order_Tracking_PolicySpecified": {
+						"$id": "/properties/Item/properties/Order_Tracking_PolicySpecified",
+						"type": "boolean"
+					},
+	        "Stockkeeping_Unit_Exists": {
+	          "$id": "/properties/Item/properties/Stockkeeping_Unit_Exists",
+	          "type": "boolean"
+	        },
+					"Stockkeeping_Unit_ExistsSpecified": {
+						"$id": "/properties/Item/properties/Stockkeeping_Unit_ExistsSpecified",
+						"type": "boolean"
+					},
+					"Dampener_Period": {
+						"$id": "/properties/Item/properties/Dampener_Period",
+						"type": "string"
+					},
+	        "Dampener_Quantity": {
+	          "$id": "/properties/Item/properties/Dampener_Quantity",
+	          "type": "number"
+	        },
+					"Dampener_QuantitySpecified": {
+						"$id": "/properties/Item/properties/Dampener_QuantitySpecified",
+						"type": "boolean"
+					},
+	        "Critical": {
+	          "$id": "/properties/Item/properties/Critical",
+	          "type": "boolean"
+	        },
+					"CriticalSpecified": {
+						"$id": "/properties/Item/properties/CriticalSpecified",
+						"type": "boolean"
+					},
+					"Safety_Lead_Time": {
+						"$id": "/properties/Item/properties/Safety_Lead_Time",
+						"type": "string"
+					},
+	        "Safety_Stock_Quantity": {
+	          "$id": "/properties/Item/properties/Safety_Stock_Quantity",
+	          "type": "number"
+	        },
+					"Safety_Stock_QuantitySpecified": {
+						"$id": "/properties/Item/properties/Safety_Stock_QuantitySpecified",
+						"type": "boolean"
+					},
+	        "Include_Inventory": {
+	          "$id": "/properties/Item/properties/Include_Inventory",
+	          "type": "boolean"
+	        },
+					"Include_InventorySpecified": {
+						"$id": "/properties/Item/properties/Include_InventorySpecified",
+						"type": "boolean"
+					},
+					"Lot_Accumulation_Period": {
+						"$id": "/properties/Item/properties/Lot_Accumulation_Period",
+						"type": "string"
+					},
+					"Rescheduling_Period": {
+						"$id": "/properties/Item/properties/Rescheduling_Period",
+						"type": "string"
+					},
+	        "Reorder_Point": {
+	          "$id": "/properties/Item/properties/Reorder_Point",
+	          "type": "number"
+	        },
+					"Reorder_PointSpecified": {
+						"$id": "/properties/Item/properties/Reorder_PointSpecified",
+						"type": "boolean"
+					},
+	        "Reorder_Quantity": {
+	          "$id": "/properties/Item/properties/Reorder_Quantity",
+	          "type": "number"
+	        },
+					"Reorder_QuantitySpecified": {
+						"$id": "/properties/Item/properties/Reorder_QuantitySpecified",
+						"type": "boolean"
+					},
+	        "Maximum_Inventory": {
+	          "$id": "/properties/Item/properties/Maximum_Inventory",
+	          "type": "number"
+	        },
+					"Maximum_InventorySpecified": {
+						"$id": "/properties/Item/properties/Maximum_InventorySpecified",
+						"type": "boolean"
+					},
+	        "Overflow_Level": {
+	          "$id": "/properties/Item/properties/Overflow_Level",
+	          "type": "number"
+	        },
+					"Overflow_LevelSpecified": {
+						"$id": "/properties/Item/properties/Overflow_LevelSpecified",
+						"type": "boolean"
+					},
+					"Time_Bucket": {
+						"$id": "/properties/Item/properties/Time_Bucket",
+						"type": "string"
+					},
+	        "Minimum_Order_Quantity": {
+	          "$id": "/properties/Item/properties/Minimum_Order_Quantity",
+	          "type": "number"
+	        },
+					"Minimum_Order_QuantitySpecified": {
+						"$id": "/properties/Item/properties/Minimum_Order_QuantitySpecified",
+						"type": "boolean"
+					},
+	        "Maximum_Order_Quantity": {
+	          "$id": "/properties/Item/properties/Maximum_Order_Quantity",
+	          "type": "number"
+	        },
+					"Maximum_Order_QuantitySpecified": {
+						"$id": "/properties/Item/properties/Maximum_Order_QuantitySpecified",
+						"type": "boolean"
+					},
+	        "Order_Multiple": {
+	          "$id": "/properties/Item/properties/Order_Multiple",
+	          "type": "number"
+	        },
+					"Order_MultipleSpecified": {
+						"$id": "/properties/Item/properties/Order_MultipleSpecified",
+						"type": "boolean"
+					},
+					"Tariff_No": {
+						"$id": "/properties/Item/properties/Tariff_No",
+						"type": "string"
+					},
+					"Country_Region_of_Origin_Code": {
+						"$id": "/properties/Item/properties/Country_Region_of_Origin_Code",
+						"type": "string"
+					},
+	        "Net_Weight": {
+	          "$id": "/properties/Item/properties/Net_Weight",
+	          "type": "number"
+	        },
+					"Net_WeightSpecified": {
+						"$id": "/properties/Item/properties/Net_WeightSpecified",
+						"type": "boolean"
+					},
+	        "Gross_Weight": {
+	          "$id": "/properties/Item/properties/Gross_Weight",
+	          "type": "number"
+	        },
+					"Gross_WeightSpecified": {
+						"$id": "/properties/Item/properties/Gross_WeightSpecified",
+						"type": "boolean"
+					},
+					"Item_Tracking_Code": {
+						"$id": "/properties/Item/properties/Item_Tracking_Code",
+						"type": "string"
+					},
+					"Serial_Nos": {
+						"$id": "/properties/Item/properties/Serial_Nos",
+						"type": "string"
+					},
+					"Lot_Nos": {
+						"$id": "/properties/Item/properties/Lot_Nos",
+						"type": "string"
+					},
+					"Expiration_Calculation": {
+						"$id": "/properties/Item/properties/Expiration_Calculation",
+						"type": "string"
+					},
+					"Special_Equipment_Code": {
+						"$id": "/properties/Item/properties/Special_Equipment_Code",
+						"type": "string"
+					},
+					"Put_away_Template_Code": {
+						"$id": "/properties/Item/properties/Put_away_Template_Code",
+						"type": "string"
+					},
+					"Put_away_Unit_of_Measure_Code": {
+						"$id": "/properties/Item/properties/Put_away_Unit_of_Measure_Code",
+						"type": "string"
+					},
+					"Phys_Invt_Counting_Period_Code": {
+						"$id": "/properties/Item/properties/Phys_Invt_Counting_Period_Code",
+						"type": "string"
+					},
+	        "Last_Phys_Invt_Date": {
+	          "$id": "/properties/Item/properties/Last_Phys_Invt_Date",
+	          "type": "string"
+	        },
+					"Last_Phys_Invt_DateSpecified": {
+						"$id": "/properties/Item/properties/Last_Phys_Invt_DateSpecified",
+						"type": "boolean"
+					},
+	        "Last_Counting_Period_Update": {
+	          "$id": "/properties/Item/properties/Last_Counting_Period_Update",
+	          "type": "string"
+	        },
+					"Last_Counting_Period_UpdateSpecified": {
+						"$id": "/properties/Item/properties/Last_Counting_Period_UpdateSpecified",
+						"type": "boolean"
+					},
+					"Next_Counting_Period": {
+						"$id": "/properties/Item/properties/Next_Counting_Period",
+						"type": "string"
+					},
+					"Identifier_Code": {
+						"$id": "/properties/Item/properties/Identifier_Code",
+						"type": "string"
+					},
+	        "Use_Cross_Docking": {
+	          "$id": "/properties/Item/properties/Use_Cross_Docking",
+	          "type": "boolean"
+	        },
+					"Use_Cross_DockingSpecified": {
+						"$id": "/properties/Item/properties/Use_Cross_DockingSpecified",
+						"type": "boolean"
+					},
+	        "Item_Variants": {
+	          "$id": "/properties/Item_Variants",
+	          "type": "array",
+	          "items": {
+	            "type": "object",
+	            "properties": {
+	              "Key": {
+	                "$id": "/properties/Item_Variants/properties/Key",
+	                "type": "string"
+	              },
+	              "Item_No": {
+	                "$id": "/properties/Item_Variants/properties/Item_No",
+	                "type": "string"
+	              },
+	              "Code": {
+	                "$id": "/properties/Item_Variants/properties/Code",
+	                "type": "string"
+	              },
+	              "Description": {
+	                "$id": "/properties/Item_Variants/properties/Description",
+	                "type": "string"
+	              }
+	            }
+	          }
+	        }
+	      }
+	    }
+	  }
+	},
+	"tags": [
+		"Get",
+		"Product",
+		"Matrix"
+	],
+	"audit": {}
+}

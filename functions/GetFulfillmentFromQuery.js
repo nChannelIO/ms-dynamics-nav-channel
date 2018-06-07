@@ -1,8 +1,6 @@
-let GetFulfillmentFromQuery = function (ncUtil,
-                                 channelProfile,
-                                 flowContext,
-                                 payload,
-                                 callback) {
+'use strict'
+
+let GetFulfillmentFromQuery = function (ncUtil, channelProfile, flowContext, payload, callback) {
 
   log("Building response object...", ncUtil);
   let out = {
@@ -14,13 +12,12 @@ let GetFulfillmentFromQuery = function (ncUtil,
   let invalid = false;
   let invalidMsg = "";
 
-  //If ncUtil does not contain a request object, the request can't be sent
   if (!ncUtil) {
     invalid = true;
     invalidMsg = "ncUtil was not provided"
   }
 
-  //If channelProfile does not contain channelSettingsValues, channelAuthValues or fulfillmentBusinessReferences, the request can't be sent
+  // Sanity Checking
   if (!channelProfile) {
     invalid = true;
     invalidMsg = "channelProfile was not provided"
@@ -33,6 +30,24 @@ let GetFulfillmentFromQuery = function (ncUtil,
   } else if (!channelProfile.channelAuthValues) {
     invalid = true;
     invalidMsg = "channelProfile.channelAuthValues was not provided"
+  } else if (!channelProfile.channelAuthValues.username) {
+    invalid = true;
+    invalidMsg = "channelProfile.channelAuthValues.username was not provided"
+  } else if (!channelProfile.channelAuthValues.password) {
+    invalid = true;
+    invalidMsg = "channelProfile.channelAuthValues.password was not provided"
+  } else if (!channelProfile.channelAuthValues.salesShipmentUrl) {
+    invalid = true;
+    invalidMsg = "channelProfile.channelAuthValues.salesShipmentUrl was not provided"
+  } else if (!channelProfile.salesOrderBusinessReferences) {
+    invalid = true;
+    invalidMsg = "channelProfile.salesOrderBusinessReferences was not provided"
+  } else if (!Array.isArray(channelProfile.salesOrderBusinessReferences)) {
+    invalid = true;
+    invalidMsg = "channelProfile.salesOrderBusinessReferences is not an array"
+  } else if (channelProfile.salesOrderBusinessReferences.length === 0) {
+    invalid = true;
+    invalidMsg = "channelProfile.salesOrderBusinessReferences is empty"
   } else if (!channelProfile.fulfillmentBusinessReferences) {
     invalid = true;
     invalidMsg = "channelProfile.fulfillmentBusinessReferences was not provided"
@@ -44,16 +59,42 @@ let GetFulfillmentFromQuery = function (ncUtil,
     invalidMsg = "channelProfile.fulfillmentBusinessReferences is empty"
   }
 
-  //If a sales order document was not passed in, the request is invalid
+  // Payload Checking
   if (!payload) {
     invalid = true;
     invalidMsg = "payload was not provided"
   } else if (!payload.doc) {
     invalid = true;
     invalidMsg = "payload.doc was not provided";
+  } else if (!payload.doc.remoteIDs && !payload.doc.searchFields && !payload.doc.modifiedDateRange) {
+    invalid = true;
+    invalidMsg = "either payload.doc.remoteIDs or payload.doc.searchFields or payload.doc.modifiedDateRange must be provided"
+  } else if (payload.doc.remoteIDs && (payload.doc.searchFields || payload.doc.modifiedDateRange)) {
+    invalid = true;
+    invalidMsg = "only one of payload.doc.remoteIDs or payload.doc.searchFields or payload.doc.modifiedDateRange may be provided"
+  } else if (payload.doc.remoteIDs && (!Array.isArray(payload.doc.remoteIDs) || payload.doc.remoteIDs.length === 0)) {
+    invalid = true;
+    invalidMsg = "payload.doc.remoteIDs must be an Array with at least 1 remoteID"
+  } else if (payload.doc.searchFields && (!Array.isArray(payload.doc.searchFields) || payload.doc.searchFields.length === 0)) {
+    invalid = true;
+    invalidMsg = "payload.doc.searchFields must be an Array with at least 1 key value pair: {searchField: 'key', searchValues: ['value_1']}"
+  } else if (payload.doc.searchFields) {
+    for (let i = 0; i < payload.doc.searchFields.length; i++) {
+      if (!payload.doc.searchFields[i].searchField || !Array.isArray(payload.doc.searchFields[i].searchValues) || payload.doc.searchFields[i].searchValues.length === 0) {
+        invalid = true;
+        invalidMsg = "payload.doc.searchFields[" + i + "] must be a key value pair: {searchField: 'key', searchValues: ['value_1']}";
+        break;
+      }
+    }
+  } else if (payload.doc.modifiedDateRange && !(payload.doc.modifiedDateRange.startDateGMT || payload.doc.modifiedDateRange.endDateGMT)) {
+    invalid = true;
+    invalidMsg = "at least one of payload.doc.modifiedDateRange.startDateGMT or payload.doc.modifiedDateRange.endDateGMT must be provided"
+  } else if (payload.doc.modifiedDateRange && payload.doc.modifiedDateRange.startDateGMT && payload.doc.modifiedDateRange.endDateGMT && (payload.doc.modifiedDateRange.startDateGMT > payload.doc.modifiedDateRange.endDateGMT)) {
+    invalid = true;
+    invalidMsg = "startDateGMT must have a date before endDateGMT";
   }
 
-  //If callback is not a function
+  // Callback Checking
   if (!callback) {
     throw new Error("A callback function was not provided");
   } else if (typeof callback !== 'function') {
@@ -61,82 +102,168 @@ let GetFulfillmentFromQuery = function (ncUtil,
   }
 
   if (!invalid) {
-    // Using request for example - A different npm module may be needed depending on the API communication is being made to
-    // The `soap` module can be used in place of `request` but the logic and data being sent will be different
-    let request = require('request');
 
-    let url = "https://localhost/";
+    // Require SOAP
+    const soap = require('strong-soap/src/soap');
+    const NTLMSecurity = require('strong-soap').NTLMSecurity;
+    const nc = require('../util/common');
 
-    // Add any headers for the request
-    let headers = {
-
+    // Setup Request Arguments
+    let args = {
+      filter: []
     };
+
+    if (payload.doc.searchFields) {
+
+      payload.doc.searchFields.forEach(function (searchField) {
+        let obj = {};
+        obj["Field"] = searchField.searchField;
+        obj["Criteria"] = searchField.searchValues.join('|'); // The pipe '|' symbol is a NAV filter for 'OR'
+        args.filter.push(obj);
+      });
+
+    } else if (payload.doc.remoteIDs) {
+
+      let obj = {};
+      obj["Field"] = "No";
+      obj["Criteria"] = payload.doc.remoteIDs.join('|'); // The pipe '|' symbol is a NAV filter for 'OR'
+      args.filter.push(obj);
+
+    } else if (payload.doc.modifiedDateRange) {
+
+      let obj = {};
+      obj["Field"] = "Posting_Date";
+
+      if (payload.doc.modifiedDateRange.startDateGMT && !payload.doc.modifiedDateRange.endDateGMT) {
+        // '..' is a NAV filter for interval. Using as a suffix pulls records after the startDate
+        obj["Criteria"] = nc.formatDate(new Date(Date.parse(payload.doc.modifiedDateRange.startDateGMT) - 1).toISOString()) + "..";
+      } else if (payload.doc.modifiedDateRange.endDateGMT && !payload.doc.modifiedDateRange.startDateGMT) {
+        // '..' is a NAV filter for interval. Using as a prefix pulls records before the endDate
+        obj["Criteria"] = ".." + nc.formatDate(new Date(Date.parse(payload.doc.modifiedDateRange.endDateGMT) + 1).toISOString());
+      } else if (payload.doc.modifiedDateRange.startDateGMT && payload.doc.modifiedDateRange.endDateGMT) {
+        // '..' is a NAV filter for interval. Using between two dates as part of the string pulls records between startDate and endDate
+        obj["Criteria"] = nc.formatDate(new Date(Date.parse(payload.doc.modifiedDateRange.startDateGMT) - 1).toISOString()) + ".." + nc.formatDate(new Date(Date.parse(payload.doc.modifiedDateRange.endDateGMT) + 1).toISOString());
+      }
+
+      args.filter.push(obj);
+    }
+
+    // Paging Context
+    if (payload.doc.pagingContext) {
+      args.bookmarkKey = payload.doc.pagingContext.key;
+    }
+
+    // Page Size
+    if (payload.doc.pageSize) {
+      args.setSize = payload.doc.pageSize;
+    }
+
+    // https://<baseUrl>:<port>/<serverInstance>/WS/<companyName>/Page/Sales_Shipment
+    let username = channelProfile.channelAuthValues.username;
+    let password = channelProfile.channelAuthValues.password;
+    let domain = channelProfile.channelAuthValues.domain;
+    let workstation = channelProfile.channelAuthValues.workstation;
+    let url = channelProfile.channelAuthValues.salesShipmentUrl;
+    let salesShipmentServiceName = channelProfile.channelAuthValues.salesShipmentServiceName;
+
+    let wsdlAuthRequired = true;
+    let ntlmSecurity = new NTLMSecurity(username, password, domain, workstation, wsdlAuthRequired);
 
     // Log URL
     log("Using URL [" + url + "]", ncUtil);
 
-    // Set options
     let options = {
-      url: url,
-      method: "GET",
-      headers: headers,
-      body: payload.doc,
-      json: true
+      NTLMSecurity: ntlmSecurity
     };
 
     try {
-      // Pass in our URL and headers
-      request(options, function (error, response, body) {
-        if (!error) {
-          // If no errors, process results here
-          log("Do GetFulfillmentFromQuery Callback", ncUtil);
-          out.response.endpointStatusCode = response.statusCode;
-          out.response.endpointStatusMessage = response.statusMessage;
+      soap.createClient(url, options, function(err, client) {
+        if (!err) {
+          client.ReadMultiple(args, function(error, body, envelope, soapHeader) {
 
-          // Parse data
-          let docs = [];
-          let data = body;
+            let docs = [];
+            let data = body;
 
-          if (response.statusCode === 200) {
-            if (data.fulfillments && data.fulfillments.length > 0) {
-              for (let i = 0; i < data.fulfillments.length; i++) {
-                let fulfillment = {
-                  fulfillment: data.fulfillments[i]
-                };
-                docs.push({
-                  doc: fulfillment,
-                  fulfillmentRemoteID: fulfillment.fulfillment.id,
-                  fulfillmentBusinessReference: fulfillment.fulfillment.id,
-                  salesOrderRemoteID: payload.salesOrderRemoteID
-                });
-              }
-              if (docs.length === payload.doc.pageSize) {
-                out.ncStatusCode = 206;
+            if (!error) {
+              if (!body.ReadMultiple_Result) {
+                // If ReadMultiple_Result is undefined, no results were returned
+                out.ncStatusCode = 204;
+                out.payload = data;
+                callback(out);
               } else {
-                out.ncStatusCode = 200;
-              }
-              out.payload = docs;
-            } else {
-              out.ncStatusCode = 204;
-              out.payload = data;
-            }
-          } else if (response.statusCode === 429) {
-            out.ncStatusCode = 429;
-            out.payload.error = data;
-          } else if (response.statusCode === 500) {
-            out.ncStatusCode = 500;
-            out.payload.error = data;
-          } else {
-            out.ncStatusCode = 400;
-            out.payload.error = data;
-          }
+                if (Array.isArray(body.ReadMultiple_Result[salesShipmentServiceName])) {
+                  // If an array is returned, multiple fulfillments were found
+                  for (let i = 0; i < body.ReadMultiple_Result[salesShipmentServiceName].length; i++) {
+                    let fulfillment = {
+                      Sales_Shipment: body.ReadMultiple_Result[salesShipmentServiceName][i]
+                    };
+                    docs.push({
+                      doc: fulfillment,
+                      fulfillmentRemoteID: fulfillment.Sales_Shipment.No,
+                      fulfillmentBusinessReference: nc.extractBusinessReference(channelProfile.fulfillmentBusinessReferences, fulfillment),
+                      salesOrderRemoteID: fulfillment.Sales_Shipment.Order_No
+                    });
 
-          callback(out);
+                    if (i == body.ReadMultiple_Result[salesShipmentServiceName].length - 1) {
+                      if (!payload.doc.pagingContext) {
+                        payload.doc.pagingContext = {};
+                      }
+                      payload.doc.pagingContext.key = body.ReadMultiple_Result[salesShipmentServiceName][i].Key;
+                    }
+                  }
+                } else if (typeof body.ReadMultiple_Result[salesShipmentServiceName] === 'object') {
+                  // If an object is returned, one fulfillment was found
+                  let fulfillment = {
+                    Sales_Shipment: body.ReadMultiple_Result[salesShipmentServiceName]
+                  };
+                  docs.push({
+                    doc: fulfillment,
+                    fulfillmentRemoteID: fulfillment.Sales_Shipment.No,
+                    fulfillmentBusinessReference: nc.extractBusinessReference(channelProfile.fulfillmentBusinessReferences, fulfillment),
+                    salesOrderRemoteID: fulfillment.Sales_Shipment.Order_No
+                  });
+
+                  if (!payload.doc.pagingContext) {
+                    payload.doc.pagingContext = {};
+                  }
+                  payload.doc.pagingContext.key = body.ReadMultiple_Result[salesShipmentServiceName].Key;
+                }
+
+                if (docs.length === payload.doc.pageSize) {
+                  out.ncStatusCode = 206;
+                } else {
+                  out.ncStatusCode = 200;
+                }
+                out.payload = docs;
+                callback(out);
+              }
+            } else {
+              if (error.response) {
+                logError("Error - Returning Response as 400 - " + error, ncUtil);
+                out.ncStatusCode = 400;
+                out.payload.error = { err: error };
+                callback(out);
+              } else {
+                logError("GetFulfillmentFromQuery Callback error - " + error, ncUtil);
+                out.ncStatusCode = 500;
+                out.payload.error = { err: error };
+                callback(out);
+              }
+            }
+          });
         } else {
-          // If an error occurs, log the error here
-          logError("Do GetFulfillmentFromQuery Callback error - " + error, ncUtil);
-          out.ncStatusCode = 500;
-          out.payload.error = {err: error};
+          let errStr = String(err);
+
+          if (errStr.indexOf("Code: 401") !== -1) {
+            logError("401 Unauthorized (Invalid Credentials) " + errStr);
+            out.ncStatusCode = 400;
+            out.response.endpointStatusCode = 401;
+            out.response.endpointStatusMessage = "Unauthorized";
+          } else {
+            logError("GetFulfillmentFromQuery Callback error - " + err, ncUtil);
+            out.ncStatusCode = 500;
+            out.payload.error = { err: err };
+          }
           callback(out);
         }
       });

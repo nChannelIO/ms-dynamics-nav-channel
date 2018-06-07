@@ -1,0 +1,420 @@
+{
+	"name": "Microsoft Dynamics NAV Get Fulfillment",
+	"schemaDef": {
+	  "$schema": "http://json-schema.org/draft-06/schema#",
+	  "title": "Microsoft Dynamics NAV Get Fulfillment",
+	  "type": "object",
+	  "properties": {
+	    "Sales_Shipment": {
+	      "$ref": "#/definitions/Sales_Shipment"
+	    }
+	  },
+	  "required": [
+	    "Sales_Shipment"
+	  ],
+	  "additionalProperties": false,
+	  "definitions": {
+      "Sales_Shipment": {
+        "$id": "/properties/Sales_Shipment",
+        "type": "object",
+        "properties": {
+          "Key": {
+            "$id": "/properties/Sales_Shipment/properties/Key",
+            "type": "string",
+            "title": "The Key Schema "
+          },
+          "No": {
+            "$id": "/properties/Sales_Shipment/properties/No",
+            "type": "string",
+            "title": "The No Schema "
+          },
+          "Sell_to_Customer_No": {
+            "$id": "/properties/Sales_Shipment/properties/Sell_to_Customer_No",
+            "type": "string",
+            "title": "The Sell_to_customer_no Schema "
+          },
+          "Sell_to_Contact_No": {
+            "$id": "/properties/Sales_Shipment/properties/Sell_to_Contact_No",
+            "type": "string",
+            "title": "The Sell_to_contact_no Schema "
+          },
+          "Sell_to_Customer_Name": {
+            "$id": "/properties/Sales_Shipment/properties/Sell_to_Customer_Name",
+            "type": "string",
+            "title": "The Sell_to_customer_name Schema "
+          },
+          "Sell_to_Address": {
+            "$id": "/properties/Sales_Shipment/properties/Sell_to_Address",
+            "type": "string",
+            "title": "The Sell_to_address Schema "
+          },
+          "Sell_to_Address_2": {
+            "$id": "/properties/Sales_Shipment/properties/Sell_to_Address_2",
+            "type": "string",
+            "title": "The Sell_to_address_2 Schema "
+          },
+          "Sell_to_City": {
+            "$id": "/properties/Sales_Shipment/properties/Sell_to_City",
+            "type": "string",
+            "title": "The Sell_to_city Schema "
+          },
+          "Sell_to_County": {
+            "$id": "/properties/Sales_Shipment/properties/Sell_to_County",
+            "type": "string",
+            "title": "The Sell_to_county Schema "
+          },
+          "Sell_to_Post_Code": {
+            "$id": "/properties/Sales_Shipment/properties/Sell_to_Post_Code",
+            "type": "string",
+            "title": "The Sell_to_post_code Schema "
+          },
+          "Sell_to_Contact": {
+            "$id": "/properties/Sales_Shipment/properties/Sell_to_Contact",
+            "type": "string",
+            "title": "The Sell_to_contact Schema "
+          },
+          "No_Printed": {
+            "$id": "/properties/Sales_Shipment/properties/No_Printed",
+            "type": "number",
+            "title": "The No_printed Schema "
+          },
+          "Posting_Date": {
+            "$id": "/properties/Sales_Shipment/properties/Posting_Date",
+            "type": "string",
+            "title": "The Posting_date Schema "
+          },
+          "Document_Date": {
+            "$id": "/properties/Sales_Shipment/properties/Document_Date",
+            "type": "string",
+            "title": "The Document_date Schema "
+          },
+          "Requested_Delivery_Date": {
+            "$id": "/properties/Sales_Shipment/properties/Requested_Delivery_Date",
+            "type": "string",
+            "title": "The Requested_delivery_date Schema "
+          },
+          "Promised_Delivery_Date": {
+            "$id": "/properties/Sales_Shipment/properties/Promised_Delivery_Date",
+            "type": "string",
+            "title": "The Promised_delivery_date Schema "
+            ,
+            "examples": [
+              "0001-01-01"
+            ]
+          },
+          "Quote_No": {
+            "$id": "/properties/Sales_Shipment/properties/Quote_No",
+            "type": "string",
+            "title": "The Quote_no Schema "
+          },
+          "Order_No": {
+            "$id": "/properties/Sales_Shipment/properties/Order_No",
+            "type": "string",
+            "title": "The Order_no Schema "
+          },
+          "External_Document_No": {
+            "$id": "/properties/Sales_Shipment/properties/External_Document_No",
+            "type": "string",
+            "title": "The External_document_no Schema "
+          },
+          "Salesperson_Code": {
+            "$id": "/properties/Sales_Shipment/properties/Salesperson_Code",
+            "type": "string",
+            "title": "The Salesperson_code Schema "
+          },
+          "Responsibility_Center": {
+            "$id": "/properties/Sales_Shipment/properties/Responsibility_Center",
+            "type": "string",
+            "title": "The Responsibility_center Schema "
+          },
+          "Bill_to_Customer_No": {
+            "$id": "/properties/Sales_Shipment/properties/Bill_to_Customer_No",
+            "type": "string",
+            "title": "The Bill_to_customer_no Schema "
+          },
+          "Bill_to_Contact_No": {
+            "$id": "/properties/Sales_Shipment/properties/Bill_to_Contact_No",
+            "type": "string",
+            "title": "The Bill_to_contact_no Schema "
+          },
+          "Bill_to_Name": {
+            "$id": "/properties/Sales_Shipment/properties/Bill_to_Name",
+            "type": "string",
+            "title": "The Bill_to_name Schema "
+          },
+          "Bill_to_Address": {
+            "$id": "/properties/Sales_Shipment/properties/Bill_to_Address",
+            "type": "string",
+            "title": "The Bill_to_address Schema "
+          },
+          "Bill_to_Address_2": {
+            "$id": "/properties/Sales_Shipment/properties/Bill_to_Address_2",
+            "type": "string",
+            "title": "The Bill_to_address_2 Schema "
+          },
+          "Bill_to_City": {
+            "$id": "/properties/Sales_Shipment/properties/Bill_to_City",
+            "type": "string",
+            "title": "The Bill_to_city Schema "
+          },
+          "Bill_to_County": {
+            "$id": "/properties/Sales_Shipment/properties/Bill_to_County",
+            "type": "string",
+            "title": "The Bill_to_county Schema "
+          },
+          "Bill_to_Post_Code": {
+            "$id": "/properties/Sales_Shipment/properties/Bill_to_Post_Code",
+            "type": "string",
+            "title": "The Bill_to_post_code Schema "
+          },
+          "Bill_to_Contact": {
+            "$id": "/properties/Sales_Shipment/properties/Bill_to_Contact",
+            "type": "string",
+            "title": "The Bill_to_contact Schema "
+          },
+          "Shortcut_Dimension_1_Code": {
+            "$id": "/properties/Sales_Shipment/properties/Shortcut_Dimension_1_Code",
+            "type": "string",
+            "title": "The Shortcut_dimension_1_code Schema "
+          },
+          "Shortcut_Dimension_2_Code": {
+            "$id": "/properties/Sales_Shipment/properties/Shortcut_Dimension_2_Code",
+            "type": "string",
+            "title": "The Shortcut_dimension_2_code Schema "
+          },
+          "Ship_to_Code": {
+            "$id": "/properties/Sales_Shipment/properties/Ship_to_Code",
+            "type": "string",
+            "title": "The Ship_to_code Schema "
+          },
+          "Ship_to_Name": {
+            "$id": "/properties/Sales_Shipment/properties/Ship_to_Name",
+            "type": "string",
+            "title": "The Ship_to_name Schema "
+          },
+          "Ship_to_Address": {
+            "$id": "/properties/Sales_Shipment/properties/Ship_to_Address",
+            "type": "string",
+            "title": "The Ship_to_address Schema "
+          },
+          "Ship_to_Address_2": {
+            "$id": "/properties/Sales_Shipment/properties/Ship_to_Address_2",
+            "type": "string",
+            "title": "The Ship_to_address_2 Schema "
+          },
+          "Ship_to_City": {
+            "$id": "/properties/Sales_Shipment/properties/Ship_to_City",
+            "type": "string",
+            "title": "The Ship_to_city Schema "
+          },
+          "Ship_to_County": {
+            "$id": "/properties/Sales_Shipment/properties/Ship_to_County",
+            "type": "string",
+            "title": "The Ship_to_county Schema "
+          },
+          "Ship_to_Post_Code": {
+            "$id": "/properties/Sales_Shipment/properties/Ship_to_Post_Code",
+            "type": "string",
+            "title": "The Ship_to_post_code Schema "
+          },
+          "Ship_to_Contact": {
+            "$id": "/properties/Sales_Shipment/properties/Ship_to_Contact",
+            "type": "string",
+            "title": "The Ship_to_contact Schema "
+          },
+          "Location_Code": {
+            "$id": "/properties/Sales_Shipment/properties/Location_Code",
+            "type": "string",
+            "title": "The Location_code Schema "
+          },
+          "Outbound_Whse_Handling_Time": {
+            "$id": "/properties/Sales_Shipment/properties/Outbound_Whse_Handling_Time",
+            "type": "string",
+            "title": "The Outbound_Whse_Handling_Time Schema "
+          },
+          "Shipping_Time": {
+            "$id": "/properties/Sales_Shipment/properties/Shipping_Time",
+            "type": "string",
+            "title": "The Shipping_Time Schema "
+          },
+          "Shipment_Method_Code": {
+            "$id": "/properties/Sales_Shipment/properties/Shipment_Method_Code",
+            "type": "string",
+            "title": "The Shipment_method_code Schema "
+          },
+          "Shipping_Agent_Code": {
+            "$id": "/properties/Sales_Shipment/properties/Shipping_Agent_Code",
+            "type": "string",
+            "title": "The Shipping_Agent_Code Schema "
+          },
+          "Shipping_Agent_Service_Code": {
+            "$id": "/properties/Sales_Shipment/properties/Shipping_Agent_Service_Code",
+            "type": "string",
+            "title": "The Shipping_Agent_Service_Code Schema "
+          },
+          "Package_Tracking_No": {
+            "$id": "/properties/Sales_Shipment/properties/Package_Tracking_No",
+            "type": "string",
+            "title": "The Package_Tracking_No Schema "
+          },
+          "Shipment_Date": {
+            "$id": "/properties/Sales_Shipment/properties/Shipment_Date",
+            "type": "string",
+            "title": "The Shipment_date Schema "
+          },
+          "SalesShipmLines": {
+            "$id": "/properties/Sales_Shipment/properties/SalesShipmLines",
+            "type": "object",
+            "properties": {
+              "Posted_Sales_Shpt_Line": {
+                "$id": "/properties/Sales_Shipment/properties/SalesShipmLines/properties/Posted_Sales_Shpt_Line",
+                "type": "array",
+                "items": {
+                  "$id": "/properties/Sales_Shipment/properties/SalesShipmLines/properties/Posted_Sales_Shpt_Line/items",
+                  "type": "object",
+                  "properties": {
+                    "Key": {
+                      "$id": "/properties/Sales_Shipment/properties/SalesShipmLines/properties/Posted_Sales_Shpt_Line/items/properties/Key",
+                      "type": "string",
+                      "title": "The Key Schema "
+                    },
+                    "Type": {
+                      "$id": "/properties/Sales_Shipment/properties/SalesShipmLines/properties/Posted_Sales_Shpt_Line/items/properties/Type",
+                      "type": "string",
+                      "title": "The Type Schema "
+                    },
+                    "No": {
+                      "$id": "/properties/Sales_Shipment/properties/SalesShipmLines/properties/Posted_Sales_Shpt_Line/items/properties/No",
+                      "type": "string",
+                      "title": "The No Schema "
+                    },
+                    "Cross_Reference_No": {
+                      "$id": "/properties/Sales_Shipment/properties/SalesShipmLines/properties/Posted_Sales_Shpt_Line/items/properties/Cross_Reference_No",
+                      "type": "string",
+                      "title": "The Cross_Reference_No Schema "
+                    },
+                    "Variant_Code": {
+                      "$id": "/properties/Sales_Shipment/properties/SalesShipmLines/properties/Posted_Sales_Shpt_Line/items/properties/Variant_Code",
+                      "type": "string",
+                      "title": "The Variant_Code Schema "
+                    },
+                    "Description": {
+                      "$id": "/properties/Sales_Shipment/properties/SalesShipmLines/properties/Posted_Sales_Shpt_Line/items/properties/Description",
+                      "type": "string",
+                      "title": "The Description Schema "
+                    },
+                    "Return_Reason_Code": {
+                      "$id": "/properties/Sales_Shipment/properties/SalesShipmLines/properties/Posted_Sales_Shpt_Line/items/properties/Return_Reason_Code",
+                      "type": "string",
+                      "title": "The Return_Reason_Code Schema "
+                    },
+                    "Package_Tracking_No": {
+                      "$id": "/properties/Sales_Shipment/properties/SalesShipmLines/properties/Posted_Sales_Shpt_Line/items/properties/Package_Tracking_No",
+                      "type": "string",
+                      "title": "The Package_Tracking_No Schema "
+                    },
+                    "Location_Code": {
+                      "$id": "/properties/Sales_Shipment/properties/SalesShipmLines/properties/Posted_Sales_Shpt_Line/items/properties/Location_Code",
+                      "type": "string",
+                      "title": "The Location_code Schema "
+                    },
+                    "Bin_Code": {
+                      "$id": "/properties/Sales_Shipment/properties/SalesShipmLines/properties/Posted_Sales_Shpt_Line/items/properties/Bin_Code",
+                      "type": "string",
+                      "title": "The Bin_Code Schema "
+                    },
+                    "Quantity": {
+                      "$id": "/properties/Sales_Shipment/properties/SalesShipmLines/properties/Posted_Sales_Shpt_Line/items/properties/Quantity",
+                      "type": "number",
+                      "title": "The Quantity Schema "
+                    },
+                    "Unit_of_Measure_Code": {
+                      "$id": "/properties/Sales_Shipment/properties/SalesShipmLines/properties/Posted_Sales_Shpt_Line/items/properties/Unit_of_Measure_Code",
+                      "type": "string",
+                      "title": "The Unit_of_measure_code Schema "
+                    },
+                    "Unit_of_Measure": {
+                      "$id": "/properties/Sales_Shipment/properties/SalesShipmLines/properties/Posted_Sales_Shpt_Line/items/properties/Unit_of_Measure",
+                      "type": "string",
+                      "title": "The Unit_of_measure Schema "
+                    },
+                    "Quantity_Invoiced": {
+                      "$id": "/properties/Sales_Shipment/properties/SalesShipmLines/properties/Posted_Sales_Shpt_Line/items/properties/Quantity_Invoiced",
+                      "type": "number",
+                      "title": "The Quantity_invoiced Schema "
+                    },
+                    "Qty_Shipped_Not_Invoiced": {
+                      "$id": "/properties/Sales_Shipment/properties/SalesShipmLines/properties/Posted_Sales_Shpt_Line/items/properties/Qty_Shipped_Not_Invoiced",
+                      "type": "number",
+                      "title": "The Qty_shipped_not_invoiced Schema "
+                    },
+                    "Requested_Delivery_Date": {
+                      "$id": "/properties/Sales_Shipment/properties/SalesShipmLines/properties/Posted_Sales_Shpt_Line/items/properties/Requested_Delivery_Date",
+                      "type": "string",
+                      "title": "The Requested_delivery_date Schema "
+                    },
+                    "Promised_Delivery_Date": {
+                      "$id": "/properties/Sales_Shipment/properties/SalesShipmLines/properties/Posted_Sales_Shpt_Line/items/properties/Promised_Delivery_Date",
+                      "type": "string",
+                      "title": "The Promised_delivery_date Schema "
+                    },
+                    "Planned_Delivery_Date": {
+                      "$id": "/properties/Sales_Shipment/properties/SalesShipmLines/properties/Posted_Sales_Shpt_Line/items/properties/Planned_Delivery_Date",
+                      "type": "string",
+                      "title": "The Planned_delivery_date Schema "
+                    },
+                    "Planned_Shipment_Date": {
+                      "$id": "/properties/Sales_Shipment/properties/SalesShipmLines/properties/Posted_Sales_Shpt_Line/items/properties/Planned_Shipment_Date",
+                      "type": "string",
+                      "title": "The Planned_shipment_date Schema "
+                    },
+                    "Shipment_Date": {
+                      "$id": "/properties/Sales_Shipment/properties/SalesShipmLines/properties/Posted_Sales_Shpt_Line/items/properties/Shipment_Date",
+                      "type": "string",
+                      "title": "The Shipment_date Schema "
+                    },
+                    "Job_No": {
+                      "$id": "/properties/Sales_Shipment/properties/SalesShipmLines/properties/Posted_Sales_Shpt_Line/items/properties/Job_No",
+                      "type": "string",
+                      "title": "The Job_No Schema "
+                    },
+                    "Outbound_Whse_Handling_Time": {
+                      "$id": "/properties/Sales_Shipment/properties/SalesShipmLines/properties/Posted_Sales_Shpt_Line/items/properties/Outbound_Whse_Handling_Time",
+                      "type": "string",
+                      "title": "The Outbound_Whse_Handling_Time Schema "
+                    },
+                    "Appl_to_Item_Entry": {
+                      "$id": "/properties/Sales_Shipment/properties/SalesShipmLines/properties/Posted_Sales_Shpt_Line/items/properties/Appl_to_Item_Entry",
+                      "type": "number",
+                      "title": "The Appl_to_item_entry Schema "
+                    },
+                    "Shortcut_Dimension_1_Code": {
+                      "$id": "/properties/Sales_Shipment/properties/SalesShipmLines/properties/Posted_Sales_Shpt_Line/items/properties/Shortcut_Dimension_1_Code",
+                      "type": "string",
+                      "title": "The Shortcut_dimension_1_code Schema "
+                    },
+                    "Shortcut_Dimension_2_Code": {
+                      "$id": "/properties/Sales_Shipment/properties/SalesShipmLines/properties/Posted_Sales_Shpt_Line/items/properties/Shortcut_Dimension_2_Code",
+                      "type": "string",
+                      "title": "The Shortcut_dimension_1_code Schema "
+                    },
+                    "Correction": {
+                      "$id": "/properties/Sales_Shipment/properties/SalesShipmLines/properties/Posted_Sales_Shpt_Line/items/properties/Correction",
+                      "type": "boolean",
+                      "title": "The Correction Schema "
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+	  }
+	},
+	"tags": [
+		"Get",
+		"Fulfillment"
+	],
+	"audit": {}
+}
