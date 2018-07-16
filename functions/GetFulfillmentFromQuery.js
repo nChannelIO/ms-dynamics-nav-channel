@@ -259,6 +259,7 @@ let GetFulfillmentFromQuery = function (ncUtil, channelProfile, flowContext, pay
             out.ncStatusCode = 400;
             out.response.endpointStatusCode = 401;
             out.response.endpointStatusMessage = "Unauthorized";
+            out.payload.error = { err: errStr };
           } else {
             logError("GetFulfillmentFromQuery Callback error - " + err, ncUtil);
             out.ncStatusCode = 500;

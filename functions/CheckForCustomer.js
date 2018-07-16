@@ -157,6 +157,7 @@ let CheckForCustomer = function (ncUtil, channelProfile, flowContext, payload, c
             out.ncStatusCode = 400;
             out.response.endpointStatusCode = 401;
             out.response.endpointStatusMessage = "Unauthorized";
+            out.payload.error = { err: errStr };
           } else {
             logError("CheckForCustomer Callback error - " + err, ncUtil);
             out.ncStatusCode = 500;
