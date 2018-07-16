@@ -1,5 +1,5 @@
-FROM nchannelqa/base-nodejs-image:1.0.6
-MAINTAINER nchanneldeveloper <developers@nchannel.com>
+FROM node:9-slim
+LABEL maintainer="developers@nchannel.com"
 
 # Create app directory
 RUN mkdir -p /sdk
