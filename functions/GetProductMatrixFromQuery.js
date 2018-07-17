@@ -186,7 +186,6 @@ let GetProductMatrixFromQuery = function (ncUtil, channelProfile, flowContext, p
           soap.createClient(itemVariantsUrl, options, function(itemVariantsErr, variantClient) {
             if (!itemVariantsErr) {
               itemClient.ReadMultiple(args, function(error, result, envelope, soapHeader) {
-
                 let docs = [];
                 let data = result;
 
@@ -259,6 +258,8 @@ let GetProductMatrixFromQuery = function (ncUtil, channelProfile, flowContext, p
                           }).catch((err) => {
                             reject(err);
                           });
+                        } else {
+                          resolve();
                         }
                       });
                     }
@@ -310,6 +311,8 @@ let GetProductMatrixFromQuery = function (ncUtil, channelProfile, flowContext, p
                               }).catch((err) => {
                                 reject(err);
                               });
+                            } else {
+                              resolve(doc);
                             }
                           }
                         });
