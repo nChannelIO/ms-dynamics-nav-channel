@@ -133,6 +133,7 @@ let InsertSalesOrder = function (ncUtil, channelProfile, flowContext, payload, c
             out.ncStatusCode = 400;
             out.response.endpointStatusCode = 401;
             out.response.endpointStatusMessage = "Unauthorized";
+            out.payload.error = { err: err };
           } else {
             logError("InsertSalesOrder Callback error - " + err, ncUtil);
             out.ncStatusCode = 500;

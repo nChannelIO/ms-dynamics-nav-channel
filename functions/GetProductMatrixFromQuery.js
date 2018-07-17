@@ -354,6 +354,7 @@ let GetProductMatrixFromQuery = function (ncUtil, channelProfile, flowContext, p
                 out.ncStatusCode = 400;
                 out.response.endpointStatusCode = 401;
                 out.response.endpointStatusMessage = "Unauthorized";
+                out.payload.error = { err: itemVariantsErr };
               } else {
                 logError("GetProductMatrixFromQuery Callback error - " + itemVariantsErr, ncUtil);
                 out.ncStatusCode = 500;
@@ -370,6 +371,7 @@ let GetProductMatrixFromQuery = function (ncUtil, channelProfile, flowContext, p
             out.ncStatusCode = 400;
             out.response.endpointStatusCode = 401;
             out.response.endpointStatusMessage = "Unauthorized";
+            out.payload.error = { err: itemErr };
           } else {
             logError("GetProductMatrixFromQuery Callback error - " + itemErr, ncUtil);
             out.ncStatusCode = 500;
