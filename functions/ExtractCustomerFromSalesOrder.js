@@ -87,7 +87,7 @@ let ExtractCustomerFromSalesOrder = function(ncUtil, channelProfile, flowContext
           // Invalid Request (payload or payload.doc was not passed in)
           log(invalidMsg, ncUtil);
           out.ncStatusCode = 400;
-          out.payload.error = { err: invalidMsg };
+          out.payload.error = invalidMsg;
 
           callback(out);
         }
@@ -95,7 +95,7 @@ let ExtractCustomerFromSalesOrder = function(ncUtil, channelProfile, flowContext
     catch (err){
         logError("Exception occurred in ExtractCustomerFromSalesOrder - " + err, ncUtil);
         out.ncStatusCode = 500;
-        out.payload.error = { err: err.message, stackTrace: err.stackTrace };
+        out.payload.error = err;
         callback(out);
     }
 

@@ -335,11 +335,11 @@ let GetProductQuantityFromQuery = function (ncUtil, channelProfile, flowContext,
                           out.ncStatusCode = 400;
                           out.response.endpointStatusCode = 401;
                           out.response.endpointStatusMessage = "Unauthorized";
-                          out.payload.error = { err: variantInventoryErr };
+                          out.payload.error = variantInventoryErr;
                         } else {
                           logError("GetProductMatrixFromQuery Callback error - " + variantInventoryErr, ncUtil);
                           out.ncStatusCode = 500;
-                          out.payload.error = { err: variantInventoryErr };
+                          out.payload.error = variantInventoryErr;
                         }
                         reject(out);
                       }
@@ -375,11 +375,11 @@ let GetProductQuantityFromQuery = function (ncUtil, channelProfile, flowContext,
                           out.ncStatusCode = 400;
                           out.response.endpointStatusCode = 401;
                           out.response.endpointStatusMessage = "Unauthorized";
-                          out.payload.error = { err: itemErr };
+                          out.payload.error = itemErr;
                         } else {
                           logError("GetProductMatrixFromQuery Callback error - " + itemErr, ncUtil);
                           out.ncStatusCode = 500;
-                          out.payload.error = { err: itemErr };
+                          out.payload.error = itemErr;
                         }
                         reject(out);
                       }
@@ -400,7 +400,7 @@ let GetProductQuantityFromQuery = function (ncUtil, channelProfile, flowContext,
                 }).catch((err) => {
                   logError("Error - Returning Response as 400 - " + err, ncUtil);
                   out.ncStatusCode = 400;
-                  out.payload.error = { err: err };
+                  out.payload.error = err;
                   callback(out);
                 });
               }
@@ -408,12 +408,12 @@ let GetProductQuantityFromQuery = function (ncUtil, channelProfile, flowContext,
               if (error.response) {
                 logError("Error - Returning Response as 400 - " + error, ncUtil);
                 out.ncStatusCode = 400;
-                out.payload.error = { err: error };
+                out.payload.error = error;
                 callback(out);
               } else {
                 logError("GetProductMatrixFromQuery Callback error - " + error, ncUtil);
                 out.ncStatusCode = 500;
-                out.payload.error = { err: error };
+                out.payload.error = error;
                 callback(out);
               }
             }
@@ -426,11 +426,11 @@ let GetProductQuantityFromQuery = function (ncUtil, channelProfile, flowContext,
             out.ncStatusCode = 400;
             out.response.endpointStatusCode = 401;
             out.response.endpointStatusMessage = "Unauthorized";
-            out.payload.error = { err: itemLedgerErr };
+            out.payload.error = itemLedgerErr;
           } else {
             logError("GetProductMatrixFromQuery Callback error - " + itemLedgerErr, ncUtil);
             out.ncStatusCode = 500;
-            out.payload.error = { err: itemLedgerErr };
+            out.payload.error = itemLedgerErr;
           }
           callback(out);
         }
@@ -439,7 +439,7 @@ let GetProductQuantityFromQuery = function (ncUtil, channelProfile, flowContext,
       // Exception Handling
       logError("Exception occurred in GetProductQuantityFromQuery - " + err, ncUtil);
       out.ncStatusCode = 500;
-      out.payload.error = {err: err, stack: err.stackTrace};
+      out.payload.error = err;
       callback(out);
     }
   } else {
