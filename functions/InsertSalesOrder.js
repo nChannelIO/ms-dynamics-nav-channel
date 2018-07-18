@@ -87,6 +87,9 @@ let InsertSalesOrder = function (ncUtil, channelProfile, flowContext, payload, c
     let wsdlAuthRequired = true;
     let ntlmSecurity = new NTLMSecurity(username, password, domain, workstation, wsdlAuthRequired);
 
+    // Log Service Names
+    log(`Order Service Name: ${orderServiceName}`);
+
     // Log URL
     log("Using URL [" + url + "]", ncUtil);
 

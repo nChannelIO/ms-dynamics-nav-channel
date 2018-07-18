@@ -171,6 +171,11 @@ let GetProductQuantityFromQuery = function (ncUtil, channelProfile, flowContext,
     let wsdlAuthRequired = true;
     let ntlmSecurity = new NTLMSecurity(username, password, domain, workstation, wsdlAuthRequired);
 
+    // Log Service Names
+    log(`Item Service Name: ${itemServiceName}`);
+    log(`Item Ledger Service Name: ${itemLedgerServiceName}`);
+    log(`Inventory Name: ${inventoryServiceName}`);
+
     // Log URL
     log("Connecting to URL [" + itemLedgerUrl + "]", ncUtil);
 
@@ -302,6 +307,8 @@ let GetProductQuantityFromQuery = function (ncUtil, channelProfile, flowContext,
                           reject(err);
                         });
                       }
+                    } else {
+                      resolve();
                     }
                   });
                 }

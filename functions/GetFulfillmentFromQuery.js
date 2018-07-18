@@ -169,6 +169,9 @@ let GetFulfillmentFromQuery = function (ncUtil, channelProfile, flowContext, pay
     let wsdlAuthRequired = true;
     let ntlmSecurity = new NTLMSecurity(username, password, domain, workstation, wsdlAuthRequired);
 
+    // Log Service Names
+    log(`Sales Shipment Service Name: ${salesShipmentServiceName}`);
+
     // Log URL
     log("Using URL [" + url + "]", ncUtil);
 
@@ -178,7 +181,6 @@ let GetFulfillmentFromQuery = function (ncUtil, channelProfile, flowContext, pay
 
     try {
       soap.createClient(url, options, function(err, client) {
-        console.log(err);
         if (!err) {
           client.ReadMultiple(args, function(error, body, envelope, soapHeader) {
 

@@ -103,6 +103,9 @@ let CheckForCustomer = function (ncUtil, channelProfile, flowContext, payload, c
       }
     });
 
+    // Log Service Names
+    log(`Customer Service Name: ${customerServiceName}`);
+
     // Log URL
     log("Using URL [" + url + "]", ncUtil);
 

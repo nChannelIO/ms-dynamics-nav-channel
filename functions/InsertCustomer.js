@@ -87,6 +87,9 @@ let InsertCustomer = function (ncUtil, channelProfile, flowContext, payload, cal
     let wsdlAuthRequired = true;
     let ntlmSecurity = new NTLMSecurity(username, password, domain, workstation, wsdlAuthRequired);
 
+    // Log Service Names
+    log(`Customer Service Name: ${customerServiceName}`);
+
     // Log URL
     log("Using URL [" + url + "]", ncUtil);
 
