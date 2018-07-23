@@ -87,6 +87,9 @@ let InsertSalesOrder = function (ncUtil, channelProfile, flowContext, payload, c
     let wsdlAuthRequired = true;
     let ntlmSecurity = new NTLMSecurity(username, password, domain, workstation, wsdlAuthRequired);
 
+    // Log Service Names
+    log(`Order Service Name: ${orderServiceName}`);
+
     // Log URL
     log("Using URL [" + url + "]", ncUtil);
 
@@ -115,12 +118,12 @@ let InsertSalesOrder = function (ncUtil, channelProfile, flowContext, payload, c
               if (error.response) {
                 logError("Error - Returning Response as 400 - " + error, ncUtil);
                 out.ncStatusCode = 400;
-                out.payload.error = { err: error };
+                out.payload.error = error;
                 callback(out);
               } else {
                 logError("InsertSalesOrder Callback error - " + error, ncUtil);
                 out.ncStatusCode = 500;
-                out.payload.error = { err: error };
+                out.payload.error = error;
                 callback(out);
               }
             }
@@ -133,11 +136,11 @@ let InsertSalesOrder = function (ncUtil, channelProfile, flowContext, payload, c
             out.ncStatusCode = 400;
             out.response.endpointStatusCode = 401;
             out.response.endpointStatusMessage = "Unauthorized";
-            out.payload.error = { err: err };
+            out.payload.error = err;
           } else {
             logError("InsertSalesOrder Callback error - " + err, ncUtil);
             out.ncStatusCode = 500;
-            out.payload.error = { err: err };
+            out.payload.error = err;
           }
           callback(out);
         }
@@ -145,7 +148,7 @@ let InsertSalesOrder = function (ncUtil, channelProfile, flowContext, payload, c
     } catch (err) {
       logError("Exception occurred in InsertSalesOrder - " + err, ncUtil);
       out.ncStatusCode = 500;
-      out.payload.error = {err: err, stack: err.stackTrace};
+      out.payload.error = err;
       callback(out);
     }
   } else {

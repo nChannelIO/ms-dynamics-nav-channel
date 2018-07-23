@@ -87,6 +87,9 @@ let InsertCustomer = function (ncUtil, channelProfile, flowContext, payload, cal
     let wsdlAuthRequired = true;
     let ntlmSecurity = new NTLMSecurity(username, password, domain, workstation, wsdlAuthRequired);
 
+    // Log Service Names
+    log(`Customer Service Name: ${customerServiceName}`);
+
     // Log URL
     log("Using URL [" + url + "]", ncUtil);
 
@@ -115,12 +118,12 @@ let InsertCustomer = function (ncUtil, channelProfile, flowContext, payload, cal
               if (error.response) {
                 logError("Error - Returning Response as 400 - " + error, ncUtil);
                 out.ncStatusCode = 400;
-                out.payload.error = { err: error };
+                out.payload.error = error;
                 callback(out);
               } else {
                 logError("InsertCustomer Callback error - " + error, ncUtil);
                 out.ncStatusCode = 500;
-                out.payload.error = { err: error };
+                out.payload.error = error;
                 callback(out);
               }
             }
@@ -133,11 +136,11 @@ let InsertCustomer = function (ncUtil, channelProfile, flowContext, payload, cal
             out.ncStatusCode = 400;
             out.response.endpointStatusCode = 401;
             out.response.endpointStatusMessage = "Unauthorized";
-            out.payload.error = { err: err };
+            out.payload.error = err;
           } else {
             logError("InsertCustomer Callback error - " + err, ncUtil);
             out.ncStatusCode = 500;
-            out.payload.error = { err: err };
+            out.payload.error = err;
           }
           callback(out);
         }
@@ -146,7 +149,7 @@ let InsertCustomer = function (ncUtil, channelProfile, flowContext, payload, cal
       // Exception Handling
       logError("Exception occurred in InsertCustomer - " + err, ncUtil);
       out.ncStatusCode = 500;
-      out.payload.error = {err: err, stack: err.stackTrace};
+      out.payload.error = err;
       callback(out);
     }
   } else {
