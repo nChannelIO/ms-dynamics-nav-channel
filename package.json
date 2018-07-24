@@ -22,5 +22,5 @@
   "scripts": {
     "test": "mocha --timeout 10000 validation/*.spec.js"
   },
-  "version": "0.0.3"
+  "version": "0.0.4"
 }
