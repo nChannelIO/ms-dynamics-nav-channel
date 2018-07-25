@@ -76,7 +76,8 @@ let CheckForCustomer = function (ncUtil, channelProfile, flowContext, payload, c
 
     // Setup Request Arguments
     let args = {
-      filter: []
+      filter: [],
+      setSize: 2
     };
 
     // https://<baseUrl>:<port>/<serverInstance>/WS/<companyName>/Page/Customer

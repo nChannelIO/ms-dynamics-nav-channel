@@ -57,6 +57,9 @@ let UpdateCustomer = function (ncUtil, channelProfile, flowContext, payload, cal
   } else if (!payload.doc) {
     invalid = true;
     invalidMsg = "payload.doc was not provided";
+  } else if (!payload.customerRemoteID) {
+    invalid = true;
+    invalidMsg = "payload.customerRemoteID was not provided";
   }
 
   // Callback Checking
@@ -75,7 +78,7 @@ let UpdateCustomer = function (ncUtil, channelProfile, flowContext, payload, cal
 
     // Setup Request Arguments
     let args = {
-      No: payload.doc.Customer.No
+      No: payload.customerRemoteID
     }
 
     // https://<baseUrl>:<port>/<serverInstance>/WS/<companyName>/Page/Customer
@@ -91,7 +94,7 @@ let UpdateCustomer = function (ncUtil, channelProfile, flowContext, payload, cal
 
     // Log Service Names
     log(`Customer Service Name: ${customerServiceName}`);
-    
+
     // Log URL
     log("Using URL [" + url + "]", ncUtil);
 
