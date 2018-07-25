@@ -63,7 +63,9 @@ let ExtractCustomerFromSalesOrder = function(ncUtil, channelProfile, flowContext
                   notFound = true;
                   invalidMsg = "Extract Customer From Sales Order - Customer Not Found: The order has no customer (payload.doc.BillingCustomer)";
               } else {
-                  data = payload.doc.Order.Customer;
+                  data = {
+                    Customer: payload.doc.Order.Customer
+                  }
               }
           } else {
               invalidMsg = "Extract Customer From Sales Order - Invalid Request: payload was not provided";
