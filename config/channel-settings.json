@@ -91,23 +91,47 @@
         "configModel": {
           "required": [],
           "properties": {
-            "field": {
+            "itemLedgerField": {
               "type": "string",
-              "title": "Filter Field"
+              "title": "Item Ledger Filter Field"
             },
-            "criteria": {
+            "itemLedgerCriteria": {
               "type": "string",
-              "title": "Filter Criteria"
+              "title": "Item Ledger Filter Criteria"
+            },
+            "itemField": {
+              "type": "string",
+              "title": "Item Filter Field"
+            },
+            "itemCriteria": {
+              "type": "string",
+              "title": "Item Filter Criteria"
+            },
+            "variantField": {
+              "type": "string",
+              "title": "Variant Inventory Filter Field"
+            },
+            "variantCriteria": {
+              "type": "string",
+              "title": "Variant Inventory Filter Criteria"
             }
           }
         },
         "configView": [
-          "field",
-          "criteria"
+          "itemLedgerField",
+          "itemLedgerCriteria",
+          "itemField",
+          "itemCriteria",
+          "variantField",
+          "variantCriteria"
         ],
         "configValues": {
-          "field": "",
-          "criteria": ""
+          "itemLedgerField": "",
+          "itemLedgerCriteria": "",
+          "itemField": "",
+          "itemCriteria": "",
+          "variantField": "",
+          "variantCriteria": ""
         }
       },
       "documentDef": {
