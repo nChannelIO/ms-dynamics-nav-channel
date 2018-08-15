@@ -36,9 +36,9 @@ let GetProductQuantityFromQuery = function (ncUtil, channelProfile, flowContext,
   } else if (!channelProfile.channelAuthValues.password) {
     invalid = true;
     invalidMsg = "channelProfile.channelAuthValues.password was not provided"
-  } else if (!channelProfile.channelAuthValues.inventoryUrl) {
+  } else if (!channelProfile.channelAuthValues.variantInventoryUrl) {
     invalid = true;
-    invalidMsg = "channelProfile.channelAuthValues.inventoryUrl was not provided"
+    invalidMsg = "channelProfile.channelAuthValues.variantInventoryUrl was not provided"
   } else if (!channelProfile.productQuantityBusinessReferences) {
     invalid = true;
     invalidMsg = "channelProfile.productQuantityBusinessReferences was not provided"
@@ -162,7 +162,7 @@ let GetProductQuantityFromQuery = function (ncUtil, channelProfile, flowContext,
     let domain = channelProfile.channelAuthValues.domain;
     let workstation = channelProfile.channelAuthValues.workstation;
     let itemLedgerUrl = channelProfile.channelAuthValues.itemLedgerUrl;
-    let inventoryUrl = channelProfile.channelAuthValues.inventoryUrl;
+    let inventoryUrl = channelProfile.channelAuthValues.variantInventoryUrl;
     let itemUrl = channelProfile.channelAuthValues.itemUrl;
     let itemServiceName = channelProfile.channelAuthValues.itemServiceName;
     let itemLedgerServiceName = channelProfile.channelAuthValues.itemLedgerServiceName;
@@ -206,26 +206,39 @@ let GetProductQuantityFromQuery = function (ncUtil, channelProfile, flowContext,
                     if (Array.isArray(body.ReadMultiple_Result[itemLedgerServiceName])) {
 
                       let p = [];
+                      let items = [];
 
                       // Process Each Item and their Variants if any
                       for (let i = 0; i < body.ReadMultiple_Result[itemLedgerServiceName].length; i++) {
+                        let product = {
+                          Item_Ledger: body.ReadMultiple_Result[itemLedgerServiceName][i]
+                        };
+
+                        let code = product.Item_Ledger.Variant_Code;
+                        let itemNo = product.Item_Ledger.Item_No;
+
+                        if (!payload.doc.pagingContext) {
+                          payload.doc.pagingContext = {};
+                        }
+
+                        // Set Key to resume from if an error occurs or when getting the next set of items
+                        payload.doc.pagingContext.key = body.ReadMultiple_Result[itemLedgerServiceName][i].Key;
+
+                        items.push({ itemNo: itemNo, code: code });
+                      }
+
+                      // Remove Duplicates
+                      items = items.reduce((arr, x) => {
+                        if(!arr.some(obj => obj.itemNo === x.itemNo && obj.code === x.code)) {
+                          arr.push(x);
+                        }
+                        return arr;
+                      }, []);
+
+                      items.forEach(x => {
                         p.push(new Promise((pResolve, pReject) => {
-                          let product = {
-                            Item_Ledger: body.ReadMultiple_Result[itemLedgerServiceName][i]
-                          };
-
-                          let code = product.Item_Ledger.Variant_Code;
-                          let itemNo = product.Item_Ledger.Item_No;
-
-                          if (!payload.doc.pagingContext) {
-                            payload.doc.pagingContext = {};
-                          }
-
-                          // Set Key to resume from if an error occurs or when getting the next set of items
-                          payload.doc.pagingContext.key = body.ReadMultiple_Result[itemLedgerServiceName][i].Key;
-
-                          if (code != null) {
-                            queryItem(itemNo).then(itemDoc => queryVariant(itemDoc, code)).then((doc) => {
+                          if (x.code != null) {
+                            queryItem(x.itemNo).then(itemDoc => queryVariant(itemDoc, x.code)).then((doc) => {
                               let item = {
                                 Item: doc
                               }
@@ -239,7 +252,7 @@ let GetProductQuantityFromQuery = function (ncUtil, channelProfile, flowContext,
                               pReject(err);
                             });
                           } else {
-                            queryItem(itemNo).then((doc) =>{
+                            queryItem(x.itemNo).then((doc) =>{
                               let item = {
                                 Item: doc
                               }
@@ -254,7 +267,7 @@ let GetProductQuantityFromQuery = function (ncUtil, channelProfile, flowContext,
                             });
                           }
                         }));
-                      }
+                      });
 
                       // Return from stub function when all items have been processed from current set
                       Promise.all(p).then(() => {
