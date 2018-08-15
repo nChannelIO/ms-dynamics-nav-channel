@@ -101,8 +101,7 @@ let GetProductQuantityFromQuery = function (ncUtil, channelProfile, flowContext,
 
     // Setup Request Arguments
     let args = {
-      filter: [],
-      setSize: 20
+      filter: []
     };
 
     if (payload.doc.searchFields) {
