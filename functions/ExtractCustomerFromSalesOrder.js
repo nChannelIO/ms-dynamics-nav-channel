@@ -63,7 +63,9 @@ let ExtractCustomerFromSalesOrder = function(ncUtil, channelProfile, flowContext
                   notFound = true;
                   invalidMsg = "Extract Customer From Sales Order - Customer Not Found: The order has no customer (payload.doc.BillingCustomer)";
               } else {
-                  data = payload.doc.Order.Customer;
+                  data = {
+                    Customer: payload.doc.Order.Customer
+                  }
               }
           } else {
               invalidMsg = "Extract Customer From Sales Order - Invalid Request: payload was not provided";
@@ -87,7 +89,7 @@ let ExtractCustomerFromSalesOrder = function(ncUtil, channelProfile, flowContext
           // Invalid Request (payload or payload.doc was not passed in)
           log(invalidMsg, ncUtil);
           out.ncStatusCode = 400;
-          out.payload.error = { err: invalidMsg };
+          out.payload.error = invalidMsg;
 
           callback(out);
         }
@@ -95,7 +97,7 @@ let ExtractCustomerFromSalesOrder = function(ncUtil, channelProfile, flowContext
     catch (err){
         logError("Exception occurred in ExtractCustomerFromSalesOrder - " + err, ncUtil);
         out.ncStatusCode = 500;
-        out.payload.error = { err: err.message, stackTrace: err.stackTrace };
+        out.payload.error = err;
         callback(out);
     }
 

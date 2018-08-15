@@ -169,6 +169,9 @@ let GetFulfillmentFromQuery = function (ncUtil, channelProfile, flowContext, pay
     let wsdlAuthRequired = true;
     let ntlmSecurity = new NTLMSecurity(username, password, domain, workstation, wsdlAuthRequired);
 
+    // Log Service Names
+    log(`Sales Shipment Service Name: ${salesShipmentServiceName}`);
+
     // Log URL
     log("Using URL [" + url + "]", ncUtil);
 
@@ -241,12 +244,12 @@ let GetFulfillmentFromQuery = function (ncUtil, channelProfile, flowContext, pay
               if (error.response) {
                 logError("Error - Returning Response as 400 - " + error, ncUtil);
                 out.ncStatusCode = 400;
-                out.payload.error = { err: error };
+                out.payload.error = error;
                 callback(out);
               } else {
                 logError("GetFulfillmentFromQuery Callback error - " + error, ncUtil);
                 out.ncStatusCode = 500;
-                out.payload.error = { err: error };
+                out.payload.error = error;
                 callback(out);
               }
             }
@@ -259,10 +262,11 @@ let GetFulfillmentFromQuery = function (ncUtil, channelProfile, flowContext, pay
             out.ncStatusCode = 400;
             out.response.endpointStatusCode = 401;
             out.response.endpointStatusMessage = "Unauthorized";
+            out.payload.error = err;
           } else {
             logError("GetFulfillmentFromQuery Callback error - " + err, ncUtil);
             out.ncStatusCode = 500;
-            out.payload.error = { err: err };
+            out.payload.error = err;
           }
           callback(out);
         }
@@ -271,7 +275,7 @@ let GetFulfillmentFromQuery = function (ncUtil, channelProfile, flowContext, pay
       // Exception Handling
       logError("Exception occurred in GetFulfillmentFromQuery - " + err, ncUtil);
       out.ncStatusCode = 500;
-      out.payload.error = {err: err, stack: err.stackTrace};
+      out.payload.error = err;
       callback(out);
     }
   } else {

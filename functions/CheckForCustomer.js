@@ -76,7 +76,8 @@ let CheckForCustomer = function (ncUtil, channelProfile, flowContext, payload, c
 
     // Setup Request Arguments
     let args = {
-      filter: []
+      filter: [],
+      setSize: 2
     };
 
     // https://<baseUrl>:<port>/<serverInstance>/WS/<companyName>/Page/Customer
@@ -91,17 +92,26 @@ let CheckForCustomer = function (ncUtil, channelProfile, flowContext, payload, c
     let ntlmSecurity = new NTLMSecurity(username, password, domain, workstation, wsdlAuthRequired);
 
     // Extract businessReferences
+    console.log("Processing Business References");
     channelProfile.customerBusinessReferences.forEach(function (businessReference) {
+      console.log(`Processing ${businessReference}`);
       let expression = jsonata(businessReference);
       let value = expression.evaluate(payload.doc);
       if (value) {
         let obj = {};
         let lookup = businessReference.split('.').pop();
+        console.log(`Filter Field: ${lookup}`);
+        console.log(`Filter Criteria: ${value}`);
         obj["Field"] = lookup;
         obj["Criteria"] = value;
         args.filter.push(obj);
+      } else {
+        console.log(`WARN: Could not find a value for businessReference: ${businessReference}`);
       }
     });
+
+    // Log Service Names
+    log(`Customer Service Name: ${customerServiceName}`);
 
     // Log URL
     log("Using URL [" + url + "]", ncUtil);
@@ -112,18 +122,23 @@ let CheckForCustomer = function (ncUtil, channelProfile, flowContext, payload, c
 
     try {
       soap.createClient(url, options, function(err, client) {
+        console.log("Client Created");
         if (!err) {
           client.ReadMultiple(args, function(error, body, envelope, soapHeader) {
             if (!error) {
               if (!body.ReadMultiple_Result) {
                 // If ReadMultiple_Result is undefined, no results were returned
+                console.log("body.ReadMultiple_Result returned empty.");
                 out.ncStatusCode = 204;
               } else if (Array.isArray(body.ReadMultiple_Result[customerServiceName])) {
                 // If an array is returned, multiple customers were found
+                console.log(`body.ReadMultiple_Result returned multiple customers. Count: ${body.ReadMultiple_Result[customerServiceName].length}`);
                 out.ncStatusCode = 409;
-                out.payload.error = { err: body };
+                out.payload.error = body;
               } else if (typeof body.ReadMultiple_Result[customerServiceName] === 'object') {
                 // If an object is returned, one customer was found
+                console.log(`body.ReadMultiple_Result returned 1 customer.`);
+                console.log(`Customer: ${body.ReadMultiple_Result[customerServiceName]}`);
                 out.ncStatusCode = 200;
                 out.payload = {
                   customerRemoteID: body.ReadMultiple_Result[customerServiceName].No,
@@ -131,20 +146,21 @@ let CheckForCustomer = function (ncUtil, channelProfile, flowContext, payload, c
                 };
               } else {
                 // Unexpected case
+                console.log(`Unexpected result: ${body}`)
                 out.ncStatusCode = 400;
-                out.payload.error = { err: body };
+                out.payload.error = body;
               }
               callback(out);
             } else {
               if (error.response) {
                 logError("Error - Returning Response as 400 - " + error, ncUtil);
                 out.ncStatusCode = 400;
-                out.payload.error = { err: error };
+                out.payload.error = error;
                 callback(out);
               } else {
                 logError("CheckForCustomer Callback error - " + error, ncUtil);
                 out.ncStatusCode = 500;
-                out.payload.error = { err: error };
+                out.payload.error = error;
                 callback(out);
               }
             }
@@ -157,10 +173,11 @@ let CheckForCustomer = function (ncUtil, channelProfile, flowContext, payload, c
             out.ncStatusCode = 400;
             out.response.endpointStatusCode = 401;
             out.response.endpointStatusMessage = "Unauthorized";
+            out.payload.error = err;
           } else {
             logError("CheckForCustomer Callback error - " + err, ncUtil);
             out.ncStatusCode = 500;
-            out.payload.error = { err: err };
+            out.payload.error = err;
           }
           callback(out);
         }
@@ -169,7 +186,7 @@ let CheckForCustomer = function (ncUtil, channelProfile, flowContext, payload, c
       // Exception Handling
       logError("Exception occurred in CheckForCustomer - " + err, ncUtil);
       out.ncStatusCode = 500;
-      out.payload.error = {err: err, stack: err.stackTrace};
+      out.payload.error = err;
       callback(out);
     }
   } else {

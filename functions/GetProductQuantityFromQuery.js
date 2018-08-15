@@ -36,9 +36,9 @@ let GetProductQuantityFromQuery = function (ncUtil, channelProfile, flowContext,
   } else if (!channelProfile.channelAuthValues.password) {
     invalid = true;
     invalidMsg = "channelProfile.channelAuthValues.password was not provided"
-  } else if (!channelProfile.channelAuthValues.inventoryUrl) {
+  } else if (!channelProfile.channelAuthValues.variantInventoryUrl) {
     invalid = true;
-    invalidMsg = "channelProfile.channelAuthValues.inventoryUrl was not provided"
+    invalidMsg = "channelProfile.channelAuthValues.variantInventoryUrl was not provided"
   } else if (!channelProfile.productQuantityBusinessReferences) {
     invalid = true;
     invalidMsg = "channelProfile.productQuantityBusinessReferences was not provided"
@@ -142,7 +142,7 @@ let GetProductQuantityFromQuery = function (ncUtil, channelProfile, flowContext,
     if (flowContext && flowContext.field && flowContext.criteria) {
       let obj = {};
       obj["Field"] = flowContext.field;
-      obj["Criteria"] = flowContext.criteria; // The pipe '|' symbol is a NAV filter for 'OR'
+      obj["Criteria"] = flowContext.criteria;
       args.filter.push(obj);
     }
 
@@ -162,7 +162,7 @@ let GetProductQuantityFromQuery = function (ncUtil, channelProfile, flowContext,
     let domain = channelProfile.channelAuthValues.domain;
     let workstation = channelProfile.channelAuthValues.workstation;
     let itemLedgerUrl = channelProfile.channelAuthValues.itemLedgerUrl;
-    let inventoryUrl = channelProfile.channelAuthValues.inventoryUrl;
+    let inventoryUrl = channelProfile.channelAuthValues.variantInventoryUrl;
     let itemUrl = channelProfile.channelAuthValues.itemUrl;
     let itemServiceName = channelProfile.channelAuthValues.itemServiceName;
     let itemLedgerServiceName = channelProfile.channelAuthValues.itemLedgerServiceName;
@@ -170,6 +170,11 @@ let GetProductQuantityFromQuery = function (ncUtil, channelProfile, flowContext,
 
     let wsdlAuthRequired = true;
     let ntlmSecurity = new NTLMSecurity(username, password, domain, workstation, wsdlAuthRequired);
+
+    // Log Service Names
+    log(`Item Service Name: ${itemServiceName}`);
+    log(`Item Ledger Service Name: ${itemLedgerServiceName}`);
+    log(`Inventory Name: ${inventoryServiceName}`);
 
     // Log URL
     log("Connecting to URL [" + itemLedgerUrl + "]", ncUtil);
@@ -302,6 +307,8 @@ let GetProductQuantityFromQuery = function (ncUtil, channelProfile, flowContext,
                           reject(err);
                         });
                       }
+                    } else {
+                      resolve();
                     }
                   });
                 }
@@ -314,19 +321,33 @@ let GetProductQuantityFromQuery = function (ncUtil, channelProfile, flowContext,
                     log("Connecting to URL [" + inventoryUrl + "]", ncUtil);
                     soap.createClient(inventoryUrl, options, function(variantInventoryErr, variantInventoryClient) {
                       if (!variantInventoryErr) {
-                        args = {
-                          Code: code
+                        let args = {
+                          filter: [
+                            {
+                              Field: "Code",
+                              Criteria: code
+                            }
+                          ],
+                          setSize: 250
+                        };
+
+                        if (flowContext && flowContext.variantField && flowContext.variantCriteria) {
+                          let obj = {};
+                          obj["Field"] = flowContext.variantField;
+                          obj["Criteria"] = flowContext.variantCriteria;
+                          args.filter.push(obj);
                         }
 
-                        variantInventoryClient.Read(args, function(error, body, envelope, soapHeader) {
-                          if (!body[inventoryServiceName]) {
+                        variantInventoryClient.ReadMultiple(args, function(error, body, envelope, soapHeader) {
+                          if (!body.ReadMultiple_Result) {
                             log("Variant Not Found");
                             reject("Variant Not Found");
                           } else {
-                            itemDoc.Variant_Inventory = body[inventoryServiceName];
+                            itemDoc.Variant_Inventory = body.ReadMultiple_Result[inventoryServiceName];
                             resolve(itemDoc);
                           }
                         });
+
                       } else {
                         let errStr = String(variantInventoryErr);
 
@@ -335,10 +356,11 @@ let GetProductQuantityFromQuery = function (ncUtil, channelProfile, flowContext,
                           out.ncStatusCode = 400;
                           out.response.endpointStatusCode = 401;
                           out.response.endpointStatusMessage = "Unauthorized";
+                          out.payload.error = variantInventoryErr;
                         } else {
                           logError("GetProductMatrixFromQuery Callback error - " + variantInventoryErr, ncUtil);
                           out.ncStatusCode = 500;
-                          out.payload.error = { err: variantInventoryErr };
+                          out.payload.error = variantInventoryErr;
                         }
                         reject(out);
                       }
@@ -354,16 +376,29 @@ let GetProductQuantityFromQuery = function (ncUtil, channelProfile, flowContext,
                     log("Connecting to URL [" + itemUrl + "]", ncUtil);
                     soap.createClient(itemUrl, options, function(itemErr, itemClient) {
                       if (!itemErr) {
-                        args = {
-                          No: itemNo
+                        let args = {
+                          filter: [
+                            {
+                              Field: "No",
+                              Criteria: itemNo
+                            }
+                          ],
+                          setSize: 250
+                        };
+
+                        if (flowContext && flowContext.itemField && flowContext.itemCriteria) {
+                          let obj = {};
+                          obj["Field"] = flowContext.itemField;
+                          obj["Criteria"] = flowContext.itemCriteria;
+                          args.filter.push(obj);
                         }
 
-                        itemClient.Read(args, function(error, body, envelope, soapHeader) {
-                          if (!body[itemServiceName]) {
+                        itemClient.ReadMultiple(args, function(error, body, envelope, soapHeader) {
+                          if (!body.ReadMultiple_Result) {
                             log("Item Not Found");
                             reject("Item Not Found");
                           } else {
-                            resolve(body[itemServiceName]);
+                            resolve(body.ReadMultiple_Result[itemServiceName]);
                           }
                         });
                       } else {
@@ -374,10 +409,11 @@ let GetProductQuantityFromQuery = function (ncUtil, channelProfile, flowContext,
                           out.ncStatusCode = 400;
                           out.response.endpointStatusCode = 401;
                           out.response.endpointStatusMessage = "Unauthorized";
+                          out.payload.error = itemErr;
                         } else {
                           logError("GetProductMatrixFromQuery Callback error - " + itemErr, ncUtil);
                           out.ncStatusCode = 500;
-                          out.payload.error = { err: itemErr };
+                          out.payload.error = itemErr;
                         }
                         reject(out);
                       }
@@ -398,7 +434,7 @@ let GetProductQuantityFromQuery = function (ncUtil, channelProfile, flowContext,
                 }).catch((err) => {
                   logError("Error - Returning Response as 400 - " + err, ncUtil);
                   out.ncStatusCode = 400;
-                  out.payload.error = { err: err };
+                  out.payload.error = err;
                   callback(out);
                 });
               }
@@ -406,12 +442,12 @@ let GetProductQuantityFromQuery = function (ncUtil, channelProfile, flowContext,
               if (error.response) {
                 logError("Error - Returning Response as 400 - " + error, ncUtil);
                 out.ncStatusCode = 400;
-                out.payload.error = { err: error };
+                out.payload.error = error;
                 callback(out);
               } else {
                 logError("GetProductMatrixFromQuery Callback error - " + error, ncUtil);
                 out.ncStatusCode = 500;
-                out.payload.error = { err: error };
+                out.payload.error = error;
                 callback(out);
               }
             }
@@ -424,10 +460,11 @@ let GetProductQuantityFromQuery = function (ncUtil, channelProfile, flowContext,
             out.ncStatusCode = 400;
             out.response.endpointStatusCode = 401;
             out.response.endpointStatusMessage = "Unauthorized";
+            out.payload.error = itemLedgerErr;
           } else {
             logError("GetProductMatrixFromQuery Callback error - " + itemLedgerErr, ncUtil);
             out.ncStatusCode = 500;
-            out.payload.error = { err: itemLedgerErr };
+            out.payload.error = itemLedgerErr;
           }
           callback(out);
         }
@@ -436,7 +473,7 @@ let GetProductQuantityFromQuery = function (ncUtil, channelProfile, flowContext,
       // Exception Handling
       logError("Exception occurred in GetProductQuantityFromQuery - " + err, ncUtil);
       out.ncStatusCode = 500;
-      out.payload.error = {err: err, stack: err.stackTrace};
+      out.payload.error = err;
       callback(out);
     }
   } else {

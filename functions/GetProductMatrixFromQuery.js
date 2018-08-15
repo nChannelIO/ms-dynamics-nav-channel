@@ -186,7 +186,6 @@ let GetProductMatrixFromQuery = function (ncUtil, channelProfile, flowContext, p
           soap.createClient(itemVariantsUrl, options, function(itemVariantsErr, variantClient) {
             if (!itemVariantsErr) {
               itemClient.ReadMultiple(args, function(error, result, envelope, soapHeader) {
-
                 let docs = [];
                 let data = result;
 
@@ -259,6 +258,8 @@ let GetProductMatrixFromQuery = function (ncUtil, channelProfile, flowContext, p
                           }).catch((err) => {
                             reject(err);
                           });
+                        } else {
+                          resolve();
                         }
                       });
                     }
@@ -310,6 +311,8 @@ let GetProductMatrixFromQuery = function (ncUtil, channelProfile, flowContext, p
                               }).catch((err) => {
                                 reject(err);
                               });
+                            } else {
+                              resolve(doc);
                             }
                           }
                         });
@@ -328,7 +331,7 @@ let GetProductMatrixFromQuery = function (ncUtil, channelProfile, flowContext, p
                     }).catch((err) => {
                       logError("Error - Returning Response as 400 - " + err, ncUtil);
                       out.ncStatusCode = 400;
-                      out.payload.error = { err: err };
+                      out.payload.error = err;
                       callback(out);
                     });
                   }
@@ -336,12 +339,12 @@ let GetProductMatrixFromQuery = function (ncUtil, channelProfile, flowContext, p
                   if (error.response) {
                     logError("Error - Returning Response as 400 - " + error, ncUtil);
                     out.ncStatusCode = 400;
-                    out.payload.error = { err: error };
+                    out.payload.error = error;
                     callback(out);
                   } else {
                     logError("GetProductMatrixFromQuery Callback error - " + error, ncUtil);
                     out.ncStatusCode = 500;
-                    out.payload.error = { err: error };
+                    out.payload.error = error;
                     callback(out);
                   }
                 }
@@ -354,10 +357,11 @@ let GetProductMatrixFromQuery = function (ncUtil, channelProfile, flowContext, p
                 out.ncStatusCode = 400;
                 out.response.endpointStatusCode = 401;
                 out.response.endpointStatusMessage = "Unauthorized";
+                out.payload.error = itemVariantsErr;
               } else {
                 logError("GetProductMatrixFromQuery Callback error - " + itemVariantsErr, ncUtil);
                 out.ncStatusCode = 500;
-                out.payload.error = { err: itemVariantsErr };
+                out.payload.error = itemVariantsErr;
               }
               callback(out);
             }
@@ -370,10 +374,11 @@ let GetProductMatrixFromQuery = function (ncUtil, channelProfile, flowContext, p
             out.ncStatusCode = 400;
             out.response.endpointStatusCode = 401;
             out.response.endpointStatusMessage = "Unauthorized";
+            out.payload.error = itemErr;
           } else {
             logError("GetProductMatrixFromQuery Callback error - " + itemErr, ncUtil);
             out.ncStatusCode = 500;
-            out.payload.error = { err: itemErr };
+            out.payload.error = itemErr;
           }
           callback(out);
         }
@@ -382,7 +387,7 @@ let GetProductMatrixFromQuery = function (ncUtil, channelProfile, flowContext, p
       // Exception Handling
       logError("Exception occurred in GetProductMatrixFromQuery - " + err, ncUtil);
       out.ncStatusCode = 500;
-      out.payload.error = {err: err, stack: err.stackTrace};
+      out.payload.error = err;
       callback(out);
     }
   } else {
