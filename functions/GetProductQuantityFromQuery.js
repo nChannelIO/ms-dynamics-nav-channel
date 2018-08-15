@@ -140,10 +140,10 @@ let GetProductQuantityFromQuery = function (ncUtil, channelProfile, flowContext,
       args.filter.push(obj);
     }
 
-    if (flowContext && flowContext.itemLedgerField && flowContext.itemLedgerCriteria) {
+    if (flowContext && flowContext.field && flowContext.criteria) {
       let obj = {};
-      obj["Field"] = flowContext.itemLedgerField;
-      obj["Criteria"] = flowContext.itemLedgerCriteria;
+      obj["Field"] = flowContext.field;
+      obj["Criteria"] = flowContext.criteria;
       args.filter.push(obj);
     }
 

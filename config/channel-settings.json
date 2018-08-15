@@ -91,11 +91,11 @@
         "configModel": {
           "required": [],
           "properties": {
-            "itemLedgerField": {
+            "field": {
               "type": "string",
               "title": "Item Ledger Filter Field"
             },
-            "itemLedgerCriteria": {
+            "criteria": {
               "type": "string",
               "title": "Item Ledger Filter Criteria"
             },
@@ -118,16 +118,16 @@
           }
         },
         "configView": [
-          "itemLedgerField",
-          "itemLedgerCriteria",
+          "field",
+          "criteria",
           "itemField",
           "itemCriteria",
           "variantField",
           "variantCriteria"
         ],
         "configValues": {
-          "itemLedgerField": "",
-          "itemLedgerCriteria": "",
+          "field": "",
+          "criteria": "",
           "itemField": "",
           "itemCriteria": "",
           "variantField": "",
