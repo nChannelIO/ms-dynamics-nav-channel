@@ -36,9 +36,9 @@ let GetProductQuantityFromQuery = function (ncUtil, channelProfile, flowContext,
   } else if (!channelProfile.channelAuthValues.password) {
     invalid = true;
     invalidMsg = "channelProfile.channelAuthValues.password was not provided"
-  } else if (!channelProfile.channelAuthValues.inventoryUrl) {
+  } else if (!channelProfile.channelAuthValues.variantInventoryUrl) {
     invalid = true;
-    invalidMsg = "channelProfile.channelAuthValues.inventoryUrl was not provided"
+    invalidMsg = "channelProfile.channelAuthValues.variantInventoryUrl was not provided"
   } else if (!channelProfile.productQuantityBusinessReferences) {
     invalid = true;
     invalidMsg = "channelProfile.productQuantityBusinessReferences was not provided"
@@ -162,7 +162,7 @@ let GetProductQuantityFromQuery = function (ncUtil, channelProfile, flowContext,
     let domain = channelProfile.channelAuthValues.domain;
     let workstation = channelProfile.channelAuthValues.workstation;
     let itemLedgerUrl = channelProfile.channelAuthValues.itemLedgerUrl;
-    let inventoryUrl = channelProfile.channelAuthValues.inventoryUrl;
+    let inventoryUrl = channelProfile.channelAuthValues.variantInventoryUrl;
     let itemUrl = channelProfile.channelAuthValues.itemUrl;
     let itemServiceName = channelProfile.channelAuthValues.itemServiceName;
     let itemLedgerServiceName = channelProfile.channelAuthValues.itemLedgerServiceName;
