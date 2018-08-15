@@ -1,16 +1,23 @@
 steps:
-#
 # Build and run unit tests
-#
 - name: 'docker/compose:1.18.0'
   args: ['-f', 'Docker-compose-test.yml', 'run', 'sut' ]
-#
 # npm auth
-#
 - name: 'gcr.io/cloud-builders/npm'
   args: ['config','set', '//registry.npmjs.org/:_authToken', '${_NPM_TOKEN}']
-#
 # publish components
-#
 - name: 'gcr.io/cloud-builders/npm'
   args: ['publish','--tag', 'notcertified', '--access', 'public']
+# Get version from package.json file
+- name: 'ubuntu'
+  args: ['bash', '-c', 'cat package.json | grep version | sed -e "s/[[:space:]]//g; s/\"//g; s/\,//g" | cut -d":" -f2 > package-version.txt']
+# Save the API body template into a file
+# note the template is base64 encoded so it neeeds decoded here
+- name: 'ubuntu'
+  args: ['bash', '-c', 'echo ${_CHANNEL_CONFIG} | base64 -d > body-template.txt']
+# Set tag in template
+- name: 'ubuntu'
+  args: ['bash', '-c', 'cat body-template.txt | sed -e s/{{TAG}}/`cat package-version.txt`/g > body.json']
+# Register in the lab
+- name: gcr.io/cloud-builders/curl
+  args: ['-v','-k','-d', '@body.json', '-X', 'POST', '-H', 'Authorization: Bearer ${_LAB_TOKEN}', '-H', 'Content-Type: application/json', '${_LAB_URL}']

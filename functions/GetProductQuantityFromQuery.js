@@ -142,7 +142,7 @@ let GetProductQuantityFromQuery = function (ncUtil, channelProfile, flowContext,
     if (flowContext && flowContext.field && flowContext.criteria) {
       let obj = {};
       obj["Field"] = flowContext.field;
-      obj["Criteria"] = flowContext.criteria; // The pipe '|' symbol is a NAV filter for 'OR'
+      obj["Criteria"] = flowContext.criteria;
       args.filter.push(obj);
     }
 
@@ -321,19 +321,33 @@ let GetProductQuantityFromQuery = function (ncUtil, channelProfile, flowContext,
                     log("Connecting to URL [" + inventoryUrl + "]", ncUtil);
                     soap.createClient(inventoryUrl, options, function(variantInventoryErr, variantInventoryClient) {
                       if (!variantInventoryErr) {
-                        args = {
-                          Code: code
+                        let args = {
+                          filter: [
+                            {
+                              Field: "Code",
+                              Criteria: code
+                            }
+                          ],
+                          setSize: 250
+                        };
+
+                        if (flowContext && flowContext.variantField && flowContext.variantCriteria) {
+                          let obj = {};
+                          obj["Field"] = flowContext.variantField;
+                          obj["Criteria"] = flowContext.variantCriteria;
+                          args.filter.push(obj);
                         }
 
-                        variantInventoryClient.Read(args, function(error, body, envelope, soapHeader) {
-                          if (!body[inventoryServiceName]) {
+                        variantInventoryClient.ReadMultiple(args, function(error, body, envelope, soapHeader) {
+                          if (!body.ReadMultiple_Result) {
                             log("Variant Not Found");
                             reject("Variant Not Found");
                           } else {
-                            itemDoc.Variant_Inventory = body[inventoryServiceName];
+                            itemDoc.Variant_Inventory = body.ReadMultiple_Result[inventoryServiceName];
                             resolve(itemDoc);
                           }
                         });
+
                       } else {
                         let errStr = String(variantInventoryErr);
 
@@ -362,16 +376,29 @@ let GetProductQuantityFromQuery = function (ncUtil, channelProfile, flowContext,
                     log("Connecting to URL [" + itemUrl + "]", ncUtil);
                     soap.createClient(itemUrl, options, function(itemErr, itemClient) {
                       if (!itemErr) {
-                        args = {
-                          No: itemNo
+                        let args = {
+                          filter: [
+                            {
+                              Field: "No",
+                              Criteria: itemNo
+                            }
+                          ],
+                          setSize: 250
+                        };
+
+                        if (flowContext && flowContext.itemField && flowContext.itemCriteria) {
+                          let obj = {};
+                          obj["Field"] = flowContext.itemField;
+                          obj["Criteria"] = flowContext.itemCriteria;
+                          args.filter.push(obj);
                         }
 
-                        itemClient.Read(args, function(error, body, envelope, soapHeader) {
-                          if (!body[itemServiceName]) {
+                        itemClient.ReadMultiple(args, function(error, body, envelope, soapHeader) {
+                          if (!body.ReadMultiple_Result) {
                             log("Item Not Found");
                             reject("Item Not Found");
                           } else {
-                            resolve(body[itemServiceName]);
+                            resolve(body.ReadMultiple_Result[itemServiceName]);
                           }
                         });
                       } else {
