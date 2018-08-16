@@ -39,6 +39,9 @@ let InsertSalesOrder = function (ncUtil, channelProfile, flowContext, payload, c
   } else if (!channelProfile.channelAuthValues.orderUrl) {
     invalid = true;
     invalidMsg = "channelProfile.channelAuthValues.orderUrl was not provided"
+  } else if (!channelProfile.channelAuthValues.orderServiceName) {
+    invalid = true;
+    invalidMsg = "channelProfile.channelAuthValues.orderServiceName was not provided"
   } else if (!channelProfile.salesOrderBusinessReferences) {
     invalid = true;
     invalidMsg = "channelProfile.salesOrderBusinessReferences was not provided"
@@ -50,6 +53,14 @@ let InsertSalesOrder = function (ncUtil, channelProfile, flowContext, payload, c
     invalidMsg = "channelProfile.salesOrderBusinessReferences is empty"
   }
 
+  // https://<baseUrl>:<port>/<serverInstance>/WS/<companyName>/Page/Order
+  let username = channelProfile.channelAuthValues.username;
+  let password = channelProfile.channelAuthValues.password;
+  let domain = channelProfile.channelAuthValues.domain;
+  let workstation = channelProfile.channelAuthValues.workstation;
+  let url = channelProfile.channelAuthValues.orderUrl;
+  let orderServiceName = channelProfile.channelAuthValues.orderServiceName;
+
   // Payload Checking
   if (!payload) {
     invalid = true;
@@ -57,6 +68,9 @@ let InsertSalesOrder = function (ncUtil, channelProfile, flowContext, payload, c
   } else if (!payload.doc) {
     invalid = true;
     invalidMsg = "payload.doc was not provided";
+  } else if (!payload.doc[orderServiceName]) {
+    invalid = true;
+    invalidMsg = `payload.doc.${orderServiceName} was not provided`;
   }
 
   // Callback Checking
@@ -73,16 +87,9 @@ let InsertSalesOrder = function (ncUtil, channelProfile, flowContext, payload, c
     const nc = require('../util/common');
 
     // Setup Request Arguments
-    let args = payload.doc;
-    payload.doc.Sell_to_Customer_No = payload.customerRemoteID;
-
-    // https://<baseUrl>:<port>/<serverInstance>/WS/<companyName>/Page/Order
-    let username = channelProfile.channelAuthValues.username;
-    let password = channelProfile.channelAuthValues.password;
-    let domain = channelProfile.channelAuthValues.domain;
-    let workstation = channelProfile.channelAuthValues.workstation;
-    let url = channelProfile.channelAuthValues.orderUrl;
-    let orderServiceName = channelProfile.channelAuthValues.orderServiceName;
+    payload.doc[orderServiceName].Sell_to_Customer_No = payload.customerRemoteID;
+    let args = {};
+    args[orderServiceName] = payload.doc[orderServiceName];
 
     let wsdlAuthRequired = true;
     let ntlmSecurity = new NTLMSecurity(username, password, domain, workstation, wsdlAuthRequired);
@@ -100,6 +107,7 @@ let InsertSalesOrder = function (ncUtil, channelProfile, flowContext, payload, c
     try {
       soap.createClient(url, options, function(err, client) {
         if (!err) {
+          console.log(args);
           client.Create(args, function(error, body, envelope, soapHeader) {
             if (!error) {
               if (body[orderServiceName]) {
