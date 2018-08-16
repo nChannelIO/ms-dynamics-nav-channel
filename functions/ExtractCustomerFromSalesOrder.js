@@ -39,6 +39,9 @@ let ExtractCustomerFromSalesOrder = function(ncUtil, channelProfile, flowContext
         } else if (!channelProfile.channelAuthValues) {
           invalid = true;
           invalidMsg = "channelProfile.channelAuthValues was not provided"
+        } else if (!channelProfile.channelAuthValues.customerServiceName) {
+          invalid = true;
+          invalidMsg = "channelProfile.channelAuthValues.customerServiceName was not provided"
         } else if (!channelProfile.salesOrderBusinessReferences) {
           invalid = true;
           invalidMsg = "channelProfile.salesOrderBusinessReferences was not provided"
@@ -50,22 +53,20 @@ let ExtractCustomerFromSalesOrder = function(ncUtil, channelProfile, flowContext
           invalidMsg = "channelProfile.salesOrderBusinessReferences is empty"
         }
 
+        let orderName = channelProfile.channelAuthValues.orderServiceName;
+        let customerName = channelProfile.channelAuthValues.customerServiceName;
+
         // Check Payload
         if (!invalid) {
           if (payload) {
               if (!payload.doc) {
                   invalidMsg = "Extract Customer From Sales Order - Invalid Request: payload.doc was not provided";
                   invalid = true;
-              } else if (!payload.doc.Order) {
-                  invalidMsg = "Extract Customer From Sales Order - Invalid Request: payload.doc.Order was not provided";
+              } else if (!payload.doc[customerName]){
+                  invalidMsg = `Extract Customer From Sales Order - Invalid Request: payload.doc.${customerName} was not provided`;
                   invalid = true;
-              } else if (!payload.doc.Order.Customer) {
-                  notFound = true;
-                  invalidMsg = "Extract Customer From Sales Order - Customer Not Found: The order has no customer (payload.doc.BillingCustomer)";
               } else {
-                  data = {
-                    Customer: payload.doc.Order.Customer
-                  }
+                  data[customerName] = payload.doc[customerName];
               }
           } else {
               invalidMsg = "Extract Customer From Sales Order - Invalid Request: payload was not provided";
