@@ -87,7 +87,15 @@ let InsertSalesOrder = function (ncUtil, channelProfile, flowContext, payload, c
     const nc = require('../util/common');
 
     // Setup Request Arguments
-    payload.doc[orderServiceName].Sell_to_Customer_No = payload.customerRemoteID;
+    if (Array.isArray(payload.doc[orderServiceName])) {
+      payload.doc[orderServiceName].forEach(x => {
+        x.Sell_to_Customer_No = payload.customerRemoteID;
+        x.Header_BillToCustNo = payload.customerRemoteID;
+      });
+    } else {
+      payload.doc[orderServiceName].Sell_to_Customer_No = payload.customerRemoteID;
+    }
+
     let args = {};
     args[orderServiceName] = payload.doc[orderServiceName];
 
