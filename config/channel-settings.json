@@ -114,6 +114,14 @@
             "variantCriteria": {
               "type": "string",
               "title": "Variant Inventory Filter Criteria"
+            },
+            "useInventoryCalculation": {
+              "type": "boolean",
+              "title": "Do you use a custom inventory calculation exposed as a web service?"
+            },
+            "locationCode": {
+              "type": "string",
+              "title": "What is the location code you want to pull inventory from?"
             }
           }
         },
@@ -123,7 +131,12 @@
           "itemField",
           "itemCriteria",
           "variantField",
-          "variantCriteria"
+          "variantCriteria",
+          "useInventoryCalculation",
+          {
+            "key": "locationCode",
+            "condition": "model.useInventoryCalculation==true"
+          }
         ],
         "configValues": {
           "field": "",
@@ -131,7 +144,9 @@
           "itemField": "",
           "itemCriteria": "",
           "variantField": "",
-          "variantCriteria": ""
+          "variantCriteria": "",
+          "useInventoryCalculation": false,
+          "locationCode": ""
         }
       },
       "documentDef": {

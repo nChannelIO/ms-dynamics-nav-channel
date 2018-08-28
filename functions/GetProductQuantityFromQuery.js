@@ -204,28 +204,52 @@ let GetProductQuantityFromQuery = function (ncUtil, channelProfile, flowContext,
                 function processLedger(body) {
                   return new Promise((resolve, reject) => {
                     if (Array.isArray(body.ReadMultiple_Result[itemLedgerServiceName])) {
-
                       let p = [];
+                      let items = [];
 
                       // Process Each Item and their Variants if any
                       for (let i = 0; i < body.ReadMultiple_Result[itemLedgerServiceName].length; i++) {
+                        let product = {
+                          Item_Ledger: body.ReadMultiple_Result[itemLedgerServiceName][i]
+                        };
+
+                        let code = product.Item_Ledger.Variant_Code;
+                        let itemNo = product.Item_Ledger.Item_No;
+
+                        if (!payload.doc.pagingContext) {
+                          payload.doc.pagingContext = {};
+                        }
+
+                        // Set Key to resume from if an error occurs or when getting the next set of items
+                        payload.doc.pagingContext.key = body.ReadMultiple_Result[itemLedgerServiceName][i].Key;
+
+                        items.push({ itemNo: itemNo, code: code });
+                      }
+
+                      // Remove Duplicates
+                      items = items.reduce((arr, x) => {
+                        if(!arr.some(obj => obj.itemNo === x.itemNo && obj.code === x.code)) {
+                          arr.push(x);
+                        }
+                        return arr;
+                      }, []);
+
+                      items.forEach(x => {
                         p.push(new Promise((pResolve, pReject) => {
-                          let product = {
-                            Item_Ledger: body.ReadMultiple_Result[itemLedgerServiceName][i]
-                          };
-
-                          let code = product.Item_Ledger.Variant_Code;
-                          let itemNo = product.Item_Ledger.Item_No;
-
-                          if (!payload.doc.pagingContext) {
-                            payload.doc.pagingContext = {};
-                          }
-
-                          // Set Key to resume from if an error occurs or when getting the next set of items
-                          payload.doc.pagingContext.key = body.ReadMultiple_Result[itemLedgerServiceName][i].Key;
-
-                          if (code != null) {
-                            queryItem(itemNo).then(itemDoc => queryVariant(itemDoc, code)).then((doc) => {
+                          if (flowContext && flowContext.useInventoryCalculation) {
+                            queryItem(x.itemNo, x.code).then((doc) =>{
+                              console.log(doc);
+                              docs.push({
+                                doc: doc,
+                                productQuantityRemoteID: doc.Item.No,
+                                productQuantityBusinessReference: nc.extractBusinessReference(channelProfile.productQuantityBusinessReferences, doc)
+                              });
+                              pResolve();
+                            }).catch((err) => {
+                              pReject(err);
+                            });
+                          } else if (x.code != null) {
+                            queryItem(x.itemNo).then(itemDoc => queryVariant(itemDoc, x.code)).then((doc) => {
                               let item = {
                                 Item: doc
                               }
@@ -239,7 +263,7 @@ let GetProductQuantityFromQuery = function (ncUtil, channelProfile, flowContext,
                               pReject(err);
                             });
                           } else {
-                            queryItem(itemNo).then((doc) =>{
+                            queryItem(x.itemNo).then((doc) =>{
                               let item = {
                                 Item: doc
                               }
@@ -254,7 +278,7 @@ let GetProductQuantityFromQuery = function (ncUtil, channelProfile, flowContext,
                             });
                           }
                         }));
-                      }
+                      });
 
                       // Return from stub function when all items have been processed from current set
                       Promise.all(p).then(() => {
@@ -278,7 +302,18 @@ let GetProductQuantityFromQuery = function (ncUtil, channelProfile, flowContext,
                       payload.doc.pagingContext.key = body.ReadMultiple_Result[itemLedgerServiceName].Key;
 
                       // Process Item_Variant Records for Item
-                      if (code != null) {
+                      if (flowContext && flowContext.useInventoryCalculation) {
+                        queryItem(itemNo).then((doc) =>{
+                          docs.push({
+                            doc: doc,
+                            productQuantityRemoteID: doc.Item.No,
+                            productQuantityBusinessReference: nc.extractBusinessReference(channelProfile.productQuantityBusinessReferences, doc)
+                          });
+                          resolve();
+                        }).catch((err) => {
+                          reject(err);
+                        });
+                      } else if (code != null) {
                         queryItem(itemNo).then(itemDoc => queryVariant(itemDoc, code)).then((doc) => {
                           let item = {
                             Item: doc
@@ -358,7 +393,7 @@ let GetProductQuantityFromQuery = function (ncUtil, channelProfile, flowContext,
                           out.response.endpointStatusMessage = "Unauthorized";
                           out.payload.error = variantInventoryErr;
                         } else {
-                          logError("GetProductMatrixFromQuery Callback error - " + variantInventoryErr, ncUtil);
+                          logError("GetProductMatrixFromQuery Callback error - " + variantInventoryErr);
                           out.ncStatusCode = 500;
                           out.payload.error = variantInventoryErr;
                         }
@@ -369,38 +404,56 @@ let GetProductQuantityFromQuery = function (ncUtil, channelProfile, flowContext,
                 }
 
                 // Process Item
-                function queryItem(itemNo) {
+                function queryItem(itemNo, code) {
                   return new Promise((resolve, reject) => {
 
                     // Item Endpoint Client
                     log("Connecting to URL [" + itemUrl + "]", ncUtil);
                     soap.createClient(itemUrl, options, function(itemErr, itemClient) {
                       if (!itemErr) {
-                        let args = {
-                          filter: [
-                            {
-                              Field: "No",
-                              Criteria: itemNo
-                            }
-                          ],
-                          setSize: 250
-                        };
-
-                        if (flowContext && flowContext.itemField && flowContext.itemCriteria) {
-                          let obj = {};
-                          obj["Field"] = flowContext.itemField;
-                          obj["Criteria"] = flowContext.itemCriteria;
-                          args.filter.push(obj);
-                        }
-
-                        itemClient.ReadMultiple(args, function(error, body, envelope, soapHeader) {
-                          if (!body.ReadMultiple_Result) {
-                            log("Item Not Found");
-                            reject("Item Not Found");
-                          } else {
-                            resolve(body.ReadMultiple_Result[itemServiceName]);
+                        if (flowContext && flowContext.useInventoryCalculation) {
+                          let args = {
+                            itemNo: itemNo,
+                            itemVariantCode: code,
+                            locationCode: flowContext.locationCode,
+                            asOfDate: nc.formatDate(new Date(Date.parse(payload.doc.modifiedDateRange.startDateGMT) - 1).toISOString(), '-', true)
                           }
-                        });
+
+                          itemClient.GetAvailableToday(args, function(error, body, envelope, soapHeader) {
+                            if (error) {
+                              log("Item Not Found");
+                              reject("Item Not Found");
+                            } else {
+                              resolve({ Item: body });
+                            }
+                          });
+                        } else {
+                          let args = {
+                            filter: [
+                              {
+                                Field: "No",
+                                Criteria: itemNo
+                              }
+                            ],
+                            setSize: 250
+                          };
+
+                          if (flowContext && flowContext.itemField && flowContext.itemCriteria) {
+                            let obj = {};
+                            obj["Field"] = flowContext.itemField;
+                            obj["Criteria"] = flowContext.itemCriteria;
+                            args.filter.push(obj);
+                          }
+
+                          itemClient.ReadMultiple(args, function(error, body, envelope, soapHeader) {
+                            if (!body.ReadMultiple_Result) {
+                              log("Item Not Found");
+                              reject("Item Not Found");
+                            } else {
+                              resolve(body.ReadMultiple_Result[itemServiceName]);
+                            }
+                          });
+                        }
                       } else {
                         let errStr = String(itemErr);
 
@@ -420,7 +473,6 @@ let GetProductQuantityFromQuery = function (ncUtil, channelProfile, flowContext,
                     });
                   });
                 }
-
 
                 // Begin processing Item_Ledger Records
                 processLedger(result).then(() => {
