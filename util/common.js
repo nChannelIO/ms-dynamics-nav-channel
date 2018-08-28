@@ -2,7 +2,7 @@
 
 const jsonata = require('jsonata');
 
-function formatDate(date) {
+function formatDate(date, delimiter = '/', yearFirst = false) {
     let d = new Date(date);
     let month = '' + (d.getMonth() + 1);
     let day = '' + d.getDate();
@@ -11,7 +11,7 @@ function formatDate(date) {
     if (month.length < 2) month = '0' + month;
     if (day.length < 2) day = '0' + day;
 
-    return [month, day, year].join('/');
+    return yearFirst == true ? [year, month, day].join(delimiter) : [month, day, year].join(delimiter);
 }
 
 function extractBusinessReference(businessReferences, doc) {
