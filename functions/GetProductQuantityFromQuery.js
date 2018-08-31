@@ -409,7 +409,8 @@ let GetProductQuantityFromQuery = function (ncUtil, channelProfile, flowContext,
 
                     // Item Endpoint Client
                     log("Connecting to URL [" + itemUrl + "]", ncUtil);
-                    soap.createClient(itemUrl, options, function(itemErr, itemClient) {
+                    let url = flowContext.useInventoryCalculation ? inventoryUrl : itemUrl;
+                    soap.createClient(url, options, function(itemErr, itemClient) {
                       if (!itemErr) {
                         if (flowContext && flowContext.useInventoryCalculation) {
                           let args = {
