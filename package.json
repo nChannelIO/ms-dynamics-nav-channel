@@ -3,6 +3,7 @@
   "author": "",
   "description": "",
   "dependencies": {
+    "@nchannel/endpoint-sdk": "^1.0.1",
     "jsonata": "1.4.1",
     "lodash": "4.17.4",
     "strong-soap": "1.7.0"
@@ -22,5 +23,5 @@
   "scripts": {
     "test": "mocha --timeout 10000 validation/*.spec.js"
   },
-  "version": "0.0.9"
+  "version": "0.0.10"
 }
