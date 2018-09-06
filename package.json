@@ -1,7 +1,13 @@
 {
   "name": "@nchannel/ms-dynamics-nav-channel",
-  "author": "",
+  "version": "0.0.12",
   "description": "",
+  "main": "ms_dynamics_nav_channel.js",
+  "scripts": {
+    "test": "npx nchannel-sdk test"
+  },
+  "author": "",
+  "license": "ISC",
   "dependencies": {
     "@nchannel/endpoint-sdk": "^1.0.1",
     "jsonata": "1.4.1",
@@ -20,8 +26,9 @@
   "engines": {
     "node": ">=7.6.0"
   },
-  "scripts": {
-    "test": "mocha --timeout 10000 validation/*.spec.js"
-  },
-  "version": "0.0.12"
+  "files": [
+    "config",
+    "functions",
+    "schema"
+  ]
 }
