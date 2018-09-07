@@ -3,9 +3,7 @@
 let jsonata = require('jsonata');
 
 module.exports = function(flowContext, payload) {
-  let node = this;
-  let nc = node.nc;
-  let soap = node.soap;
+  let nc = this.nc;
   let invalid = false;
   let out = {
     statusCode: 400,
@@ -13,12 +11,12 @@ module.exports = function(flowContext, payload) {
     errors: []
   };
 
-  if (!nc.isNonEmptyString(node.customerUrl)) {
+  if (!nc.isNonEmptyString(this.customerUrl)) {
     invalid = true;
     out.errors.push("The customerUrl is missing.")
   }
 
-  if (!nc.isNonEmptyString(node.customerServiceName)) {
+  if (!nc.isNonEmptyString(this.customerServiceName)) {
     invalid = true;
     out.errors.push("The customerServiceName is missing.")
   }
@@ -48,32 +46,32 @@ module.exports = function(flowContext, payload) {
       }
     });
 
-    console.log(`Customer Service Name: ${node.customerServiceName}`);
+    console.log(`Customer Service Name: ${this.customerServiceName}`);
 
-    console.log(`Using URL [${node.customerUrl}]`);
+    console.log(`Using URL [${this.customerUrl}]`);
 
     return new Promise((resolve, reject) => {
-       soap.createClient(node.customerUrl, node.options, (err, client) => {
+       this.soap.createClient(this.customerUrl, this.options, ((err, client) => {
          if (!err) {
-           client.ReadMultiple(args, function(error, body, envelope, soapHeader) {
+           client.ReadMultiple(args, (function(error, body, envelope, soapHeader) {
              if (!error) {
                if (!body.ReadMultiple_Result) {
                  // If ReadMultiple_Result is undefined, no results were returned
                  console.log("body.ReadMultiple_Result returned empty.");
                  out.statusCode = 204;
-               } else if (Array.isArray(body.ReadMultiple_Result[node.customerServiceName])) {
+               } else if (Array.isArray(body.ReadMultiple_Result[this.customerServiceName])) {
                  // If an array is returned, multiple customers were found
-                 console.log(`body.ReadMultiple_Result returned multiple customers. Count: ${body.ReadMultiple_Result[node.customerServiceName].length}`);
+                 console.log(`body.ReadMultiple_Result returned multiple customers. Count: ${body.ReadMultiple_Result[this.customerServiceName].length}`);
                  out.statusCode = 409;
                  out.payload.error = body;
-               } else if (typeof body.ReadMultiple_Result[node.customerServiceName] === 'object') {
+               } else if (typeof body.ReadMultiple_Result[this.customerServiceName] === 'object') {
                  // If an object is returned, one customer was found
                  console.log(`body.ReadMultiple_Result returned 1 customer.`);
-                 console.log(`Customer: ${body.ReadMultiple_Result[node.customerServiceName]}`);
+                 console.log(`Customer: ${body.ReadMultiple_Result[this.customerServiceName]}`);
                  out.statusCode = 200;
                  out.payload = {
-                   customerRemoteID: body.ReadMultiple_Result[node.customerServiceName].No,
-                   customerBusinessReference: nc.extractBusinessReference(node.channelProfile.customerBusinessReferences, body.ReadMultiple_Result)
+                   customerRemoteID: body.ReadMultiple_Result[this.customerServiceName].No,
+                   customerBusinessReference: nc.extractBusinessReference(this.channelProfile.customerBusinessReferences, body.ReadMultiple_Result)
                  };
                } else {
                  // Unexpected case
@@ -84,13 +82,13 @@ module.exports = function(flowContext, payload) {
 
                resolve(out);
              } else {
-               reject(node.handleOperationError(error));
+               reject(this.handleOperationError(error));
              }
-           });
+           }).bind(this));
          } else {
-           reject(node.handleClientError(err));
+           reject(this.handleClientError(err));
          }
-       });
+       }).bind(this));
     });
   } else {
     return Promise.reject(out);

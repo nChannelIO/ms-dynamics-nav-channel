@@ -7,11 +7,8 @@ module.exports = {
   queryInventory
 };
 
-let node;
-
 function processLedger(body, payload) {
   return new Promise((resolve, reject) => {
-    node = this;
     let items = [];
     if (!payload.doc.pagingContext) {
       payload.doc.pagingContext = {};
@@ -45,8 +42,8 @@ function processLedger(body, payload) {
 
 function queryItems(items, flowContext) {
   return new Promise((resolve, reject) => {
-    console.log(`Using URL [${node.itemUrl}]`);
-    node.soap.createClient(node.itemUrl, node.options, function(err, client) {
+    console.log(`Using URL [${this.itemUrl}]`);
+    this.soap.createClient(this.itemUrl, this.options, (function(err, client) {
       if (!err) {
         let p = [];
         for (let i = 0; i < items.length; i++) {
@@ -67,18 +64,18 @@ function queryItems(items, flowContext) {
               args.filter.push(obj);
             }
 
-            client.ReadMultiple(args, function(error, body, envelope, soapHeader) {
+            client.ReadMultiple(args, (function(error, body, envelope, soapHeader) {
               if (!body.ReadMultiple_Result) {
                 pReject("Query Item - Item Not Found");
               } else {
-                if (Array.isArray(body.ReadMultiple_Result[node.itemServiceName])) {
-                  items[i].Item = body.ReadMultiple_Result[node.itemServiceName][0];
-                } else if (typeof body.ReadMultiple_Result[node.itemServiceName] === 'object') {
-                  items[i].Item = body.ReadMultiple_Result[node.itemServiceName];
+                if (Array.isArray(body.ReadMultiple_Result[this.itemServiceName])) {
+                  items[i].Item = body.ReadMultiple_Result[this.itemServiceName][0];
+                } else if (typeof body.ReadMultiple_Result[this.itemServiceName] === 'object') {
+                  items[i].Item = body.ReadMultiple_Result[this.itemServiceName];
                 }
                 pResolve();
               }
-            });
+            }).bind(this));
           }));
         }
 
@@ -88,16 +85,16 @@ function queryItems(items, flowContext) {
           reject(err);
         });
       } else {
-        reject(node.handleClientError(err));
+        reject(this.handleClientError(err));
       }
-    });
+    }).bind(this));
   });
 }
 
 function queryVariants(items, flowContext) {
   return new Promise((resolve, reject) => {
-    console.log(`Using URL [${node.variantInventoryUrl}]`);
-    node.soap.createClient(node.variantInventoryUrl, node.options, function(err, client) {
+    console.log(`Using URL [${this.variantInventoryUrl}]`);
+    this.soap.createClient(this.variantInventoryUrl, this.options, (function(err, client) {
       if (!err) {
         let p = [];
         let docs = [];
@@ -121,33 +118,33 @@ function queryVariants(items, flowContext) {
                 args.filter.push(obj);
               }
 
-              client.ReadMultiple(args, function(error, body, envelope, soapHeader) {
+              client.ReadMultiple(args, (function(error, body, envelope, soapHeader) {
                 if (!body.ReadMultiple_Result) {
                   pReject("Query Variant - Variant Not Found");
                 } else {
-                  if (Array.isArray(body.ReadMultiple_Result[node.variantInventoryServiceName])) {
-                    items[i].Item.Variant_Inventory = body.ReadMultiple_Result[node.variantInventoryServiceName][0];
+                  if (Array.isArray(body.ReadMultiple_Result[this.variantInventoryServiceName])) {
+                    items[i].Item.Variant_Inventory = body.ReadMultiple_Result[this.variantInventoryServiceName][0];
                     docs.push({
                       doc: items[i].Item,
                       productQuantityRemoteID: items[i].Item.No,
-                      productQuantityBusinessReference: node.nc.extractBusinessReference(node.channelProfile.productQuantityBusinessReferences, items[i])
+                      productQuantityBusinessReference: this.nc.extractBusinessReference(this.channelProfile.productQuantityBusinessReferences, items[i])
                     });
-                  } else if (typeof body.ReadMultiple_Result[node.variantInventoryServiceName] === 'object') {
-                    items[i].Item.Variant_Inventory = body.ReadMultiple_Result[node.variantInventoryServiceName];
+                  } else if (typeof body.ReadMultiple_Result[this.variantInventoryServiceName] === 'object') {
+                    items[i].Item.Variant_Inventory = body.ReadMultiple_Result[this.variantInventoryServiceName];
                     docs.push({
                       doc: items[i].Item,
                       productQuantityRemoteID: items[i].Item.No,
-                      productQuantityBusinessReference: node.nc.extractBusinessReference(node.channelProfile.productQuantityBusinessReferences, items[i])
+                      productQuantityBusinessReference: this.nc.extractBusinessReference(this.channelProfile.productQuantityBusinessReferences, items[i])
                     });
                   }
                   pResolve();
                 }
-              });
+              }).bind(this));
             } else {
               docs.push({
                 doc: items[i].Item,
                 productQuantityRemoteID: items[i].Item.No,
-                productQuantityBusinessReference: node.nc.extractBusinessReference(node.channelProfile.productQuantityBusinessReferences, items[i])
+                productQuantityBusinessReference: this.nc.extractBusinessReference(this.channelProfile.productQuantityBusinessReferences, items[i])
               });
               pResolve();
             }
@@ -160,15 +157,15 @@ function queryVariants(items, flowContext) {
           reject(err);
         });
       } else {
-        reject(node.handleClientError(err));
+        reject(this.handleClientError(err));
       }
-    });
+    }).bind(this));
   });
 }
 
 function queryInventory(items, flowContext, payload) {
   return new Promise((resolve, reject) => {
-    node.soap.createClient(node.variantInventoryUrl, node.options, function(err, client) {
+    this.soap.createClient(this.variantInventoryUrl, this.options, (function(err, client) {
       if (!err) {
         let p = [];
         let docs = [];
@@ -178,22 +175,22 @@ function queryInventory(items, flowContext, payload) {
               itemNo: items[i].itemNo,
               itemVariantCode: items[i].code,
               locationCode: flowContext.locationCode,
-              asOfDate: node.nc.formatDate(new Date(Date.parse(payload.doc.modifiedDateRange.startDateGMT) - 1).toISOString(), '-', true)
+              asOfDate: this.nc.formatDate(new Date(Date.parse(payload.doc.modifiedDateRange.startDateGMT) - 1).toISOString(), '-', true)
             }
 
-            client.GetAvailableToday(args, function(error, body, envelope, soapHeader) {
+            client.GetAvailableToday(args, (function(error, body, envelope, soapHeader) {
               if (!body.ReadMultiple_Result) {
                 pReject("Query Inventory - Inventory Not Found");
               } else {
-                items[i].Inventory = body.ReadMultiple_Result[node.variantInventoryServiceName];
+                items[i].Inventory = body.ReadMultiple_Result[this.variantInventoryServiceName];
                 docs.push({
                   doc: items[i].Inventory,
                   productQuantityRemoteID: itemNo,
-                  productQuantityBusinessReference: node.nc.extractBusinessReference(node.channelProfile.productQuantityBusinessReferences, items[i])
+                  productQuantityBusinessReference: this.nc.extractBusinessReference(this.channelProfile.productQuantityBusinessReferences, items[i])
                 });
                 pResolve();
               }
-            });
+            }).bind(this));
           }));
         }
 
@@ -203,8 +200,8 @@ function queryInventory(items, flowContext, payload) {
           reject(err);
         });
       } else {
-        reject(node.handleClientError(err));
+        reject(this.handleClientError(err));
       }
-    });
+    }).bind(this));
   });
 }

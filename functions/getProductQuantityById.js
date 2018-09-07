@@ -1,9 +1,7 @@
 'use strict';
 
 module.exports = function(flowContext, payload) {
-  let node = this;
-  let nc = node.nc;
-  let soap = node.soap;
+  let nc = this.nc;
   let invalid = false;
   let out = {
     statusCode: 400,
@@ -11,32 +9,32 @@ module.exports = function(flowContext, payload) {
     errors: []
   };
 
-  if (!nc.isNonEmptyString(node.itemServiceName)) {
+  if (!nc.isNonEmptyString(this.itemServiceName)) {
     invalid = true;
     out.errors.push("The itemServiceName is missing.")
   }
 
-  if (!nc.isNonEmptyString(node.itemLedgerServiceName)) {
+  if (!nc.isNonEmptyString(this.itemLedgerServiceName)) {
     invalid = true;
     out.errors.push("The itemLedgerServiceName is missing.")
   }
 
-  if (!nc.isNonEmptyString(node.variantInventoryServiceName)) {
+  if (!nc.isNonEmptyString(this.variantInventoryServiceName)) {
     invalid = true;
     out.errors.push("The variantInventoryServiceName is missing.")
   }
 
-  if (!nc.isNonEmptyString(node.itemUrl)) {
+  if (!nc.isNonEmptyString(this.itemUrl)) {
     invalid = true;
     out.errors.push("The itemUrl is missing.")
   }
 
-  if (!nc.isNonEmptyString(node.itemLedgerUrl)) {
+  if (!nc.isNonEmptyString(this.itemLedgerUrl)) {
     invalid = true;
     out.errors.push("The itemLedgerUrl is missing.")
   }
 
-  if (!nc.isNonEmptyString(node.variantInventoryUrl)) {
+  if (!nc.isNonEmptyString(this.variantInventoryUrl)) {
     invalid = true;
     out.errors.push("The variantInventoryUrl is missing.")
   }
@@ -51,16 +49,16 @@ module.exports = function(flowContext, payload) {
     obj["Criteria"] = payload.doc.remoteIDs.join('|'); // The pipe '|' symbol is a NAV filter for 'OR'
     args.filter.push(obj);
 
-    console.log(`Item Service Name: ${node.itemServiceName}`);
-    console.log(`Item Ledger Service Name: ${node.itemLedgerServiceName}`);
-    console.log(`Variant Inventory Service Name: ${node.variantInventoryServiceName}`);
+    console.log(`Item Service Name: ${this.itemServiceName}`);
+    console.log(`Item Ledger Service Name: ${this.itemLedgerServiceName}`);
+    console.log(`Variant Inventory Service Name: ${this.variantInventoryServiceName}`);
 
-    console.log(`Using URL [${node.itemLedgerUrl}]`);
+    console.log(`Using URL [${this.itemLedgerUrl}]`);
 
     return new Promise((resolve, reject) => {
-      soap.createClient(node.itemLedgerUrl, node.options, function(err, client) {
+      this.soap.createClient(this.itemLedgerUrl, this.options, (function(err, client) {
         if (!err) {
-          client.ReadMultiple(args, function(error, result, envelope, soapHeader) {
+          client.ReadMultiple(args, (function(error, result, envelope, soapHeader) {
 
             if (!error) {
               if (!result.ReadMultiple_Result) {
@@ -69,19 +67,19 @@ module.exports = function(flowContext, payload) {
                 resolve(out);
               } else {
 
-                node.processLedger(result, payload)
+                this.processLedger(result, payload)
                   .then((items) => {
                     if (flowContext && flowContext.useInventoryCalculation) {
-                      return node.queryInventory(items, flowContext, payload);
+                      return this.queryInventory(items, flowContext, payload);
                     } else {
-                      return node.queryItems(items, flowContext);
+                      return this.queryItems(items, flowContext);
                     }
                   })
                   .then((items) => {
                     if (flowContext && flowContext.useInventoryCalculation) {
                       return items;
                     } else {
-                      return node.queryVariants(items, flowContext);
+                      return this.queryVariants(items, flowContext);
                     }
                   })
                   .then((docs) => {
@@ -99,13 +97,13 @@ module.exports = function(flowContext, payload) {
                   });
               }
             } else {
-              reject(node.handleOperationError(error));
+              reject(this.handleOperationError(error));
             }
-          });
+          }).bind(this));
         } else {
-          reject(node.handleClientError(err));
+          reject(this.handleClientError(err));
         }
-      });
+      }).bind(this));
     });
 
   } else {

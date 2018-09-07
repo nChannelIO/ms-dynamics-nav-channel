@@ -1,9 +1,7 @@
 'use strict';
 
 module.exports = function(flowContext, payload) {
-  let node = this;
-  let nc = node.nc;
-  let soap = node.soap;
+  let nc = this.nc;
   let invalid = false;
   let out = {
     statusCode: 400,
@@ -11,22 +9,22 @@ module.exports = function(flowContext, payload) {
     errors: []
   };
 
-  if (!nc.isNonEmptyString(node.itemServiceName)) {
+  if (!nc.isNonEmptyString(this.itemServiceName)) {
     invalid = true;
     out.errors.push("The itemServiceName is missing.")
   }
 
-  if (!nc.isNonEmptyString(node.itemVariantsServiceName)) {
+  if (!nc.isNonEmptyString(this.itemVariantsServiceName)) {
     invalid = true;
     out.errors.push("The itemVariantsServiceName is missing.")
   }
 
-  if (!nc.isNonEmptyString(node.itemUrl)) {
+  if (!nc.isNonEmptyString(this.itemUrl)) {
     invalid = true;
     out.errors.push("The itemUrl is missing.")
   }
 
-  if (!nc.isNonEmptyString(node.itemVariantsUrl)) {
+  if (!nc.isNonEmptyString(this.itemVariantsUrl)) {
     invalid = true;
     out.errors.push("The itemVariantsUrl is missing.")
   }
@@ -41,19 +39,19 @@ module.exports = function(flowContext, payload) {
     obj["Criteria"] = payload.doc.remoteIDs.join('|'); // The pipe '|' symbol is a NAV filter for 'OR'
     args.filter.push(obj);
 
-    console.log(`Item Service Name: ${node.itemServiceName}`);
-    console.log(`Item Service Name: ${node.itemVariantsServiceName}`);
+    console.log(`Item Service Name: ${this.itemServiceName}`);
+    console.log(`Item Service Name: ${this.itemVariantsServiceName}`);
 
-    console.log(`Using URL [${node.itemUrl}]`);
+    console.log(`Using URL [${this.itemUrl}]`);
 
     return new Promise((resolve, reject) => {
-      soap.createClient(node.itemUrl, node.options, function(itemErr, itemClient) {
+      this.soap.createClient(this.itemUrl, this.options, (function(itemErr, itemClient) {
         if (!itemErr) {
-          console.log(`Using URL [${node.itemVariantsUrl}]`);
+          console.log(`Using URL [${this.itemVariantsUrl}]`);
 
-          soap.createClient(node.itemVariantsUrl, node.options, function(itemVariantsErr, variantClient) {
+          this.soap.createClient(this.itemVariantsUrl, this.options, (function(itemVariantsErr, variantClient) {
             if (!itemVariantsErr) {
-            itemClient.ReadMultiple(args, function(error, result, envelope, soapHeader) {
+            itemClient.ReadMultiple(args, (function(error, result, envelope, soapHeader) {
                 let data = result;
 
                 if (!error) {
@@ -63,9 +61,9 @@ module.exports = function(flowContext, payload) {
                     resolve(out);
                   } else {
                     // Begin processing Items
-                    node.processItems(result, payload)
+                    this.processItems(result, payload)
                       .then((result) => {
-                        return node.processVariants(variantClient, result)
+                        return this.processVariants(variantClient, result)
                       })
                       .then((docs) => {
                         if (docs.length === payload.doc.pageSize) {
@@ -82,17 +80,17 @@ module.exports = function(flowContext, payload) {
                       });
                   }
                 } else {
-                  reject(node.handleOperationError(error));
+                  reject(this.handleOperationError(error));
                 }
-              });
+              }).bind(this));
             } else {
-              reject(node.handleClientError(itemVariantsErr));
+              reject(this.handleClientError(itemVariantsErr));
             }
-          });
+          }).bind(this));
         } else {
-          reject(node.handleClientError(itemErr));
+          reject(this.handleClientError(itemErr));
         }
-      });
+      }).bind(this));
     });
 
   } else {

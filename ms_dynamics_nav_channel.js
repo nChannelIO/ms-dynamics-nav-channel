@@ -1,8 +1,6 @@
 'use strict';
 
 let Channel = require('@nchannel/endpoint-sdk').PromiseChannel;
-let soap = require('strong-soap/src/soap');
-let NTLMSecurity = require('strong-soap').NTLMSecurity;
 let nc = require('./util/common');
 
 class ms_dynamics_nav_channel extends Channel {
@@ -10,8 +8,6 @@ class ms_dynamics_nav_channel extends Channel {
     super(...args);
 
     this.validateChannelProfile();
-
-    this.soap = soap;
 
     this.username = this.channelProfile.channelAuthValues.username;
     this.password = this.channelProfile.channelAuthValues.password;
@@ -37,11 +33,8 @@ class ms_dynamics_nav_channel extends Channel {
     this.orderLinesServiceName = this.channelProfile.channelAuthValues.orderLinesServiceName;
     this.salesShipmentServiceName = this.channelProfile.channelAuthValues.salesShipmentServiceName;
 
-    this.wsdlAuthRequired = true;
-    this.ntlmSecurity = new NTLMSecurity(this.username, this.password, this.domain, this.workstation, this.wsdlAuthRequired);
-
     this.options = {
-      NTLMSecurity: this.ntlmSecurity
+      NTLMSecurity: this.soap.NTLMSecurity(this.username, this.password, this.domain, this.workstation, true)
     };
   }
 

@@ -5,11 +5,8 @@ module.exports = {
   processVariants
 };
 
-let node;
-
 function processItems(body, payload) {
   return new Promise((resolve, reject) => {
-    node = this;
     if (!payload.doc.pagingContext) {
       payload.doc.pagingContext = {};
     }
@@ -50,35 +47,35 @@ function processVariants(client, items, key) {
           items[i].Item_Variants = [];
         }
 
-        client.ReadMultiple(args, function(error, body, envelope, soapHeader) {
+        client.ReadMultiple(args, (function(error, body, envelope, soapHeader) {
           if (!body.ReadMultiple_Result) {
             pResolve();
           } else {
-            if (Array.isArray(body.ReadMultiple_Result[node.itemVariantsServiceName])) {
+            if (Array.isArray(body.ReadMultiple_Result[this.itemVariantsServiceName])) {
 
               // Join existing Item_Variants with those pulled
-              items[i].Item_Variants = items[i].Item_Variants.concat(body.ReadMultiple_Result[node.itemVariantsServiceName]);
-              let n = body.ReadMultiple_Result[node.itemVariantsServiceName].length - 1;
+              items[i].Item_Variants = items[i].Item_Variants.concat(body.ReadMultiple_Result[this.itemVariantsServiceName]);
+              let n = body.ReadMultiple_Result[this.itemVariantsServiceName].length - 1;
               // Recursively call processVariants to determine if there are more variants using the key from the last variant pulled
-              processVariants(client, items[i], body.ReadMultiple_Result[node.itemVariantsServiceName][n].Key).then((result) => {
+              processVariants(client, items[i], body.ReadMultiple_Result[this.itemVariantsServiceName][n].Key).then((result) => {
                 docs.push({
                   doc: items[i],
                   productQuantityRemoteID: items[i].Item.No,
-                  productQuantityBusinessReference: node.nc.extractBusinessReference(node.channelProfile.productBusinessReferences, items[i])
+                  productQuantityBusinessReference: this.nc.extractBusinessReference(this.channelProfile.productBusinessReferences, items[i])
                 });
                 pResolve(result);
               }).catch((err) => {
                 pReject(err);
               });
-            } else if (typeof body.ReadMultiple_Result[node.itemVariantsServiceName] === 'object') {
-              items[i].Item_Variants.push(body.ReadMultiple_Result[node.itemVariantsServiceName]);
+            } else if (typeof body.ReadMultiple_Result[this.itemVariantsServiceName] === 'object') {
+              items[i].Item_Variants.push(body.ReadMultiple_Result[this.itemVariantsServiceName]);
 
               // Recursively call processVariants to determine if there are more variants using the key from the last variant pulled
-              processVariants(client, items[i], body.ReadMultiple_Result[node.itemVariantsServiceName].Key).then((result) => {
+              processVariants(client, items[i], body.ReadMultiple_Result[this.itemVariantsServiceName].Key).then((result) => {
                 docs.push({
                   doc: items[i],
                   productQuantityRemoteID: items[i].Item.No,
-                  productQuantityBusinessReference: node.nc.extractBusinessReference(node.channelProfile.productBusinessReferences, items[i])
+                  productQuantityBusinessReference: this.nc.extractBusinessReference(this.channelProfile.productBusinessReferences, items[i])
                 });
                 pResolve(result);
               }).catch((err) => {
@@ -88,7 +85,7 @@ function processVariants(client, items, key) {
               pResolve();
             }
           }
-        });
+        }).bind(this));
       }));
     }
 

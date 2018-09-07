@@ -1,9 +1,7 @@
 'use strict';
 
 module.exports = function(flowContext, payload) {
-  let node = this;
-  let nc = node.nc;
-  let soap = node.soap;
+  let nc = this.nc;
   let invalid = false;
   let out = {
     statusCode: 400,
@@ -11,12 +9,12 @@ module.exports = function(flowContext, payload) {
     errors: []
   };
 
-  if (!nc.isNonEmptyString(node.orderUrl)) {
+  if (!nc.isNonEmptyString(this.orderUrl)) {
     invalid = true;
     out.errors.push("The orderUrl is missing.")
   }
 
-  if (!nc.isNonEmptyString(node.orderServiceName)) {
+  if (!nc.isNonEmptyString(this.orderServiceName)) {
     invalid = true;
     out.errors.push("The orderServiceName is missing.")
   }
@@ -24,21 +22,21 @@ module.exports = function(flowContext, payload) {
   if (!invalid) {
     let args = payload.doc;
 
-    console.log(`Customer Service Name: ${node.orderServiceName}`);
+    console.log(`Customer Service Name: ${this.orderServiceName}`);
 
-    console.log(`Using URL [${node.orderUrl}]`);
+    console.log(`Using URL [${this.orderUrl}]`);
 
     return new Promise((resolve, reject) => {
-       soap.createClient(node.orderUrl, node.options, (err, client) => {
+       this.soap.createClient(this.orderUrl, this.options, ((err, client) => {
          if (!err) {
-           client.Create(args, (error, body, envelope, soapHeader) => {
+           client.Create(args, ((error, body, envelope, soapHeader) => {
              if (!error) {
-               if (body[node.orderServiceName]) {
+               if (body[this.orderServiceName]) {
                  out.statusCode = 201;
                  out.payload = {
                    doc: body,
-                   orderRemoteID: body[node.orderServiceName].No,
-                   orderBusinessReference: nc.extractBusinessReference(node.channelProfile.orderBusinessReferences, body)
+                   orderRemoteID: body[this.orderServiceName].No,
+                   orderBusinessReference: nc.extractBusinessReference(this.channelProfile.orderBusinessReferences, body)
                  };
                  resolve(out);
                } else {
@@ -47,13 +45,13 @@ module.exports = function(flowContext, payload) {
                  reject(out);
                }
              } else {
-               reject(node.handleOperationError(error));
+               reject(this.handleOperationError(error));
              }
-           });
+           }).bind(this));
          } else {
-           reject(node.handleClientError(err));
+           reject(this.handleClientError(err));
          }
-       });
+       }).bind(this));
     });
   } else {
     return Promise.reject(out);

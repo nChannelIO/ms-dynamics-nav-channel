@@ -1,9 +1,7 @@
 'use strict';
 
 module.exports = function(flowContext, payload) {
-  let node = this;
-  let nc = node.nc;
-  let soap = node.soap;
+  let nc = this.nc;
   let invalid = false;
   let out = {
     statusCode: 400,
@@ -11,12 +9,12 @@ module.exports = function(flowContext, payload) {
     errors: []
   };
 
-  if (!nc.isNonEmptyString(node.customerUrl)) {
+  if (!nc.isNonEmptyString(this.customerUrl)) {
     invalid = true;
     out.errors.push("The customerUrl is missing.")
   }
 
-  if (!nc.isNonEmptyString(node.customerServiceName)) {
+  if (!nc.isNonEmptyString(this.customerServiceName)) {
     invalid = true;
     out.errors.push("The customerServiceName is missing.")
   }
@@ -26,26 +24,26 @@ module.exports = function(flowContext, payload) {
       No: payload.customerRemoteID
     }
 
-    console.log(`Customer Service Name: ${node.customerServiceName}`);
+    console.log(`Customer Service Name: ${this.customerServiceName}`);
 
-    console.log(`Using URL [${node.customerUrl}]`);
+    console.log(`Using URL [${this.customerUrl}]`);
 
     return new Promise((resolve, reject) => {
-      soap.createClient(node.customerUrl, node.options, function(err, client) {
+      this.soap.createClient(this.customerUrl, this.options, (function(err, client) {
         if (!err) {
-          client.Read(args, function(error, body, envelope, soapHeader) {
+          client.Read(args, (function(error, body, envelope, soapHeader) {
             if (!error) {
-              if (body[node.customerServiceName]) {
-                payload.doc[node.customerServiceName].Key = body[node.customerServiceName].Key;
+              if (body[this.customerServiceName]) {
+                payload.doc[this.customerServiceName].Key = body[this.customerServiceName].Key;
                 args = payload.doc;
 
-                client.Update(args, function(error, body, envelope, soapHeader) {
+                client.Update(args, (function(error, body, envelope, soapHeader) {
                   if (!error) {
-                    if (body[node.customerServiceName]) {
+                    if (body[this.customerServiceName]) {
                       out.statusCode = 200;
                       out.payload = {
                         doc: body,
-                        customerBusinessReference: nc.extractBusinessReference(node.channelProfile.customerBusinessReferences, body)
+                        customerBusinessReference: nc.extractBusinessReference(this.channelProfile.customerBusinessReferences, body)
                       };
                       resolve(out);
                     } else {
@@ -54,22 +52,22 @@ module.exports = function(flowContext, payload) {
                       reject(out);
                     }
                   } else {
-                    reject(node.handleOperationError(error));
+                    reject(this.handleOperationError(error));
                   }
-                });
+                }).bind(this));
               } else {
                 out.statusCode = 400;
                 out.errors.push(body);
                 reject(out);
               }
             } else {
-              reject(node.handleOperationError(error));
+              reject(this.handleOperationError(error));
             }
-          });
+          }).bind(this));
         } else {
-          reject(node.handleClientError(err));
+          reject(this.handleClientError(err));
         }
-      });
+      }).bind(this));
     });
   } else {
     return Promise.reject(out);
