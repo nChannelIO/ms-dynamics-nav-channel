@@ -83,11 +83,7 @@ module.exports = function(flowContext, payload) {
                     }
                   })
                   .then((docs) => {
-                    if (docs.length === payload.doc.pageSize) {
-                      out.statusCode = 206;
-                    } else {
-                      out.statusCode = 200;
-                    }
+                    out.statusCode = 200;
                     out.payload = docs;
                     resolve(out);
                   }).catch((err) => {

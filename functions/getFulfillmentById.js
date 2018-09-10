@@ -60,13 +60,6 @@ module.exports = function(flowContext, payload) {
                       fulfillmentBusinessReference: nc.extractBusinessReference(this.channelProfile.fulfillmentBusinessReferences, fulfillment),
                       salesOrderRemoteID: fulfillment.Sales_Shipment.Order_No
                     });
-
-                    if (i == body.ReadMultiple_Result[this.salesShipmentServiceName].length - 1) {
-                      if (!payload.doc.pagingContext) {
-                        payload.doc.pagingContext = {};
-                      }
-                      payload.doc.pagingContext.key = body.ReadMultiple_Result[this.salesShipmentServiceName][i].Key;
-                    }
                   }
                 } else if (typeof body.ReadMultiple_Result[this.salesShipmentServiceName] === 'object') {
                   // If an object is returned, one fulfillment was found
@@ -79,18 +72,9 @@ module.exports = function(flowContext, payload) {
                     fulfillmentBusinessReference: nc.extractBusinessReference(this.channelProfile.fulfillmentBusinessReferences, fulfillment),
                     salesOrderRemoteID: fulfillment.Sales_Shipment.Order_No
                   });
-
-                  if (!payload.doc.pagingContext) {
-                    payload.doc.pagingContext = {};
-                  }
-                  payload.doc.pagingContext.key = body.ReadMultiple_Result[this.salesShipmentServiceName].Key;
                 }
 
-                if (docs.length === payload.doc.pageSize) {
-                  out.statusCode = 206;
-                } else {
-                  out.statusCode = 200;
-                }
+                out.statusCode = 200;
                 out.payload = docs;
                 resolve(out);
               }
