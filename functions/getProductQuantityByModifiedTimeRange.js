@@ -57,6 +57,13 @@ module.exports = function(flowContext, payload) {
 
     args.filter.push(obj);
 
+    if (flowContext && flowContext.field && flowContext.criteria) {
+      let obj = {};
+      obj["Field"] = flowContext.field;
+      obj["Criteria"] = flowContext.criteria;
+      args.filter.push(obj);
+    }
+
     if (payload.doc.pagingContext) {
       args.bookmarkKey = payload.doc.pagingContext.key;
     }

@@ -111,10 +111,10 @@ function queryVariants(items, flowContext) {
                 ]
               }
 
-              if (flowContext && flowContext.itemField && flowContext.itemCriteria) {
+              if (flowContext && flowContext.variantField && flowContext.variantCriteria) {
                 let obj = {};
-                obj["Field"] = flowContext.itemField;
-                obj["Criteria"] = flowContext.itemCriteria;
+                obj["Field"] = flowContext.variantField;
+                obj["Criteria"] = flowContext.variantCriteria;
                 args.filter.push(obj);
               }
 
