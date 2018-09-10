@@ -425,7 +425,15 @@ let GetProductQuantityFromQuery = function (ncUtil, channelProfile, flowContext,
                               log("Item Not Found");
                               reject("Item Not Found");
                             } else {
-                              resolve({ Item: body });
+                              let doc = {
+                                No: itemNo,
+                                LocationCode: flowContext.locationCode,
+                                Variant_Inventory: {
+                                  Code: code,
+                                  body: body
+                                }
+                              };
+                              resolve({ Item: doc });
                             }
                           });
                         } else {
