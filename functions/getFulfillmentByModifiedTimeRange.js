@@ -27,22 +27,23 @@ module.exports = function(flowContext, payload) {
     let obj = {};
     obj["Field"] = "Posting_Date";
 
-    if (payload.doc.modifiedDateRange.startDateGMT && !payload.doc.modifiedDateRange.endDateGMT) {
-      obj["Criteria"] = nc.formatDate(new Date(Date.parse(payload.doc.modifiedDateRange.startDateGMT) - 1).toISOString()) + "..";
-    } else if (payload.doc.modifiedDateRange.endDateGMT && !payload.doc.modifiedDateRange.startDateGMT) {
-      obj["Criteria"] = ".." + nc.formatDate(new Date(Date.parse(payload.doc.modifiedDateRange.endDateGMT) + 1).toISOString());
-    } else if (payload.doc.modifiedDateRange.startDateGMT && payload.doc.modifiedDateRange.endDateGMT) {
-      obj["Criteria"] = nc.formatDate(new Date(Date.parse(payload.doc.modifiedDateRange.startDateGMT) - 1).toISOString()) + ".." + nc.formatDate(new Date(Date.parse(payload.doc.modifiedDateRange.endDateGMT) + 1).toISOString());
+    // Change to payload.modifiedDateRange
+    if (payload.modifiedDateRange.startDateGMT && !payload.modifiedDateRange.endDateGMT) {
+      obj["Criteria"] = nc.formatDate(new Date(Date.parse(payload.modifiedDateRange.startDateGMT) - 1).toISOString()) + "..";
+    } else if (payload.modifiedDateRange.endDateGMT && !payload.modifiedDateRange.startDateGMT) {
+      obj["Criteria"] = ".." + nc.formatDate(new Date(Date.parse(payload.modifiedDateRange.endDateGMT) + 1).toISOString());
+    } else if (payload.modifiedDateRange.startDateGMT && payload.modifiedDateRange.endDateGMT) {
+      obj["Criteria"] = nc.formatDate(new Date(Date.parse(payload.modifiedDateRange.startDateGMT) - 1).toISOString()) + ".." + nc.formatDate(new Date(Date.parse(payload.modifiedDateRange.endDateGMT) + 1).toISOString());
     }
 
     args.filter.push(obj);
 
-    if (payload.doc.pagingContext) {
-      args.bookmarkKey = payload.doc.pagingContext.key;
+    if (payload.pagingContext) {
+      args.bookmarkKey = payload.pagingContext.key;
     }
 
-    if (payload.doc.pageSize) {
-      args.setSize = payload.doc.pageSize;
+    if (payload.pageSize) {
+      args.setSize = payload.pageSize;
     }
 
     console.log(`Sales Shipment Service Name: ${this.salesShipmentServiceName}`);
@@ -70,18 +71,13 @@ module.exports = function(flowContext, payload) {
                     let fulfillment = {
                       Sales_Shipment: body.ReadMultiple_Result[this.salesShipmentServiceName][i]
                     };
-                    docs.push({
-                      doc: fulfillment,
-                      fulfillmentRemoteID: fulfillment.Sales_Shipment.No,
-                      fulfillmentBusinessReference: nc.extractBusinessReference(this.channelProfile.fulfillmentBusinessReferences, fulfillment),
-                      salesOrderRemoteID: fulfillment.Sales_Shipment.Order_No
-                    });
+                    docs.push(fulfillment);
 
                     if (i == body.ReadMultiple_Result[this.salesShipmentServiceName].length - 1) {
-                      if (!payload.doc.pagingContext) {
-                        payload.doc.pagingContext = {};
+                      if (!payload.pagingContext) {
+                        payload.pagingContext = {};
                       }
-                      payload.doc.pagingContext.key = body.ReadMultiple_Result[this.salesShipmentServiceName][i].Key;
+                      payload.pagingContext.key = body.ReadMultiple_Result[this.salesShipmentServiceName][i].Key;
                     }
                   }
                 } else if (typeof body.ReadMultiple_Result[this.salesShipmentServiceName] === 'object') {
@@ -89,20 +85,15 @@ module.exports = function(flowContext, payload) {
                   let fulfillment = {
                     Sales_Shipment: body.ReadMultiple_Result[this.salesShipmentServiceName]
                   };
-                  docs.push({
-                    doc: fulfillment,
-                    fulfillmentRemoteID: fulfillment.Sales_Shipment.No,
-                    fulfillmentBusinessReference: nc.extractBusinessReference(this.channelProfile.fulfillmentBusinessReferences, fulfillment),
-                    salesOrderRemoteID: fulfillment.Sales_Shipment.Order_No
-                  });
+                  docs.push(fulfillment);
 
-                  if (!payload.doc.pagingContext) {
-                    payload.doc.pagingContext = {};
+                  if (!payload.pagingContext) {
+                    payload.pagingContext = {};
                   }
-                  payload.doc.pagingContext.key = body.ReadMultiple_Result[this.salesShipmentServiceName].Key;
+                  payload.pagingContext.key = body.ReadMultiple_Result[this.salesShipmentServiceName].Key;
                 }
 
-                if (docs.length === payload.doc.pageSize) {
+                if (docs.length === payload.pageSize) {
                   out.statusCode = 206;
                 } else {
                   out.statusCode = 200;

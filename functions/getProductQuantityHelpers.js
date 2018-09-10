@@ -10,8 +10,8 @@ module.exports = {
 function processLedger(body, payload) {
   return new Promise((resolve, reject) => {
     let items = [];
-    if (!payload.doc.pagingContext) {
-      payload.doc.pagingContext = {};
+    if (!payload.pagingContext) {
+      payload.pagingContext = {};
     }
     if (Array.isArray(body.ReadMultiple_Result[this.itemLedgerServiceName])) {
       for (let i = 0; i < body.ReadMultiple_Result[this.itemLedgerServiceName].length; i++) {
@@ -27,12 +27,12 @@ function processLedger(body, payload) {
         }
         return arr;
       }, []);
-      payload.doc.pagingContext.key = body.ReadMultiple_Result[this.itemLedgerServiceName][body.ReadMultiple_Result[this.itemLedgerServiceName].length - 1].Key;
+      payload.pagingContext.key = body.ReadMultiple_Result[this.itemLedgerServiceName][body.ReadMultiple_Result[this.itemLedgerServiceName].length - 1].Key;
       resolve(items);
     } else if (typeof body.ReadMultiple_Result[this.itemLedgerServiceName] === 'object') {
       let code = body.ReadMultiple_Result[this.itemLedgerServiceName].Variant_Code;
       let itemNo = body.ReadMultiple_Result[this.itemLedgerServiceName].Item_No;
-      payload.doc.pagingContext.key = body.ReadMultiple_Result[this.itemLedgerServiceName].Key;
+      payload.pagingContext.key = body.ReadMultiple_Result[this.itemLedgerServiceName].Key;
       resolve([{ itemNo: itemNo, code: code }]);
     } else {
       resolve();
@@ -124,28 +124,16 @@ function queryVariants(items, flowContext) {
                 } else {
                   if (Array.isArray(body.ReadMultiple_Result[this.variantInventoryServiceName])) {
                     items[i].Item.Variant_Inventory = body.ReadMultiple_Result[this.variantInventoryServiceName][0];
-                    docs.push({
-                      doc: items[i].Item,
-                      productQuantityRemoteID: items[i].Item.No,
-                      productQuantityBusinessReference: this.nc.extractBusinessReference(this.channelProfile.productQuantityBusinessReferences, items[i])
-                    });
+                    docs.push(items[i].Item);
                   } else if (typeof body.ReadMultiple_Result[this.variantInventoryServiceName] === 'object') {
                     items[i].Item.Variant_Inventory = body.ReadMultiple_Result[this.variantInventoryServiceName];
-                    docs.push({
-                      doc: items[i].Item,
-                      productQuantityRemoteID: items[i].Item.No,
-                      productQuantityBusinessReference: this.nc.extractBusinessReference(this.channelProfile.productQuantityBusinessReferences, items[i])
-                    });
+                    docs.push(items[i].Item);
                   }
                   pResolve();
                 }
               }).bind(this));
             } else {
-              docs.push({
-                doc: items[i].Item,
-                productQuantityRemoteID: items[i].Item.No,
-                productQuantityBusinessReference: this.nc.extractBusinessReference(this.channelProfile.productQuantityBusinessReferences, items[i])
-              });
+              docs.push(items[i].Item);
               pResolve();
             }
           }));
@@ -175,7 +163,7 @@ function queryInventory(items, flowContext, payload) {
               itemNo: items[i].itemNo,
               itemVariantCode: items[i].code,
               locationCode: flowContext.locationCode,
-              asOfDate: this.nc.formatDate(new Date(Date.parse(payload.doc.modifiedDateRange.startDateGMT) - 1).toISOString(), '-', true)
+              asOfDate: this.nc.formatDate(new Date(Date.parse(payload.modifiedDateRange.startDateGMT) - 1).toISOString(), '-', true)
             }
 
             client.GetAvailableToday(args, (function(error, body, envelope, soapHeader) {
@@ -188,11 +176,7 @@ function queryInventory(items, flowContext, payload) {
                   LocationCode: flowContext.locationCode,
                   Item: body.ReadMultiple_Result[this.variantInventoryServiceName]
                 };
-                docs.push({
-                  doc: doc,
-                  productQuantityRemoteID: items[i].itemNo,
-                  productQuantityBusinessReference: this.nc.extractBusinessReference(this.channelProfile.productQuantityBusinessReferences, items[i])
-                });
+                docs.push(doc);
                 pResolve();
               }
             }).bind(this));

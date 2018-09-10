@@ -37,11 +37,7 @@ class ms_dynamics_nav_channel extends Channel {
       NTLMSecurity: this.soap.NTLMSecurity(this.username, this.password, this.domain, this.workstation, true)
     };
   }
-
-  async checkForCustomer(...args) {
-    return require('./functions/checkForCustomer').bind(this)(...args);
-  }
-
+  
   async extractCustomerFromSalesOrder(...args) {
     return require('./functions/extractCustomerFromSalesOrder').bind(this)(...args);
   }

@@ -7,14 +7,14 @@ module.exports = {
 
 function processItems(body, payload) {
   return new Promise((resolve, reject) => {
-    if (!payload.doc.pagingContext) {
-      payload.doc.pagingContext = {};
+    if (!payload.pagingContext) {
+      payload.pagingContext = {};
     }
     if (Array.isArray(body.ReadMultiple_Result[this.itemServiceName])) {
-      payload.doc.pagingContext.key = body.ReadMultiple_Result[this.itemServiceName][body.ReadMultiple_Result[this.itemServiceName].length - 1].Key;
+      payload.pagingContext.key = body.ReadMultiple_Result[this.itemServiceName][body.ReadMultiple_Result[this.itemServiceName].length - 1].Key;
       resolve(body.ReadMultiple_Result[this.itemServiceName]);
     } else if (typeof body.ReadMultiple_Result[this.itemServiceName] === 'object') {
-      payload.doc.pagingContext.key = body.ReadMultiple_Result[this.itemServiceName].Key;
+      payload.pagingContext.key = body.ReadMultiple_Result[this.itemServiceName].Key;
       resolve([body.ReadMultiple_Result[this.itemServiceName]]);
     } else {
       resolve();
@@ -58,11 +58,7 @@ function processVariants(client, items, key) {
               let n = body.ReadMultiple_Result[this.itemVariantsServiceName].length - 1;
               // Recursively call processVariants to determine if there are more variants using the key from the last variant pulled
               processVariants(client, items[i], body.ReadMultiple_Result[this.itemVariantsServiceName][n].Key).then((result) => {
-                docs.push({
-                  doc: items[i],
-                  productQuantityRemoteID: items[i].Item.No,
-                  productQuantityBusinessReference: this.nc.extractBusinessReference(this.channelProfile.productBusinessReferences, items[i])
-                });
+                docs.push(items[i]);
                 pResolve(result);
               }).catch((err) => {
                 pReject(err);
@@ -72,11 +68,7 @@ function processVariants(client, items, key) {
 
               // Recursively call processVariants to determine if there are more variants using the key from the last variant pulled
               processVariants(client, items[i], body.ReadMultiple_Result[this.itemVariantsServiceName].Key).then((result) => {
-                docs.push({
-                  doc: items[i],
-                  productQuantityRemoteID: items[i].Item.No,
-                  productQuantityBusinessReference: this.nc.extractBusinessReference(this.channelProfile.productBusinessReferences, items[i])
-                });
+                docs.push(items[i]);
                 pResolve(result);
               }).catch((err) => {
                 pReject(err);

@@ -26,7 +26,7 @@ module.exports = function(flowContext, payload) {
 
     let obj = {};
     obj["Field"] = "No";
-    obj["Criteria"] = payload.doc.remoteIDs.join('|'); // The pipe '|' symbol is a NAV filter for 'OR'
+    obj["Criteria"] = payload.remoteIDs.join('|'); // The pipe '|' symbol is a NAV filter for 'OR'
     args.filter.push(obj);
 
     console.log(`Sales Shipment Service Name: ${this.salesShipmentServiceName}`);
@@ -54,24 +54,14 @@ module.exports = function(flowContext, payload) {
                     let fulfillment = {
                       Sales_Shipment: body.ReadMultiple_Result[this.salesShipmentServiceName][i]
                     };
-                    docs.push({
-                      doc: fulfillment,
-                      fulfillmentRemoteID: fulfillment.Sales_Shipment.No,
-                      fulfillmentBusinessReference: nc.extractBusinessReference(this.channelProfile.fulfillmentBusinessReferences, fulfillment),
-                      salesOrderRemoteID: fulfillment.Sales_Shipment.Order_No
-                    });
+                    docs.push(fulfillment);
                   }
                 } else if (typeof body.ReadMultiple_Result[this.salesShipmentServiceName] === 'object') {
                   // If an object is returned, one fulfillment was found
                   let fulfillment = {
                     Sales_Shipment: body.ReadMultiple_Result[this.salesShipmentServiceName]
                   };
-                  docs.push({
-                    doc: fulfillment,
-                    fulfillmentRemoteID: fulfillment.Sales_Shipment.No,
-                    fulfillmentBusinessReference: nc.extractBusinessReference(this.channelProfile.fulfillmentBusinessReferences, fulfillment),
-                    salesOrderRemoteID: fulfillment.Sales_Shipment.Order_No
-                  });
+                  docs.push(fulfillment);
                 }
 
                 out.statusCode = 200;

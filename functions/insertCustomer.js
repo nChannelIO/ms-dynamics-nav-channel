@@ -31,17 +31,19 @@ module.exports = function(flowContext, payload) {
          if (!err) {
            client.Create(args, ((error, body, envelope, soapHeader) => {
              if (!error) {
-               if (body[this.customerServiceName]) {
-                 out.statusCode = 201;
-                 out.payload = {
-                   doc: body,
-                   customerRemoteID: body[this.customerServiceName].No,
-                   customerBusinessReference: nc.extractBusinessReference(this.channelProfile.customerBusinessReferences, body)
-                 };
-                 resolve(out);
+               if (typeof body !== 'undefined') {
+                 if (body[this.customerServiceName]) {
+                   out.statusCode = 201;
+                   out.payload = body;
+                   resolve(out);
+                 } else {
+                   out.statusCode = 400;
+                   out.errors.push(`The customer was inserted but customerServiceName does not match the wrapper of the response. ${JSON.stringify(body)}`);
+                   reject(out);
+                 }
                } else {
                  out.statusCode = 400;
-                 out.errors.push(`The customer was inserted but customerServiceName does not match the wrapper of the response. ${JSON.stringify(body)}`);
+                 out.errors.push(`A response body was not returned.`);
                  reject(out);
                }
              } else {

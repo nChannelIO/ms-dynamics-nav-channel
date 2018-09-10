@@ -36,7 +36,7 @@ module.exports = function(flowContext, payload) {
 
     let obj = {};
     obj["Field"] = "No";
-    obj["Criteria"] = payload.doc.remoteIDs.join('|'); // The pipe '|' symbol is a NAV filter for 'OR'
+    obj["Criteria"] = payload.remoteIDs.join('|'); // The pipe '|' symbol is a NAV filter for 'OR'
     args.filter.push(obj);
 
     console.log(`Item Service Name: ${this.itemServiceName}`);

@@ -37,12 +37,12 @@ module.exports = function(flowContext, payload) {
     let obj = {};
     obj["Field"] = "Last_Date_Modified";
 
-    if (payload.doc.modifiedDateRange.startDateGMT && !payload.doc.modifiedDateRange.endDateGMT) {
-      obj["Criteria"] = nc.formatDate(new Date(Date.parse(payload.doc.modifiedDateRange.startDateGMT) - 1).toISOString()) + "..";
-    } else if (payload.doc.modifiedDateRange.endDateGMT && !payload.doc.modifiedDateRange.startDateGMT) {
-      obj["Criteria"] = ".." + nc.formatDate(new Date(Date.parse(payload.doc.modifiedDateRange.endDateGMT) + 1).toISOString());
-    } else if (payload.doc.modifiedDateRange.startDateGMT && payload.doc.modifiedDateRange.endDateGMT) {
-      obj["Criteria"] = nc.formatDate(new Date(Date.parse(payload.doc.modifiedDateRange.startDateGMT) - 1).toISOString()) + ".." + nc.formatDate(new Date(Date.parse(payload.doc.modifiedDateRange.endDateGMT) + 1).toISOString());
+    if (payload.modifiedDateRange.startDateGMT && !payload.modifiedDateRange.endDateGMT) {
+      obj["Criteria"] = nc.formatDate(new Date(Date.parse(payload.modifiedDateRange.startDateGMT) - 1).toISOString()) + "..";
+    } else if (payload.modifiedDateRange.endDateGMT && !payload.modifiedDateRange.startDateGMT) {
+      obj["Criteria"] = ".." + nc.formatDate(new Date(Date.parse(payload.modifiedDateRange.endDateGMT) + 1).toISOString());
+    } else if (payload.modifiedDateRange.startDateGMT && payload.modifiedDateRange.endDateGMT) {
+      obj["Criteria"] = nc.formatDate(new Date(Date.parse(payload.modifiedDateRange.startDateGMT) - 1).toISOString()) + ".." + nc.formatDate(new Date(Date.parse(payload.modifiedDateRange.endDateGMT) + 1).toISOString());
     }
 
     args.filter.push(obj);
@@ -54,12 +54,12 @@ module.exports = function(flowContext, payload) {
       args.filter.push(fc);
     }
 
-    if (payload.doc.pagingContext) {
-      args.bookmarkKey = payload.doc.pagingContext.key;
+    if (payload.pagingContext) {
+      args.bookmarkKey = payload.pagingContext.key;
     }
 
-    if (payload.doc.pageSize) {
-      args.setSize = payload.doc.pageSize;
+    if (payload.pageSize) {
+      args.setSize = payload.pageSize;
     }
 
     console.log(`Item Service Name: ${this.itemServiceName}`);
@@ -89,7 +89,7 @@ module.exports = function(flowContext, payload) {
                         return this.processVariants(variantClient, result)
                       })
                       .then((docs) => {
-                        if (docs.length === payload.doc.pageSize) {
+                        if (docs.length === payload.pageSize) {
                           out.statusCode = 206;
                         } else {
                           out.statusCode = 200;
