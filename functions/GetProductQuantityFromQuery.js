@@ -427,11 +427,13 @@ let GetProductQuantityFromQuery = function (ncUtil, channelProfile, flowContext,
                             } else {
                               let doc = {
                                 No: itemNo,
-                                VariantCode: code,
                                 LocationCode: flowContext.locationCode,
-                                Item: body // Response Body
+                                Variant_Inventory: {
+                                  Code: code,
+                                  body: body
+                                }
                               };
-                              resolve(doc);
+                              resolve({ Item: doc });
                             }
                           });
                         } else {
