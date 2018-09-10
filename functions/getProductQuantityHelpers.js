@@ -182,10 +182,15 @@ function queryInventory(items, flowContext, payload) {
               if (!body.ReadMultiple_Result) {
                 pReject("Query Inventory - Inventory Not Found");
               } else {
-                items[i].Inventory = body.ReadMultiple_Result[this.variantInventoryServiceName];
+                let doc = {
+                  No: items[i].itemNo,
+                  VariantCode: items[i].code,
+                  LocationCode: flowContext.locationCode,
+                  Item: body.ReadMultiple_Result[this.variantInventoryServiceName]
+                };
                 docs.push({
-                  doc: items[i].Inventory,
-                  productQuantityRemoteID: itemNo,
+                  doc: doc,
+                  productQuantityRemoteID: items[i].itemNo,
                   productQuantityBusinessReference: this.nc.extractBusinessReference(this.channelProfile.productQuantityBusinessReferences, items[i])
                 });
                 pResolve();
