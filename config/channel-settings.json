@@ -151,7 +151,7 @@
       },
       "documentDef": {
         "schema": {},
-        "referenceLocation": {"productQuantityBusinessReferences": ["Item.No"]}
+        "referenceLocation": {"productQuantityBusinessReferences": ["Item.No", "Item.Variant_Inventory.Code"]}
       }
     },
     {
