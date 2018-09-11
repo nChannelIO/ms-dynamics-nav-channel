@@ -417,7 +417,7 @@ let GetProductQuantityFromQuery = function (ncUtil, channelProfile, flowContext,
                             itemNo: itemNo,
                             itemVariantCode: code,
                             locationCode: flowContext.locationCode,
-                            asOfDate: nc.formatDate(new Date(Date.parse(payload.doc.modifiedDateRange.startDateGMT) - 1).toISOString(), '-', true)
+                            asOfDate: nc.formatDate(new Date().toISOString(), '-', true)
                           }
 
                           itemClient.GetAvailableToday(args, function(error, body, envelope, soapHeader) {
