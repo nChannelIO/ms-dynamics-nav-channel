@@ -183,6 +183,8 @@ let GetProductQuantityFromQuery = function (ncUtil, channelProfile, flowContext,
       NTLMSecurity: ntlmSecurity
     };
 
+    let pagingContext = {};
+
     try {
       // Item_Ledger Endpoint Client
       soap.createClient(itemLedgerUrl, options, function(itemLedgerErr, itemLedgerClient) {
@@ -216,12 +218,8 @@ let GetProductQuantityFromQuery = function (ncUtil, channelProfile, flowContext,
                         let code = product.Item_Ledger.Variant_Code;
                         let itemNo = product.Item_Ledger.Item_No;
 
-                        if (!payload.doc.pagingContext) {
-                          payload.doc.pagingContext = {};
-                        }
-
                         // Set Key to resume from if an error occurs or when getting the next set of items
-                        payload.doc.pagingContext.key = body.ReadMultiple_Result[itemLedgerServiceName][i].Key;
+                        pagingContext.key = body.ReadMultiple_Result[itemLedgerServiceName][i].Key;
 
                         items.push({ itemNo: itemNo, code: code });
                       }
@@ -294,12 +292,8 @@ let GetProductQuantityFromQuery = function (ncUtil, channelProfile, flowContext,
                       let code = product.Variant_Code;
                       let itemNo = product.Item_No;
 
-                      if (!payload.doc.pagingContext) {
-                        payload.doc.pagingContext = {};
-                      }
-
                       // Set Key to resume from if an error occurs or when getting the next set of items
-                      payload.doc.pagingContext.key = body.ReadMultiple_Result[itemLedgerServiceName].Key;
+                      pagingContext.key = body.ReadMultiple_Result[itemLedgerServiceName].Key;
 
                       // Process Item_Variant Records for Item
                       if (flowContext && flowContext.useInventoryCalculation) {
@@ -485,8 +479,9 @@ let GetProductQuantityFromQuery = function (ncUtil, channelProfile, flowContext,
 
                 // Begin processing Item_Ledger Records
                 processLedger(result).then(() => {
-                  if (docs.length === payload.doc.pageSize) {
+                  if (result.ReadMultiple_Result[itemLedgerServiceName].length === payload.doc.pageSize) {
                     out.ncStatusCode = 206;
+                    out.pagingContext = pagingContext;
                   } else {
                     out.ncStatusCode = 200;
                   }
