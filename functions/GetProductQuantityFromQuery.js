@@ -184,6 +184,7 @@ let GetProductQuantityFromQuery = function (ncUtil, channelProfile, flowContext,
     };
 
     let pagingContext = {};
+    let totalRecords = 0;
 
     try {
       // Item_Ledger Endpoint Client
@@ -208,6 +209,7 @@ let GetProductQuantityFromQuery = function (ncUtil, channelProfile, flowContext,
                     if (Array.isArray(body.ReadMultiple_Result[itemLedgerServiceName])) {
                       let p = [];
                       let items = [];
+                      totalRecords = result.ReadMultiple_Result[itemLedgerServiceName].length;
 
                       // Process Each Item and their Variants if any
                       for (let i = 0; i < body.ReadMultiple_Result[itemLedgerServiceName].length; i++) {
@@ -236,7 +238,6 @@ let GetProductQuantityFromQuery = function (ncUtil, channelProfile, flowContext,
                         p.push(new Promise((pResolve, pReject) => {
                           if (flowContext && flowContext.useInventoryCalculation) {
                             queryItem(x.itemNo, x.code).then((doc) =>{
-                              console.log(doc);
                               docs.push({
                                 doc: doc,
                                 productQuantityRemoteID: doc.Item.No,
@@ -285,19 +286,21 @@ let GetProductQuantityFromQuery = function (ncUtil, channelProfile, flowContext,
                         reject(err);
                       });
                     } else if (typeof body.ReadMultiple_Result[itemLedgerServiceName] === 'object') {
+                      totalRecords = 1;
+
                       let product = {
                         Item_Ledger: body.ReadMultiple_Result[itemLedgerServiceName]
                       };
 
-                      let code = product.Variant_Code;
-                      let itemNo = product.Item_No;
+                      let code = product.Item_Ledger.Variant_Code;
+                      let itemNo = product.Item_Ledger.Item_No;
 
                       // Set Key to resume from if an error occurs or when getting the next set of items
                       pagingContext.key = body.ReadMultiple_Result[itemLedgerServiceName].Key;
 
                       // Process Item_Variant Records for Item
                       if (flowContext && flowContext.useInventoryCalculation) {
-                        queryItem(itemNo).then((doc) =>{
+                        queryItem(itemNo, code).then((doc) =>{
                           docs.push({
                             doc: doc,
                             productQuantityRemoteID: doc.Item.No,
@@ -479,7 +482,7 @@ let GetProductQuantityFromQuery = function (ncUtil, channelProfile, flowContext,
 
                 // Begin processing Item_Ledger Records
                 processLedger(result).then(() => {
-                  if (result.ReadMultiple_Result[itemLedgerServiceName].length === payload.doc.pageSize) {
+                  if (totalRecords === payload.doc.pageSize) {
                     out.ncStatusCode = 206;
                     out.pagingContext = pagingContext;
                   } else {
