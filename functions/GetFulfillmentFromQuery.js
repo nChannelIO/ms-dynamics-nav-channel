@@ -179,6 +179,8 @@ let GetFulfillmentFromQuery = function (ncUtil, channelProfile, flowContext, pay
       NTLMSecurity: ntlmSecurity
     };
 
+    let pagingContext = {};
+
     try {
       soap.createClient(url, options, function(err, client) {
         if (!err) {
@@ -208,10 +210,7 @@ let GetFulfillmentFromQuery = function (ncUtil, channelProfile, flowContext, pay
                     });
 
                     if (i == body.ReadMultiple_Result[salesShipmentServiceName].length - 1) {
-                      if (!payload.doc.pagingContext) {
-                        payload.doc.pagingContext = {};
-                      }
-                      payload.doc.pagingContext.key = body.ReadMultiple_Result[salesShipmentServiceName][i].Key;
+                      pagingContext.key = body.ReadMultiple_Result[salesShipmentServiceName][i].Key;
                     }
                   }
                 } else if (typeof body.ReadMultiple_Result[salesShipmentServiceName] === 'object') {
@@ -226,14 +225,12 @@ let GetFulfillmentFromQuery = function (ncUtil, channelProfile, flowContext, pay
                     salesOrderRemoteID: fulfillment.Sales_Shipment.Order_No
                   });
 
-                  if (!payload.doc.pagingContext) {
-                    payload.doc.pagingContext = {};
-                  }
-                  payload.doc.pagingContext.key = body.ReadMultiple_Result[salesShipmentServiceName].Key;
+                  pagingContext.key = body.ReadMultiple_Result[salesShipmentServiceName].Key;
                 }
 
                 if (docs.length === payload.doc.pageSize) {
                   out.ncStatusCode = 206;
+                  out.pagingContext = pagingContext;
                 } else {
                   out.ncStatusCode = 200;
                 }

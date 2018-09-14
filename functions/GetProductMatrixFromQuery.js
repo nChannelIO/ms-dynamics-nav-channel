@@ -176,6 +176,8 @@ let GetProductMatrixFromQuery = function (ncUtil, channelProfile, flowContext, p
       NTLMSecurity: ntlmSecurity
     };
 
+    let pagingContext = {};
+
     try {
       // Item Endpoint Client
       soap.createClient(itemUrl, options, function(itemErr, itemClient) {
@@ -210,12 +212,8 @@ let GetProductMatrixFromQuery = function (ncUtil, channelProfile, flowContext, p
                               Item: body.ReadMultiple_Result[itemServiceName][i]
                             };
 
-                            if (!payload.doc.pagingContext) {
-                              payload.doc.pagingContext = {};
-                            }
-
                             // Set Key to resume from if an error occurs or when getting the next set of items
-                            payload.doc.pagingContext.key = body.ReadMultiple_Result[itemServiceName][i].Key;
+                            pagingContext.key = body.ReadMultiple_Result[itemServiceName][i].Key;
 
                             // Process all Item_Variant Records for current Item
                             p.push(processVariants(variantClient, product).then((doc) =>{
@@ -240,12 +238,8 @@ let GetProductMatrixFromQuery = function (ncUtil, channelProfile, flowContext, p
                             Item: body.ReadMultiple_Result[itemServiceName]
                           };
 
-                          if (!payload.doc.pagingContext) {
-                            payload.doc.pagingContext = {};
-                          }
-
                           // Set Key to resume from if an error occurs or when getting the next set of items
-                          payload.doc.pagingContext.key = body.ReadMultiple_Result[itemServiceName].Key;
+                          pagingContext.key = body.ReadMultiple_Result[itemServiceName].Key;
 
                           // Process Item_Variant Records for Item
                           processVariants(variantClient, product).then((doc) =>{
@@ -323,6 +317,7 @@ let GetProductMatrixFromQuery = function (ncUtil, channelProfile, flowContext, p
                     processItems(result).then(() => {
                       if (docs.length === payload.doc.pageSize) {
                         out.ncStatusCode = 206;
+                        out.pagingContext = pagingContext;
                       } else {
                         out.ncStatusCode = 200;
                       }
