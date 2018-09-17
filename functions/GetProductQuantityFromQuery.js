@@ -242,14 +242,14 @@ let GetProductQuantityFromQuery = function (ncUtil, channelProfile, flowContext,
                 // Process Item
                 function queryInventory(itemDoc, client) {
                   return new Promise((resolve, reject) => {
-                    if (itemDoc.Item.VariantInventory) {
+                    let p = [];
+                    if (itemDoc.Item.Variant_Inventory) {
                       if (flowContext && flowContext.useInventoryCalculation) {
-                        itemDoc.Item.Variant_Inventory.forEach(x => {
-                          console.log(x.Code);
+                        for (let i = 0; i < itemDoc.Item.Variant_Inventory.length; i++) {
                           p.push(new Promise((pResolve, pReject) => {
                             let args = {
-                              itemNo: x.Item_No,
-                              itemVariantCode: x.Code,
+                              itemNo: itemDoc.Item.Variant_Inventory[i].Item_No,
+                              itemVariantCode: itemDoc.Item.Variant_Inventory[i].Code,
                               locationCode: flowContext.locationCode,
                               asOfDate: nc.formatDate(new Date().toISOString(), '-', true)
                             }
@@ -259,19 +259,18 @@ let GetProductQuantityFromQuery = function (ncUtil, channelProfile, flowContext,
                                 log("Variant Not Found");
                                 pReject("Variant Not Found");
                               } else {
-                                x = {
-                                  No: x.Item_No,
+                                itemDoc.Item.Variant_Inventory[i] = {
+                                  No: itemDoc.Item.Variant_Inventory[i].Item_No,
                                   LocationCode: flowContext.locationCode,
-                                  Variant_Inventory: {
-                                    Code: x.Code,
-                                    body: body
-                                  }
+                                  Code: itemDoc.Item.Variant_Inventory[i].Code,
+                                  body: body
                                 };
+
                                 pResolve();
                               }
                             });
                           }));
-                        });
+                        };
 
                         // Return from stub function when all items have been processed from current set
                         Promise.all(p).then(() => {
@@ -280,13 +279,13 @@ let GetProductQuantityFromQuery = function (ncUtil, channelProfile, flowContext,
                           reject(err);
                         });
                       } else {
-                        itemDoc.Item.Variant_Inventory.forEach(x => {
+                        for (let i = 0; i < itemDoc.Item.Variant_Inventory.length; i++) {
                           p.push(new Promise((pResolve, pReject) => {
                             let args = {
                               filter: [
                                 {
                                   Field: "Code",
-                                  Criteria: x.Code
+                                  Criteria: itemDoc.Item.Variant_Inventory[i].Code
                                 }
                               ],
                               setSize: 250
@@ -304,12 +303,12 @@ let GetProductQuantityFromQuery = function (ncUtil, channelProfile, flowContext,
                                 log("Variant Not Found");
                                 pReject("Variant Not Found");
                               } else {
-                                x = body.ReadMultiple_Result[inventoryServiceName];
+                                itemDoc.Item.Variant_Inventory[i] = body.ReadMultiple_Result[inventoryServiceName];
                                 pResolve();
                               }
                             });
                           }));
-                        });
+                        };
 
                         // Return from stub function when all items have been processed from current set
                         Promise.all(p).then(() => {
