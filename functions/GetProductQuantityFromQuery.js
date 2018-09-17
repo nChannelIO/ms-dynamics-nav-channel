@@ -116,7 +116,7 @@ let GetProductQuantityFromQuery = function (ncUtil, channelProfile, flowContext,
     } else if (payload.doc.remoteIDs) {
 
       let obj = {};
-      obj["Field"] = "Item_No";
+      obj["Field"] = "No";
       obj["Criteria"] = payload.doc.remoteIDs.join('|'); // The pipe '|' symbol is a NAV filter for 'OR'
       args.filter.push(obj);
 
@@ -147,12 +147,12 @@ let GetProductQuantityFromQuery = function (ncUtil, channelProfile, flowContext,
     }
 
     // Paging Context
-    if (payload.doc.pagingContext) {
+    if (payload.doc.pagingContext && !payload.doc.remoteIDs) {
       args.bookmarkKey = payload.doc.pagingContext.key;
     }
 
     // Page Size
-    if (payload.doc.pageSize) {
+    if (payload.doc.pageSize && !payload.doc.remoteIDs) {
       args.setSize = payload.doc.pageSize;
     }
 
@@ -163,10 +163,12 @@ let GetProductQuantityFromQuery = function (ncUtil, channelProfile, flowContext,
     let workstation = channelProfile.channelAuthValues.workstation;
     let itemLedgerUrl = channelProfile.channelAuthValues.itemLedgerUrl;
     let inventoryUrl = channelProfile.channelAuthValues.variantInventoryUrl;
+    let itemVariantsUrl = channelProfile.channelAuthValues.itemVariantsUrl;
     let itemUrl = channelProfile.channelAuthValues.itemUrl;
     let itemServiceName = channelProfile.channelAuthValues.itemServiceName;
     let itemLedgerServiceName = channelProfile.channelAuthValues.itemLedgerServiceName;
     let inventoryServiceName = channelProfile.channelAuthValues.inventoryServiceName;
+    let itemVariantsServiceName = channelProfile.channelAuthValues.itemVariantsServiceName;
 
     let wsdlAuthRequired = true;
     let ntlmSecurity = new NTLMSecurity(username, password, domain, workstation, wsdlAuthRequired);
@@ -175,9 +177,7 @@ let GetProductQuantityFromQuery = function (ncUtil, channelProfile, flowContext,
     log(`Item Service Name: ${itemServiceName}`);
     log(`Item Ledger Service Name: ${itemLedgerServiceName}`);
     log(`Inventory Name: ${inventoryServiceName}`);
-
-    // Log URL
-    log("Connecting to URL [" + itemLedgerUrl + "]", ncUtil);
+    log(`Inventory Name: ${itemVariantsServiceName}`);
 
     let options = {
       NTLMSecurity: ntlmSecurity
@@ -188,14 +188,15 @@ let GetProductQuantityFromQuery = function (ncUtil, channelProfile, flowContext,
 
     try {
       // Item_Ledger Endpoint Client
-      soap.createClient(itemLedgerUrl, options, function(itemLedgerErr, itemLedgerClient) {
-        if (!itemLedgerErr) {
-          itemLedgerClient.ReadMultiple(args, function(error, result, envelope, soapHeader) {
+      if (payload.doc.remoteIDs) {
+        log("Connecting to URL [" + itemUrl + "]", ncUtil);
+        soap.createClient(itemUrl, options, function(itemErr, itemClient) {
+          if (!itemErr) {
+            itemClient.ReadMultiple(args, function(error, result, envelope, soapHeader) {
 
-            let docs = [];
-            let data = result;
+              let docs = [];
+              let data = result;
 
-            if (!error) {
               if (!result.ReadMultiple_Result) {
                 // If ReadMultiple_Result is undefined, no results were returned
                 out.ncStatusCode = 204;
@@ -203,137 +204,115 @@ let GetProductQuantityFromQuery = function (ncUtil, channelProfile, flowContext,
                 callback(out);
               } else {
 
-                // Process Items
-                function processLedger(body) {
+                // Process Variants
+                function queryVariants(itemDoc, client) {
                   return new Promise((resolve, reject) => {
-                    if (Array.isArray(body.ReadMultiple_Result[itemLedgerServiceName])) {
-                      let p = [];
-                      let items = [];
-                      totalRecords = result.ReadMultiple_Result[itemLedgerServiceName].length;
-
-                      // Process Each Item and their Variants if any
-                      for (let i = 0; i < body.ReadMultiple_Result[itemLedgerServiceName].length; i++) {
-                        let product = {
-                          Item_Ledger: body.ReadMultiple_Result[itemLedgerServiceName][i]
-                        };
-
-                        let code = product.Item_Ledger.Variant_Code;
-                        let itemNo = product.Item_Ledger.Item_No;
-
-                        // Set Key to resume from if an error occurs or when getting the next set of items
-                        pagingContext.key = body.ReadMultiple_Result[itemLedgerServiceName][i].Key;
-
-                        items.push({ itemNo: itemNo, code: code });
-                      }
-
-                      // Remove Duplicates
-                      items = items.reduce((arr, x) => {
-                        if(!arr.some(obj => obj.itemNo === x.itemNo && obj.code === x.code)) {
-                          arr.push(x);
+                    let args = {
+                      filter: [
+                        {
+                          Field: "Item_No",
+                          Criteria: itemDoc.Item.No
                         }
-                        return arr;
-                      }, []);
+                      ],
+                      setSize: 250
+                    };
 
-                      items.forEach(x => {
-                        p.push(new Promise((pResolve, pReject) => {
-                          if (flowContext && flowContext.useInventoryCalculation) {
-                            queryItem(x.itemNo, x.code).then((doc) =>{
-                              docs.push({
-                                doc: doc,
-                                productQuantityRemoteID: doc.Item.No,
-                                productQuantityBusinessReference: nc.extractBusinessReference(channelProfile.productQuantityBusinessReferences, doc)
-                              });
-                              pResolve();
-                            }).catch((err) => {
-                              pReject(err);
-                            });
-                          } else if (x.code != null) {
-                            queryItem(x.itemNo).then(itemDoc => queryVariant(itemDoc, x.code)).then((doc) => {
-                              let item = {
-                                Item: doc
-                              }
-                              docs.push({
-                                doc: item,
-                                productQuantityRemoteID: item.Item.No,
-                                productQuantityBusinessReference: nc.extractBusinessReference(channelProfile.productQuantityBusinessReferences, item)
-                              });
-                              pResolve();
-                            }).catch((err) => {
-                              pReject(err);
-                            });
-                          } else {
-                            queryItem(x.itemNo).then((doc) =>{
-                              let item = {
-                                Item: doc
-                              }
-                              docs.push({
-                                doc: item,
-                                productQuantityRemoteID: item.Item.No,
-                                productQuantityBusinessReference: nc.extractBusinessReference(channelProfile.productQuantityBusinessReferences, item)
-                              });
-                              pResolve();
-                            }).catch((err) => {
-                              pReject(err);
-                            });
-                          }
-                        }));
-                      });
+                    if (flowContext && flowContext.variantField && flowContext.variantCriteria) {
+                      let obj = {};
+                      obj["Field"] = flowContext.variantField;
+                      obj["Criteria"] = flowContext.variantCriteria;
+                      args.filter.push(obj);
+                    }
 
-                      // Return from stub function when all items have been processed from current set
-                      Promise.all(p).then(() => {
+                    client.ReadMultiple(args, function(error, body, envelope, soapHeader) {
+                      if (typeof body === 'undefined' || body == null) {
                         resolve();
-                      }).catch((err) => {
-                        reject(err);
-                      });
-                    } else if (typeof body.ReadMultiple_Result[itemLedgerServiceName] === 'object') {
-                      totalRecords = 1;
-
-                      let product = {
-                        Item_Ledger: body.ReadMultiple_Result[itemLedgerServiceName]
-                      };
-
-                      let code = product.Item_Ledger.Variant_Code;
-                      let itemNo = product.Item_Ledger.Item_No;
-
-                      // Set Key to resume from if an error occurs or when getting the next set of items
-                      pagingContext.key = body.ReadMultiple_Result[itemLedgerServiceName].Key;
-
-                      // Process Item_Variant Records for Item
-                      if (flowContext && flowContext.useInventoryCalculation) {
-                        queryItem(itemNo, code).then((doc) =>{
-                          docs.push({
-                            doc: doc,
-                            productQuantityRemoteID: doc.Item.No,
-                            productQuantityBusinessReference: nc.extractBusinessReference(channelProfile.productQuantityBusinessReferences, doc)
-                          });
+                      } else {
+                        if (typeof body.ReadMultiple_Result !== 'undefined' || body.ReadMultiple_Result != null) {
+                          itemDoc.Item.Variant_Inventory = body.ReadMultiple_Result[itemVariantsServiceName];
                           resolve();
-                        }).catch((err) => {
-                          reject(err);
+                        } else {
+                          resolve();
+                        }
+                      }
+                    });
+                  });
+                }
+
+                // Process Item
+                function queryInventory(itemDoc, client) {
+                  return new Promise((resolve, reject) => {
+                    if (itemDoc.Item.VariantInventory) {
+                      if (flowContext && flowContext.useInventoryCalculation) {
+                        itemDoc.Item.Variant_Inventory.forEach(x => {
+                          console.log(x.Code);
+                          p.push(new Promise((pResolve, pReject) => {
+                            let args = {
+                              itemNo: x.Item_No,
+                              itemVariantCode: x.Code,
+                              locationCode: flowContext.locationCode,
+                              asOfDate: nc.formatDate(new Date().toISOString(), '-', true)
+                            }
+
+                            client.GetAvailableToday(args, function(error, body, envelope, soapHeader) {
+                              if (error) {
+                                log("Variant Not Found");
+                                pReject("Variant Not Found");
+                              } else {
+                                x = {
+                                  No: x.Item_No,
+                                  LocationCode: flowContext.locationCode,
+                                  Variant_Inventory: {
+                                    Code: x.Code,
+                                    body: body
+                                  }
+                                };
+                                pResolve();
+                              }
+                            });
+                          }));
                         });
-                      } else if (code != null) {
-                        queryItem(itemNo).then(itemDoc => queryVariant(itemDoc, code)).then((doc) => {
-                          let item = {
-                            Item: doc
-                          }
-                          docs.push({
-                            doc: item,
-                            productQuantityRemoteID: item.Item.No,
-                            productQuantityBusinessReference: nc.extractBusinessReference(channelProfile.productQuantityBusinessReferences, item)
-                          });
+
+                        // Return from stub function when all items have been processed from current set
+                        Promise.all(p).then(() => {
                           resolve();
                         }).catch((err) => {
                           reject(err);
                         });
                       } else {
-                        queryItem(itemNo).then((doc) =>{
-                          let item = {
-                            Item: doc
-                          }
-                          docs.push({
-                            doc: item,
-                            productQuantityRemoteID: item.Item.No,
-                            productQuantityBusinessReference: nc.extractBusinessReference(channelProfile.productQuantityBusinessReferences, item)
-                          });
+                        itemDoc.Item.Variant_Inventory.forEach(x => {
+                          p.push(new Promise((pResolve, pReject) => {
+                            let args = {
+                              filter: [
+                                {
+                                  Field: "Code",
+                                  Criteria: x.Code
+                                }
+                              ],
+                              setSize: 250
+                            };
+
+                            if (flowContext && flowContext.variantField && flowContext.variantCriteria) {
+                              let obj = {};
+                              obj["Field"] = flowContext.variantField;
+                              obj["Criteria"] = flowContext.variantCriteria;
+                              args.filter.push(obj);
+                            }
+
+                            client.ReadMultiple(args, function(error, body, envelope, soapHeader) {
+                              if (!body.ReadMultiple_Result) {
+                                log("Variant Not Found");
+                                pReject("Variant Not Found");
+                              } else {
+                                x = body.ReadMultiple_Result[inventoryServiceName];
+                                pResolve();
+                              }
+                            });
+                          }));
+                        });
+
+                        // Return from stub function when all items have been processed from current set
+                        Promise.all(p).then(() => {
                           resolve();
                         }).catch((err) => {
                           reject(err);
@@ -345,189 +324,481 @@ let GetProductQuantityFromQuery = function (ncUtil, channelProfile, flowContext,
                   });
                 }
 
-                // Process Variants
-                function queryVariant(itemDoc, code) {
+                // Process Items
+                function processItems(body, itemVariantsClient, inventoryClient) {
                   return new Promise((resolve, reject) => {
+                    let p = [];
+                    let items = [];
 
-                    // Variant_Inventory Endpoint Client
-                    log("Connecting to URL [" + inventoryUrl + "]", ncUtil);
-                    soap.createClient(inventoryUrl, options, function(variantInventoryErr, variantInventoryClient) {
-                      if (!variantInventoryErr) {
-                        let args = {
-                          filter: [
-                            {
-                              Field: "Code",
-                              Criteria: code
-                            }
-                          ],
-                          setSize: 250
+                    if (Array.isArray(body.ReadMultiple_Result[itemServiceName])) {
+                      totalRecords = result.ReadMultiple_Result[itemServiceName].length;
+
+                      // Process Each Item and their Variants if any
+                      for (let i = 0; i < body.ReadMultiple_Result[itemServiceName].length; i++) {
+                        let product = {
+                          Item: body.ReadMultiple_Result[itemServiceName][i]
                         };
 
-                        if (flowContext && flowContext.variantField && flowContext.variantCriteria) {
-                          let obj = {};
-                          obj["Field"] = flowContext.variantField;
-                          obj["Criteria"] = flowContext.variantCriteria;
-                          args.filter.push(obj);
-                        }
+                        // Set Key to resume from if an error occurs or when getting the next set of items
+                        pagingContext.key = body.ReadMultiple_Result[itemServiceName][i].Key;
 
-                        variantInventoryClient.ReadMultiple(args, function(error, body, envelope, soapHeader) {
-                          if (!body.ReadMultiple_Result) {
-                            log("Variant Not Found");
-                            reject("Variant Not Found");
-                          } else {
-                            itemDoc.Variant_Inventory = body.ReadMultiple_Result[inventoryServiceName];
-                            resolve(itemDoc);
-                          }
+                        items.push(product);
+                      }
+                    } else if (typeof body.ReadMultiple_Result[itemServiceName] === 'object') {
+                      totalRecords = 1;
+
+                      let product = {
+                        Item: body.ReadMultiple_Result[itemServiceName]
+                      };
+
+                      // Set Key to resume from if an error occurs or when getting the next set of items
+                      pagingContext.key = body.ReadMultiple_Result[itemServiceName].Key;
+
+                      items.push(product);
+                    }
+
+                    items.forEach(x => {
+                      p.push(new Promise((pResolve, pReject) => {
+                        queryVariants(x, itemVariantsClient).then(() => queryInventory(x, inventoryClient)).then(() =>{
+                          docs.push({
+                            doc: x,
+                            productQuantityRemoteID: x.Item.No,
+                            productQuantityBusinessReference: nc.extractBusinessReference(channelProfile.productQuantityBusinessReferences, x)
+                          });
+                          pResolve();
+                        }).catch((err) => {
+                          pReject(err);
                         });
+                      }));
+                    });
 
+                    // Return from stub function when all items have been processed from current set
+                    Promise.all(p).then(() => {
+                      resolve();
+                    }).catch((err) => {
+                      reject(err);
+                    });
+                  });
+                }
+
+                // Begin processing Item Records
+                log("Connecting to URL [" + itemVariantsUrl + "]", ncUtil);
+                soap.createClient(itemVariantsUrl, options, function(itemVariantsErr, itemVariantsClient) {
+                  if (!itemVariantsErr) {
+                    log("Connecting to URL [" + inventoryUrl + "]", ncUtil);
+                    soap.createClient(inventoryUrl, options, function(inventoryErr, inventoryClient) {
+                      if (!inventoryErr) {
+                        processItems(result, itemVariantsClient, inventoryClient).then(() => {
+                          if (totalRecords === payload.doc.pageSize) {
+                            out.ncStatusCode = 206;
+                            out.pagingContext = pagingContext;
+                          } else {
+                            out.ncStatusCode = 200;
+                          }
+                          out.payload = docs;
+                          callback(out);
+                        }).catch((err) => {
+                          logError("Error - Returning Response as 400 - " + err, ncUtil);
+                          out.ncStatusCode = 400;
+                          out.payload.error = err;
+                          callback(out);
+                        });
                       } else {
-                        let errStr = String(variantInventoryErr);
+                        let errStr = String(inventoryErr);
 
                         if (errStr.indexOf("Code: 401") !== -1) {
                           logError("401 Unauthorized (Invalid Credentials) " + errStr);
                           out.ncStatusCode = 400;
                           out.response.endpointStatusCode = 401;
                           out.response.endpointStatusMessage = "Unauthorized";
-                          out.payload.error = variantInventoryErr;
+                          out.payload.error = itemErr;
                         } else {
-                          logError("GetProductMatrixFromQuery Callback error - " + variantInventoryErr);
+                          logError("GetProductMatrixFromQuery Callback error - " + inventoryErr, ncUtil);
                           out.ncStatusCode = 500;
-                          out.payload.error = variantInventoryErr;
+                          out.payload.error = itemErr;
                         }
                         reject(out);
                       }
                     });
-                  });
-                }
+                  } else {
+                    let errStr = String(itemVariantsErr);
 
-                // Process Item
-                function queryItem(itemNo, code) {
-                  return new Promise((resolve, reject) => {
+                    if (errStr.indexOf("Code: 401") !== -1) {
+                      logError("401 Unauthorized (Invalid Credentials) " + errStr);
+                      out.ncStatusCode = 400;
+                      out.response.endpointStatusCode = 401;
+                      out.response.endpointStatusMessage = "Unauthorized";
+                      out.payload.error = itemErr;
+                    } else {
+                      logError("GetProductMatrixFromQuery Callback error - " + itemVariantsErr, ncUtil);
+                      out.ncStatusCode = 500;
+                      out.payload.error = itemErr;
+                    }
+                    reject(out);
+                  }
+                });
+              }
+            });
+          } else {
+            let errStr = String(itemErr);
 
-                    // Item Endpoint Client
-                    let url = flowContext.useInventoryCalculation ? inventoryUrl : itemUrl;
-                    log("Connecting to URL [" + url + "]", ncUtil);
-                    soap.createClient(url, options, function(itemErr, itemClient) {
-                      if (!itemErr) {
-                        if (flowContext && flowContext.useInventoryCalculation) {
-                          let args = {
-                            itemNo: itemNo,
-                            itemVariantCode: code,
-                            locationCode: flowContext.locationCode,
-                            asOfDate: nc.formatDate(new Date().toISOString(), '-', true)
+            if (errStr.indexOf("Code: 401") !== -1) {
+              logError("401 Unauthorized (Invalid Credentials) " + errStr);
+              out.ncStatusCode = 400;
+              out.response.endpointStatusCode = 401;
+              out.response.endpointStatusMessage = "Unauthorized";
+              out.payload.error = itemErr;
+            } else {
+              logError("GetProductMatrixFromQuery Callback error - " + itemErr, ncUtil);
+              out.ncStatusCode = 500;
+              out.payload.error = itemErr;
+            }
+            reject(out);
+          }
+        });
+      } else {
+        log("Connecting to URL [" + itemLedgerUrl + "]", ncUtil);
+        soap.createClient(itemLedgerUrl, options, function(itemLedgerErr, itemLedgerClient) {
+          if (!itemLedgerErr) {
+            itemLedgerClient.ReadMultiple(args, function(error, result, envelope, soapHeader) {
+
+              let docs = [];
+              let data = result;
+
+              if (!error) {
+                if (!result.ReadMultiple_Result) {
+                  // If ReadMultiple_Result is undefined, no results were returned
+                  out.ncStatusCode = 204;
+                  out.payload = data;
+                  callback(out);
+                } else {
+
+                  // Process Items
+                  function processLedger(body) {
+                    return new Promise((resolve, reject) => {
+                      if (Array.isArray(body.ReadMultiple_Result[itemLedgerServiceName])) {
+                        let p = [];
+                        let items = [];
+                        totalRecords = result.ReadMultiple_Result[itemLedgerServiceName].length;
+
+                        // Process Each Item and their Variants if any
+                        for (let i = 0; i < body.ReadMultiple_Result[itemLedgerServiceName].length; i++) {
+                          let product = {
+                            Item_Ledger: body.ReadMultiple_Result[itemLedgerServiceName][i]
+                          };
+
+                          let code = product.Item_Ledger.Variant_Code;
+                          let itemNo = product.Item_Ledger.Item_No;
+
+                          // Set Key to resume from if an error occurs or when getting the next set of items
+                          pagingContext.key = body.ReadMultiple_Result[itemLedgerServiceName][i].Key;
+
+                          items.push({ itemNo: itemNo, code: code });
+                        }
+
+                        // Remove Duplicates
+                        items = items.reduce((arr, x) => {
+                          if(!arr.some(obj => obj.itemNo === x.itemNo && obj.code === x.code)) {
+                            arr.push(x);
                           }
+                          return arr;
+                        }, []);
 
-                          itemClient.GetAvailableToday(args, function(error, body, envelope, soapHeader) {
-                            if (error) {
-                              log("Item Not Found");
-                              reject("Item Not Found");
-                            } else {
-                              let doc = {
-                                No: itemNo,
-                                LocationCode: flowContext.locationCode,
-                                Variant_Inventory: {
-                                  Code: code,
-                                  body: body
+                        items.forEach(x => {
+                          p.push(new Promise((pResolve, pReject) => {
+                            if (flowContext && flowContext.useInventoryCalculation) {
+                              queryItem(x.itemNo, x.code).then((doc) =>{
+                                docs.push({
+                                  doc: doc,
+                                  productQuantityRemoteID: doc.Item.No,
+                                  productQuantityBusinessReference: nc.extractBusinessReference(channelProfile.productQuantityBusinessReferences, doc)
+                                });
+                                pResolve();
+                              }).catch((err) => {
+                                pReject(err);
+                              });
+                            } else if (x.code != null) {
+                              queryItem(x.itemNo).then(itemDoc => queryVariant(itemDoc, x.code)).then((doc) => {
+                                let item = {
+                                  Item: doc
                                 }
-                              };
-                              resolve({ Item: doc });
+                                docs.push({
+                                  doc: item,
+                                  productQuantityRemoteID: item.Item.No,
+                                  productQuantityBusinessReference: nc.extractBusinessReference(channelProfile.productQuantityBusinessReferences, item)
+                                });
+                                pResolve();
+                              }).catch((err) => {
+                                pReject(err);
+                              });
+                            } else {
+                              queryItem(x.itemNo).then((doc) =>{
+                                let item = {
+                                  Item: doc
+                                }
+                                docs.push({
+                                  doc: item,
+                                  productQuantityRemoteID: item.Item.No,
+                                  productQuantityBusinessReference: nc.extractBusinessReference(channelProfile.productQuantityBusinessReferences, item)
+                                });
+                                pResolve();
+                              }).catch((err) => {
+                                pReject(err);
+                              });
                             }
+                          }));
+                        });
+
+                        // Return from stub function when all items have been processed from current set
+                        Promise.all(p).then(() => {
+                          resolve();
+                        }).catch((err) => {
+                          reject(err);
+                        });
+                      } else if (typeof body.ReadMultiple_Result[itemLedgerServiceName] === 'object') {
+                        totalRecords = 1;
+
+                        let product = {
+                          Item_Ledger: body.ReadMultiple_Result[itemLedgerServiceName]
+                        };
+
+                        let code = product.Item_Ledger.Variant_Code;
+                        let itemNo = product.Item_Ledger.Item_No;
+
+                        // Set Key to resume from if an error occurs or when getting the next set of items
+                        pagingContext.key = body.ReadMultiple_Result[itemLedgerServiceName].Key;
+
+                        // Process Item_Variant Records for Item
+                        if (flowContext && flowContext.useInventoryCalculation) {
+                          queryItem(itemNo, code).then((doc) =>{
+                            docs.push({
+                              doc: doc,
+                              productQuantityRemoteID: doc.Item.No,
+                              productQuantityBusinessReference: nc.extractBusinessReference(channelProfile.productQuantityBusinessReferences, doc)
+                            });
+                            resolve();
+                          }).catch((err) => {
+                            reject(err);
+                          });
+                        } else if (code != null) {
+                          queryItem(itemNo).then(itemDoc => queryVariant(itemDoc, code)).then((doc) => {
+                            let item = {
+                              Item: doc
+                            }
+                            docs.push({
+                              doc: item,
+                              productQuantityRemoteID: item.Item.No,
+                              productQuantityBusinessReference: nc.extractBusinessReference(channelProfile.productQuantityBusinessReferences, item)
+                            });
+                            resolve();
+                          }).catch((err) => {
+                            reject(err);
                           });
                         } else {
+                          queryItem(itemNo).then((doc) =>{
+                            let item = {
+                              Item: doc
+                            }
+                            docs.push({
+                              doc: item,
+                              productQuantityRemoteID: item.Item.No,
+                              productQuantityBusinessReference: nc.extractBusinessReference(channelProfile.productQuantityBusinessReferences, item)
+                            });
+                            resolve();
+                          }).catch((err) => {
+                            reject(err);
+                          });
+                        }
+                      } else {
+                        resolve();
+                      }
+                    });
+                  }
+
+                  // Process Variants
+                  function queryVariant(itemDoc, code) {
+                    return new Promise((resolve, reject) => {
+
+                      // Variant_Inventory Endpoint Client
+                      log("Connecting to URL [" + inventoryUrl + "]", ncUtil);
+                      soap.createClient(inventoryUrl, options, function(variantInventoryErr, variantInventoryClient) {
+                        if (!variantInventoryErr) {
                           let args = {
                             filter: [
                               {
-                                Field: "No",
-                                Criteria: itemNo
+                                Field: "Code",
+                                Criteria: code
                               }
                             ],
                             setSize: 250
                           };
 
-                          if (flowContext && flowContext.itemField && flowContext.itemCriteria) {
+                          if (flowContext && flowContext.variantField && flowContext.variantCriteria) {
                             let obj = {};
-                            obj["Field"] = flowContext.itemField;
-                            obj["Criteria"] = flowContext.itemCriteria;
+                            obj["Field"] = flowContext.variantField;
+                            obj["Criteria"] = flowContext.variantCriteria;
                             args.filter.push(obj);
                           }
 
-                          itemClient.ReadMultiple(args, function(error, body, envelope, soapHeader) {
+                          variantInventoryClient.ReadMultiple(args, function(error, body, envelope, soapHeader) {
                             if (!body.ReadMultiple_Result) {
-                              log("Item Not Found");
-                              reject("Item Not Found");
+                              log("Variant Not Found");
+                              reject("Variant Not Found");
                             } else {
-                              resolve(body.ReadMultiple_Result[itemServiceName]);
+                              itemDoc.Variant_Inventory = body.ReadMultiple_Result[inventoryServiceName];
+                              resolve(itemDoc);
                             }
                           });
-                        }
-                      } else {
-                        let errStr = String(itemErr);
 
-                        if (errStr.indexOf("Code: 401") !== -1) {
-                          logError("401 Unauthorized (Invalid Credentials) " + errStr);
-                          out.ncStatusCode = 400;
-                          out.response.endpointStatusCode = 401;
-                          out.response.endpointStatusMessage = "Unauthorized";
-                          out.payload.error = itemErr;
                         } else {
-                          logError("GetProductMatrixFromQuery Callback error - " + itemErr, ncUtil);
-                          out.ncStatusCode = 500;
-                          out.payload.error = itemErr;
+                          let errStr = String(variantInventoryErr);
+
+                          if (errStr.indexOf("Code: 401") !== -1) {
+                            logError("401 Unauthorized (Invalid Credentials) " + errStr);
+                            out.ncStatusCode = 400;
+                            out.response.endpointStatusCode = 401;
+                            out.response.endpointStatusMessage = "Unauthorized";
+                            out.payload.error = variantInventoryErr;
+                          } else {
+                            logError("GetProductMatrixFromQuery Callback error - " + variantInventoryErr);
+                            out.ncStatusCode = 500;
+                            out.payload.error = variantInventoryErr;
+                          }
+                          reject(out);
                         }
-                        reject(out);
-                      }
+                      });
                     });
+                  }
+
+                  // Process Item
+                  function queryItem(itemNo, code) {
+                    return new Promise((resolve, reject) => {
+
+                      // Item Endpoint Client
+                      let url = flowContext.useInventoryCalculation ? inventoryUrl : itemUrl;
+                      log("Connecting to URL [" + url + "]", ncUtil);
+                      soap.createClient(url, options, function(itemErr, itemClient) {
+                        if (!itemErr) {
+                          if (flowContext && flowContext.useInventoryCalculation) {
+                            let args = {
+                              itemNo: itemNo,
+                              itemVariantCode: code,
+                              locationCode: flowContext.locationCode,
+                              asOfDate: nc.formatDate(new Date().toISOString(), '-', true)
+                            }
+
+                            itemClient.GetAvailableToday(args, function(error, body, envelope, soapHeader) {
+                              if (error) {
+                                log("Item Not Found");
+                                reject("Item Not Found");
+                              } else {
+                                let doc = {
+                                  No: itemNo,
+                                  LocationCode: flowContext.locationCode,
+                                  Variant_Inventory: {
+                                    Code: code,
+                                    body: body
+                                  }
+                                };
+                                resolve({ Item: doc });
+                              }
+                            });
+                          } else {
+                            let args = {
+                              filter: [
+                                {
+                                  Field: "No",
+                                  Criteria: itemNo
+                                }
+                              ],
+                              setSize: 250
+                            };
+
+                            if (flowContext && flowContext.itemField && flowContext.itemCriteria) {
+                              let obj = {};
+                              obj["Field"] = flowContext.itemField;
+                              obj["Criteria"] = flowContext.itemCriteria;
+                              args.filter.push(obj);
+                            }
+
+                            itemClient.ReadMultiple(args, function(error, body, envelope, soapHeader) {
+                              if (!body.ReadMultiple_Result) {
+                                log("Item Not Found");
+                                reject("Item Not Found");
+                              } else {
+                                resolve(body.ReadMultiple_Result[itemServiceName]);
+                              }
+                            });
+                          }
+                        } else {
+                          let errStr = String(itemErr);
+
+                          if (errStr.indexOf("Code: 401") !== -1) {
+                            logError("401 Unauthorized (Invalid Credentials) " + errStr);
+                            out.ncStatusCode = 400;
+                            out.response.endpointStatusCode = 401;
+                            out.response.endpointStatusMessage = "Unauthorized";
+                            out.payload.error = itemErr;
+                          } else {
+                            logError("GetProductMatrixFromQuery Callback error - " + itemErr, ncUtil);
+                            out.ncStatusCode = 500;
+                            out.payload.error = itemErr;
+                          }
+                          reject(out);
+                        }
+                      });
+                    });
+                  }
+
+                  // Begin processing Item_Ledger Records
+                  processLedger(result).then(() => {
+                    if (totalRecords === payload.doc.pageSize) {
+                      out.ncStatusCode = 206;
+                      out.pagingContext = pagingContext;
+                    } else {
+                      out.ncStatusCode = 200;
+                    }
+                    out.payload = docs;
+                    callback(out);
+                  }).catch((err) => {
+                    logError("Error - Returning Response as 400 - " + err, ncUtil);
+                    out.ncStatusCode = 400;
+                    out.payload.error = err;
+                    callback(out);
                   });
                 }
-
-                // Begin processing Item_Ledger Records
-                processLedger(result).then(() => {
-                  if (totalRecords === payload.doc.pageSize) {
-                    out.ncStatusCode = 206;
-                    out.pagingContext = pagingContext;
-                  } else {
-                    out.ncStatusCode = 200;
-                  }
-                  out.payload = docs;
-                  callback(out);
-                }).catch((err) => {
-                  logError("Error - Returning Response as 400 - " + err, ncUtil);
-                  out.ncStatusCode = 400;
-                  out.payload.error = err;
-                  callback(out);
-                });
-              }
-            } else {
-              if (error.response) {
-                logError("Error - Returning Response as 400 - " + error, ncUtil);
-                out.ncStatusCode = 400;
-                out.payload.error = error;
-                callback(out);
               } else {
-                logError("GetProductMatrixFromQuery Callback error - " + error, ncUtil);
-                out.ncStatusCode = 500;
-                out.payload.error = error;
-                callback(out);
+                if (error.response) {
+                  logError("Error - Returning Response as 400 - " + error, ncUtil);
+                  out.ncStatusCode = 400;
+                  out.payload.error = error;
+                  callback(out);
+                } else {
+                  logError("GetProductMatrixFromQuery Callback error - " + error, ncUtil);
+                  out.ncStatusCode = 500;
+                  out.payload.error = error;
+                  callback(out);
+                }
               }
-            }
-          });
-        } else {
-          let errStr = String(itemLedgerErr);
-
-          if (errStr.indexOf("Code: 401") !== -1) {
-            logError("401 Unauthorized (Invalid Credentials) " + errStr);
-            out.ncStatusCode = 400;
-            out.response.endpointStatusCode = 401;
-            out.response.endpointStatusMessage = "Unauthorized";
-            out.payload.error = itemLedgerErr;
+            });
           } else {
-            logError("GetProductMatrixFromQuery Callback error - " + itemLedgerErr, ncUtil);
-            out.ncStatusCode = 500;
-            out.payload.error = itemLedgerErr;
+            let errStr = String(itemLedgerErr);
+
+            if (errStr.indexOf("Code: 401") !== -1) {
+              logError("401 Unauthorized (Invalid Credentials) " + errStr);
+              out.ncStatusCode = 400;
+              out.response.endpointStatusCode = 401;
+              out.response.endpointStatusMessage = "Unauthorized";
+              out.payload.error = itemLedgerErr;
+            } else {
+              logError("GetProductMatrixFromQuery Callback error - " + itemLedgerErr, ncUtil);
+              out.ncStatusCode = 500;
+              out.payload.error = itemLedgerErr;
+            }
+            callback(out);
           }
-          callback(out);
-        }
-      });
+        });
+      }
     } catch (err) {
       // Exception Handling
       logError("Exception occurred in GetProductQuantityFromQuery - " + err, ncUtil);
