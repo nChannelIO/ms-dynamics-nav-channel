@@ -148,12 +148,12 @@ let GetProductQuantityFromQuery = function (ncUtil, channelProfile, flowContext,
     }
 
     // Paging Context
-    if (payload.doc.pagingContext && !payload.doc.remoteIDs) {
+    if (payload.doc.pagingContext) {
       args.bookmarkKey = payload.doc.pagingContext.key;
     }
 
     // Page Size
-    if (payload.doc.pageSize && !payload.doc.remoteIDs) {
+    if (payload.doc.pageSize) {
       args.setSize = payload.doc.pageSize;
     }
 
@@ -377,16 +377,20 @@ let GetProductQuantityFromQuery = function (ncUtil, channelProfile, flowContext,
                       // Check if multiple record were returned - Array if greater than 1, Object if equal to 1
                       // Push item records into an array
                       if (Array.isArray(body.ReadMultiple_Result[itemServiceName])) {
+                        totalRecords = body.ReadMultiple_Result[itemServiceName].length;
                         for (let i = 0; i < body.ReadMultiple_Result[itemServiceName].length; i++) {
                           let product = {
                             Item: body.ReadMultiple_Result[itemServiceName][i]
                           };
+                          pagingContext.key = body.ReadMultiple_Result[itemServiceName][i].Key;
                           items.push(product);
                         }
                       } else if (typeof body.ReadMultiple_Result[itemServiceName] === 'object') {
+                        totalRecords = 1;
                         let product = {
                           Item: body.ReadMultiple_Result[itemServiceName]
                         };
+                        pagingContext.key = body.ReadMultiple_Result[itemServiceName].Key;
                         items.push(product);
                       }
 
@@ -433,7 +437,12 @@ let GetProductQuantityFromQuery = function (ncUtil, channelProfile, flowContext,
 
                           // Begin processing Item Records
                           processItems(result, itemVariantsClient, inventoryClient).then(() => {
-                            out.ncStatusCode = 200;
+                            if (totalRecords === payload.doc.pageSize) {
+                              out.ncStatusCode = 206;
+                              out.pagingContext = pagingContext;
+                            } else {
+                              out.ncStatusCode = 200;
+                            }
                             out.payload = docs;
                             callback(out);
                           }).catch((err) => {
