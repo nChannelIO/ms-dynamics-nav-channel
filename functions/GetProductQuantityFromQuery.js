@@ -178,7 +178,7 @@ let GetProductQuantityFromQuery = function (ncUtil, channelProfile, flowContext,
     log(`Item Service Name: ${itemServiceName}`);
     log(`Item Ledger Service Name: ${itemLedgerServiceName}`);
     log(`Inventory Name: ${inventoryServiceName}`);
-    log(`Inventory Name: ${itemVariantsServiceName}`);
+    log(`Item Variants Name: ${itemVariantsServiceName}`);
 
     let options = {
       NTLMSecurity: ntlmSecurity
