@@ -244,6 +244,9 @@ let GetProductQuantityFromQuery = function (ncUtil, channelProfile, flowContext,
                   return new Promise((resolve, reject) => {
                     let p = [];
                     if (itemDoc.Item.Variant_Inventory) {
+                      if (!Array.isArray(itemDoc.Item.Variant_Inventory) && typeof itemDoc.Item.Variant_Inventory === 'object') {
+                        itemDoc.Item.Variant_Inventory = [itemDoc.Item.Variant_Inventory];
+                      }
                       if (flowContext && flowContext.useInventoryCalculation) {
                         for (let i = 0; i < itemDoc.Item.Variant_Inventory.length; i++) {
                           p.push(new Promise((pResolve, pReject) => {
@@ -259,22 +262,24 @@ let GetProductQuantityFromQuery = function (ncUtil, channelProfile, flowContext,
                                 log("Variant Not Found");
                                 pReject("Variant Not Found");
                               } else {
-                                itemDoc.Item.Variant_Inventory[i] = {
+                                let doc = {
                                   No: itemDoc.Item.Variant_Inventory[i].Item_No,
                                   LocationCode: flowContext.locationCode,
-                                  Code: itemDoc.Item.Variant_Inventory[i].Code,
-                                  body: body
-                                };
+                                  Variant_Inventory: {
+                                    Code: itemDoc.Item.Variant_Inventory[i].Code,
+                                    body: body
+                                  }
+                                }
 
-                                pResolve();
+                                pResolve({ Item: doc });
                               }
                             });
                           }));
                         };
 
                         // Return from stub function when all items have been processed from current set
-                        Promise.all(p).then(() => {
-                          resolve();
+                        Promise.all(p).then((doc) => {
+                          resolve(doc);
                         }).catch((err) => {
                           reject(err);
                         });
@@ -303,22 +308,29 @@ let GetProductQuantityFromQuery = function (ncUtil, channelProfile, flowContext,
                                 log("Variant Not Found");
                                 pReject("Variant Not Found");
                               } else {
-                                itemDoc.Item.Variant_Inventory[i] = body.ReadMultiple_Result[inventoryServiceName];
-                                pResolve();
+                                let doc = {
+                                  No: itemDoc.Item.No,
+                                  Variant_Inventory: {
+                                    Code: itemDoc.Item.Variant_Inventory[i].Code,
+                                    body: body.ReadMultiple_Result[inventoryServiceName]
+                                  }
+                                }
+
+                                pResolve({ Item: doc });
                               }
                             });
                           }));
                         };
 
                         // Return from stub function when all items have been processed from current set
-                        Promise.all(p).then(() => {
-                          resolve();
+                        Promise.all(p).then((doc) => {
+                          resolve(doc);
                         }).catch((err) => {
                           reject(err);
                         });
                       }
                     } else {
-                      resolve();
+                      resolve([itemDoc]);
                     }
                   });
                 }
@@ -330,8 +342,6 @@ let GetProductQuantityFromQuery = function (ncUtil, channelProfile, flowContext,
                     let items = [];
 
                     if (Array.isArray(body.ReadMultiple_Result[itemServiceName])) {
-                      totalRecords = result.ReadMultiple_Result[itemServiceName].length;
-
                       // Process Each Item and their Variants if any
                       for (let i = 0; i < body.ReadMultiple_Result[itemServiceName].length; i++) {
                         let product = {
@@ -344,8 +354,6 @@ let GetProductQuantityFromQuery = function (ncUtil, channelProfile, flowContext,
                         items.push(product);
                       }
                     } else if (typeof body.ReadMultiple_Result[itemServiceName] === 'object') {
-                      totalRecords = 1;
-
                       let product = {
                         Item: body.ReadMultiple_Result[itemServiceName]
                       };
@@ -358,12 +366,15 @@ let GetProductQuantityFromQuery = function (ncUtil, channelProfile, flowContext,
 
                     items.forEach(x => {
                       p.push(new Promise((pResolve, pReject) => {
-                        queryVariants(x, itemVariantsClient).then(() => queryInventory(x, inventoryClient)).then(() =>{
-                          docs.push({
-                            doc: x,
-                            productQuantityRemoteID: x.Item.No,
-                            productQuantityBusinessReference: nc.extractBusinessReference(channelProfile.productQuantityBusinessReferences, x)
-                          });
+                        queryVariants(x, itemVariantsClient).then(() => queryInventory(x, inventoryClient)).then((result) =>{
+                          console.log(result);
+                          for (let i = 0; i < result.length; i++) {
+                            docs.push({
+                              doc: result[i],
+                              productQuantityRemoteID: result[i].Item.No,
+                              productQuantityBusinessReference: nc.extractBusinessReference(channelProfile.productQuantityBusinessReferences, result[i])
+                            });
+                          }
                           pResolve();
                         }).catch((err) => {
                           pReject(err);
