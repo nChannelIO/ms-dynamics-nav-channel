@@ -189,16 +189,15 @@ let GetProductQuantityFromQuery = function (ncUtil, channelProfile, flowContext,
       // Otherwise, query the Item_Ledger endpoint
       if (payload.doc.remoteIDs) {
         log("Connecting to URL [" + inventoryUrl + "]", ncUtil);
-
-        // Create the soap client for Inventory and query the inventory specified by the remoteIDs
-        soap.createClient(inventoryUrl, options, function(inventoryErr, inventoryClient) {
-          if (!inventoryErr) {
-            let p = [];
-            payload.doc.remoteIDs.forEach(remoteID => {
-              let remoteArgs = remoteID.split('|');
-              if (remoteArgs.length == 2) {
-                p.push(new Promise((resolve, reject) => {
-                  if (flowContext && flowContext.useInventoryCalculation) {
+        if (flowContext && flowContext.useInventoryCalculation) {
+          // Create the soap client for Inventory and query the inventory specified by the remoteIDs
+          soap.createClient(inventoryUrl, options, function(inventoryErr, inventoryClient) {
+            if (!inventoryErr) {
+              let p = [];
+              payload.doc.remoteIDs.forEach(remoteID => {
+                let remoteArgs = remoteID.split('|');
+                if (remoteArgs.length == 2) {
+                  p.push(new Promise((resolve, reject) => {
                     let args = {
                       itemNo: remoteArgs[0],
                       itemVariantCode: remoteArgs[1],
@@ -234,83 +233,51 @@ let GetProductQuantityFromQuery = function (ncUtil, channelProfile, flowContext,
                         reject(error);
                       }
                     });
-                  } else {
-                    let args = {
-                      filter: [
-                        {
-                          Field: "Code",
-                          Criteria: remoteArgs[1]
-                        }
-                      ],
-                      setSize: 250
-                    };
+                  }));
+                }
+              });
 
-                    inventoryClient.ReadMultiple(args, function(error, body, envelope, soapHeader) {
-                      // Sanity checks against result to ensure that we have a result back
-                      // Return an error if the call fails
-                      if (!error) {
-                        if (!body.ReadMultiple_Result) {
-                          resolve('No result was returned from the endpoint.');
-                        } else {
-                          // Format response doc
-                          let result = {
-                            Item: {
-                              No: remoteArgs[0],
-                              Variant_Inventory: body.ReadMultiple_Result[inventoryServiceName]
-                            }
-                          }
-
-                          let doc = {
-                            doc: result,
-                            productQuantityRemoteID: `${remoteArgs[0]}|${remoteArgs[1]}`,
-                            productQuantityBusinessReference: nc.extractBusinessReference(channelProfile.productQuantityBusinessReferences, result)
-                          }
-
-                          resolve(doc);
-                        }
-                      } else {
-                        reject(error);
-                      }
-                    });
-                  }
-                }));
-              }
-            });
-
-            Promise.all(p).then((docs) => {
-              if (docs.length == 0) {
-                out.ncStatusCode = 204;
-              } else if (totalRecords === payload.doc.pageSize) {
-                out.ncStatusCode = 206;
-                out.pagingContext = pagingContext;
-              } else {
-                out.ncStatusCode = 200;
-              }
-              out.payload = docs;
-              callback(out);
-            }).catch((err) => {
-              logError("Error - Returning Response as 400 - " + err, ncUtil);
-              out.ncStatusCode = 400;
-              out.payload.error = err;
-              callback(out);
-            });
-          } else {
-            let errStr = String(inventoryErr);
-
-            if (errStr.indexOf("Code: 401") !== -1) {
-              logError("401 Unauthorized (Invalid Credentials) " + errStr);
-              out.ncStatusCode = 400;
-              out.response.endpointStatusCode = 401;
-              out.response.endpointStatusMessage = "Unauthorized";
-              out.payload.error = inventoryErr;
+              Promise.all(p).then((docs) => {
+                if (docs.length == 0) {
+                  out.ncStatusCode = 204;
+                } else if (totalRecords === payload.doc.pageSize) {
+                  out.ncStatusCode = 206;
+                  out.pagingContext = pagingContext;
+                } else {
+                  out.ncStatusCode = 200;
+                }
+                out.payload = docs;
+                callback(out);
+              }).catch((err) => {
+                logError("Error - Returning Response as 400 - " + err, ncUtil);
+                out.ncStatusCode = 400;
+                out.payload.error = err;
+                callback(out);
+              });
             } else {
-              logError("GetProductQuantityFromQuery Callback error - " + inventoryErr, ncUtil);
-              out.ncStatusCode = 500;
-              out.payload.error = inventoryErr;
+              let errStr = String(inventoryErr);
+
+              if (errStr.indexOf("Code: 401") !== -1) {
+                logError("401 Unauthorized (Invalid Credentials) " + errStr);
+                out.ncStatusCode = 400;
+                out.response.endpointStatusCode = 401;
+                out.response.endpointStatusMessage = "Unauthorized";
+                out.payload.error = inventoryErr;
+              } else {
+                logError("GetProductQuantityFromQuery Callback error - " + inventoryErr, ncUtil);
+                out.ncStatusCode = 500;
+                out.payload.error = inventoryErr;
+              }
+              callback(out);
             }
-            callback(out);
-          }
-        });
+          });
+        } else {
+          let msg = "GetProductQuantityFromQuery Error - Rertrieving inventory by remoteID requires a code unit endpoint";
+          logError(msg, ncUtil);
+          out.ncStatusCode = 400;
+          out.payload.error = msg;
+          callback(out);
+        }
       } else {
         log("Connecting to URL [" + itemLedgerUrl + "]", ncUtil);
         soap.createClient(itemLedgerUrl, options, function(itemLedgerErr, itemLedgerClient) {
