@@ -322,7 +322,10 @@
       },
       "documentDef": {
         "schema": {},
-        "referenceLocation": {"customerBusinessReferences": ["Customer.E_Mail", "Customer.Phone_No"]}
+        "referenceLocation": {},
+        "remoteID": "Customer.No",
+        "businessReferences": ["Customer.E_Mail", "Customer.Phone_No"],
+        "refreshNouns": ["CUSTOMER"]
       }
     },
     {
