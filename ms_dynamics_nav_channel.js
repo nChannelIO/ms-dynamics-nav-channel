@@ -37,7 +37,7 @@ class ms_dynamics_nav_channel extends Channel {
       NTLMSecurity: this.soap.NTLMSecurity(this.username, this.password, this.domain, this.workstation, true)
     };
   }
-  
+
   async extractCustomerFromSalesOrder(...args) {
     return require('./functions/extractCustomerFromSalesOrder').bind(this)(...args);
   }
@@ -88,6 +88,18 @@ class ms_dynamics_nav_channel extends Channel {
 
   async getFulfillmentByModifiedTimeRange(...args) {
     return require('./functions/getFulfillmentByModifiedTimeRange').bind(this)(...args);
+  }
+
+  async getCustomerById(...args) {
+    return require('./functions/getCustomerById').bind(this)(...args);
+  }
+
+  async getCustomerByCreatedTimeRange(...args) {
+    return require('./functions/getCustomerByCreatedTimeRange').bind(this)(...args);
+  }
+
+  async getCustomerByModifiedTimeRange(...args) {
+    return require('./functions/getCustomerByModifiedTimeRange').bind(this)(...args);
   }
 
   processItems(...args) {

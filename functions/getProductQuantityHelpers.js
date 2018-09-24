@@ -17,7 +17,8 @@ function processLedger(body, payload) {
       for (let i = 0; i < body.ReadMultiple_Result[this.itemLedgerServiceName].length; i++) {
         let code = body.ReadMultiple_Result[this.itemLedgerServiceName][i].Variant_Code;
         let itemNo = body.ReadMultiple_Result[this.itemLedgerServiceName][i].Item_No;
-        items.push({ itemNo: itemNo, code: code });
+        let description = body.ReadMultiple_Result[this.itemLedgerServiceName][i].Description;
+        items.push({ itemNo: itemNo, code: code, description: description });
       }
 
       // Remove Duplicates
@@ -32,8 +33,9 @@ function processLedger(body, payload) {
     } else if (typeof body.ReadMultiple_Result[this.itemLedgerServiceName] === 'object') {
       let code = body.ReadMultiple_Result[this.itemLedgerServiceName].Variant_Code;
       let itemNo = body.ReadMultiple_Result[this.itemLedgerServiceName].Item_No;
+      let description = body.ReadMultiple_Result[this.itemLedgerServiceName][i].Description;
       payload.pagingContext.key = body.ReadMultiple_Result[this.itemLedgerServiceName].Key;
-      resolve([{ itemNo: itemNo, code: code }]);
+      resolve([{ itemNo: itemNo, code: code, description: description }]);
     } else {
       resolve();
     }

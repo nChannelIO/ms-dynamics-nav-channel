@@ -45,7 +45,7 @@ module.exports = function(flowContext, payload) {
     };
 
     let obj = {};
-    obj["Field"] = "Entry_No";
+    obj["Field"] = "Item_No";
     obj["Criteria"] = payload.remoteIDs.join('|'); // The pipe '|' symbol is a NAV filter for 'OR'
     args.filter.push(obj);
 
@@ -58,44 +58,28 @@ module.exports = function(flowContext, payload) {
     return new Promise((resolve, reject) => {
       this.soap.createClient(this.itemLedgerUrl, this.options, (function(err, client) {
         if (!err) {
-          client.ReadMultiple(args, (function(error, result, envelope, soapHeader) {
 
-            if (!error) {
-              if (!result.ReadMultiple_Result) {
-                out.statusCode = 204;
-                out.payload = result;
-                resolve(out);
+          let p = [];
+          payload.remoteIDs.forEach(remoteID => {
+            let remoteArgs = remoteID.split('|');
+            if (remoteArgs.length == 2) {
+
+              if (flowContext && flowContext.useInventoryCalculation) {
+                this.queryInventory(items, flowContext, payload).then(docs => {
+                  out.statusCode = 200;
+                  out.payload = docs;
+                  resolve(out);
+                }).catch((err) => {
+                  out.statusCode = 400;
+                  out.errors.push(err);
+                  reject(out);
+                });
               } else {
-
-                this.processLedger(result, payload)
-                  .then((items) => {
-                    if (flowContext && flowContext.useInventoryCalculation) {
-                      return this.queryInventory(items, flowContext, payload);
-                    } else {
-                      return this.queryItems(items, flowContext);
-                    }
-                  })
-                  .then((items) => {
-                    if (flowContext && flowContext.useInventoryCalculation) {
-                      return items;
-                    } else {
-                      return this.queryVariants(items, flowContext);
-                    }
-                  })
-                  .then((docs) => {
-                    out.statusCode = 200;
-                    out.payload = docs;
-                    resolve(out);
-                  }).catch((err) => {
-                    out.statusCode = 400;
-                    out.errors.push(err);
-                    reject(out);
-                  });
+                out.errors.push("Rertrieving inventory by remoteID requires a code unit endpoint.");
+                reject(out);
               }
-            } else {
-              reject(this.handleOperationError(error));
             }
-          }).bind(this));
+          });
         } else {
           reject(this.handleClientError(err));
         }
