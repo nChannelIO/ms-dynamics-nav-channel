@@ -1,7 +1,5 @@
 'use strict';
 
-const jsonata = require('jsonata');
-
 function formatDate(date, delimiter = '/', yearFirst = false) {
     let d = new Date(date);
     let month = '' + (d.getMonth() + 1);

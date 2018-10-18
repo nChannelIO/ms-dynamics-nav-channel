@@ -1,6 +1,6 @@
 {
   "name": "@nchannel/ms-dynamics-nav-channel",
-  "version": "0.0.15",
+  "version": "0.0.19",
   "description": "",
   "main": "ms_dynamics_nav_channel.js",
   "scripts": {
@@ -10,9 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "@nchannel/endpoint-sdk": "^1.0.10",
-    "jsonata": "1.4.1",
-    "lodash": "4.17.4",
-    "strong-soap": "1.7.0"
+    "lodash": "4.17.4"
   },
   "devDependencies": {
     "nock": "9.2.3",
