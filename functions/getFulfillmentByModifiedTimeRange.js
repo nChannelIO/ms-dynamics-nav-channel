@@ -1,5 +1,7 @@
 'use strict';
 
+const _ = require('lodash');
+
 module.exports = function(flowContext, payload) {
   let nc = this.nc;
   let invalid = false;
@@ -19,31 +21,65 @@ module.exports = function(flowContext, payload) {
     out.errors.push("The salesShipmentServiceName is missing.")
   }
 
+  if (flowContext.fulfillmentIsCodeUnit && !nc.isNonEmptyString(flowContext.startDateProperty)) {
+    invalid = true;
+    out.errors.push("The startDateProperty is missing from codeunit configuration.")
+  }
+
+  if (flowContext.fulfillmentIsCodeUnit && !nc.isNonEmptyString(flowContext.endDateProperty)) {
+    invalid = true;
+    out.errors.push("The endDateProperty is missing from codeunit configuration.")
+  }
+
+  if (flowContext.fulfillmentIsCodeUnit && !nc.isNonEmptyString(flowContext.pageProperty)) {
+    invalid = true;
+    out.errors.push("The pageProperty is missing from codeunit configuration.")
+  }
+
+  if (flowContext.fulfillmentIsCodeUnit && !nc.isNonEmptyString(flowContext.pageSizeProperty)) {
+    invalid = true;
+    out.errors.push("The pageSizeProperty is missing from codeunit configuration.")
+  }
+
+  // Set Default Method Name
+  let methodName = "ReadMultiple";
+
+  if (flowContext.methodName && nc.isNonEmptyString(flowContext.methodName)) {
+    methodName = flowContext.methodName;
+  }
+
   if (!invalid) {
-    let args = {
-      filter: []
-    };
+    let args = {};
 
-    let obj = {};
-    obj["Field"] = "Posting_Date";
+    if (flowContext.fulfillmentIsCodeUnit) {
+      if (flowContext && flowContext.field && flowContext.criteria) {
+        args[flowContext.field] = flowContext.criteria;
+      }
+      args[flowContext.startDateProperty] = payload.modifiedDateRange.startDateGMT;
+      args[flowContext.endDateProperty] = payload.modifiedDateRange.endDateGMT;
+      args[flowContext.pageProperty] = payload.page;
+      args[flowContext.pageSizeProperty] = payload.pageSize;
+    } else {
+      args.filter = [];
+      let obj = {};
+      obj["Field"] = "Posted_Date";
 
-    // Change to payload.modifiedDateRange
-    if (payload.modifiedDateRange.startDateGMT && !payload.modifiedDateRange.endDateGMT) {
-      obj["Criteria"] = nc.formatDate(new Date(Date.parse(payload.modifiedDateRange.startDateGMT) - 1).toISOString()) + "..";
-    } else if (payload.modifiedDateRange.endDateGMT && !payload.modifiedDateRange.startDateGMT) {
-      obj["Criteria"] = ".." + nc.formatDate(new Date(Date.parse(payload.modifiedDateRange.endDateGMT) + 1).toISOString());
-    } else if (payload.modifiedDateRange.startDateGMT && payload.modifiedDateRange.endDateGMT) {
-      obj["Criteria"] = nc.formatDate(new Date(Date.parse(payload.modifiedDateRange.startDateGMT) - 1).toISOString()) + ".." + nc.formatDate(new Date(Date.parse(payload.modifiedDateRange.endDateGMT) + 1).toISOString());
-    }
+      if (payload.modifiedDateRange.startDateGMT && !payload.modifiedDateRange.endDateGMT) {
+        obj["Criteria"] = nc.formatDate(new Date(Date.parse(payload.modifiedDateRange.startDateGMT) - 1).toISOString()) + "..";
+      } else if (payload.modifiedDateRange.endDateGMT && !payload.modifiedDateRange.startDateGMT) {
+        obj["Criteria"] = ".." + nc.formatDate(new Date(Date.parse(payload.modifiedDateRange.endDateGMT) + 1).toISOString());
+      } else if (payload.modifiedDateRange.startDateGMT && payload.modifiedDateRange.endDateGMT) {
+        obj["Criteria"] = nc.formatDate(new Date(Date.parse(payload.modifiedDateRange.startDateGMT) - 1).toISOString()) + ".." + nc.formatDate(new Date(Date.parse(payload.modifiedDateRange.endDateGMT) + 1).toISOString());
+      }
+      args.filter.push(obj);
 
-    args.filter.push(obj);
+      if (payload.pagingContext) {
+        args.bookmarkKey = payload.pagingContext.key;
+      }
 
-    if (payload.pagingContext) {
-      args.bookmarkKey = payload.pagingContext.key;
-    }
-
-    if (payload.pageSize) {
-      args.setSize = payload.pageSize;
+      if (payload.pageSize) {
+        args.setSize = payload.pageSize;
+      }
     }
 
     console.log(`Sales Shipment Service Name: ${this.salesShipmentServiceName}`);
@@ -51,60 +87,56 @@ module.exports = function(flowContext, payload) {
     console.log(`Using URL [${this.salesShipmentUrl}]`);
 
     return new Promise((resolve, reject) => {
+      let pagingContext = {};
       this.soap.createClient(this.salesShipmentUrl, this.options, (function(err, client) {
         if (!err) {
-          client.ReadMultiple(args, (function(error, body, envelope, soapHeader) {
+          let m = this.nc.checkMethod(client, methodName);
 
-            let docs = [];
-            let data = body;
+          if (!m) {
+            out.statusCode = 400;
+            out.errors.push(`The provided fulfillment endpoint method name "${methodName}" does not exist. Check your configuration.`);
+            reject(out);
+          } else {
+            client[methodName](args, (function (error, body) {
 
-            if (!error) {
-              if (!body.ReadMultiple_Result) {
-                // If ReadMultiple_Result is undefined, no results were returned
-                out.statusCode = 204;
-                out.payload = data;
-                resolve(out);
-              } else {
-                if (Array.isArray(body.ReadMultiple_Result[this.salesShipmentServiceName])) {
-                  // If an array is returned, multiple fulfillments were found
-                  for (let i = 0; i < body.ReadMultiple_Result[this.salesShipmentServiceName].length; i++) {
-                    let fulfillment = {
-                      Sales_Shipment: body.ReadMultiple_Result[this.salesShipmentServiceName][i]
-                    };
-                    docs.push(fulfillment);
+              let docs = [];
+              let data = _.get(body, this.salesShipmentServiceName);
 
-                    if (i == body.ReadMultiple_Result[this.salesShipmentServiceName].length - 1) {
-                      if (!payload.pagingContext) {
-                        payload.pagingContext = {};
-                      }
-                      payload.pagingContext.key = body.ReadMultiple_Result[this.salesShipmentServiceName][i].Key;
-                    }
-                  }
-                } else if (typeof body.ReadMultiple_Result[this.salesShipmentServiceName] === 'object') {
-                  // If an object is returned, one fulfillment was found
-                  let fulfillment = {
-                    Sales_Shipment: body.ReadMultiple_Result[this.salesShipmentServiceName]
-                  };
-                  docs.push(fulfillment);
-
-                  if (!payload.pagingContext) {
-                    payload.pagingContext = {};
-                  }
-                  payload.pagingContext.key = body.ReadMultiple_Result[this.salesShipmentServiceName].Key;
-                }
-
-                if (docs.length === payload.pageSize) {
-                  out.statusCode = 206;
+              if (!error) {
+                if (!data) {
+                  // If data is undefined, no results were returned
+                  out.statusCode = 204;
+                  out.payload = [];
+                  resolve(out);
                 } else {
-                  out.statusCode = 200;
+                  if (Array.isArray(data)) {
+                    // If an array is returned, multiple fulfillments were found
+                    for (let i = 0; i < data.length; i++) {
+                      docs.push(data[i]);
+                      if (i == data.length - 1) {
+                        pagingContext.key = data[i].Key;
+                      }
+                    }
+                  } else if (typeof data === 'object') {
+                    // If an object is returned, one fulfillment was found
+                    docs.push(data);
+                    pagingContext.key = data.Key;
+                  }
+
+                  if (docs.length === payload.pageSize && pagingContext.key) {
+                    out.statusCode = 206;
+                    out.pagingContext = pagingContext;
+                  } else {
+                    out.statusCode = 200;
+                  }
+                  out.payload = docs;
+                  resolve(out);
                 }
-                out.payload = docs;
-                resolve(out);
+              } else {
+                reject(this.handleOperationError(error));
               }
-            } else {
-              reject(this.handleOperationError(error));
-            }
-          }).bind(this));
+            }).bind(this));
+          }
         } else {
           reject(this.handleClientError(err));
         }
@@ -114,6 +146,4 @@ module.exports = function(flowContext, payload) {
   } else {
     return Promise.reject(out);
   }
-
-  return Promise.reject(out);
 };

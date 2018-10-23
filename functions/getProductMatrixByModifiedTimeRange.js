@@ -1,5 +1,7 @@
 'use strict';
 
+let _ = require('lodash');
+
 module.exports = function(flowContext, payload) {
   let nc = this.nc;
   let invalid = false;
@@ -29,37 +31,92 @@ module.exports = function(flowContext, payload) {
     out.errors.push("The itemVariantsUrl is missing.")
   }
 
+  if (flowContext.itemIsCodeUnit && !nc.isNonEmptyString(flowContext.itemStartDateProperty)) {
+    invalid = true;
+    out.errors.push("The itemStartDateProperty is missing from codeunit configuration.")
+  }
+
+  if (flowContext.itemIsCodeUnit && !nc.isNonEmptyString(flowContext.itemEndDateProperty)) {
+    invalid = true;
+    out.errors.push("The itemEndDateProperty is missing from codeunit configuration.")
+  }
+
+  if (flowContext.itemIsCodeUnit && !nc.isNonEmptyString(flowContext.itemPageProperty)) {
+    invalid = true;
+    out.errors.push("The itemPageProperty is missing from codeunit configuration.")
+  }
+
+  if (flowContext.itemIsCodeUnit && !nc.isNonEmptyString(flowContext.itemPageSizeProperty)) {
+    invalid = true;
+    out.errors.push("The itemPageSizeProperty is missing from codeunit configuration.")
+  }
+
+  if (flowContext.itemVariantIsCodeUnit && !nc.isNonEmptyString(flowContext.itemVariantRemoteIDProperty)) {
+    invalid = true;
+    out.errors.push("The itemVariantRemoteIDProperty is missing from codeunit configuration.")
+  }
+
+  if (flowContext.itemVariantIsCodeUnit && !nc.isNonEmptyString(flowContext.itemVariantPageProperty)) {
+    invalid = true;
+    out.errors.push("The itemVariantPageProperty is missing from codeunit configuration.")
+  }
+
+  if (flowContext.itemVariantIsCodeUnit && !nc.isNonEmptyString(flowContext.itemVariantPageSizeProperty)) {
+    invalid = true;
+    out.errors.push("The itemVariantPageSizeProperty is missing from codeunit configuration.")
+  }
+
+  // Set Default Method Names
+  let itemMethodName = "ReadMultiple";
+  let itemVariantsMethodName = "ReadMultiple";
+
+  if (flowContext.itemMethodName && nc.isNonEmptyString(flowContext.itemMethodName)) {
+    itemMethodName = flowContext.itemMethodName;
+  }
+
+  if (flowContext.itemVariantsMethodName && this.nc.isNonEmptyString(flowContext.itemVariantsMethodName)) {
+    itemVariantsMethodName = flowContext.itemVariantsMethodName;
+  }
+
   if (!invalid) {
-    let args = {
-      filter: []
-    };
+    let args = {}
 
-    let obj = {};
-    obj["Field"] = "Last_Date_Modified";
+    if (flowContext.itemIsCodeUnit) {
+      if (flowContext && flowContext.field && flowContext.criteria) {
+        args[flowContext.field] = flowContext.criteria;
+      }
+      args[flowContext.itemStartDateProperty] = payload.modifiedDateRange.startDateGMT;
+      args[flowContext.itemEndDateProperty] = payload.modifiedDateRange.endDateGMT;
+      args[flowContext.itemPageProperty] = payload.page;
+      args[flowContext.itemPageSizeProperty] = payload.pageSize;
+    } else {
+      args.filter = [];
+      let obj = {};
+      obj["Field"] = "Last_Modified_Date";
 
-    if (payload.modifiedDateRange.startDateGMT && !payload.modifiedDateRange.endDateGMT) {
-      obj["Criteria"] = nc.formatDate(new Date(Date.parse(payload.modifiedDateRange.startDateGMT) - 1).toISOString()) + "..";
-    } else if (payload.modifiedDateRange.endDateGMT && !payload.modifiedDateRange.startDateGMT) {
-      obj["Criteria"] = ".." + nc.formatDate(new Date(Date.parse(payload.modifiedDateRange.endDateGMT) + 1).toISOString());
-    } else if (payload.modifiedDateRange.startDateGMT && payload.modifiedDateRange.endDateGMT) {
-      obj["Criteria"] = nc.formatDate(new Date(Date.parse(payload.modifiedDateRange.startDateGMT) - 1).toISOString()) + ".." + nc.formatDate(new Date(Date.parse(payload.modifiedDateRange.endDateGMT) + 1).toISOString());
-    }
+      if (payload.modifiedDateRange.startDateGMT && !payload.modifiedDateRange.endDateGMT) {
+        obj["Criteria"] = nc.formatDate(new Date(Date.parse(payload.modifiedDateRange.startDateGMT) - 1).toISOString()) + "..";
+      } else if (payload.modifiedDateRange.endDateGMT && !payload.modifiedDateRange.startDateGMT) {
+        obj["Criteria"] = ".." + nc.formatDate(new Date(Date.parse(payload.modifiedDateRange.endDateGMT) + 1).toISOString());
+      } else if (payload.modifiedDateRange.startDateGMT && payload.modifiedDateRange.endDateGMT) {
+        obj["Criteria"] = nc.formatDate(new Date(Date.parse(payload.modifiedDateRange.startDateGMT) - 1).toISOString()) + ".." + nc.formatDate(new Date(Date.parse(payload.modifiedDateRange.endDateGMT) + 1).toISOString());
+      }
+      args.filter.push(obj);
 
-    args.filter.push(obj);
+      if (flowContext && flowContext.field && flowContext.criteria) {
+        let fc = {};
+        fc["Field"] = flowContext.field;
+        fc["Criteria"] = flowContext.criteria;
+        args.filter.push(fc);
+      }
 
-    if (flowContext && flowContext.field && flowContext.criteria) {
-      let fc = {};
-      fc["Field"] = flowContext.field;
-      fc["Criteria"] = flowContext.criteria;
-      args.filter.push(fc);
-    }
+      if (payload.pagingContext) {
+        args.bookmarkKey = payload.pagingContext.key;
+      }
 
-    if (payload.pagingContext) {
-      args.bookmarkKey = payload.pagingContext.key;
-    }
-
-    if (payload.pageSize) {
-      args.setSize = payload.pageSize;
+      if (payload.pageSize) {
+        args.setSize = payload.pageSize;
+      }
     }
 
     console.log(`Item Service Name: ${this.itemServiceName}`);
@@ -68,44 +125,65 @@ module.exports = function(flowContext, payload) {
     console.log(`Using URL [${this.itemUrl}]`);
 
     return new Promise((resolve, reject) => {
+      let pagingContext = {};
       this.soap.createClient(this.itemUrl, this.options, (function(itemErr, itemClient) {
         if (!itemErr) {
           console.log(`Using URL [${this.itemVariantsUrl}]`);
 
           this.soap.createClient(this.itemVariantsUrl, this.options, (function(itemVariantsErr, variantClient) {
             if (!itemVariantsErr) {
-            itemClient.ReadMultiple(args, (function(error, result, envelope, soapHeader) {
-                let data = result;
+              let m = this.nc.checkMethod(itemClient, itemMethodName);
+              let n = this.nc.checkMethod(variantClient, itemVariantsMethodName);
 
-                if (!error) {
-                  if (!result.ReadMultiple_Result) {
-                    out.statusCode = 204;
-                    out.payload = data;
-                    resolve(out);
-                  } else {
-                    // Begin processing Items
-                    this.processItems(result, payload)
-                      .then((result) => {
-                        return this.processVariants(variantClient, result)
-                      })
-                      .then((docs) => {
-                        if (docs.length === payload.pageSize) {
-                          out.statusCode = 206;
-                        } else {
-                          out.statusCode = 200;
-                        }
-                        out.payload = docs;
-                        resolve(out);
-                      }).catch((err) => {
+              if (!m) {
+                out.statusCode = 400;
+                out.errors.push(`The provided item endpoint method name "${itemMethodName}" does not exist. Check your configuration.`);
+                reject(out);
+              } else if (!n) {
+                out.statusCode = 400;
+                out.errors.push(`The provided item variants endpoint method name "${itemVariantsMethodName}" does not exist. Check your configuration.`);
+                reject(out);
+              } else {
+                itemClient[itemMethodName](args, (function (error, body) {
+                  let data = _.get(body, this.itemServiceName);
+
+                  if (!error) {
+                    if (!data) {
+                      out.statusCode = 204;
+                      out.payload = [];
+                      resolve(out);
+                    } else {
+                      // Begin processing Items
+                      let items;
+                      if (Array.isArray(data)) {
+                        pagingContext.key = data[data.length - 1].Key;
+                        items = data;
+                      } else {
+                        pagingContext.key = data.Key;
+                        items = [data];
+                      }
+
+                      this.processVariants(variantClient, items, flowContext, itemVariantsMethodName)
+                          .then((docs) => {
+                            if (docs.length === payload.pageSize && pagingContext.key) {
+                              out.statusCode = 206;
+                              out.pagingContext = pagingContext;
+                            } else {
+                              out.statusCode = 200;
+                            }
+                            out.payload = docs;
+                            resolve(out);
+                          }).catch((err) => {
                         out.statusCode = 400;
-                        out.errors.push(error);
+                        out.errors.push(err);
                         reject(out);
                       });
+                    }
+                  } else {
+                    reject(this.handleOperationError(error));
                   }
-                } else {
-                  reject(this.handleOperationError(error));
-                }
-              }).bind(this));
+                }).bind(this));
+              }
             } else {
               reject(this.handleClientError(itemVariantsErr));
             }
@@ -119,6 +197,4 @@ module.exports = function(flowContext, payload) {
   } else {
     return Promise.reject(out);
   }
-
-  return Promise.reject(out);
 };

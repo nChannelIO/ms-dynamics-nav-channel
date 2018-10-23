@@ -1,6 +1,6 @@
 {
   "name": "@nchannel/ms-dynamics-nav-channel",
-  "version": "0.0.19",
+  "version": "0.0.20",
   "description": "",
   "main": "ms_dynamics_nav_channel.js",
   "scripts": {
@@ -27,6 +27,7 @@
   "files": [
     "config",
     "functions",
-    "schema"
+    "schema",
+    "util"
   ]
 }

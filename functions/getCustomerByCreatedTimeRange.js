@@ -1,13 +1,7 @@
 'use strict';
 
 module.exports = function(flowContext, payload) {
-  let out = {
-    statusCode: 400,
-    query: [],
-    errors: [
-      'NAV does not support retrieving customers by created date.'
-    ]
-  };
-
-  return Promise.reject(out);
+  let query = JSON.parse(JSON.stringify(payload));
+  query.modifiedDateRange = query.createdDateRange;
+  return this.getCustomerByModifiedTimeRange(flowContext, query);
 };

@@ -12,6 +12,10 @@ function formatDate(date, delimiter = '/', yearFirst = false) {
     return yearFirst == true ? [year, month, day].join(delimiter) : [month, day, year].join(delimiter);
 }
 
+function checkMethod(client, name) {
+    return isFunction(client[name]);
+}
+
 function isFunction(func) {
     return typeof func === "function";
 }
@@ -50,6 +54,7 @@ function isInteger(int) {
 
 module.exports = {
   formatDate,
+  checkMethod,
   isFunction,
   isNonEmptyString,
   isString,

@@ -19,9 +19,25 @@ module.exports = function(flowContext, payload) {
     out.errors.push("The customerServiceName is missing.")
   }
 
+  // Set Default Method Names
+  let getMethodName = "Read";
+  let updateMethodName = "Update";
+
+  if (flowContext.getMethodName && nc.isNonEmptyString(flowContext.getMethodName)) {
+      getMethodName = flowContext.getMethodName;
+  }
+
+  if (flowContext.updateMethodName && nc.isNonEmptyString(flowContext.updateMethodName)) {
+      updateMethodName = flowContext.updateMethodName;
+  }
+
   if (!invalid) {
-    let args = {
-      No: payload.customerRemoteID
+    let args = {};
+
+    if (flowContext.customerIsCodeUnit) {
+      args[flowContext.updateCustomerNoField] = payload.customerRemoteID;
+    } else {
+      args["No"] = payload.customerRemoteID;
     }
 
     console.log(`Customer Service Name: ${this.customerServiceName}`);
@@ -31,42 +47,54 @@ module.exports = function(flowContext, payload) {
     return new Promise((resolve, reject) => {
       this.soap.createClient(this.customerUrl, this.options, (function(err, client) {
         if (!err) {
-          client.Read(args, (function(error, body, envelope, soapHeader) {
-            if (!error) {
-              if (body[this.customerServiceName]) {
-                payload.doc[this.customerServiceName].Key = body[this.customerServiceName].Key;
-                args = payload.doc;
+          let m = this.nc.checkMethod(client, getMethodName);
 
-                client.Update(args, (function(error, body, envelope, soapHeader) {
-                  if (!error) {
-                    if (typeof body !== 'undefined') {
-                      if (body[this.customerServiceName]) {
-                        out.statusCode = 200;
-                        out.payload = body;
-                        resolve(out);
-                      } else {
-                        out.statusCode = 400;
-                        out.errors.push(`The customer was updated but customerServiceName does not match the wrapper of the response. ${JSON.stringify(body)}`);
-                        reject(out);
-                      }
-                    } else {
-                      out.statusCode = 400;
-                      out.errors.push(`A response body was not returned.`);
-                      reject(out);
-                    }
-                  } else {
-                    reject(this.handleOperationError(error));
+          if (!m) {
+            out.statusCode = 400;
+            out.errors.push(`The provided GET customer endpoint method name "${getMethodName}" does not exist. Check your configuration.`);
+            reject(out);
+          } else {
+            client[getMethodName](args, (function (error, body) {
+              if (!error) {
+                if (body) {
+                  let doc = JSON.parse(JSON.stringify(payload.doc));
+                  if (!flowContext.customerIsCodeUnit) {
+                    doc["Customer"].Key = body["Customer"].Key;
                   }
-                }).bind(this));
+
+                  let n = this.nc.checkMethod(client, updateMethodName);
+
+                  if (!n) {
+                    out.statusCode = 400;
+                    out.errors.push(`The provided UPDATE customer endpoint method name "${updateMethodName}" does not exist. Check your configuration.`);
+                    reject(out);
+                  } else {
+                    client[updateMethodName](doc, (function (error, body) {
+                      if (!error) {
+                        if (typeof body !== 'undefined') {
+                          out.statusCode = 200;
+                          out.payload = body;
+                          resolve(out);
+                        } else {
+                          out.statusCode = 400;
+                          out.errors.push(`A response body was not returned.`);
+                          reject(out);
+                        }
+                      } else {
+                        reject(this.handleOperationError(error));
+                      }
+                    }).bind(this));
+                  }
+                } else {
+                  out.statusCode = 400;
+                  out.errors.push(body);
+                  reject(out);
+                }
               } else {
-                out.statusCode = 400;
-                out.errors.push(body);
-                reject(out);
+                reject(this.handleOperationError(error));
               }
-            } else {
-              reject(this.handleOperationError(error));
-            }
-          }).bind(this));
+              }).bind(this));
+          }
         } else {
           reject(this.handleClientError(err));
         }
