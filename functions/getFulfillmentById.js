@@ -31,16 +31,16 @@ module.exports = function(flowContext, payload) {
     let args = {};
 
     if (flowContext.fulfillmentIsCodeUnit) {
-      if (flowContext.field && flowContext.criteria) {
+      if (nc.isNonEmptyString(flowContext.field) && nc.isNonEmptyString(flowContext.criteria)) {
         args[flowContext.field] = flowContext.criteria;
       }
-      if (flowContext.remoteIDProperty) {
+      if (nc.isNonEmptyString(flowContext.remoteIDProperty)) {
         args[flowContext.remoteIDProperty] = payload.remoteIDs;
       }
-      if (flowContext.pageProperty) {
+      if (nc.isNonEmptyString(flowContext.pageProperty)) {
         args[flowContext.pageProperty] = payload.page;
       }
-      if (flowContext.pageSizeProperty) {
+      if (nc.isNonEmptyString(flowContext.pageSizeProperty)) {
         args[flowContext.pageSizeProperty] = payload.pageSize;
       }
     } else {

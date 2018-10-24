@@ -183,14 +183,7 @@ function queryInventory(items, flowContext) {
               args[flowContext.itemNameField] = items[i].itemNo;
               args[flowContext.itemVariantCode] = items[i].code;
               args[flowContext.locationCode] = flowContext.locationCode;
-
-              // Craft's Inventory Endpoint Arguments
-              // args = {
-              //   itemNo: items[i].itemNo,
-              //   itemVariantCode: items[i].code,
-              //   locationCode: flowContext.locationCode,
-              //   asOfDate: this.nc.formatDate(new Date(Date.parse(payload.modifiedDateRange.startDateGMT) - 1).toISOString(), '-', true)
-              // };
+              args["asOfDate"] = this.nc.formatDate(new Date(Date.parse(payload.modifiedDateRange.startDateGMT) - 1).toISOString(), '-', true);
 
               client[variantInventoryMethodName](args, (function (error, body) {
                 if (!body) {

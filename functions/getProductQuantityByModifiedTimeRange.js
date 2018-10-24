@@ -45,19 +45,19 @@ module.exports = function(flowContext, payload) {
     let args = {}
 
     if (flowContext.itemLedgerIsCodeUnit) {
-      if (flowContext.field && flowContext.criteria) {
+      if (nc.isNonEmptyString(flowContext.field) && nc.isNonEmptyString(flowContext.criteria)) {
         args[flowContext.field] = flowContext.criteria;
       }
-      if (flowContext.startDateProperty) {
+      if (nc.isNonEmptyString(flowContext.startDateProperty)) {
         args[flowContext.startDateProperty] = payload.modifiedDateRange.startDateGMT;
       }
-      if (flowContext.endDateProperty) {
+      if (nc.isNonEmptyString(flowContext.endDateProperty)) {
         args[flowContext.endDateProperty] = payload.modifiedDateRange.endDateGMT;
       }
-      if (flowContext.pageProperty) {
+      if (nc.isNonEmptyString(flowContext.pageProperty)) {
         args[flowContext.pageProperty] = payload.page;
       }
-      if (flowContext.pageSizeProperty) {
+      if (nc.isNonEmptyString(flowContext.pageSizeProperty)) {
         args[flowContext.pageSizeProperty] = payload.pageSize;
       }
     } else {

@@ -32,13 +32,13 @@ module.exports = function(flowContext, payload) {
     let args = {};
 
     if (flowContext.customerIsCodeUnit) {
-      if (flowContext.remoteIDProperty) {
+      if (nc.isNonEmptyString(flowContext.remoteIDProperty)) {
         args[flowContext.remoteIDProperty] = payload.remoteIDs;
       }
-      if (flowContext.pageProperty) {
+      if (nc.isNonEmptyString(flowContext.pageProperty)) {
         args[flowContext.pageProperty] = payload.page;
       }
-      if (flowContext.pageSizeProperty) {
+      if (nc.isNonEmptyString(flowContext.pageSizeProperty)) {
         args[flowContext.pageSizeProperty] = payload.pageSize;
       }
     } else {

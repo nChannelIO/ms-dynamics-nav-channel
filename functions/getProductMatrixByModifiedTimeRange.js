@@ -48,13 +48,13 @@ module.exports = function(flowContext, payload) {
 
     if (flowContext.itemVariantIsCodeUnit) {
       let invalidProps = [];
-      if (!this.nc.isNonEmptyString(flowContext.itemVariantRemoteIDProperty)) {
+      if (!nc.isNonEmptyString(flowContext.itemVariantRemoteIDProperty)) {
         invalidProps.push("itemVariantRemoteIDProperty");
       }
-      if (!this.nc.isNonEmptyString(flowContext.itemVariantPageProperty)) {
+      if (!nc.isNonEmptyString(flowContext.itemVariantPageProperty)) {
         invalidProps.push("itemVariantPageProperty");
       }
-      if (!this.nc.isNonEmptyString(flowContext.itemVariantPageSizeProperty)) {
+      if (!nc.isNonEmptyString(flowContext.itemVariantPageSizeProperty)) {
         invalidProps.push("itemVariantPageSizeProperty");
       }
 

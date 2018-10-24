@@ -216,7 +216,7 @@
         "schema": {},
         "referenceLocation": {},
         "remoteID": "No",
-        "businessReferences": ["E_Mail", "Phone_No"]
+        "businessReferences": ["No"]
       }
     },
     {
@@ -390,7 +390,7 @@
         "schema": {},
         "referenceLocation": {},
         "remoteID": "No",
-        "businessReferences": ["No", "Variant_Inventory.Code"]
+        "businessReferences": ["$join([No, Variant_Inventory.Code])"]
       }
     },
     {
@@ -439,9 +439,29 @@
               "type": "boolean",
               "title": "Is your sales order web service a code unit?"
             },
+            "customerIsCodeUnit": {
+              "type": "boolean",
+              "title": "Is your customer web service a code unit?"
+            },
+            "insertMethodName": {
+              "type": "string",
+              "title": "What is the name of the method used to insert customers on the customer web service?"
+            },
+            "getMethodName": {
+              "type": "string",
+              "title": "What is the name of the method used to query customers on the customer web service?"
+            },
+            "updateMethodName": {
+              "type": "string",
+              "title": "What is the name of the method used to update customers on the customer web service?"
+            },
             "orderMethodName": {
               "type": "string",
               "title": "What is the name of the method used to insert sales orders on the sales order web service?"
+            },
+            "updateCustomerNoField": {
+              "type": "string",
+              "title": "What is the name of the field used for identifying the customer number on the codeunit?"
             },
             "extractCustomerName": {
               "type": "string",
@@ -501,7 +521,7 @@
             "name": "CUSTOMER",
             "location": "Customer",
             "remoteID": "No",
-            "businessReferences": ["E_Mail", "Phone_No"]
+            "businessReferences": ["E_Mail"]
           }
         ],
         "refreshNouns": ["CUSTOMER"]
@@ -717,7 +737,7 @@
         "schema": {},
         "referenceLocation": {},
         "remoteID": "No",
-        "businessReferences": ["E_Mail", "Phone_No"],
+        "businessReferences": ["E_Mail"],
         "refreshNouns": ["CUSTOMER"]
       }
     },
@@ -811,7 +831,7 @@
         "schema": {},
         "referenceLocation": {},
         "remoteID": "No",
-        "businessReferences": ["E_Mail", "Phone_No"]
+        "businessReferences": ["E_Mail"]
       }
     },
     {
@@ -904,31 +924,15 @@
         "schema": {},
         "referenceLocation": {},
         "remoteID": "No",
-        "businessReferences": ["E_Mail", "Phone_No"]
+        "businessReferences": ["E_Mail"]
       }
     }
   ],
   "channelSettingsSchema": {
     "configDef": {
-      "configModel": {
-        "type": "object",
-        "title": "Microsoft Dynamics NAV Channel Settings",
-        "properties": {
-          "prettyPrint": {
-            "title": "Enable SOAP Envelope Format",
-            "type": "boolean"
-          }
-        },
-        "required": [
-          "prettyPrint"
-        ]
-      },
-      "configView": [
-        "prettyPrint"
-      ],
-      "configValues": {
-        "prettyPrint": true
-      }
+      "configModel": {},
+      "configView": [],
+      "configValues": {}
     }
   },
   "channelAuthSchema": {

@@ -35,7 +35,7 @@ class ms_dynamics_nav_channel extends Channel {
 
     this.options = {
       NTLMSecurity: this.soap.NTLMSecurity(this.username, this.password, this.domain, this.workstation, true),
-      prettyPrint: this.channelProfile.channelSettingsValues.prettyPrint
+      prettyPrint: false
     };
   }
 
