@@ -914,24 +914,20 @@
         "type": "object",
         "title": "Microsoft Dynamics NAV Channel Settings",
         "properties": {
-          "protocol": {
-            "title": "Protocol",
-            "type": "string"
-          },
-          "implFolderName": {
-            "title": "Implementation Folder Name",
-            "type": "string"
+          "prettyPrint": {
+            "title": "Enable SOAP Envelope Format",
+            "type": "boolean"
           }
         },
         "required": [
-          "protocol",
-          "implFolderName"
+          "prettyPrint"
         ]
       },
-      "configView": [],
+      "configView": [
+        "prettyPrint"
+      ],
       "configValues": {
-        "protocol": "https",
-        "implFolderName": "nav"
+        "prettyPrint": true
       }
     }
   },
