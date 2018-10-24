@@ -31,41 +31,6 @@ module.exports = function(flowContext, payload) {
     out.errors.push("The itemVariantsUrl is missing.")
   }
 
-  if (flowContext.itemIsCodeUnit && !nc.isNonEmptyString(flowContext.itemStartDateProperty)) {
-    invalid = true;
-    out.errors.push("The itemStartDateProperty is missing from codeunit configuration.")
-  }
-
-  if (flowContext.itemIsCodeUnit && !nc.isNonEmptyString(flowContext.itemEndDateProperty)) {
-    invalid = true;
-    out.errors.push("The itemEndDateProperty is missing from codeunit configuration.")
-  }
-
-  if (flowContext.itemIsCodeUnit && !nc.isNonEmptyString(flowContext.itemPageProperty)) {
-    invalid = true;
-    out.errors.push("The itemPageProperty is missing from codeunit configuration.")
-  }
-
-  if (flowContext.itemIsCodeUnit && !nc.isNonEmptyString(flowContext.itemPageSizeProperty)) {
-    invalid = true;
-    out.errors.push("The itemPageSizeProperty is missing from codeunit configuration.")
-  }
-
-  if (flowContext.itemVariantIsCodeUnit && !nc.isNonEmptyString(flowContext.itemVariantRemoteIDProperty)) {
-    invalid = true;
-    out.errors.push("The itemVariantRemoteIDProperty is missing from codeunit configuration.")
-  }
-
-  if (flowContext.itemVariantIsCodeUnit && !nc.isNonEmptyString(flowContext.itemVariantPageProperty)) {
-    invalid = true;
-    out.errors.push("The itemVariantPageProperty is missing from codeunit configuration.")
-  }
-
-  if (flowContext.itemVariantIsCodeUnit && !nc.isNonEmptyString(flowContext.itemVariantPageSizeProperty)) {
-    invalid = true;
-    out.errors.push("The itemVariantPageSizeProperty is missing from codeunit configuration.")
-  }
-
   // Set Default Method Names
   let itemMethodName = "ReadMultiple";
   let itemVariantsMethodName = "ReadMultiple";
@@ -79,16 +44,24 @@ module.exports = function(flowContext, payload) {
   }
 
   if (!invalid) {
-    let args = {}
+    let args = {};
 
     if (flowContext.itemIsCodeUnit) {
-      if (flowContext && flowContext.field && flowContext.criteria) {
+      if (flowContext.field && flowContext.criteria) {
         args[flowContext.field] = flowContext.criteria;
       }
-      args[flowContext.itemStartDateProperty] = payload.modifiedDateRange.startDateGMT;
-      args[flowContext.itemEndDateProperty] = payload.modifiedDateRange.endDateGMT;
-      args[flowContext.itemPageProperty] = payload.page;
-      args[flowContext.itemPageSizeProperty] = payload.pageSize;
+      if (flowContext.startDateProperty) {
+        args[flowContext.startDateProperty] = payload.modifiedDateRange.startDateGMT;
+      }
+      if (flowContext.endDateProperty) {
+        args[flowContext.endDateProperty] = payload.modifiedDateRange.endDateGMT;
+      }
+      if (flowContext.pageProperty) {
+        args[flowContext.pageProperty] = payload.page;
+      }
+      if (flowContext.pageSizeProperty) {
+        args[flowContext.pageSizeProperty] = payload.pageSize;
+      }
     } else {
       args.filter = [];
       let obj = {};

@@ -21,34 +21,22 @@ module.exports = function(flowContext, payload) {
     out.errors.push("The customerServiceName is missing.")
   }
 
-  if (flowContext.customerIsCodeUnit && !nc.isNonEmptyString(flowContext.startDateProperty)) {
-    invalid = true;
-    out.errors.push("The startDateProperty is missing from codeunit configuration.")
-  }
-
-  if (flowContext.customerIsCodeUnit && !nc.isNonEmptyString(flowContext.endDateProperty)) {
-    invalid = true;
-    out.errors.push("The endDateProperty is missing from codeunit configuration.")
-  }
-
-  if (flowContext.customerIsCodeUnit && !nc.isNonEmptyString(flowContext.pageProperty)) {
-    invalid = true;
-    out.errors.push("The pageProperty is missing from codeunit configuration.")
-  }
-
-  if (flowContext.customerIsCodeUnit && !nc.isNonEmptyString(flowContext.pageSizeProperty)) {
-    invalid = true;
-    out.errors.push("The pageSizeProperty is missing from codeunit configuration.")
-  }
-
   if (!invalid) {
     let args = {};
 
     if (flowContext.customerIsCodeUnit) {
-      args[flowContext.startDateProperty] = payload.modifiedDateRange.startDateGMT;
-      args[flowContext.endDateProperty] = payload.modifiedDateRange.endDateGMT;
-      args[flowContext.pageProperty] = payload.page;
-      args[flowContext.pageSizeProperty] = payload.pageSize;
+      if (flowContext.startDateProperty) {
+        args[flowContext.startDateProperty] = payload.modifiedDateRange.startDateGMT;
+      }
+      if (flowContext.endDateProperty) {
+        args[flowContext.endDateProperty] = payload.modifiedDateRange.endDateGMT;
+      }
+      if (flowContext.pageProperty) {
+        args[flowContext.pageProperty] = payload.page;
+      }
+      if (flowContext.pageSizeProperty) {
+        args[flowContext.pageSizeProperty] = payload.pageSize;
+      }
     } else {
       args.filter = [];
       let obj = {};

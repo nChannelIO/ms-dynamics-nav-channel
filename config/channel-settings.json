@@ -127,7 +127,6 @@
           "criteria",
           "doGetMatrixProducts",
           "itemIsCodeUnit",
-          "itemVariantIsCodeUnit",
           {
             "key": "itemMethodName",
             "condition": "model.itemIsCodeUnit==true"
@@ -156,6 +155,7 @@
             "key": "itemPageSizeProperty",
             "condition": "model.itemIsCodeUnit==true"
           },
+          "itemVariantIsCodeUnit",
           {
             "key": "itemVariantMethodName",
             "condition": "model.itemVariantIsCodeUnit==true"
@@ -214,7 +214,9 @@
       },
       "documentDef": {
         "schema": {},
-        "referenceLocation": {"productBusinessReferences": ["Item.No"]}
+        "referenceLocation": {},
+        "remoteID": "No",
+        "businessReferences": ["E_Mail", "Phone_No"]
       }
     },
     {
@@ -386,7 +388,9 @@
       },
       "documentDef": {
         "schema": {},
-        "referenceLocation": {"productQuantityBusinessReferences": ["Item.No", "Item.Variant_Inventory.Code"]}
+        "referenceLocation": {},
+        "remoteID": "No",
+        "businessReferences": ["No", "Variant_Inventory.Code"]
       }
     },
     {
@@ -397,7 +401,7 @@
       "configDef" : {
         "configValues" : {
           "salesOrderIsCodeUnit": false,
-          "insertMethodName": "",
+          "orderMethodName": "",
           "extractCustomerName": "Customer",
           "canUpdateOrderFlag" : false,
           "canUpdateCustomerFlag" : true,
@@ -413,7 +417,7 @@
           "doPutCustomerFlag",
           "salesOrderIsCodeUnit",
           {
-            "key": "insertMethodName",
+            "key": "orderMethodName",
             "condition": "model.salesOrderIsCodeUnit==true"
           },
           "extractCustomerName"
@@ -435,7 +439,7 @@
               "type": "boolean",
               "title": "Is your sales order web service a code unit?"
             },
-            "insertMethodName": {
+            "orderMethodName": {
               "type": "string",
               "title": "What is the name of the method used to insert sales orders on the sales order web service?"
             },
@@ -490,8 +494,8 @@
       "documentDef" : {
         "schema": {},
         "referenceLocation": {},
-        "remoteID": "Order.No",
-        "businessReferences": ["Order.No"],
+        "remoteID": "No",
+        "businessReferences": ["No"],
         "peers": [
           {
             "name": "CUSTOMER",
@@ -608,10 +612,10 @@
       "documentDef": {
         "schema": {},
         "referenceLocation": {},
-        "remoteID": "Sales_Shipment.No",
-        "businessReferences": ["Sales_Shipment.No"],
+        "remoteID": "No",
+        "businessReferences": ["No"],
         "secondaryReferences": {
-          "salesOrderBusinessReferences": ["Sales_Shipment.Order_No"]
+          "salesOrderBusinessReferences": ["Order_No"]
         }
       }
     },
@@ -712,8 +716,8 @@
       "documentDef": {
         "schema": {},
         "referenceLocation": {},
-        "remoteID": "Customer.No",
-        "businessReferences": ["Customer.E_Mail", "Customer.Phone_No"],
+        "remoteID": "No",
+        "businessReferences": ["E_Mail", "Phone_No"],
         "refreshNouns": ["CUSTOMER"]
       }
     },
@@ -806,8 +810,8 @@
       "documentDef": {
         "schema": {},
         "referenceLocation": {},
-        "remoteID": "Customer.No",
-        "businessReferences": ["Customer.E_Mail", "Customer.Phone_No"]
+        "remoteID": "No",
+        "businessReferences": ["E_Mail", "Phone_No"]
       }
     },
     {
@@ -899,8 +903,8 @@
       "documentDef": {
         "schema": {},
         "referenceLocation": {},
-        "remoteID": "Customer.No",
-        "businessReferences": ["Customer.E_Mail", "Customer.Phone_No"]
+        "remoteID": "No",
+        "businessReferences": ["E_Mail", "Phone_No"]
       }
     }
   ],

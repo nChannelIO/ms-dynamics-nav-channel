@@ -41,34 +41,25 @@ module.exports = function(flowContext, payload) {
     out.errors.push("The variantInventoryUrl is missing.")
   }
 
-  if (flowContext.itemLedgerIsCodeUnit && !nc.isNonEmptyString(flowContext.itemLedgerStartDateProperty)) {
-    invalid = true;
-    out.errors.push("The itemLedgerStartDateProperty is missing from codeunit configuration.")
-  }
-
-  if (flowContext.itemLedgerIsCodeUnit && !nc.isNonEmptyString(flowContext.itemLedgerEndDateProperty)) {
-    invalid = true;
-    out.errors.push("The itemLedgerEndDateProperty is missing from codeunit configuration.")
-  }
-
-  if (flowContext.itemLedgerIsCodeUnit && !nc.isNonEmptyString(flowContext.itemLedgerPageProperty)) {
-    invalid = true;
-    out.errors.push("The itemLedgerPageProperty is missing from codeunit configuration.")
-  }
-
-  if (flowContext.itemLedgerIsCodeUnit && !nc.isNonEmptyString(flowContext.itemLedgerPageSizeProperty)) {
-    invalid = true;
-    out.errors.push("The itemLedgerPageSizeProperty is missing from codeunit configuration.")
-  }
-
   if (!invalid) {
     let args = {}
 
     if (flowContext.itemLedgerIsCodeUnit) {
-      args[flowContext.itemLedgerStartDateProperty] = payload.modifiedDateRange.startDateGMT;
-      args[flowContext.itemLedgerEndDateProperty] = payload.modifiedDateRange.endDateGMT;
-      args[flowContext.itemLedgerPageProperty] = payload.page;
-      args[flowContext.itemLedgerPageSizeProperty] = payload.pageSize;
+      if (flowContext.field && flowContext.criteria) {
+        args[flowContext.field] = flowContext.criteria;
+      }
+      if (flowContext.startDateProperty) {
+        args[flowContext.startDateProperty] = payload.modifiedDateRange.startDateGMT;
+      }
+      if (flowContext.endDateProperty) {
+        args[flowContext.endDateProperty] = payload.modifiedDateRange.endDateGMT;
+      }
+      if (flowContext.pageProperty) {
+        args[flowContext.pageProperty] = payload.page;
+      }
+      if (flowContext.pageSizeProperty) {
+        args[flowContext.pageSizeProperty] = payload.pageSize;
+      }
     } else {
       args.filter = [];
       let obj = {};
@@ -83,7 +74,7 @@ module.exports = function(flowContext, payload) {
       }
       args.filter.push(obj);
 
-      if (flowContext && flowContext.field && flowContext.criteria) {
+      if (flowContext.field && flowContext.criteria) {
         let fc = {};
         fc["Field"] = flowContext.field;
         fc["Criteria"] = flowContext.criteria;

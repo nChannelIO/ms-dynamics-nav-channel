@@ -20,10 +20,10 @@ module.exports = function(flowContext, payload) {
   }
 
   // Set Default Method Name
-  let insertMethodName = "Create";
+  let orderMethodName = "Create";
 
-  if (flowContext.insertMethodName && nc.isNonEmptyString(flowContext.insertMethodName)) {
-      insertMethodName = flowContext.insertMethodName;
+  if (flowContext.orderMethodName && nc.isNonEmptyString(flowContext.orderMethodName)) {
+    orderMethodName = flowContext.orderMethodName;
   }
 
   if (!invalid) {
@@ -36,14 +36,14 @@ module.exports = function(flowContext, payload) {
     return new Promise((resolve, reject) => {
        this.soap.createClient(this.orderUrl, this.options, ((err, client) => {
          if (!err) {
-           let m = this.nc.checkMethod(client, insertMethodName);
+           let m = this.nc.checkMethod(client, orderMethodName);
 
            if (!m) {
              out.statusCode = 400;
-             out.errors.push(`The provided sales order endpoint method name "${insertMethodName}" does not exist. Check your configuration.`);
+             out.errors.push(`The provided sales order endpoint method name "${orderMethodName}" does not exist. Check your configuration.`);
              reject(out);
            } else {
-             client[insertMethodName](args, ((error, body) => {
+             client[orderMethodName](args, ((error, body) => {
                if (!error) {
                  if (typeof body !== 'undefined') {
                    out.statusCode = 201;

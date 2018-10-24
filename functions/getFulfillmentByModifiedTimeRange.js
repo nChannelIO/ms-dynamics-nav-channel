@@ -21,26 +21,6 @@ module.exports = function(flowContext, payload) {
     out.errors.push("The salesShipmentServiceName is missing.")
   }
 
-  if (flowContext.fulfillmentIsCodeUnit && !nc.isNonEmptyString(flowContext.startDateProperty)) {
-    invalid = true;
-    out.errors.push("The startDateProperty is missing from codeunit configuration.")
-  }
-
-  if (flowContext.fulfillmentIsCodeUnit && !nc.isNonEmptyString(flowContext.endDateProperty)) {
-    invalid = true;
-    out.errors.push("The endDateProperty is missing from codeunit configuration.")
-  }
-
-  if (flowContext.fulfillmentIsCodeUnit && !nc.isNonEmptyString(flowContext.pageProperty)) {
-    invalid = true;
-    out.errors.push("The pageProperty is missing from codeunit configuration.")
-  }
-
-  if (flowContext.fulfillmentIsCodeUnit && !nc.isNonEmptyString(flowContext.pageSizeProperty)) {
-    invalid = true;
-    out.errors.push("The pageSizeProperty is missing from codeunit configuration.")
-  }
-
   // Set Default Method Name
   let methodName = "ReadMultiple";
 
@@ -52,13 +32,21 @@ module.exports = function(flowContext, payload) {
     let args = {};
 
     if (flowContext.fulfillmentIsCodeUnit) {
-      if (flowContext && flowContext.field && flowContext.criteria) {
+      if (flowContext.field && flowContext.criteria) {
         args[flowContext.field] = flowContext.criteria;
       }
-      args[flowContext.startDateProperty] = payload.modifiedDateRange.startDateGMT;
-      args[flowContext.endDateProperty] = payload.modifiedDateRange.endDateGMT;
-      args[flowContext.pageProperty] = payload.page;
-      args[flowContext.pageSizeProperty] = payload.pageSize;
+      if (flowContext.startDateProperty) {
+        args[flowContext.startDateProperty] = payload.modifiedDateRange.startDateGMT;
+      }
+      if (flowContext.endDateProperty) {
+        args[flowContext.endDateProperty] = payload.modifiedDateRange.endDateGMT;
+      }
+      if (flowContext.pageProperty) {
+        args[flowContext.pageProperty] = payload.page;
+      }
+      if (flowContext.pageSizeProperty) {
+        args[flowContext.pageSizeProperty] = payload.pageSize;
+      }
     } else {
       args.filter = [];
       let obj = {};

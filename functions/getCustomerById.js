@@ -21,21 +21,6 @@ module.exports = function(flowContext, payload) {
     out.errors.push("The customerServiceName is missing.")
   }
 
-  if (flowContext.customerIsCodeUnit && !nc.isNonEmptyString(flowContext.remoteIDProperty)) {
-    invalid = true;
-    out.errors.push("The remoteIDProperty is missing from codeunit configuration.")
-  }
-
-  if (flowContext.customerIsCodeUnit && !nc.isNonEmptyString(flowContext.pageProperty)) {
-    invalid = true;
-    out.errors.push("The pageProperty is missing from codeunit configuration.")
-  }
-
-  if (flowContext.customerIsCodeUnit && !nc.isNonEmptyString(flowContext.pageSizeProperty)) {
-    invalid = true;
-    out.errors.push("The pageSizeProperty is missing from codeunit configuration.")
-  }
-
   // Set Default Method Name
   let methodName = "ReadMultiple";
 
@@ -47,9 +32,15 @@ module.exports = function(flowContext, payload) {
     let args = {};
 
     if (flowContext.customerIsCodeUnit) {
-      args[flowContext.remoteIDProperty] = payload.remoteIDs;
-      args[flowContext.pageProperty] = payload.page;
-      args[flowContext.pageSizeProperty] = payload.pageSize;
+      if (flowContext.remoteIDProperty) {
+        args[flowContext.remoteIDProperty] = payload.remoteIDs;
+      }
+      if (flowContext.pageProperty) {
+        args[flowContext.pageProperty] = payload.page;
+      }
+      if (flowContext.pageSizeProperty) {
+        args[flowContext.pageSizeProperty] = payload.pageSize;
+      }
     } else {
       args.filter = [];
       let obj = {};
