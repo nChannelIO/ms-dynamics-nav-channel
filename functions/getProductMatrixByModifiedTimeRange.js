@@ -46,6 +46,25 @@ module.exports = function(flowContext, payload) {
   if (!invalid) {
     let args = {};
 
+    if (flowContext.itemVariantIsCodeUnit) {
+      let invalidProps = [];
+      if (!this.nc.isNonEmptyString(flowContext.itemVariantRemoteIDProperty)) {
+        invalidProps.push("itemVariantRemoteIDProperty");
+      }
+      if (!this.nc.isNonEmptyString(flowContext.itemVariantPageProperty)) {
+        invalidProps.push("itemVariantPageProperty");
+      }
+      if (!this.nc.isNonEmptyString(flowContext.itemVariantPageSizeProperty)) {
+        invalidProps.push("itemVariantPageSizeProperty");
+      }
+
+      if (invalidProps.length > 0) {
+        out.statusCode = 400;
+        out.errors.push(`Not all codeunit variant properties were provided. Missing properties: ${invalidProps.join(", ")}`);
+        return Promise.reject(out);
+      }
+    }
+
     if (flowContext.itemIsCodeUnit) {
       if (flowContext.field && flowContext.criteria) {
         args[flowContext.field] = flowContext.criteria;
