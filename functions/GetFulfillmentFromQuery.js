@@ -148,6 +148,14 @@ let GetFulfillmentFromQuery = function (ncUtil, channelProfile, flowContext, pay
       args.filter.push(obj);
     }
 
+    // Field/Criteria Page Filter
+    if (flowContext && flowContext.field && flowContext.criteria) {
+      let fc = {};
+      fc["Field"] = flowContext.field;
+      fc["Criteria"] = flowContext.criteria;
+      args.filter.push(fc);
+    }
+
     // Paging Context
     if (payload.doc.pagingContext) {
       args.bookmarkKey = payload.doc.pagingContext.key;
