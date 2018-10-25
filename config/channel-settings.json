@@ -257,9 +257,27 @@
         "defaultRuleValues": {}
       },
       "configDef" : {
-        "configValues" : {},
-        "configView" : [],
-        "configModel" : {}
+        "configModel": {
+          "required": [],
+          "properties": {
+            "field": {
+              "type": "string",
+              "title": "Filter Field"
+            },
+            "criteria": {
+              "type": "string",
+              "title": "Filter Criteria"
+            }
+          }
+        },
+        "configView": [
+          "field",
+          "criteria"
+        ],
+        "configValues": {
+          "field": "",
+          "criteria": ""
+        }
       },
       "documentDef": {
         "schema": {},
