@@ -233,10 +233,18 @@
       },
       "documentDef" : {
         "schema": {},
-        "referenceLocation": {
-          "salesOrderBusinessReferences": ["Order.No"],
-          "customerBusinessReferences": ["Customer.E_Mail", "Customer.Phone_No"]
-        }
+        "referenceLocation": {},
+        "remoteID": "Order.No",
+        "businessReferences": ["Order.No"],
+        "peers": [
+          {
+            "name": "CUSTOMER",
+            "location": "Order.Customer",
+            "remoteID": "No",
+            "businessReferences": ["E_Mail", "Phone_No"]
+          }
+        ],
+        "refreshNouns": ["CUSTOMER"]
       }
     },
     {
@@ -249,9 +257,27 @@
         "defaultRuleValues": {}
       },
       "configDef" : {
-        "configValues" : {},
-        "configView" : [],
-        "configModel" : {}
+        "configModel": {
+          "required": [],
+          "properties": {
+            "field": {
+              "type": "string",
+              "title": "Filter Field"
+            },
+            "criteria": {
+              "type": "string",
+              "title": "Filter Criteria"
+            }
+          }
+        },
+        "configView": [
+          "field",
+          "criteria"
+        ],
+        "configValues": {
+          "field": "",
+          "criteria": ""
+        }
       },
       "documentDef": {
         "schema": {},
@@ -314,7 +340,52 @@
       },
       "documentDef": {
         "schema": {},
-        "referenceLocation": {"customerBusinessReferences": ["Customer.E_Mail", "Customer.Phone_No"]}
+        "referenceLocation": {},
+        "remoteID": "Customer.No",
+        "businessReferences": ["Customer.E_Mail", "Customer.Phone_No"],
+        "refreshNouns": ["CUSTOMER"]
+      }
+    },
+    {
+      "name": "GET CUSTOMER",
+      "description": "GET CUSTOMER",
+      "channelVerb": "GET",
+      "channelNoun": "CUSTOMER",
+      "ruleDef": {
+        "ruleSchema": {},
+        "defaultRuleValues": {}
+      },
+      "configDef" : {
+        "configValues" : {},
+        "configView" : [],
+        "configModel" : {}
+      },
+      "documentDef": {
+        "schema": {},
+        "referenceLocation": {},
+        "remoteID": "Customer.No",
+        "businessReferences": ["Customer.E_Mail", "Customer.Phone_No"]
+      }
+    },
+    {
+      "name": "REFRESH CUSTOMER",
+      "description": "REFRESH CUSTOMER",
+      "channelVerb": "REFRESH",
+      "channelNoun": "CUSTOMER",
+      "ruleDef": {
+        "ruleSchema": {},
+        "defaultRuleValues": {}
+      },
+      "configDef": {
+        "configModel": {},
+        "configView": [],
+        "configValues": {}
+      },
+      "documentDef": {
+        "schema": {},
+        "referenceLocation": {},
+        "remoteID": "Customer.No",
+        "businessReferences": ["Customer.E_Mail", "Customer.Phone_No"]
       }
     }
   ],

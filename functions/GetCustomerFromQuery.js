@@ -1,6 +1,6 @@
 'use strict'
 
-let GetFulfillmentFromQuery = function (ncUtil, channelProfile, flowContext, payload, callback) {
+let GetCustomerFromQuery = function (ncUtil, channelProfile, flowContext, payload, callback) {
 
   log("Building response object...", ncUtil);
   let out = {
@@ -36,27 +36,18 @@ let GetFulfillmentFromQuery = function (ncUtil, channelProfile, flowContext, pay
   } else if (!channelProfile.channelAuthValues.password) {
     invalid = true;
     invalidMsg = "channelProfile.channelAuthValues.password was not provided"
-  } else if (!channelProfile.channelAuthValues.salesShipmentUrl) {
+  } else if (!channelProfile.channelAuthValues.customerUrl) {
     invalid = true;
-    invalidMsg = "channelProfile.channelAuthValues.salesShipmentUrl was not provided"
-  } else if (!channelProfile.salesOrderBusinessReferences) {
+    invalidMsg = "channelProfile.channelAuthValues.customerUrl was not provided"
+  } else if (!channelProfile.customerBusinessReferences) {
     invalid = true;
-    invalidMsg = "channelProfile.salesOrderBusinessReferences was not provided"
-  } else if (!Array.isArray(channelProfile.salesOrderBusinessReferences)) {
+    invalidMsg = "channelProfile.customerBusinessReferences was not provided"
+  } else if (!Array.isArray(channelProfile.customerBusinessReferences)) {
     invalid = true;
-    invalidMsg = "channelProfile.salesOrderBusinessReferences is not an array"
-  } else if (channelProfile.salesOrderBusinessReferences.length === 0) {
+    invalidMsg = "channelProfile.customerBusinessReferences is not an array"
+  } else if (channelProfile.customerBusinessReferences.length === 0) {
     invalid = true;
-    invalidMsg = "channelProfile.salesOrderBusinessReferences is empty"
-  } else if (!channelProfile.fulfillmentBusinessReferences) {
-    invalid = true;
-    invalidMsg = "channelProfile.fulfillmentBusinessReferences was not provided"
-  } else if (!Array.isArray(channelProfile.fulfillmentBusinessReferences)) {
-    invalid = true;
-    invalidMsg = "channelProfile.fulfillmentBusinessReferences is not an array"
-  } else if (channelProfile.fulfillmentBusinessReferences.length === 0) {
-    invalid = true;
-    invalidMsg = "channelProfile.fulfillmentBusinessReferences is empty"
+    invalidMsg = "channelProfile.customerBusinessReferences is empty"
   }
 
   // Payload Checking
@@ -132,7 +123,7 @@ let GetFulfillmentFromQuery = function (ncUtil, channelProfile, flowContext, pay
     } else if (payload.doc.modifiedDateRange) {
 
       let obj = {};
-      obj["Field"] = "Posting_Date";
+      obj["Field"] = "Last_Date_Modified";
 
       if (payload.doc.modifiedDateRange.startDateGMT && !payload.doc.modifiedDateRange.endDateGMT) {
         // '..' is a NAV filter for interval. Using as a suffix pulls records after the startDate
@@ -148,14 +139,6 @@ let GetFulfillmentFromQuery = function (ncUtil, channelProfile, flowContext, pay
       args.filter.push(obj);
     }
 
-    // Field/Criteria Page Filter
-    if (flowContext && flowContext.field && flowContext.criteria) {
-      let fc = {};
-      fc["Field"] = flowContext.field;
-      fc["Criteria"] = flowContext.criteria;
-      args.filter.push(fc);
-    }
-
     // Paging Context
     if (payload.doc.pagingContext) {
       args.bookmarkKey = payload.doc.pagingContext.key;
@@ -166,19 +149,19 @@ let GetFulfillmentFromQuery = function (ncUtil, channelProfile, flowContext, pay
       args.setSize = payload.doc.pageSize;
     }
 
-    // https://<baseUrl>:<port>/<serverInstance>/WS/<companyName>/Page/Sales_Shipment
+    // https://<baseUrl>:<port>/<serverInstance>/WS/<companyName>/Page/Customer
     let username = channelProfile.channelAuthValues.username;
     let password = channelProfile.channelAuthValues.password;
     let domain = channelProfile.channelAuthValues.domain;
     let workstation = channelProfile.channelAuthValues.workstation;
-    let url = channelProfile.channelAuthValues.salesShipmentUrl;
-    let salesShipmentServiceName = channelProfile.channelAuthValues.salesShipmentServiceName;
+    let url = channelProfile.channelAuthValues.customerUrl;
+    let customerServiceName = channelProfile.channelAuthValues.customerServiceName;
 
     let wsdlAuthRequired = true;
     let ntlmSecurity = new NTLMSecurity(username, password, domain, workstation, wsdlAuthRequired);
 
     // Log Service Names
-    log(`Sales Shipment Service Name: ${salesShipmentServiceName}`);
+    log(`Customer Service Name: ${customerServiceName}`);
 
     // Log URL
     log("Using URL [" + url + "]", ncUtil);
@@ -204,36 +187,34 @@ let GetFulfillmentFromQuery = function (ncUtil, channelProfile, flowContext, pay
                 out.payload = data;
                 callback(out);
               } else {
-                if (Array.isArray(body.ReadMultiple_Result[salesShipmentServiceName])) {
-                  // If an array is returned, multiple fulfillments were found
-                  for (let i = 0; i < body.ReadMultiple_Result[salesShipmentServiceName].length; i++) {
-                    let fulfillment = {
-                      Sales_Shipment: body.ReadMultiple_Result[salesShipmentServiceName][i]
+                if (Array.isArray(body.ReadMultiple_Result[customerServiceName])) {
+                  // If an array is returned, multiple customers were found
+                  for (let i = 0; i < body.ReadMultiple_Result[customerServiceName].length; i++) {
+                    let customer = {
+                      Customer: body.ReadMultiple_Result[customerServiceName][i]
                     };
                     docs.push({
-                      doc: fulfillment,
-                      fulfillmentRemoteID: fulfillment.Sales_Shipment.No,
-                      fulfillmentBusinessReference: nc.extractBusinessReference(channelProfile.fulfillmentBusinessReferences, fulfillment),
-                      salesOrderRemoteID: fulfillment.Sales_Shipment.Order_No
+                      doc: customer,
+                      customerRemoteID: customer.Customer.No,
+                      customerBusinessReference: nc.extractBusinessReference(channelProfile.customerBusinessReferences, customer)
                     });
 
-                    if (i == body.ReadMultiple_Result[salesShipmentServiceName].length - 1) {
-                      pagingContext.key = body.ReadMultiple_Result[salesShipmentServiceName][i].Key;
+                    if (i == body.ReadMultiple_Result[customerServiceName].length - 1) {
+                      pagingContext.key = body.ReadMultiple_Result[customerServiceName][i].Key;
                     }
                   }
-                } else if (typeof body.ReadMultiple_Result[salesShipmentServiceName] === 'object') {
-                  // If an object is returned, one fulfillment was found
-                  let fulfillment = {
-                    Sales_Shipment: body.ReadMultiple_Result[salesShipmentServiceName]
+                } else if (typeof body.ReadMultiple_Result[customerServiceName] === 'object') {
+                  // If an object is returned, one customer was found
+                  let customer = {
+                    Customer: body.ReadMultiple_Result[customerServiceName]
                   };
                   docs.push({
-                    doc: fulfillment,
-                    fulfillmentRemoteID: fulfillment.Sales_Shipment.No,
-                    fulfillmentBusinessReference: nc.extractBusinessReference(channelProfile.fulfillmentBusinessReferences, fulfillment),
-                    salesOrderRemoteID: fulfillment.Sales_Shipment.Order_No
+                    doc: customer,
+                    customerRemoteID: customer.Customer.No,
+                    customerBusinessReference: nc.extractBusinessReference(channelProfile.customerBusinessReferences, customer)
                   });
 
-                  pagingContext.key = body.ReadMultiple_Result[salesShipmentServiceName].Key;
+                  pagingContext.key = body.ReadMultiple_Result[customerServiceName].Key;
                 }
 
                 if (docs.length === payload.doc.pageSize) {
@@ -252,7 +233,7 @@ let GetFulfillmentFromQuery = function (ncUtil, channelProfile, flowContext, pay
                 out.payload.error = error;
                 callback(out);
               } else {
-                logError("GetFulfillmentFromQuery Callback error - " + error, ncUtil);
+                logError("GetCustomerFromQuery Callback error - " + error, ncUtil);
                 out.ncStatusCode = 500;
                 out.payload.error = error;
                 callback(out);
@@ -269,7 +250,7 @@ let GetFulfillmentFromQuery = function (ncUtil, channelProfile, flowContext, pay
             out.response.endpointStatusMessage = "Unauthorized";
             out.payload.error = err;
           } else {
-            logError("GetFulfillmentFromQuery Callback error - " + err, ncUtil);
+            logError("GetCustomerFromQuery Callback error - " + err, ncUtil);
             out.ncStatusCode = 500;
             out.payload.error = err;
           }
@@ -278,7 +259,7 @@ let GetFulfillmentFromQuery = function (ncUtil, channelProfile, flowContext, pay
       });
     } catch (err) {
       // Exception Handling
-      logError("Exception occurred in GetFulfillmentFromQuery - " + err, ncUtil);
+      logError("Exception occurred in GetCustomerFromQuery - " + err, ncUtil);
       out.ncStatusCode = 500;
       out.payload.error = err;
       callback(out);
@@ -300,4 +281,4 @@ function log(msg, ncUtil) {
   console.log("[info] " + msg);
 }
 
-module.exports.GetFulfillmentFromQuery = GetFulfillmentFromQuery;
+module.exports.GetCustomerFromQuery = GetCustomerFromQuery;
