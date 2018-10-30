@@ -166,13 +166,15 @@
           "canUpdateCustomerAddressFlag" : false,
           "canUpdateCustomerContactFlag" : false,
           "doPutCustomerFlag" : true,
+          "doUpdateCustomerFlag" : true,
           "doExtractShippingAddressFromSalesOrderFlag": false,
           "doExtractBillingAddressFromSalesOrderFlag": false,
           "doPutCustomerAddressesFlag" : false,
           "doPutCustomerContactsFlag" : false
         },
         "configView" : [
-          "doPutCustomerFlag"
+          "doPutCustomerFlag",
+          "doUpdateCustomerFlag"
         ],
         "configModel" : {
           "required" : [
@@ -181,6 +183,7 @@
             "canUpdateCustomerAddressFlag",
             "canUpdateCustomerContactFlag",
             "doPutCustomerFlag",
+            "doUpdateCustomerFlag",
             "doExtractShippingAddressFromSalesOrderFlag",
             "doExtractBillingAddressFromSalesOrderFlag",
             "doPutCustomerAddressesFlag",
@@ -206,6 +209,10 @@
             "doPutCustomerFlag": {
               "type" : "boolean",
               "title" : "PUT Order, doPutCustomerFlag"
+            },
+            "doUpdateCustomerFlag": {
+              "type" : "boolean",
+              "title" : "PUT Order, doUpdateCustomerFlag"
             },
             "doExtractShippingAddressFromSalesOrderFlag": {
               "type" : "boolean",
