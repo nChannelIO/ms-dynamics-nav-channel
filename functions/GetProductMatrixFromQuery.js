@@ -280,34 +280,38 @@ let GetProductMatrixFromQuery = function (ncUtil, channelProfile, flowContext, p
                         }
 
                         client.ReadMultiple(args, function(error, body, envelope, soapHeader) {
-                          if (!body.ReadMultiple_Result) {
-                            // Return if there are no more variants to process
-                            resolve(doc);
-                          } else {
-                            if (Array.isArray(body.ReadMultiple_Result[itemVariantsServiceName])) {
-
-                              // Join existing Item_Variants with those pulled
-                              doc.Item.Item_Variants = doc.Item.Item_Variants.concat(body.ReadMultiple_Result[itemVariantsServiceName]);
-                              let n = body.ReadMultiple_Result[itemVariantsServiceName].length - 1;
-
-                              // Recursively call processVariants to determine if there are more variants using the key from the last variant pulled
-                              processVariants(client, doc, body.ReadMultiple_Result[itemVariantsServiceName][n].Key).then((result) => {
-                                resolve(result);
-                              }).catch((err) => {
-                                reject(err);
-                              });
-                            } else if (typeof body.ReadMultiple_Result[itemVariantsServiceName] === 'object') {
-                              doc.Item.Item_Variants.push(body.ReadMultiple_Result[itemVariantsServiceName]);
-
-                              // Recursively call processVariants to determine if there are more variants using the key from the last variant pulled
-                              processVariants(client, doc, body.ReadMultiple_Result[itemVariantsServiceName].Key).then((result) => {
-                                resolve(result);
-                              }).catch((err) => {
-                                reject(err);
-                              });
-                            } else {
+                          if (!error) {
+                            if (!body.ReadMultiple_Result) {
+                              // Return if there are no more variants to process
                               resolve(doc);
+                            } else {
+                              if (Array.isArray(body.ReadMultiple_Result[itemVariantsServiceName])) {
+
+                                // Join existing Item_Variants with those pulled
+                                doc.Item.Item_Variants = doc.Item.Item_Variants.concat(body.ReadMultiple_Result[itemVariantsServiceName]);
+                                let n = body.ReadMultiple_Result[itemVariantsServiceName].length - 1;
+
+                                // Recursively call processVariants to determine if there are more variants using the key from the last variant pulled
+                                processVariants(client, doc, body.ReadMultiple_Result[itemVariantsServiceName][n].Key).then((result) => {
+                                  resolve(result);
+                                }).catch((err) => {
+                                  reject(err);
+                                });
+                              } else if (typeof body.ReadMultiple_Result[itemVariantsServiceName] === 'object') {
+                                doc.Item.Item_Variants.push(body.ReadMultiple_Result[itemVariantsServiceName]);
+
+                                // Recursively call processVariants to determine if there are more variants using the key from the last variant pulled
+                                processVariants(client, doc, body.ReadMultiple_Result[itemVariantsServiceName].Key).then((result) => {
+                                  resolve(result);
+                                }).catch((err) => {
+                                  reject(err);
+                                });
+                              } else {
+                                resolve(doc);
+                              }
                             }
+                          } else {
+                            reject(error);
                           }
                         });
                       });
