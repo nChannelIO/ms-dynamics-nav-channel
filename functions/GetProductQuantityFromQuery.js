@@ -137,6 +137,23 @@ let GetProductQuantityFromQuery = function (ncUtil, channelProfile, flowContext,
       }
 
       args.filter.push(obj);
+
+      // DateTime Field
+      let fc = {};
+      fc["Field"] = flowContext.dateTimeField || "LastModified";
+
+      if (payload.doc.modifiedDateRange.startDateGMT && !payload.doc.modifiedDateRange.endDateGMT) {
+        // '..' is a NAV filter for interval. Using as a suffix pulls records after the startDate
+        fc["Criteria"] = new Date(Date.parse(payload.doc.modifiedDateRange.startDateGMT) - 1).toISOString() + "..";
+      } else if (payload.doc.modifiedDateRange.endDateGMT && !payload.doc.modifiedDateRange.startDateGMT) {
+        // '..' is a NAV filter for interval. Using as a prefix pulls records before the endDate
+        fc["Criteria"] = ".." + new Date(Date.parse(payload.doc.modifiedDateRange.endDateGMT) + 1).toISOString();
+      } else if (payload.doc.modifiedDateRange.startDateGMT && payload.doc.modifiedDateRange.endDateGMT) {
+        // '..' is a NAV filter for interval. Using between two dates as part of the string pulls records between startDate and endDate
+        fc["Criteria"] = new Date(Date.parse(payload.doc.modifiedDateRange.startDateGMT) - 1).toISOString() + ".." + new Date(Date.parse(payload.doc.modifiedDateRange.endDateGMT) + 1).toISOString();
+      }
+
+      args.filter.push(fc);
     }
 
     // Additional Criteria Filter
