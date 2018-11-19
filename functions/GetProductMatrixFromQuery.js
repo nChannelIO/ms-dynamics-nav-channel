@@ -142,6 +142,8 @@ let GetProductMatrixFromQuery = function (ncUtil, channelProfile, flowContext, p
       let fc = {};
       fc["Field"] = flowContext.dateTimeField || "LastModified";
 
+      log(`Using DateTime Field Name: ${flowContext.dateTimeField || "LastModified"}`);
+
       if (payload.doc.modifiedDateRange.startDateGMT && !payload.doc.modifiedDateRange.endDateGMT) {
         // '..' is a NAV filter for interval. Using as a suffix pulls records after the startDate
         fc["Criteria"] = new Date(Date.parse(payload.doc.modifiedDateRange.startDateGMT) - 1).toISOString() + "..";
