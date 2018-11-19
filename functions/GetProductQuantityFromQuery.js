@@ -140,9 +140,9 @@ let GetProductQuantityFromQuery = function (ncUtil, channelProfile, flowContext,
 
       // DateTime Field
       let fc = {};
-      fc["Field"] = flowContext.dateTimeField || "LastModified";
+      fc["Field"] = flowContext.dateTimeField || "LastModifiedDateTime";
 
-      log(`Using DateTime Field Name: ${flowContext.dateTimeField || "LastModified"}`);
+      log(`Using DateTime Field Name: ${flowContext.dateTimeField || "LastModifiedDateTime"}`);
 
       if (payload.doc.modifiedDateRange.startDateGMT && !payload.doc.modifiedDateRange.endDateGMT) {
         // '..' is a NAV filter for interval. Using as a suffix pulls records after the startDate

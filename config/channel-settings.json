@@ -25,7 +25,7 @@
           "properties": {
             "dateTimeField": {
               "type": "string",
-              "title": "DateTime Field"
+              "title": "DateTime Filter Field (Overrides Date Only Filtering)"
             },
             "field": {
               "type": "string",
@@ -99,7 +99,7 @@
           "properties": {
             "dateTimeField": {
               "type": "string",
-              "title": "DateTime Field"
+              "title": "DateTime Filter Field (Overrides Date Only Filtering)"
             },
             "field": {
               "type": "string",
@@ -281,7 +281,7 @@
           "properties": {
             "dateTimeField": {
               "type": "string",
-              "title": "DateTime Field"
+              "title": "DateTime Filter Field (Overrides Date Only Filtering)"
             },
             "field": {
               "type": "string",
