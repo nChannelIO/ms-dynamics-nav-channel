@@ -23,6 +23,10 @@
         "configModel": {
           "required": [],
           "properties": {
+            "dateTimeField": {
+              "type": "string",
+              "title": "DateTime Filter Field (Overrides Date Only Filtering)"
+            },
             "field": {
               "type": "string",
               "title": "Filter Field"
@@ -58,6 +62,7 @@
           }
         },
         "configView": [
+          "dateTimeField",
           "field",
           "criteria",
           "doGetMatrixProducts"
@@ -69,6 +74,7 @@
           "canGetMatrixProducts": true,
           "canGetVirtualMatrixProducts": false,
           "canGetSimpleProducts": false,
+          "dateTimeField": "",
           "field": "",
           "criteria": ""
         }
@@ -91,6 +97,10 @@
         "configModel": {
           "required": [],
           "properties": {
+            "dateTimeField": {
+              "type": "string",
+              "title": "DateTime Filter Field (Overrides Date Only Filtering)"
+            },
             "field": {
               "type": "string",
               "title": "Item Ledger Filter Field"
@@ -126,6 +136,7 @@
           }
         },
         "configView": [
+          "dateTimeField",
           "field",
           "criteria",
           "itemField",
@@ -139,6 +150,7 @@
           }
         ],
         "configValues": {
+          "dateTimeField": "",
           "field": "",
           "criteria": "",
           "itemField": "",
@@ -267,6 +279,10 @@
         "configModel": {
           "required": [],
           "properties": {
+            "dateTimeField": {
+              "type": "string",
+              "title": "DateTime Filter Field (Overrides Date Only Filtering)"
+            },
             "field": {
               "type": "string",
               "title": "Filter Field"
@@ -278,10 +294,12 @@
           }
         },
         "configView": [
+          "dateTimeField",
           "field",
           "criteria"
         ],
         "configValues": {
+          "dateTimeField": "",
           "field": "",
           "criteria": ""
         }

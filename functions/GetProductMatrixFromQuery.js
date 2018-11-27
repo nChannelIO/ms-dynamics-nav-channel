@@ -123,20 +123,27 @@ let GetProductMatrixFromQuery = function (ncUtil, channelProfile, flowContext, p
     } else if (payload.doc.modifiedDateRange) {
 
       let obj = {};
+      let fc = {};
       obj["Field"] = "Last_Date_Modified";
+      fc["Field"] = flowContext.dateTimeField || "LastModifiedDateTime";
+
+      log(`Using DateTime Field Name: ${flowContext.dateTimeField || "LastModifiedDateTime"}`);
 
       if (payload.doc.modifiedDateRange.startDateGMT && !payload.doc.modifiedDateRange.endDateGMT) {
         // '..' is a NAV filter for interval. Using as a suffix pulls records after the startDate
         obj["Criteria"] = nc.formatDate(new Date(Date.parse(payload.doc.modifiedDateRange.startDateGMT) - 1).toISOString()) + "..";
+        fc["Criteria"] = new Date(Date.parse(payload.doc.modifiedDateRange.startDateGMT) - 1).toISOString() + "..";
       } else if (payload.doc.modifiedDateRange.endDateGMT && !payload.doc.modifiedDateRange.startDateGMT) {
         // '..' is a NAV filter for interval. Using as a prefix pulls records before the endDate
         obj["Criteria"] = ".." + nc.formatDate(new Date(Date.parse(payload.doc.modifiedDateRange.endDateGMT) + 1).toISOString());
+        fc["Criteria"] = ".." + new Date(Date.parse(payload.doc.modifiedDateRange.endDateGMT) + 1).toISOString();
       } else if (payload.doc.modifiedDateRange.startDateGMT && payload.doc.modifiedDateRange.endDateGMT) {
         // '..' is a NAV filter for interval. Using between two dates as part of the string pulls records between startDate and endDate
         obj["Criteria"] = nc.formatDate(new Date(Date.parse(payload.doc.modifiedDateRange.startDateGMT) - 1).toISOString()) + ".." + nc.formatDate(new Date(Date.parse(payload.doc.modifiedDateRange.endDateGMT) + 1).toISOString());
+        fc["Criteria"] = new Date(Date.parse(payload.doc.modifiedDateRange.startDateGMT) - 1).toISOString() + ".." + new Date(Date.parse(payload.doc.modifiedDateRange.endDateGMT) + 1).toISOString();
       }
 
-      args.filter.push(obj);
+      args.filter.push(obj, fc);
     }
 
     if (flowContext && flowContext.field && flowContext.criteria) {
