@@ -57,12 +57,12 @@ let GetCustomerFromQuery = function (ncUtil, channelProfile, flowContext, payloa
   } else if (!payload.doc) {
     invalid = true;
     invalidMsg = "payload.doc was not provided";
-  } else if (!payload.doc.remoteIDs && !payload.doc.searchFields && !payload.doc.modifiedDateRange) {
+  } else if (!payload.doc.remoteIDs && !payload.doc.searchFields && !payload.doc.modifiedDateRange && !payload.doc.createdDateRange) {
     invalid = true;
-    invalidMsg = "either payload.doc.remoteIDs or payload.doc.searchFields or payload.doc.modifiedDateRange must be provided"
-  } else if (payload.doc.remoteIDs && (payload.doc.searchFields || payload.doc.modifiedDateRange)) {
+    invalidMsg = "either payload.doc.remoteIDs or payload.doc.searchFields or payload.doc.modifiedDateRange or payload.doc.createdDateRange must be provided"
+  } else if (payload.doc.remoteIDs && (payload.doc.searchFields || payload.doc.modifiedDateRange || payload.doc.createdDateRange) || (payload.doc.modifiedDateRange && payload.doc.createdDateRange)) {
     invalid = true;
-    invalidMsg = "only one of payload.doc.remoteIDs or payload.doc.searchFields or payload.doc.modifiedDateRange may be provided"
+    invalidMsg = "only one of payload.doc.remoteIDs or payload.doc.searchFields or payload.doc.modifiedDateRange or payload.doc.createdDateRange may be provided"
   } else if (payload.doc.remoteIDs && (!Array.isArray(payload.doc.remoteIDs) || payload.doc.remoteIDs.length === 0)) {
     invalid = true;
     invalidMsg = "payload.doc.remoteIDs must be an Array with at least 1 remoteID"
@@ -81,6 +81,12 @@ let GetCustomerFromQuery = function (ncUtil, channelProfile, flowContext, payloa
     invalid = true;
     invalidMsg = "at least one of payload.doc.modifiedDateRange.startDateGMT or payload.doc.modifiedDateRange.endDateGMT must be provided"
   } else if (payload.doc.modifiedDateRange && payload.doc.modifiedDateRange.startDateGMT && payload.doc.modifiedDateRange.endDateGMT && (payload.doc.modifiedDateRange.startDateGMT > payload.doc.modifiedDateRange.endDateGMT)) {
+    invalid = true;
+    invalidMsg = "startDateGMT must have a date before endDateGMT";
+  } else if (payload.doc.createdDateRange && !(payload.doc.createdDateRange.startDateGMT || payload.doc.createdDateRange.endDateGMT)) {
+    invalid = true;
+    invalidMsg = "at least one of payload.doc.createdDateRange.startDateGMT or payload.doc.createdDateRange.endDateGMT must be provided"
+  } else if (payload.doc.createdDateRange && payload.doc.createdDateRange.startDateGMT && payload.doc.createdDateRange.endDateGMT && (payload.doc.createdDateRange.startDateGMT > payload.doc.createdDateRange.endDateGMT)) {
     invalid = true;
     invalidMsg = "startDateGMT must have a date before endDateGMT";
   }
@@ -134,6 +140,23 @@ let GetCustomerFromQuery = function (ncUtil, channelProfile, flowContext, payloa
       } else if (payload.doc.modifiedDateRange.startDateGMT && payload.doc.modifiedDateRange.endDateGMT) {
         // '..' is a NAV filter for interval. Using between two dates as part of the string pulls records between startDate and endDate
         obj["Criteria"] = nc.formatDate(new Date(Date.parse(payload.doc.modifiedDateRange.startDateGMT) - 1).toISOString()) + ".." + nc.formatDate(new Date(Date.parse(payload.doc.modifiedDateRange.endDateGMT) + 1).toISOString());
+      }
+
+      args.filter.push(obj);
+    } else if (payload.doc.createdDateRange) {
+
+      let obj = {};
+      obj["Field"] = "Last_Date_Modified";
+
+      if (payload.doc.createdDateRange.startDateGMT && !payload.doc.createdDateRange.endDateGMT) {
+        // '..' is a NAV filter for interval. Using as a suffix pulls records after the startDate
+        obj["Criteria"] = nc.formatDate(new Date(Date.parse(payload.doc.createdDateRange.startDateGMT) - 1).toISOString()) + "..";
+      } else if (payload.doc.createdDateRange.endDateGMT && !payload.doc.createdDateRange.startDateGMT) {
+        // '..' is a NAV filter for interval. Using as a prefix pulls records before the endDate
+        obj["Criteria"] = ".." + nc.formatDate(new Date(Date.parse(payload.doc.createdDateRange.endDateGMT) + 1).toISOString());
+      } else if (payload.doc.createdDateRange.startDateGMT && payload.doc.createdDateRange.endDateGMT) {
+        // '..' is a NAV filter for interval. Using between two dates as part of the string pulls records between startDate and endDate
+        obj["Criteria"] = nc.formatDate(new Date(Date.parse(payload.doc.createdDateRange.startDateGMT) - 1).toISOString()) + ".." + nc.formatDate(new Date(Date.parse(payload.doc.createdDateRange.endDateGMT) + 1).toISOString());
       }
 
       args.filter.push(obj);
