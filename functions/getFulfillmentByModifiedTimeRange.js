@@ -50,16 +50,30 @@ module.exports = function(flowContext, payload) {
     } else {
       args.filter = [];
       let obj = {};
+      let fc = {};
       obj["Field"] = "Posted_Date";
+      fc["Field"] = flowContext.dateTimeField || "PostingDateTime";
+
+      log(`Using DateTime Field Name: ${flowContext.dateTimeField || "PostingDateTime"}`);
 
       if (payload.modifiedDateRange.startDateGMT && !payload.modifiedDateRange.endDateGMT) {
         obj["Criteria"] = nc.formatDate(new Date(Date.parse(payload.modifiedDateRange.startDateGMT) - 1).toISOString()) + "..";
+        fc["Criteria"] = new Date(Date.parse(payload.doc.modifiedDateRange.startDateGMT) - 1).toISOString() + "..";
       } else if (payload.modifiedDateRange.endDateGMT && !payload.modifiedDateRange.startDateGMT) {
         obj["Criteria"] = ".." + nc.formatDate(new Date(Date.parse(payload.modifiedDateRange.endDateGMT) + 1).toISOString());
+        fc["Criteria"] = ".." + new Date(Date.parse(payload.doc.modifiedDateRange.endDateGMT) + 1).toISOString();
       } else if (payload.modifiedDateRange.startDateGMT && payload.modifiedDateRange.endDateGMT) {
         obj["Criteria"] = nc.formatDate(new Date(Date.parse(payload.modifiedDateRange.startDateGMT) - 1).toISOString()) + ".." + nc.formatDate(new Date(Date.parse(payload.modifiedDateRange.endDateGMT) + 1).toISOString());
+        fc["Criteria"] = new Date(Date.parse(payload.doc.modifiedDateRange.startDateGMT) - 1).toISOString() + ".." + new Date(Date.parse(payload.doc.modifiedDateRange.endDateGMT) + 1).toISOString();
       }
-      args.filter.push(obj);
+      args.filter.push(obj, fc);
+
+      if (flowContext && flowContext.field && flowContext.criteria) {
+        let fieldCriteria = {};
+        fieldCriteria["Field"] = flowContext.field;
+        fieldCriteria["Criteria"] = flowContext.criteria;
+        args.filter.push(fieldCriteria);
+      }
 
       if (payload.pagingContext) {
         args.bookmarkKey = payload.pagingContext.key;

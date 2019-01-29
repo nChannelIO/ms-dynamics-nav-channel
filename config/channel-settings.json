@@ -24,6 +24,10 @@
         "configModel": {
           "required": [],
           "properties": {
+            "dateTimeField": {
+              "type": "string",
+              "title": "DateTime Filter Field (Overrides Date Only Filtering)"
+            },
             "field": {
               "type": "string",
               "title": "Filter Field"
@@ -123,6 +127,7 @@
           }
         },
         "configView": [
+          "dateTimeField",
           "field",
           "criteria",
           "doGetMatrixProducts",
@@ -194,6 +199,7 @@
           "canGetSimpleProducts": false,
           "itemIsCodeUnit": false,
           "itemVariantIsCodeUnit": false,
+          "dateTimeField": "",
           "field": "",
           "criteria": "",
           "itemMethodName": "",
@@ -232,6 +238,10 @@
         "configModel": {
           "required": [],
           "properties": {
+            "dateTimeField": {
+              "type": "string",
+              "title": "DateTime Filter Field (Overrides Date Only Filtering)"
+            },
             "field": {
               "type": "string",
               "title": "Item Ledger Filter Field"
@@ -311,6 +321,7 @@
           }
         },
         "configView": [
+          "dateTimeField",
           "field",
           "criteria",
           "itemField",
@@ -365,6 +376,7 @@
           }
         ],
         "configValues": {
+          "dateTimeField": "",
           "field": "",
           "criteria": "",
           "itemField": "",
@@ -408,6 +420,7 @@
           "canUpdateCustomerAddressFlag" : false,
           "canUpdateCustomerContactFlag" : false,
           "doPutCustomerFlag" : true,
+          "doUpdateCustomerFlag" : true,
           "doExtractShippingAddressFromSalesOrderFlag": false,
           "doExtractBillingAddressFromSalesOrderFlag": false,
           "doPutCustomerAddressesFlag" : false,
@@ -420,7 +433,8 @@
             "key": "orderMethodName",
             "condition": "model.salesOrderIsCodeUnit==true"
           },
-          "extractCustomerName"
+          "extractCustomerName",
+          "doUpdateCustomerFlag"
         ],
         "configModel" : {
           "required" : [
@@ -429,6 +443,7 @@
             "canUpdateCustomerAddressFlag",
             "canUpdateCustomerContactFlag",
             "doPutCustomerFlag",
+            "doUpdateCustomerFlag",
             "doExtractShippingAddressFromSalesOrderFlag",
             "doExtractBillingAddressFromSalesOrderFlag",
             "doPutCustomerAddressesFlag",
@@ -487,6 +502,10 @@
               "type" : "boolean",
               "title" : "PUT Order, doPutCustomerFlag"
             },
+            "doUpdateCustomerFlag": {
+              "type" : "boolean",
+              "title" : "PUT Order, doUpdateCustomerFlag"
+            },
             "doExtractShippingAddressFromSalesOrderFlag": {
               "type" : "boolean",
               "title" : "PUT Order, doExtractShippingAddressFromSalesOrderFlag"
@@ -540,6 +559,7 @@
         "configValues" : {
           "field": "",
           "criteria": "",
+          "dateTimeField": "",
           "fulfillmentIsCodeUnit": false,
           "methodName": "",
           "keyFieldName": "",
@@ -552,6 +572,7 @@
         "configView" : [
           "field",
           "criteria",
+          "dateTimeField",
           "fulfillmentIsCodeUnit",
           {
             "key": "methodName",
@@ -582,9 +603,12 @@
             "condition": "model.fulfillmentIsCodeUnit==true"
           }
         ],
-        "configModel" : {
-          "type" : "object",
+        "configModel": {
           "properties": {
+            "dateTimeField": {
+              "type": "string",
+              "title": "DateTime Filter Field (Overrides Date Only Filtering)"
+            },
             "field": {
               "type": "string",
               "title": "Filter Field"
@@ -625,8 +649,7 @@
               "type": "string",
               "title": "What is the name of the \"Page Size\" field when paging through records?"
             }
-          },
-          "required": []
+          }
         }
       },
       "documentDef": {

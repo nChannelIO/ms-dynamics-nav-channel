@@ -84,22 +84,29 @@ module.exports = function(flowContext, payload) {
     } else {
       args.filter = [];
       let obj = {};
+      let fc = {};
       obj["Field"] = "Last_Modified_Date";
+      fc["Field"] = flowContext.dateTimeField || "LastModifiedDateTime";
+
+      log(`Using DateTime Field Name: ${flowContext.dateTimeField || "LastModifiedDateTime"}`);
 
       if (payload.modifiedDateRange.startDateGMT && !payload.modifiedDateRange.endDateGMT) {
         obj["Criteria"] = nc.formatDate(new Date(Date.parse(payload.modifiedDateRange.startDateGMT) - 1).toISOString()) + "..";
+        fc["Criteria"] = new Date(Date.parse(payload.doc.modifiedDateRange.startDateGMT) - 1).toISOString() + "..";
       } else if (payload.modifiedDateRange.endDateGMT && !payload.modifiedDateRange.startDateGMT) {
         obj["Criteria"] = ".." + nc.formatDate(new Date(Date.parse(payload.modifiedDateRange.endDateGMT) + 1).toISOString());
+        fc["Criteria"] = ".." + new Date(Date.parse(payload.doc.modifiedDateRange.endDateGMT) + 1).toISOString();
       } else if (payload.modifiedDateRange.startDateGMT && payload.modifiedDateRange.endDateGMT) {
         obj["Criteria"] = nc.formatDate(new Date(Date.parse(payload.modifiedDateRange.startDateGMT) - 1).toISOString()) + ".." + nc.formatDate(new Date(Date.parse(payload.modifiedDateRange.endDateGMT) + 1).toISOString());
+        fc["Criteria"] = new Date(Date.parse(payload.doc.modifiedDateRange.startDateGMT) - 1).toISOString() + ".." + new Date(Date.parse(payload.doc.modifiedDateRange.endDateGMT) + 1).toISOString();
       }
-      args.filter.push(obj);
+      args.filter.push(obj, fc);
 
       if (flowContext && flowContext.field && flowContext.criteria) {
-        let fc = {};
-        fc["Field"] = flowContext.field;
-        fc["Criteria"] = flowContext.criteria;
-        args.filter.push(fc);
+        let fieldCriteria = {};
+        fieldCriteria["Field"] = flowContext.field;
+        fieldCriteria["Criteria"] = flowContext.criteria;
+        args.filter.push(fieldCriteria);
       }
 
       if (payload.pagingContext) {
