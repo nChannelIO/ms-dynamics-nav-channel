@@ -85,20 +85,20 @@ module.exports = function(flowContext, payload) {
       args.filter = [];
       let obj = {};
       let fc = {};
-      obj["Field"] = "Last_Modified_Date";
+      obj["Field"] = "Last_Date_Modified";
       fc["Field"] = flowContext.dateTimeField || "LastModifiedDateTime";
 
-      log(`Using DateTime Field Name: ${flowContext.dateTimeField || "LastModifiedDateTime"}`);
+      console.log(`Using DateTime Field Name: ${flowContext.dateTimeField || "LastModifiedDateTime"}`);
 
       if (payload.modifiedDateRange.startDateGMT && !payload.modifiedDateRange.endDateGMT) {
         obj["Criteria"] = nc.formatDate(new Date(Date.parse(payload.modifiedDateRange.startDateGMT) - 1).toISOString()) + "..";
-        fc["Criteria"] = new Date(Date.parse(payload.doc.modifiedDateRange.startDateGMT) - 1).toISOString() + "..";
+        fc["Criteria"] = new Date(Date.parse(payload.modifiedDateRange.startDateGMT) - 1).toISOString() + "..";
       } else if (payload.modifiedDateRange.endDateGMT && !payload.modifiedDateRange.startDateGMT) {
         obj["Criteria"] = ".." + nc.formatDate(new Date(Date.parse(payload.modifiedDateRange.endDateGMT) + 1).toISOString());
-        fc["Criteria"] = ".." + new Date(Date.parse(payload.doc.modifiedDateRange.endDateGMT) + 1).toISOString();
+        fc["Criteria"] = ".." + new Date(Date.parse(payload.modifiedDateRange.endDateGMT) + 1).toISOString();
       } else if (payload.modifiedDateRange.startDateGMT && payload.modifiedDateRange.endDateGMT) {
         obj["Criteria"] = nc.formatDate(new Date(Date.parse(payload.modifiedDateRange.startDateGMT) - 1).toISOString()) + ".." + nc.formatDate(new Date(Date.parse(payload.modifiedDateRange.endDateGMT) + 1).toISOString());
-        fc["Criteria"] = new Date(Date.parse(payload.doc.modifiedDateRange.startDateGMT) - 1).toISOString() + ".." + new Date(Date.parse(payload.doc.modifiedDateRange.endDateGMT) + 1).toISOString();
+        fc["Criteria"] = new Date(Date.parse(payload.modifiedDateRange.startDateGMT) - 1).toISOString() + ".." + new Date(Date.parse(payload.modifiedDateRange.endDateGMT) + 1).toISOString();
       }
       args.filter.push(obj, fc);
 
