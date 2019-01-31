@@ -37,8 +37,6 @@ class ms_dynamics_nav_channel extends Channel {
       NTLMSecurity: this.soap.NTLMSecurity(this.username, this.password, this.domain, this.workstation, true),
       prettyPrint: false
     };
-
-    this.soap = this.soap;
   }
 
   async extractCustomerFromSalesOrder(...args) {

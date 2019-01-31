@@ -97,14 +97,14 @@ module.exports = function(flowContext, payload) {
                   if (Array.isArray(data)) {
                     // If an array is returned, multiple customers were found
                     for (let i = 0; i < data.length; i++) {
-                      docs.push(data[i]);
+                      docs.push({ Customer: data[i] });
                       if (i == data.length - 1) {
                         pagingContext.key = data[i].Key;
                       }
                     }
                   } else if (typeof data === 'object') {
                     // If an object is returned, one customers was found
-                    docs.push(data);
+                    docs.push({ Customer: data });
                     pagingContext.key = data.Key;
                   }
 
