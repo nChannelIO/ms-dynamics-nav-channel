@@ -29,9 +29,9 @@ module.exports = function(flowContext, payload) {
   if (!invalid) {
     let args = payload.doc;
 
-    console.log(`Customer Service Name: ${this.orderServiceName}`);
+    this.info(`Customer Service Name: ${this.orderServiceName}`);
 
-    console.log(`Using URL [${this.orderUrl}]`);
+    this.info(`Using URL [${this.orderUrl}]`);
 
     return new Promise((resolve, reject) => {
        this.soap.createClient(this.orderUrl, this.options, ((err, client) => {

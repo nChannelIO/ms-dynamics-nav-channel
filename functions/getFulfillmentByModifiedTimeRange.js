@@ -54,7 +54,7 @@ module.exports = function(flowContext, payload) {
       obj["Field"] = "Posted_Date";
       fc["Field"] = flowContext.dateTimeField || "PostingDateTime";
 
-      console.log(`Using DateTime Field Name: ${flowContext.dateTimeField || "PostingDateTime"}`);
+      this.info(`Using DateTime Field Name: ${flowContext.dateTimeField || "PostingDateTime"}`);
 
       if (payload.modifiedDateRange.startDateGMT && !payload.modifiedDateRange.endDateGMT) {
         obj["Criteria"] = nc.formatDate(new Date(Date.parse(payload.modifiedDateRange.startDateGMT) - 1).toISOString()) + "..";
@@ -84,9 +84,9 @@ module.exports = function(flowContext, payload) {
       }
     }
 
-    console.log(`Sales Shipment Service Name: ${this.salesShipmentServiceName}`);
+    this.info(`Sales Shipment Service Name: ${this.salesShipmentServiceName}`);
 
-    console.log(`Using URL [${this.salesShipmentUrl}]`);
+    this.info(`Using URL [${this.salesShipmentUrl}]`);
 
     return new Promise((resolve, reject) => {
       let pagingContext = {};
@@ -114,14 +114,14 @@ module.exports = function(flowContext, payload) {
                   if (Array.isArray(data)) {
                     // If an array is returned, multiple fulfillments were found
                     for (let i = 0; i < data.length; i++) {
-                      docs.push(data[i]);
+                      docs.push({ Sales_Shipment: data[i] });
                       if (i == data.length - 1) {
                         pagingContext.key = data[i].Key;
                       }
                     }
                   } else if (typeof data === 'object') {
                     // If an object is returned, one fulfillment was found
-                    docs.push(data);
+                    docs.push({ Sales_Shipment: data });
                     pagingContext.key = data.Key;
                   }
 

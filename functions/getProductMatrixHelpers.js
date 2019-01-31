@@ -39,7 +39,7 @@ function processVariants(client, items, flowContext, itemVariantsMethodName, key
         client[itemVariantsMethodName](args, (function (error, body) {
           let data = _.get(body, this.itemVariantsServiceName);
           if (!data) {
-            docs.push(items[i]);
+            docs.push({Item: items[i]});
             pResolve();
           } else {
             if (Array.isArray(data)) {
@@ -49,7 +49,7 @@ function processVariants(client, items, flowContext, itemVariantsMethodName, key
               let n = data.length - 1;
               // Recursively call processVariants to determine if there are more variants using the key from the last variant pulled
               processVariants(client, items[i], flowContext, itemVariantsMethodName, data[n].Key).then((result) => {
-                docs.push(items[i]);
+                docs.push({Item: items[i]});
                 pResolve(result);
               }).catch((err) => {
                 pReject(err);
@@ -59,7 +59,7 @@ function processVariants(client, items, flowContext, itemVariantsMethodName, key
 
               // Recursively call processVariants to determine if there are more variants using the key from the last variant pulled
               processVariants(client, items[i], flowContext, itemVariantsMethodName, data.Key).then((result) => {
-                docs.push(items[i]);
+                docs.push({Item: items[i]});
                 pResolve(result);
               }).catch((err) => {
                 pReject(err);

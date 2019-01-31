@@ -24,7 +24,7 @@ function processLedger(body) {
 
 function queryItems(items, flowContext) {
   return new Promise((resolve, reject) => {
-    console.log(`Using URL [${this.itemUrl}]`);
+    this.info(`Using URL [${this.itemUrl}]`);
 
     let itemMethodName = "ReadMultiple";
 
@@ -88,7 +88,7 @@ function queryItems(items, flowContext) {
 
 function queryVariants(items, flowContext) {
   return new Promise((resolve, reject) => {
-    console.log(`Using URL [${this.variantInventoryUrl}]`);
+    this.info(`Using URL [${this.variantInventoryUrl}]`);
 
     let variantInventoryMethodName = "ReadMultiple";
 
@@ -131,16 +131,16 @@ function queryVariants(items, flowContext) {
                   } else {
                     if (Array.isArray(data)) {
                       items[i].Item.Variant_Inventory = data[0];
-                      docs.push(items[i].Item);
+                      docs.push({ Item: items[i].Item });
                     } else if (typeof data === 'object') {
                       items[i].Item.Variant_Inventory = data;
-                      docs.push(items[i].Item);
+                      docs.push({ Item: items[i].Item });
                     }
                     pResolve();
                   }
                 }).bind(this));
               } else {
-                docs.push(items[i].Item);
+                docs.push({ Item: items[i].Item });
                 pResolve();
               }
             }));

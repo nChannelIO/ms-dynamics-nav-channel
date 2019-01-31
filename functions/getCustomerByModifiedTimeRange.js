@@ -40,7 +40,7 @@ module.exports = function(flowContext, payload) {
     } else {
       args.filter = [];
       let obj = {};
-      obj["Field"] = "Last_Modified_Date";
+      obj["Field"] = "Last_Date_Modified";
 
       if (payload.modifiedDateRange.startDateGMT && !payload.modifiedDateRange.endDateGMT) {
         obj["Criteria"] = nc.formatDate(new Date(Date.parse(payload.modifiedDateRange.startDateGMT) - 1).toISOString()) + "..";
@@ -67,9 +67,9 @@ module.exports = function(flowContext, payload) {
         methodName = flowContext.methodName;
     }
 
-    console.log(`Customer Service Name: ${this.customerServiceName}`);
+    this.info(`Customer Service Name: ${this.customerServiceName}`);
 
-    console.log(`Using URL [${this.customerUrl}]`);
+    this.info(`Using URL [${this.customerUrl}]`);
 
     return new Promise((resolve, reject) => {
       let pagingContext = {};
@@ -97,14 +97,14 @@ module.exports = function(flowContext, payload) {
                   if (Array.isArray(data)) {
                     // If an array is returned, multiple customers were found
                     for (let i = 0; i < data.length; i++) {
-                      docs.push(data[i]);
+                      docs.push({ Customer: data[i] });
                       if (i == data.length - 1) {
                         pagingContext.key = data[i].Key;
                       }
                     }
                   } else if (typeof data === 'object') {
                     // If an object is returned, one customers was found
-                    docs.push(data);
+                    docs.push({ Customer: data });
                     pagingContext.key = data.Key;
                   }
 

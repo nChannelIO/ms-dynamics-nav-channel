@@ -221,8 +221,8 @@
       "documentDef": {
         "schema": {},
         "referenceLocation": {},
-        "remoteID": "No",
-        "businessReferences": ["No"]
+        "remoteID": "Item.No",
+        "businessReferences": ["Item.No"]
       }
     },
     {
@@ -401,8 +401,8 @@
       "documentDef": {
         "schema": {},
         "referenceLocation": {},
-        "remoteID": "No",
-        "businessReferences": ["$join([No, Variant_Inventory.Code])"]
+        "remoteID": "Item.No",
+        "businessReferences": ["$join([Item.No, Item.Variant_Inventory.Code])"]
       }
     },
     {
@@ -533,12 +533,12 @@
       "documentDef" : {
         "schema": {},
         "referenceLocation": {},
-        "remoteID": "No",
-        "businessReferences": ["No"],
+        "remoteID": "Order.No",
+        "businessReferences": ["Order.No"],
         "peers": [
           {
             "name": "CUSTOMER",
-            "location": "Customer",
+            "location": "Order.Customer",
             "remoteID": "No",
             "businessReferences": ["E_Mail"]
           }
@@ -655,10 +655,10 @@
       "documentDef": {
         "schema": {},
         "referenceLocation": {},
-        "remoteID": "No",
-        "businessReferences": ["No"],
+        "remoteID": "Sales_Shipment.No",
+        "businessReferences": ["Sales_Shipment.No"],
         "secondaryReferences": {
-          "salesOrderBusinessReferences": ["Order_No"]
+          "salesOrderBusinessReferences": ["Sales_Shipment.Order_No"]
         }
       }
     },
@@ -759,8 +759,8 @@
       "documentDef": {
         "schema": {},
         "referenceLocation": {},
-        "remoteID": "No",
-        "businessReferences": ["E_Mail"],
+        "remoteID": "Customer.No",
+        "businessReferences": ["Customer.E_Mail"],
         "refreshNouns": ["CUSTOMER"]
       }
     },
@@ -853,8 +853,8 @@
       "documentDef": {
         "schema": {},
         "referenceLocation": {},
-        "remoteID": "No",
-        "businessReferences": ["E_Mail"]
+        "remoteID": "Customer.No",
+        "businessReferences": ["Customer.E_Mail"]
       }
     },
     {
@@ -946,8 +946,8 @@
       "documentDef": {
         "schema": {},
         "referenceLocation": {},
-        "remoteID": "No",
-        "businessReferences": ["E_Mail"]
+        "remoteID": "Customer.No",
+        "businessReferences": ["Customer.E_Mail"]
       }
     }
   ],

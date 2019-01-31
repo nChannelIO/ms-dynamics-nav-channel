@@ -94,16 +94,16 @@ module.exports = function(flowContext, payload) {
       }
     }
 
-    console.log(`Item Service Name: ${this.itemServiceName}`);
-    console.log(`Item Service Name: ${this.itemVariantsServiceName}`);
+    this.info(`Item Service Name: ${this.itemServiceName}`);
+    this.info(`Item Service Name: ${this.itemVariantsServiceName}`);
 
-    console.log(`Using URL [${this.itemUrl}]`);
+    this.info(`Using URL [${this.itemUrl}]`);
 
     return new Promise((resolve, reject) => {
       let pagingContext = {};
       this.soap.createClient(this.itemUrl, this.options, (function(itemErr, itemClient) {
         if (!itemErr) {
-          console.log(`Using URL [${this.itemVariantsUrl}]`);
+          this.info(`Using URL [${this.itemVariantsUrl}]`);
 
           this.soap.createClient(this.itemVariantsUrl, this.options, (function(itemVariantsErr, variantClient) {
             if (!itemVariantsErr) {

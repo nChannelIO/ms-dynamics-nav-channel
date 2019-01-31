@@ -41,10 +41,10 @@ module.exports = function(flowContext, payload) {
     obj["Criteria"] = payload.remoteIDs.join('|'); // The pipe '|' symbol is a NAV filter for 'OR'
     args.filter.push(obj);
 
-    console.log(`Item Service Name: ${this.itemServiceName}`);
-    console.log(`Variant Inventory Service Name: ${this.variantInventoryServiceName}`);
+    this.info(`Item Service Name: ${this.itemServiceName}`);
+    this.info(`Variant Inventory Service Name: ${this.variantInventoryServiceName}`);
 
-    console.log(`Using URL [${this.itemLedgerUrl}]`);
+    this.info(`Using URL [${this.itemLedgerUrl}]`);
 
     return new Promise((resolve, reject) => {
       payload.remoteIDs.forEach(remoteID => {

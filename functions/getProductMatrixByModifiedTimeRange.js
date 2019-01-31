@@ -88,7 +88,7 @@ module.exports = function(flowContext, payload) {
       obj["Field"] = "Last_Date_Modified";
       fc["Field"] = flowContext.dateTimeField || "LastModifiedDateTime";
 
-      console.log(`Using DateTime Field Name: ${flowContext.dateTimeField || "LastModifiedDateTime"}`);
+      this.info(`Using DateTime Field Name: ${flowContext.dateTimeField || "LastModifiedDateTime"}`);
 
       if (payload.modifiedDateRange.startDateGMT && !payload.modifiedDateRange.endDateGMT) {
         obj["Criteria"] = nc.formatDate(new Date(Date.parse(payload.modifiedDateRange.startDateGMT) - 1).toISOString()) + "..";
@@ -118,16 +118,16 @@ module.exports = function(flowContext, payload) {
       }
     }
 
-    console.log(`Item Service Name: ${this.itemServiceName}`);
-    console.log(`Item Service Name: ${this.itemVariantsServiceName}`);
+    this.info(`Item Service Name: ${this.itemServiceName}`);
+    this.info(`Item Service Name: ${this.itemVariantsServiceName}`);
 
-    console.log(`Using URL [${this.itemUrl}]`);
+    this.info(`Using URL [${this.itemUrl}]`);
 
     return new Promise((resolve, reject) => {
       let pagingContext = {};
       this.soap.createClient(this.itemUrl, this.options, (function(itemErr, itemClient) {
         if (!itemErr) {
-          console.log(`Using URL [${this.itemVariantsUrl}]`);
+          this.info(`Using URL [${this.itemVariantsUrl}]`);
 
           this.soap.createClient(this.itemVariantsUrl, this.options, (function(itemVariantsErr, variantClient) {
             if (!itemVariantsErr) {
