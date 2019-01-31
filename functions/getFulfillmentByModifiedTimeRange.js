@@ -54,7 +54,7 @@ module.exports = function(flowContext, payload) {
       obj["Field"] = "Posted_Date";
       fc["Field"] = flowContext.dateTimeField || "PostingDateTime";
 
-      console.log(`Using DateTime Field Name: ${flowContext.dateTimeField || "PostingDateTime"}`);
+      this.info(`Using DateTime Field Name: ${flowContext.dateTimeField || "PostingDateTime"}`);
 
       if (payload.modifiedDateRange.startDateGMT && !payload.modifiedDateRange.endDateGMT) {
         obj["Criteria"] = nc.formatDate(new Date(Date.parse(payload.modifiedDateRange.startDateGMT) - 1).toISOString()) + "..";
@@ -84,9 +84,9 @@ module.exports = function(flowContext, payload) {
       }
     }
 
-    console.log(`Sales Shipment Service Name: ${this.salesShipmentServiceName}`);
+    this.info(`Sales Shipment Service Name: ${this.salesShipmentServiceName}`);
 
-    console.log(`Using URL [${this.salesShipmentUrl}]`);
+    this.info(`Using URL [${this.salesShipmentUrl}]`);
 
     return new Promise((resolve, reject) => {
       let pagingContext = {};

@@ -24,7 +24,7 @@ function processLedger(body) {
 
 function queryItems(items, flowContext) {
   return new Promise((resolve, reject) => {
-    console.log(`Using URL [${this.itemUrl}]`);
+    this.info(`Using URL [${this.itemUrl}]`);
 
     let itemMethodName = "ReadMultiple";
 
@@ -88,7 +88,7 @@ function queryItems(items, flowContext) {
 
 function queryVariants(items, flowContext) {
   return new Promise((resolve, reject) => {
-    console.log(`Using URL [${this.variantInventoryUrl}]`);
+    this.info(`Using URL [${this.variantInventoryUrl}]`);
 
     let variantInventoryMethodName = "ReadMultiple";
 

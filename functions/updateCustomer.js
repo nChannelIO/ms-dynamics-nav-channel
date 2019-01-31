@@ -40,9 +40,9 @@ module.exports = function(flowContext, payload) {
       args["No"] = payload.customerRemoteID;
     }
 
-    console.log(`Customer Service Name: ${this.customerServiceName}`);
+    this.info(`Customer Service Name: ${this.customerServiceName}`);
 
-    console.log(`Using URL [${this.customerUrl}]`);
+    this.info(`Using URL [${this.customerUrl}]`);
 
     return new Promise((resolve, reject) => {
       this.soap.createClient(this.customerUrl, this.options, (function(err, client) {

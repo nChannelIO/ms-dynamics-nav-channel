@@ -57,9 +57,9 @@ module.exports = function(flowContext, payload) {
       }
     }
 
-    console.log(`Customer Service Name: ${this.customerServiceName}`);
+    this.info(`Customer Service Name: ${this.customerServiceName}`);
 
-    console.log(`Using URL [${this.customerUrl}]`);
+    this.info(`Using URL [${this.customerUrl}]`);
 
     return new Promise((resolve, reject) => {
       let pagingContext = {};

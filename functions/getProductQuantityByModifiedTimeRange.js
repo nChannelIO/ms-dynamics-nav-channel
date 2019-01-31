@@ -67,7 +67,7 @@ module.exports = function(flowContext, payload) {
       obj["Field"] = "Posting_Date";
       fc["Field"] = flowContext.dateTimeField || "PostingDateTime";
 
-      console.log(`Using DateTime Field Name: ${flowContext.dateTimeField || "PostingDateTime"}`);
+      this.info(`Using DateTime Field Name: ${flowContext.dateTimeField || "PostingDateTime"}`);
 
       if (payload.modifiedDateRange.startDateGMT && !payload.modifiedDateRange.endDateGMT) {
         obj["Criteria"] = nc.formatDate(new Date(Date.parse(payload.modifiedDateRange.startDateGMT) - 1).toISOString()) + "..";
@@ -104,11 +104,11 @@ module.exports = function(flowContext, payload) {
         itemLedgerMethodName = flowContext.itemLedgerMethodName;
     }
 
-    console.log(`Item Service Name: ${this.itemServiceName}`);
-    console.log(`Item Ledger Service Name: ${this.itemLedgerServiceName}`);
-    console.log(`Variant Inventory Service Name: ${this.variantInventoryServiceName}`);
+    this.info(`Item Service Name: ${this.itemServiceName}`);
+    this.info(`Item Ledger Service Name: ${this.itemLedgerServiceName}`);
+    this.info(`Variant Inventory Service Name: ${this.variantInventoryServiceName}`);
 
-    console.log(`Using URL [${this.itemLedgerUrl}]`);
+    this.info(`Using URL [${this.itemLedgerUrl}]`);
 
     return new Promise((resolve, reject) => {
       let pagingContext = {};

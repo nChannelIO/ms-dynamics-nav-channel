@@ -59,9 +59,9 @@ module.exports = function(flowContext, payload) {
       }
     }
 
-    console.log(`Sales Shipment Service Name: ${this.salesShipmentServiceName}`);
+    this.info(`Sales Shipment Service Name: ${this.salesShipmentServiceName}`);
 
-    console.log(`Using URL [${this.salesShipmentUrl}]`);
+    this.info(`Using URL [${this.salesShipmentUrl}]`);
 
     return new Promise((resolve, reject) => {
       let pagingContext = {};
