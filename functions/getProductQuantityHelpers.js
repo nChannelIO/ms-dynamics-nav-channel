@@ -131,16 +131,16 @@ function queryVariants(items, flowContext) {
                   } else {
                     if (Array.isArray(data)) {
                       items[i].Item.Variant_Inventory = data[0];
-                      docs.push(items[i]);
+                      docs.push({ Item: items[i].Item });
                     } else if (typeof data === 'object') {
                       items[i].Item.Variant_Inventory = data;
-                      docs.push(items[i]);
+                      docs.push({ Item: items[i].Item });
                     }
                     pResolve();
                   }
                 }).bind(this));
               } else {
-                docs.push(items[i]);
+                docs.push({ Item: items[i].Item });
                 pResolve();
               }
             }));
