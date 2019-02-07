@@ -27,9 +27,10 @@ module.exports = function(flowContext, payload) {
   }
 
   if (!invalid) {
-    let args = payload.doc;
+    let args = {};
+    args[this.orderServiceName] = payload.doc[this.orderServiceName];
 
-    this.info(`Customer Service Name: ${this.orderServiceName}`);
+    this.info(`Order Service Name: ${this.orderServiceName}`);
 
     this.info(`Using URL [${this.orderUrl}]`);
 
