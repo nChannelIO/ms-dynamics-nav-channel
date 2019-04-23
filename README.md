@@ -1,6 +1,6 @@
-# nc-template-channel
+# ms-dynamics-nav-channel
 
-Template channel for SDK development
+SDK channel for Microsoft Dynamics NAV
 
 
 # Modifying the doc `docs.json` file
