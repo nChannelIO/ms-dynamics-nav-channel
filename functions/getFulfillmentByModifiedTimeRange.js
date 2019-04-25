@@ -51,7 +51,7 @@ module.exports = function(flowContext, payload) {
       args.filter = [];
       let obj = {};
       let fc = {};
-      obj["Field"] = "Posted_Date";
+      obj["Field"] = "Posting_Date";
       fc["Field"] = flowContext.dateTimeField || "PostingDateTime";
 
       this.info(`Using DateTime Field Name: ${flowContext.dateTimeField || "PostingDateTime"}`);
