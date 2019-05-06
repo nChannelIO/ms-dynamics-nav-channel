@@ -953,9 +953,57 @@
   ],
   "channelSettingsSchema": {
     "configDef": {
-      "configModel": {},
-      "configView": [],
-      "configValues": {}
+      "configModel": {
+        "type": "object",
+        "title": "Microsoft NAV Channel Settings",
+        "properties": {
+          "throttling":{
+            "title": "Throttling",
+            "type": "object",
+            "properties": {
+              "windowDuration": {
+                "title": "Throttling Time Frame (ms)",
+                "type": "integer"
+              },
+              "allocationLimit": {
+                "title": "Number of Requests per Time Frame",
+                "type": "integer"
+              },
+              "throttledIndicators": {
+                "title": "Throttled Response Indicators",
+                "type": "array",
+                "items": {
+                  "title": "Criteria",
+                  "type": "object",
+                  "properties": {
+                    "statusCode": {
+                      "title": "Status Code (optional)",
+                      "type": "integer"
+                    },
+                    "body": {
+                      "title": "Text Contained in the Response Body (optional)",
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            },
+            "required": [
+              "windowDuration",
+              "allocationLimit"
+            ]
+          }
+        }
+      },
+      "configView": [
+        "throttling"
+      ],
+      "configValues": {
+        "throttling": {
+          "windowDuration": 10000,
+          "allocationLimit": 2
+        }
+      }
     }
   },
   "channelAuthSchema": {
