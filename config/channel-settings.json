@@ -1001,7 +1001,12 @@
       "configValues": {
         "throttling": {
           "windowDuration": 10000,
-          "allocationLimit": 2
+          "allocationLimit": 1,
+          "throttledIndicators": [
+            {
+              "body": "Please retry the activity."
+            }
+          ]
         }
       }
     }
