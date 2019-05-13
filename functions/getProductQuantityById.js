@@ -46,6 +46,13 @@ module.exports = function(flowContext, payload) {
 
     this.info(`Using URL [${this.itemLedgerUrl}]`);
 
+    this.opts = {
+      username: this.username,
+      password: this.password,
+      domain: this.domain,
+      workstation: this.workstation
+    };
+
     return new Promise((resolve, reject) => {
       payload.remoteIDs.forEach(remoteID => {
         let remoteArgs = remoteID.split('|');

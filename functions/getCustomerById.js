@@ -61,61 +61,78 @@ module.exports = function(flowContext, payload) {
 
     this.info(`Using URL [${this.customerUrl}]`);
 
+    this.opts = {
+      url: this.customerUrl,
+      username: this.username,
+      password: this.password,
+      domain: this.domain,
+      workstation: this.workstation
+    };
+
     return new Promise((resolve, reject) => {
       let pagingContext = {};
-      this.soap.createClient(this.customerUrl, this.options, (function(err, client) {
-        if (!err) {
-          let m = this.nc.checkMethod(client, methodName);
+      this.soap.ntlm.handshake(this.soap.request, this.opts).then(options => {
+        this.options.wsdl_options = options;
+        this.soap.createClient(this.customerUrl, this.options, (function(err, client) {
+          if (!err) {
+            let m = this.nc.checkMethod(client, methodName);
 
-          if (!m) {
-            out.statusCode = 400;
-            out.errors.push(`The provided customer endpoint method name "${methodName}" does not exist. Check your configuration.`);
-            reject(out);
-          } else {
-            client[methodName](args, (function (error, body) {
+            if (!m) {
+              out.statusCode = 400;
+              out.errors.push(`The provided customer endpoint method name "${methodName}" does not exist. Check your configuration.`);
+              reject(out);
+            } else {
+              this.soap.ntlm.handshake(this.soap.request, this.opts).then(options => {
+                client[methodName](args, (function (error, body) {
 
-              let docs = [];
-              let data = _.get(body, this.customerServiceName);
+                  let docs = [];
+                  let data = _.get(body, this.customerServiceName);
 
-              if (!error) {
-                if (!data) {
-                  // If data is undefined, no results were returned
-                  out.statusCode = 204;
-                  out.payload = [];
-                  resolve(out);
-                } else {
-                  if (Array.isArray(data)) {
-                    // If an array is returned, multiple customers were found
-                    for (let i = 0; i < data.length; i++) {
-                      docs.push({ Customer: data[i] });
-                      if (i == data.length - 1) {
-                        pagingContext.key = data[i].Key;
+                  if (!error) {
+                    if (!data) {
+                      // If data is undefined, no results were returned
+                      out.statusCode = 204;
+                      out.payload = [];
+                      resolve(out);
+                    } else {
+                      if (Array.isArray(data)) {
+                        // If an array is returned, multiple customers were found
+                        for (let i = 0; i < data.length; i++) {
+                          docs.push({ Customer: data[i] });
+                          if (i == data.length - 1) {
+                            pagingContext.key = data[i].Key;
+                          }
+                        }
+                      } else if (typeof data === 'object') {
+                        // If an object is returned, one customers was found
+                        docs.push({ Customer: data });
+                        pagingContext.key = data.Key;
                       }
-                    }
-                  } else if (typeof data === 'object') {
-                    // If an object is returned, one customers was found
-                    docs.push({ Customer: data });
-                    pagingContext.key = data.Key;
-                  }
 
-                  if (docs.length === payload.pageSize && pagingContext.key) {
-                    out.statusCode = 206;
-                    out.pagingContext = pagingContext;
+                      if (docs.length === payload.pageSize && pagingContext.key) {
+                        out.statusCode = 206;
+                        out.pagingContext = pagingContext;
+                      } else {
+                        out.statusCode = 200;
+                      }
+                      out.payload = docs;
+                      resolve(out);
+                    }
                   } else {
-                    out.statusCode = 200;
+                    reject(this.handleOperationError(error));
                   }
-                  out.payload = docs;
-                  resolve(out);
-                }
-              } else {
-                reject(this.handleOperationError(error));
-              }
-            }).bind(this));
+                }).bind(this), options, options.headers);
+              }).catch(err => {
+                reject(this.handleOperationError(err));
+              });
+            }
+          } else {
+            reject(this.handleClientError(err));
           }
-        } else {
-          reject(this.handleClientError(err));
-        }
-      }).bind(this));
+        }).bind(this));
+      }).catch(err => {
+        reject(this.handleOperationError(err));
+      });
     });
 
   } else {

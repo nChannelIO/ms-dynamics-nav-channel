@@ -36,39 +36,44 @@ function processVariants(client, items, flowContext, itemVariantsMethodName, key
           items[i].Item_Variants = [];
         }
 
-        client[itemVariantsMethodName](args, (function (error, body) {
-          let data = _.get(body, this.itemVariantsServiceName);
-          if (!data) {
-            docs.push({Item: items[i]});
-            pResolve();
-          } else {
-            if (Array.isArray(data)) {
-
-              // Join existing Item_Variants with those pulled
-              items[i].Item_Variants = items[i].Item_Variants.concat(data);
-              let n = data.length - 1;
-              // Recursively call processVariants to determine if there are more variants using the key from the last variant pulled
-              processVariants(client, items[i], flowContext, itemVariantsMethodName, data[n].Key).then((result) => {
-                docs.push({Item: items[i]});
-                pResolve(result);
-              }).catch((err) => {
-                pReject(err);
-              });
-            } else if (typeof data === 'object') {
-              items[i].Item_Variants.push(data);
-
-              // Recursively call processVariants to determine if there are more variants using the key from the last variant pulled
-              processVariants(client, items[i], flowContext, itemVariantsMethodName, data.Key).then((result) => {
-                docs.push({Item: items[i]});
-                pResolve(result);
-              }).catch((err) => {
-                pReject(err);
-              });
-            } else {
+        this.opts.url = this.itemVariantsUrl;
+        this.soap.ntlm.handshake(this.soap.request, this.opts).then(options => {
+          client[itemVariantsMethodName](args, (function (error, body) {
+            let data = _.get(body, this.itemVariantsServiceName);
+            if (!data) {
+              docs.push({Item: items[i]});
               pResolve();
+            } else {
+              if (Array.isArray(data)) {
+
+                // Join existing Item_Variants with those pulled
+                items[i].Item_Variants = items[i].Item_Variants.concat(data);
+                let n = data.length - 1;
+                // Recursively call processVariants to determine if there are more variants using the key from the last variant pulled
+                processVariants(client, items[i], flowContext, itemVariantsMethodName, data[n].Key).then((result) => {
+                  docs.push({Item: items[i]});
+                  pResolve(result);
+                }).catch((err) => {
+                  pReject(err);
+                });
+              } else if (typeof data === 'object') {
+                items[i].Item_Variants.push(data);
+
+                // Recursively call processVariants to determine if there are more variants using the key from the last variant pulled
+                processVariants(client, items[i], flowContext, itemVariantsMethodName, data.Key).then((result) => {
+                  docs.push({Item: items[i]});
+                  pResolve(result);
+                }).catch((err) => {
+                  pReject(err);
+                });
+              } else {
+                pResolve();
+              }
             }
-          }
-        }).bind(this));
+          }).bind(this), options, options.headers);
+        }).catch(err => {
+          reject(this.handleOperationError(err));
+        });
       }));
     }
 

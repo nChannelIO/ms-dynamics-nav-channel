@@ -11,8 +11,8 @@ class ms_dynamics_nav_channel extends Channel {
 
     this.username = this.channelProfile.channelAuthValues.username;
     this.password = this.channelProfile.channelAuthValues.password;
-    this.domain = this.channelProfile.channelAuthValues.domain;
-    this.workstation = this.channelProfile.channelAuthValues.workstation;
+    this.domain = this.channelProfile.channelAuthValues.domain || "";
+    this.workstation = this.channelProfile.channelAuthValues.workstation || "";
     this.nc = nc;
 
     this.customerUrl = this.channelProfile.channelAuthValues.customerUrl;
@@ -34,7 +34,6 @@ class ms_dynamics_nav_channel extends Channel {
     this.salesShipmentServiceName = this.channelProfile.channelAuthValues.salesShipmentServiceName;
 
     this.options = {
-      NTLMSecurity: this.soap.NTLMSecurity(this.username, this.password, this.domain, this.workstation, true),
       prettyPrint: false
     };
   }
