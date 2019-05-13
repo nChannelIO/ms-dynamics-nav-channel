@@ -112,80 +112,97 @@ module.exports = function(flowContext, payload) {
 
     this.info(`Using URL [${this.itemLedgerUrl}]`);
 
+    this.opts = {
+      url: this.itemLedgerUrl,
+      username: this.username,
+      password: this.password,
+      domain: this.domain,
+      workstation: this.workstation
+    };
+
     return new Promise((resolve, reject) => {
       let pagingContext = {};
-      this.soap.createClient(this.itemLedgerUrl, this.options, (function(err, client) {
-        if (!err) {
-          let m = this.nc.checkMethod(client, itemLedgerMethodName);
+      this.soap.ntlm.handshake(this.soap.request, this.opts).then(options => {
+        this.options.wsdl_options = options;
+        this.soap.createClient(this.itemLedgerUrl, this.options, (function(err, client) {
+          if (!err) {
+            let m = this.nc.checkMethod(client, itemLedgerMethodName);
 
-          if (!m) {
-            out.statusCode = 400;
-            out.errors.push(`The provided item ledger endpoint method name "${itemLedgerMethodName}" does not exist. Check your configuration.`);
-            reject(out);
-          } else {
-            client[itemLedgerMethodName](args, (function (error, body) {
-              let data = _.get(body, this.itemLedgerServiceName);
+            if (!m) {
+              out.statusCode = 400;
+              out.errors.push(`The provided item ledger endpoint method name "${itemLedgerMethodName}" does not exist. Check your configuration.`);
+              reject(out);
+            } else {
+              this.soap.ntlm.handshake(this.soap.request, this.opts).then(options => {
+                client[itemLedgerMethodName](args, (function (error, body) {
+                let data = _.get(body, this.itemLedgerServiceName);
 
-              if (!error) {
-                if (!data) {
-                  out.statusCode = 204;
-                  out.payload = [];
-                  resolve(out);
-                } else {
-                  let items = [];
-                  if (Array.isArray(data)) {
-                    for (let i = 0; i < data.length; i++) {
-                      let code = data[i].Variant_Code;
-                      let itemNo = data[i].Item_No;
-                      items.push({itemNo: itemNo, code: code});
+                  if (!error) {
+                    if (!data) {
+                      out.statusCode = 204;
+                      out.payload = [];
+                      resolve(out);
+                    } else {
+                      let items = [];
+                      if (Array.isArray(data)) {
+                        for (let i = 0; i < data.length; i++) {
+                          let code = data[i].Variant_Code;
+                          let itemNo = data[i].Item_No;
+                          items.push({itemNo: itemNo, code: code});
+                        }
+                        pagingContext.key = data[data.length - 1].Key;
+                      } else if (typeof data === 'object') {
+                        let code = data.Variant_Code;
+                        let itemNo = data.Item_No;
+                        items.push({itemNo: itemNo, code: code});
+                        pagingContext.key = data.Key;
+                      }
+
+                      this.processLedger(items, flowContext, payload)
+                          .then((result) => {
+                            if (flowContext && flowContext.useInventoryCalculation) {
+                              return this.queryInventory(result, flowContext, payload);
+                            } else {
+                              return this.queryItems(result, flowContext);
+                            }
+                          })
+                          .then((result) => {
+                            if (flowContext && flowContext.useInventoryCalculation) {
+                              return result;
+                            } else {
+                              return this.queryVariants(result, flowContext);
+                            }
+                          })
+                          .then((docs) => {
+                            if (data.length === payload.pageSize && pagingContext.key) {
+                              out.statusCode = 206;
+                              out.pagingContext = pagingContext;
+                            } else {
+                              out.statusCode = 200;
+                            }
+                            out.payload = docs;
+                            resolve(out);
+                          }).catch((err) => {
+                        out.statusCode = 400;
+                        out.errors.push(err);
+                        reject(out);
+                      });
                     }
-                    pagingContext.key = data[data.length - 1].Key;
-                  } else if (typeof data === 'object') {
-                    let code = data.Variant_Code;
-                    let itemNo = data.Item_No;
-                    items.push({itemNo: itemNo, code: code});
-                    pagingContext.key = data.Key;
+                  } else {
+                    reject(this.handleOperationError(error));
                   }
-
-                  this.processLedger(items, flowContext, payload)
-                      .then((result) => {
-                        if (flowContext && flowContext.useInventoryCalculation) {
-                          return this.queryInventory(result, flowContext, payload);
-                        } else {
-                          return this.queryItems(result, flowContext);
-                        }
-                      })
-                      .then((result) => {
-                        if (flowContext && flowContext.useInventoryCalculation) {
-                          return result;
-                        } else {
-                          return this.queryVariants(result, flowContext);
-                        }
-                      })
-                      .then((docs) => {
-                        if (data.length === payload.pageSize && pagingContext.key) {
-                          out.statusCode = 206;
-                          out.pagingContext = pagingContext;
-                        } else {
-                          out.statusCode = 200;
-                        }
-                        out.payload = docs;
-                        resolve(out);
-                      }).catch((err) => {
-                    out.statusCode = 400;
-                    out.errors.push(err);
-                    reject(out);
-                  });
-                }
-              } else {
-                reject(this.handleOperationError(error));
-              }
-            }).bind(this));
+                }).bind(this), options, options.headers);
+              }).catch(err => {
+                reject(this.handleOperationError(err));
+              });
+            }
+          } else {
+            reject(this.handleClientError(err));
           }
-        } else {
-          reject(this.handleClientError(err));
-        }
-      }).bind(this));
+        }).bind(this));
+      }).catch(err => {
+        reject(this.handleOperationError(err));
+      });
     });
 
   } else {
