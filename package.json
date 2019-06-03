@@ -1,26 +1,32 @@
 {
   "name": "@nchannel/ms-dynamics-nav-channel",
-  "author": "",
+  "version": "0.0.36",
   "description": "",
+  "main": "ms_dynamics_nav_channel.js",
+  "scripts": {
+    "test": "npx nchannel-sdk test"
+  },
+  "author": "",
+  "license": "ISC",
   "dependencies": {
-    "jsonata": "1.4.1",
-    "lodash": "4.17.4",
-    "strong-soap": "1.7.0"
+    "@nchannel/endpoint-sdk": "^1.0.16",
+    "lodash": "4.17.11"
   },
   "devDependencies": {
-    "nock": "9.2.3",
-    "soap": "0.23.0",
-    "sinon": "4.4.4",
-    "proxyquire": "2.0.0",
-    "lodash": "^4.17.4",
     "chai": "^3.5.0",
-    "mocha": "^3.1.2"
+    "mocha": "^6.1.4",
+    "nock": "9.2.3",
+    "proxyquire": "2.0.0",
+    "sinon": "4.4.4",
+    "soap": "^0.27.1"
   },
   "engines": {
     "node": ">=7.6.0"
   },
-  "scripts": {
-    "test": "mocha --timeout 10000 validation/*.spec.js"
-  },
-  "version": "0.0.23"
+  "files": [
+    "config",
+    "functions",
+    "schema",
+    "util"
+  ]
 }

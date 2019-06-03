@@ -1,58 +1,123 @@
-# nc-template-channel
+# ms-dynamics-nav-channel
+nChannel SDK channel for Microsoft Dynamics NAV
 
-Template channel for SDK development
+* [Configuration](#configuration)
+* [Current Function Support](#current-function-support)
+* [Channel Action Configuration](#channel-action-configuration)
 
+## Configuration
+### Authentication Details
+* `Username` - Username used when querying Dynamics NAV
+* `Password` - Password used when querying Dynamics NAV
+* `Domain` - (Optional) Domain used when querying Dynamics NAV
+* `Workstation` - (Optional) Workstation used when querying Dynamics NAV
+### Endpoint URLs
+List of endpoints for use with the NAV instance.
 
-# Modifying the doc `docs.json` file
+_Example URL: `https://<baseUrl>:<port>/<serverInstance>/WS/<companyName>/Page/Customer`_
 
-## Required Parameters
+Each endpoint is used with the following functions:
+* `Customer SOAP URL` - `Get Customer`/`Put Customer`
+* `Item SOAP URL` - `Get Product`/`Get Product Quantity`
+* `Item Ledger SOAP URL` - `Get Product Quantity`
+* `Item Variants SOAP URL` - `Get Product`
+* `Order SOAP URL` - `Put Order`
+* `Order Lines SOAP URL` - `Put Order`
+* `Sales Shipment SOAP URL` - `Get Fulfillment`
+* `Variant Inventory SOAP URL` - `Get Product Quantity`
 
- `unitTestPackage` - Name of the testing package used with the stub functions. Valid values are `nock` and `soap`.
+### Service Names
+List of service names for use with the NAV instance - each service name is used to identify the object of the record from NAV.
 
-`packageName` - (Required if `unitTestPackage` is `soap`) Name of the `soap` package used with the stub functions. Package used should derive from the base repository here at https://www.npmjs.com/package/soap.
+_Example Values: `Item`, `Customer`_
 
-`ncUtil` - Passed into the stub function with any utility objects or packages.
+* `Customer Service Name` - Service name used under the WSDL from the `Customer SOAP URL`
+* `Item Service Name` - Service name used with the `Item SOAP URL`
+* `Item Ledger Service Name` - Service name used with the `Item Ledger SOAP URL`
+* `Item Variants Service Name` - Service name used with the `Item Variants SOAP URL`
+* `Order Service Name` - Service name used with the `Order SOAP URL`
+* `Order Lines Service Name` - Service name used with the `Order Lines SOAP URL`
+* `Sales Shipment Service Name` - Service name used with the `Sales Shipment SOAP URL`
+* `Variant Inventory Service Name` - Service name used with the `Variant Inventory SOAP URL`
 
-`channelProfile` - Passed into the stub function. Contains the `channelAuthValues` object with any authorization values that are used by the stub function.
+## Current Function Support
+### GET
+* `Get Product`
+* `Get Product Quantity`
+* `Get Fulfillment`
+### PUT
+* `Put Sales Order`
+* `Put Customer`
+### REFRESH Action Support
+* `Customer`
 
-`doc` - An array of objects used by the unit tests. Each of the objects should contain the following:
- - `functionName` - Name of the stub function this object is for. (i.e. `CheckForCustomer`)
- - `tests` - An array of documents used to test the stub function. At least one document must be present for each ncStatusCode expected to be returned within the `gateway-service` flow.
-	 - Example: `CheckForCustomer` must have at least one document each for ncStatusCodes `200`, `204`, `400`, `409`, `429`, and `500`.
+## Channel Action Configuration
+### Get Product
+* **DateTime Filter Field** - Specifies a `DateTime` field to use instead of the default field when querying products by date.
+* **Filter Field** - Specifies a field by which to filter products.
+* **Filter Criteria** - A conditional value to match against products when querying products.
+* **Product Code Unit Fields**:
+    * Method Name
+    * Key Field
+    * Start Date Field
+    * End Date Field
+    * ID Field
+    * Page Field
+    * Page Size Field
+    
+* **Product Variant Code Unit Fields**:
+    * Method Name
+    * Key Field
+    * Start Date Field
+    * End Date Field
+    * ID Field
+    * Page Field
+    * Page Size Field
+    
+### Get Product Quantity
+* **DateTime Filter Field** - Specifies a `DateTime` field to use instead of the default field when querying product quantities by date.
+* **Item Ledger Filter Field** - Specifies a field by which to filter the item ledger.
+* **Item Ledger Filter Criteria** - The conditional value to match against item ledger records when querying the item ledger.
+* **Item Field** - Specifies a field by which to filter products.
+* **Item Filter Criteria** - The conditional value to match against products when querying products.
+* **Variant Inventory Filter Field** - Specifies a field by which to filter variant inventory.
+* **Variant Inventory Filter Criteria** - The conditional value to match against variant inventory when querying the variant inventory.
+* **Variant Inventory Code Unit Fields**:
+    * Item Field
+    * Variant Code
+    * Location Field
+    * Method Name
+    * Location Code
+    
+* **Item Ledger Code Unit Fields**:
+    * Method Name
+    * Key Field
+    * Start Date Field
+    * End Date Field
+    * Page Field
+    * Page Size Field
+    
+### Get Fulfillment
+* **DateTime Filter Field** - Specifies a `DateTime` field to use instead of the default field when querying fulfillments by date.
+* **Filter Field** - Specifies a field by which to filter fulfillments.
+* **Filter Criteria** - The conditional value to match against fulfillments when querying fulfillments.
+* **Fulfillment Code Unit Fields**:
+    * Method Name
+    * Key Field
+    * Start Date Field
+    * End Date Field
+    * Remote ID
+    * Page Field
+    * Page Size Field
+    
+### Put Order
+* **Customer Field**
+* **Order Code Unit Fields**:
+    * Method Name
 
-
-## Required Parameters for `tests` array
-
-Each test object in the array must contain the following:
-
-`ncStatusCode` - The status code that the test will return.
-
-`payload` - Payload used for the stub function in the unit tests. Can contain a `doc` object holding the document data to be sent to the endpoint system.
-
-When `unitTestingPackage` is `soap`:
-
- - `wsdlUri` - `wsdl` URI used with the endpoint system.
- - `security` - (Optional) Security model used within the soap client (i.e. `BasicAuthSecurity`)
- - `service` - (Optional) `wsdl` service name used for the unit test.
- - `servicePort` -  (Optional) `wsdl` port name used for the unit test.
-
-When `unitTestingPackage` is `nock`:
-
- - `baseUri` - Base URI of the endpoint system
- - `defaultHeaders` - Default headers used with `baseUri` to be passed with the document
-
-`links` - An array of objects containing each of the calls to the endpoint system. Each link should contain the following:
-
- - When `unitTestingPackage` is `soap`:   
-	 - `function` - Function that is invoked when communicating with the endpoint system.
-
- - When `unitTestingPackage` is `nock`:
-	 - `uri` - Endpoint of the API.
-	 - `method` - HTTP Method used. Valid values are `GET`, `POST`, `PUT`, and `DELETE`.
-	 - `replyHeaders` - Reply headers used with the response of the request.
-	 - `statusCode` - Status code to be returned from the API
-
-- All testing packages:
-	- `responsePayload` - Expected payload returned from the endpoint system
-
-`channelProfile` - Object that will contain parameters to be used by the stub function. (i.e. `customerBusinessReferences`)
+### Put Customer
+* **Customer Code Unit Fields**:
+    * Insert Method Name
+    * Query Method Name
+    * Update Method Name
+    * ID Field

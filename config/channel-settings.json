@@ -1,4 +1,5 @@
 {
+  "sdkVersion": "1",
   "name": "Microsoft Dynamics NAV",
   "description": "Microsoft Dynamics NAV Registry",
   "channelIcon": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAfcAAAGUCAYAAAAoFWvTAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2RpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDoxOTFGQzk5M0I1QkJFMjExOTc5NEVERUJFRjNFRDNFMiIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDoyOTZFNjk4NEJCQkYxMUUyQTU4NERBNEE3NkYzN0FDMiIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDoyOTZFNjk4M0JCQkYxMUUyQTU4NERBNEE3NkYzN0FDMiIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IFdpbmRvd3MiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDoxQjFGQzk5M0I1QkJFMjExOTc5NEVERUJFRjNFRDNFMiIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDoxOTFGQzk5M0I1QkJFMjExOTc5NEVERUJFRjNFRDNFMiIvPiA8L3JkZjpEZXNjcmlwdGlv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",
@@ -23,6 +24,10 @@
         "configModel": {
           "required": [],
           "properties": {
+            "dateTimeField": {
+              "type": "string",
+              "title": "DateTime Filter Field (Overrides Date Only Filtering)"
+            },
             "field": {
               "type": "string",
               "title": "Filter Field"
@@ -54,13 +59,136 @@
             "canGetSimpleProducts": {
               "type": "boolean",
               "title": "GET Product, canGetSimpleProducts"
+            },
+            "itemIsCodeUnit": {
+              "type": "boolean",
+              "title": "Is your item web service a code unit?"
+            },
+            "itemVariantIsCodeUnit": {
+              "type": "boolean",
+              "title": "Is your item variant web service a code unit?"
+            },
+            "itemMethodName": {
+              "type": "string",
+              "title": "What is the name of the method used to query items on the item web service?"
+            },
+            "itemKeyFieldName": {
+              "type": "string",
+              "title": "What is the name of the \"Key\" field used to page through the items?"
+            },
+            "itemVariantMethodName": {
+              "type": "string",
+              "title": "What is the name of the method used to query item variants on the item variant web service?"
+            },
+            "itemVariantKeyFieldName": {
+              "type": "string",
+              "title": "What is the name of the \"Key\" field used to page through an item's variants?"
+            },
+            "itemStartDateProperty": {
+              "type": "string",
+              "title": "What is the name of the \"Start Date\" field when paging through items?"
+            },
+            "itemEndDateProperty": {
+              "type": "string",
+              "title": "What is the name of the \"End Date\" field when paging through items?"
+            },
+            "itemRemoteIDProperty": {
+              "type": "string",
+              "title": "What is the name of the \"ID\" field when paging through items?"
+            },
+            "itemPageProperty": {
+              "type": "string",
+              "title": "What is the name of the \"Page\" field when paging through items?"
+            },
+            "itemPageSizeProperty": {
+              "type": "string",
+              "title": "What is the name of the \"Page Size\" field when paging through items?"
+            },
+            "itemVariantStartDateProperty": {
+              "type": "string",
+              "title": "What is the name of the \"Start Date\" field when paging through variants?"
+            },
+            "itemVariantEndDateProperty": {
+              "type": "string",
+              "title": "What is the name of the \"End Date\" field when paging through variants?"
+            },
+            "itemVariantRemoteIDProperty": {
+              "type": "string",
+              "title": "What is the name of the \"ID\" field when paging through variants?"
+            },
+            "itemVariantPageProperty": {
+              "type": "string",
+              "title": "What is the name of the \"Page\" field when paging through variants?"
+            },
+            "itemVariantPageSizeProperty": {
+              "type": "string",
+              "title": "What is the name of the \"Page Size\" field when paging through variants?"
             }
           }
         },
         "configView": [
+          "dateTimeField",
           "field",
           "criteria",
-          "doGetMatrixProducts"
+          "doGetMatrixProducts",
+          "itemIsCodeUnit",
+          {
+            "key": "itemMethodName",
+            "condition": "model.itemIsCodeUnit==true"
+          },
+          {
+            "key": "itemKeyFieldName",
+            "condition": "model.itemIsCodeUnit==true"
+          },
+          {
+            "key": "itemStartDateProperty",
+            "condition": "model.itemIsCodeUnit==true"
+          },
+          {
+            "key": "itemEndDateProperty",
+            "condition": "model.itemIsCodeUnit==true"
+          },
+          {
+            "key": "itemRemoteIDProperty",
+            "condition": "model.itemIsCodeUnit==true"
+          },
+          {
+            "key": "itemPageProperty",
+            "condition": "model.itemIsCodeUnit==true"
+          },
+          {
+            "key": "itemPageSizeProperty",
+            "condition": "model.itemIsCodeUnit==true"
+          },
+          "itemVariantIsCodeUnit",
+          {
+            "key": "itemVariantMethodName",
+            "condition": "model.itemVariantIsCodeUnit==true"
+          },
+          {
+            "key": "itemVariantKeyFieldName",
+            "condition": "model.itemVariantIsCodeUnit==true"
+          },
+          {
+            "key": "itemVariantStartDateProperty",
+            "condition": "model.itemVariantIsCodeUnit==true"
+          },
+          {
+            "key": "itemVariantEndDateProperty",
+            "condition": "model.itemVariantIsCodeUnit==true"
+          },
+          {
+            "key": "itemVariantRemoteIDProperty",
+            "condition": "model.itemVariantIsCodeUnit==true"
+          },
+          {
+            "key": "itemVariantPageProperty",
+            "condition": "model.itemVariantIsCodeUnit==true"
+          },
+          {
+            "key": "itemVariantPageSizeProperty",
+            "condition": "model.itemVariantIsCodeUnit==true"
+          }
         ],
         "configValues": {
           "doGetMatrixProducts": true,
@@ -69,13 +197,32 @@
           "canGetMatrixProducts": true,
           "canGetVirtualMatrixProducts": false,
           "canGetSimpleProducts": false,
+          "itemIsCodeUnit": false,
+          "itemVariantIsCodeUnit": false,
+          "dateTimeField": "",
           "field": "",
-          "criteria": ""
+          "criteria": "",
+          "itemMethodName": "",
+          "itemKeyFieldName": "",
+          "itemVariantMethodName": "",
+          "itemVariantKeyFieldName": "",
+          "itemStartDateProperty": "",
+          "itemEndDateProperty": "",
+          "itemRemoteIDProperty": "",
+          "itemPageProperty": "",
+          "itemPageSizeProperty": "",
+          "itemVariantStartDateProperty": "",
+          "itemVariantEndDateProperty": "",
+          "itemVariantRemoteIDProperty": "",
+          "itemVariantPageProperty": "",
+          "itemVariantPageSizeProperty": ""
         }
       },
       "documentDef": {
         "schema": {},
-        "referenceLocation": {"productBusinessReferences": ["Item.No"]}
+        "referenceLocation": {},
+        "remoteID": "Item.No",
+        "businessReferences": ["Item.No"]
       }
     },
     {
@@ -91,6 +238,10 @@
         "configModel": {
           "required": [],
           "properties": {
+            "dateTimeField": {
+              "type": "string",
+              "title": "DateTime Filter Field (Overrides Date Only Filtering)"
+            },
             "field": {
               "type": "string",
               "title": "Item Ledger Filter Field"
@@ -119,13 +270,58 @@
               "type": "boolean",
               "title": "Do you use a custom inventory calculation exposed as a web service?"
             },
+            "itemNameField": {
+              "type": "string",
+              "title": "What is the name of the item field used in the inventory calculation?"
+            },
+            "codeNameField": {
+              "type": "string",
+              "title": "What is the name of the variant code field used in the inventory calculation?"
+            },
+            "locationNameField": {
+              "type": "string",
+              "title": "What is the name of the location field used in the inventory calculation?"
+            },
+            "methodName": {
+              "type": "string",
+              "title": "What is the name of the method used in the inventory calculation?"
+            },
             "locationCode": {
               "type": "string",
               "title": "What is the location code you want to pull inventory from?"
+            },
+            "itemLedgerIsCodeUnit": {
+              "type": "boolean",
+              "title": "Is your item ledger web service a code unit?"
+            },
+            "itemLedgerMethodName": {
+              "type": "string",
+              "title": "What is the name of the method used to query the item ledger on the item ledger web service?"
+            },
+            "itemLedgerKeyFieldName": {
+              "type": "string",
+              "title": "What is the name of the \"Key\" field used to page through the item ledger?"
+            },
+            "startDateProperty": {
+              "type": "string",
+              "title": "What is the name of the \"Start Date\" field when paging through records?"
+            },
+            "endDateProperty": {
+              "type": "string",
+              "title": "What is the name of the \"End Date\" field when paging through records?"
+            },
+            "pageProperty": {
+              "type": "string",
+              "title": "What is the name of the \"Page\" field when paging through records?"
+            },
+            "pageSizeProperty": {
+              "type": "string",
+              "title": "What is the name of the \"Page Size\" field when paging through records?"
             }
           }
         },
         "configView": [
+          "dateTimeField",
           "field",
           "criteria",
           "itemField",
@@ -134,11 +330,53 @@
           "variantCriteria",
           "useInventoryCalculation",
           {
+            "key": "itemNameField",
+            "condition": "model.useInventoryCalculation==true"
+          },
+          {
+            "key": "codeNameField",
+            "condition": "model.useInventoryCalculation==true"
+          },
+          {
+            "key": "locationNameField",
+            "condition": "model.useInventoryCalculation==true"
+          },
+          {
+            "key": "methodName",
+            "condition": "model.useInventoryCalculation==true"
+          },
+          {
             "key": "locationCode",
             "condition": "model.useInventoryCalculation==true"
+          },
+          "itemLedgerIsCodeUnit",
+          {
+            "key": "itemLedgerMethodName",
+            "condition": "model.itemLedgerIsCodeUnit==true"
+          },
+          {
+            "key": "itemLedgerKeyFieldName",
+            "condition": "model.itemLedgerIsCodeUnit==true"
+          },
+          {
+            "key": "startDateProperty",
+            "condition": "model.itemLedgerIsCodeUnit==true"
+          },
+          {
+            "key": "endDateProperty",
+            "condition": "model.itemLedgerIsCodeUnit==true"
+          },
+          {
+            "key": "pageProperty",
+            "condition": "model.itemLedgerIsCodeUnit==true"
+          },
+          {
+            "key": "pageSizeProperty",
+            "condition": "model.itemLedgerIsCodeUnit==true"
           }
         ],
         "configValues": {
+          "dateTimeField": "",
           "field": "",
           "criteria": "",
           "itemField": "",
@@ -146,12 +384,25 @@
           "variantField": "",
           "variantCriteria": "",
           "useInventoryCalculation": false,
-          "locationCode": ""
+          "itemNameField": "",
+          "codeNameField": "",
+          "locationNameField": "",
+          "methodName": "",
+          "locationCode": "",
+          "itemLedgerIsCodeUnit": false,
+          "itemLedgerMethodName": "",
+          "itemLedgerKeyFieldName": "",
+          "startDateProperty": "",
+          "endDateProperty": "",
+          "pageProperty": "",
+          "pageSizeProperty": ""
         }
       },
       "documentDef": {
         "schema": {},
-        "referenceLocation": {"productQuantityBusinessReferences": ["Item.No", "Item.Variant_Inventory.Code"]}
+        "referenceLocation": {},
+        "remoteID": "Item.No",
+        "businessReferences": ["$join([Item.No, Item.Variant_Inventory.Code])"]
       }
     },
     {
@@ -161,6 +412,9 @@
       "name" : "PUT SALESORDER",
       "configDef" : {
         "configValues" : {
+          "salesOrderIsCodeUnit": false,
+          "orderMethodName": "",
+          "extractCustomerName": "Customer",
           "canUpdateOrderFlag" : false,
           "canUpdateCustomerFlag" : true,
           "canUpdateCustomerAddressFlag" : false,
@@ -174,6 +428,12 @@
         },
         "configView" : [
           "doPutCustomerFlag",
+          "salesOrderIsCodeUnit",
+          {
+            "key": "orderMethodName",
+            "condition": "model.salesOrderIsCodeUnit==true"
+          },
+          "extractCustomerName",
           "doUpdateCustomerFlag"
         ],
         "configModel" : {
@@ -190,6 +450,38 @@
             "doPutCustomerContactsFlag"
           ],
           "properties" : {
+            "salesOrderIsCodeUnit": {
+              "type": "boolean",
+              "title": "Is your sales order web service a code unit?"
+            },
+            "customerIsCodeUnit": {
+              "type": "boolean",
+              "title": "Is your customer web service a code unit?"
+            },
+            "insertMethodName": {
+              "type": "string",
+              "title": "What is the name of the method used to insert customers on the customer web service?"
+            },
+            "getMethodName": {
+              "type": "string",
+              "title": "What is the name of the method used to query customers on the customer web service?"
+            },
+            "updateMethodName": {
+              "type": "string",
+              "title": "What is the name of the method used to update customers on the customer web service?"
+            },
+            "orderMethodName": {
+              "type": "string",
+              "title": "What is the name of the method used to insert sales orders on the sales order web service?"
+            },
+            "updateCustomerNoField": {
+              "type": "string",
+              "title": "What is the name of the field used for identifying the customer number on the codeunit?"
+            },
+            "extractCustomerName": {
+              "type": "string",
+              "title": "What is the name of the field on a sales order that identifies the customer?"
+            },
             "canUpdateOrderFlag": {
               "type" : "boolean",
               "title" : "PUT Order, canUpdateOrderFlag"
@@ -248,7 +540,7 @@
             "name": "CUSTOMER",
             "location": "Order.Customer",
             "remoteID": "No",
-            "businessReferences": ["E_Mail", "Phone_No"]
+            "businessReferences": ["E_Mail"]
           }
         ],
         "refreshNouns": ["CUSTOMER"]
@@ -264,9 +556,59 @@
         "defaultRuleValues": {}
       },
       "configDef" : {
+        "configValues" : {
+          "field": "",
+          "criteria": "",
+          "dateTimeField": "",
+          "fulfillmentIsCodeUnit": false,
+          "methodName": "",
+          "keyFieldName": "",
+          "startDateProperty": "",
+          "endDateProperty": "",
+          "remoteIDProperty": "",
+          "pageProperty": "",
+          "pageSizeProperty": ""
+        },
+        "configView" : [
+          "field",
+          "criteria",
+          "dateTimeField",
+          "fulfillmentIsCodeUnit",
+          {
+            "key": "methodName",
+            "condition": "model.fulfillmentIsCodeUnit==true"
+          },
+          {
+            "key": "keyFieldName",
+            "condition": "model.fulfillmentIsCodeUnit==true"
+          },
+          {
+            "key": "startDateProperty",
+            "condition": "model.fulfillmentIsCodeUnit==true"
+          },
+          {
+            "key": "endDateProperty",
+            "condition": "model.fulfillmentIsCodeUnit==true"
+          },
+          {
+            "key": "remoteIDProperty",
+            "condition": "model.fulfillmentIsCodeUnit==true"
+          },
+          {
+            "key": "pageProperty",
+            "condition": "model.fulfillmentIsCodeUnit==true"
+          },
+          {
+            "key": "pageSizeProperty",
+            "condition": "model.fulfillmentIsCodeUnit==true"
+          }
+        ],
         "configModel": {
-          "required": [],
           "properties": {
+            "dateTimeField": {
+              "type": "string",
+              "title": "DateTime Filter Field (Overrides Date Only Filtering)"
+            },
             "field": {
               "type": "string",
               "title": "Filter Field"
@@ -274,23 +616,49 @@
             "criteria": {
               "type": "string",
               "title": "Filter Criteria"
+            },
+            "fulfillmentIsCodeUnit": {
+              "type": "boolean",
+              "title": "Is your fulfillment web service a code unit?"
+            },
+            "methodName": {
+              "type": "string",
+              "title": "What is the name of the method used to query fulfillments on the fulfillment web service?"
+            },
+            "keyFieldName": {
+              "type": "string",
+              "title": "What is the name of the \"Key\" field used to page through the fulfillments?"
+            },
+            "startDateProperty": {
+              "type": "string",
+              "title": "What is the name of the \"Start Date\" field when paging through records?"
+            },
+            "endDateProperty": {
+              "type": "string",
+              "title": "What is the name of the \"End Date\" field when paging through records?"
+            },
+            "remoteIDProperty": {
+              "type": "string",
+              "title": "What is the name of the \"Remote ID\" field when paging through records?"
+            },
+            "pageProperty": {
+              "type": "string",
+              "title": "What is the name of the \"Page\" field when paging through records?"
+            },
+            "pageSizeProperty": {
+              "type": "string",
+              "title": "What is the name of the \"Page Size\" field when paging through records?"
             }
           }
-        },
-        "configView": [
-          "field",
-          "criteria"
-        ],
-        "configValues": {
-          "field": "",
-          "criteria": ""
         }
       },
       "documentDef": {
         "schema": {},
-        "referenceLocation": {
-          "fulfillmentBusinessReferences": ["Sales_Shipment.No"],
-          "salesOrderBusinessReferences": ["Order.No"]
+        "referenceLocation": {},
+        "remoteID": "Sales_Shipment.No",
+        "businessReferences": ["Sales_Shipment.No"],
+        "secondaryReferences": {
+          "salesOrderBusinessReferences": ["Sales_Shipment.Order_No"]
         }
       }
     },
@@ -307,6 +675,26 @@
         "configModel" : {
           "type" : "object",
           "properties" : {
+            "customerIsCodeUnit": {
+              "type": "boolean",
+              "title": "Is your customer web service a code unit?"
+            },
+            "insertMethodName": {
+              "type": "string",
+              "title": "What is the name of the method used to insert customers on the customer web service?"
+            },
+            "getMethodName": {
+              "type": "string",
+              "title": "What is the name of the method used to query customers on the customer web service?"
+            },
+            "updateMethodName": {
+              "type": "string",
+              "title": "What is the name of the method used to update customers on the customer web service?"
+            },
+            "updateCustomerNoField": {
+              "type": "string",
+              "title": "What is the name of the field used for identifying the customer number on the codeunit?"
+            },
             "canUpdateCustomerFlag" : {
               "title" : "PUT Customer, canUpdateCustomerFlag",
               "type" : "boolean"
@@ -336,8 +724,31 @@
             "doPutCustomerContactsFlag"
           ]
         },
-        "configView" : [],
+        "configView" : [
+          "customerIsCodeUnit",
+          {
+            "key": "insertMethodName",
+            "condition": "model.customerIsCodeUnit==true"
+          },
+          {
+            "key": "getMethodName",
+            "condition": "model.customerIsCodeUnit==true"
+          },
+          {
+            "key": "updateMethodName",
+            "condition": "model.customerIsCodeUnit==true"
+          },
+          {
+            "key": "updateCustomerNoField",
+            "condition": "model.customerIsCodeUnit==true"
+          }
+        ],
         "configValues" : {
+          "customerIsCodeUnit": false,
+          "insertMethodName": "",
+          "getMethodName": "",
+          "updateMethodName": "",
+          "updateCustomerNoField": "",
           "canUpdateCustomerFlag": true,
           "canUpdateCustomerAddressFlag": false,
           "canUpdateCustomerContactFlag": false,
@@ -349,7 +760,7 @@
         "schema": {},
         "referenceLocation": {},
         "remoteID": "Customer.No",
-        "businessReferences": ["Customer.E_Mail", "Customer.Phone_No"],
+        "businessReferences": ["Customer.E_Mail"],
         "refreshNouns": ["CUSTOMER"]
       }
     },
@@ -363,15 +774,87 @@
         "defaultRuleValues": {}
       },
       "configDef" : {
-        "configValues" : {},
-        "configView" : [],
-        "configModel" : {}
+        "configValues" : {
+          "customerIsCodeUnit": {
+            "type": "boolean",
+            "title": "Is your customer web service a code unit?"
+          },
+          "methodName": {
+            "type": "string",
+            "title": "What is the name of the method used to query customers on the customer web service?"
+          },
+          "keyFieldName": {
+            "type": "string",
+            "title": "Key Field Name"
+          },
+          "startDateProperty": {
+            "type": "string",
+            "title": "Start Date Field Name"
+          },
+          "endDateProperty": {
+            "type": "string",
+            "title": "End Date Field Name"
+          },
+          "remoteIDProperty": {
+            "type": "string",
+            "title": "Remote ID Field Name"
+          },
+          "pageProperty": {
+            "type": "string",
+            "title": "Page Field Name"
+          },
+          "pageSizeProperty": {
+            "type": "string",
+            "title": "Page Size Field Name"
+          }
+        },
+        "configView" : [
+          "customerIsCodeUnit",
+          {
+            "key": "methodName",
+            "condition": "model.customerIsCodeUnit==true"
+          },
+          {
+            "key": "keyFieldName",
+            "condition": "model.customerIsCodeUnit==true"
+          },
+          {
+            "key": "startDateProperty",
+            "condition": "model.customerIsCodeUnit==true"
+          },
+          {
+            "key": "endDateProperty",
+            "condition": "model.customerIsCodeUnit==true"
+          },
+          {
+            "key": "remoteIDProperty",
+            "condition": "model.customerIsCodeUnit==true"
+          },
+          {
+            "key": "pageProperty",
+            "condition": "model.customerIsCodeUnit==true"
+          },
+          {
+            "key": "pageSizeProperty",
+            "condition": "model.customerIsCodeUnit==true"
+          }
+        ],
+        "configModel" : {
+          "customerIsCodeUnit": false,
+          "methodName": "",
+          "keyFieldName": "",
+          "startDateProperty": "",
+          "endDateProperty": "",
+          "remoteIDProperty": "",
+          "pageProperty": "",
+          "pageSizeProperty": ""
+        }
       },
       "documentDef": {
         "schema": {},
         "referenceLocation": {},
         "remoteID": "Customer.No",
-        "businessReferences": ["Customer.E_Mail", "Customer.Phone_No"]
+        "businessReferences": ["Customer.E_Mail"]
       }
     },
     {
@@ -384,15 +867,87 @@
         "defaultRuleValues": {}
       },
       "configDef": {
-        "configModel": {},
-        "configView": [],
-        "configValues": {}
+        "configValues" : {
+          "customerIsCodeUnit": {
+            "type": "boolean",
+            "title": "Is your customer web service a code unit?"
+          },
+          "methodName": {
+            "type": "string",
+            "title": "What is the name of the method used to query customers on the customer web service?"
+          },
+          "keyFieldName": {
+            "type": "string",
+            "title": "Key Field Name"
+          },
+          "startDateProperty": {
+            "type": "string",
+            "title": "Start Date Field Name"
+          },
+          "endDateProperty": {
+            "type": "string",
+            "title": "End Date Field Name"
+          },
+          "remoteIDProperty": {
+            "type": "string",
+            "title": "Remote ID Field Name"
+          },
+          "pageProperty": {
+            "type": "string",
+            "title": "Page Field Name"
+          },
+          "pageSizeProperty": {
+            "type": "string",
+            "title": "Page Size Field Name"
+          }
+        },
+        "configView" : [
+          "customerIsCodeUnit",
+          {
+            "key": "methodName",
+            "condition": "model.customerIsCodeUnit==true"
+          },
+          {
+            "key": "keyFieldName",
+            "condition": "model.customerIsCodeUnit==true"
+          },
+          {
+            "key": "startDateProperty",
+            "condition": "model.customerIsCodeUnit==true"
+          },
+          {
+            "key": "endDateProperty",
+            "condition": "model.customerIsCodeUnit==true"
+          },
+          {
+            "key": "remoteIDProperty",
+            "condition": "model.customerIsCodeUnit==true"
+          },
+          {
+            "key": "pageProperty",
+            "condition": "model.customerIsCodeUnit==true"
+          },
+          {
+            "key": "pageSizeProperty",
+            "condition": "model.customerIsCodeUnit==true"
+          }
+        ],
+        "configModel" : {
+          "customerIsCodeUnit": false,
+          "methodName": "",
+          "keyFieldName": "",
+          "startDateProperty": "",
+          "endDateProperty": "",
+          "remoteIDProperty": "",
+          "pageProperty": "",
+          "pageSizeProperty": ""
+        }
       },
       "documentDef": {
         "schema": {},
         "referenceLocation": {},
         "remoteID": "Customer.No",
-        "businessReferences": ["Customer.E_Mail", "Customer.Phone_No"]
+        "businessReferences": ["Customer.E_Mail"]
       }
     }
   ],
@@ -400,26 +955,59 @@
     "configDef": {
       "configModel": {
         "type": "object",
-        "title": "Microsoft Dynamics NAV Channel Settings",
+        "title": "Microsoft NAV Channel Settings",
         "properties": {
-          "protocol": {
-            "title": "Protocol",
-            "type": "string"
-          },
-          "implFolderName": {
-            "title": "Implementation Folder Name",
-            "type": "string"
+          "throttling":{
+            "title": "Throttling",
+            "type": "object",
+            "properties": {
+              "windowDuration": {
+                "title": "Throttling Time Frame (ms)",
+                "type": "integer"
+              },
+              "allocationLimit": {
+                "title": "Number of Requests per Time Frame",
+                "type": "integer"
+              },
+              "throttledIndicators": {
+                "title": "Throttled Response Indicators",
+                "type": "array",
+                "items": {
+                  "title": "Criteria",
+                  "type": "object",
+                  "properties": {
+                    "statusCode": {
+                      "title": "Status Code (optional)",
+                      "type": "integer"
+                    },
+                    "body": {
+                      "title": "Text Contained in the Response Body (optional)",
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            },
+            "required": [
+              "windowDuration",
+              "allocationLimit"
+            ]
           }
-        },
-        "required": [
-          "protocol",
-          "implFolderName"
-        ]
+        }
       },
-      "configView": [],
+      "configView": [
+        "throttling"
+      ],
       "configValues": {
-        "protocol": "https",
-        "implFolderName": "nav"
+        "throttling": {
+          "windowDuration": 10000,
+          "allocationLimit": 1,
+          "throttledIndicators": [
+            {
+              "body": "Please retry the activity."
+            }
+          ]
+        }
       }
     }
   },
