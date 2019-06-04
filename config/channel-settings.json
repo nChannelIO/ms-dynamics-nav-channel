@@ -774,38 +774,41 @@
         "defaultRuleValues": {}
       },
       "configDef" : {
-        "configValues" : {
-          "customerIsCodeUnit": {
-            "type": "boolean",
-            "title": "Is your customer web service a code unit?"
-          },
-          "methodName": {
-            "type": "string",
-            "title": "What is the name of the method used to query customers on the customer web service?"
-          },
-          "keyFieldName": {
-            "type": "string",
-            "title": "Key Field Name"
-          },
-          "startDateProperty": {
-            "type": "string",
-            "title": "Start Date Field Name"
-          },
-          "endDateProperty": {
-            "type": "string",
-            "title": "End Date Field Name"
-          },
-          "remoteIDProperty": {
-            "type": "string",
-            "title": "Remote ID Field Name"
-          },
-          "pageProperty": {
-            "type": "string",
-            "title": "Page Field Name"
-          },
-          "pageSizeProperty": {
-            "type": "string",
-            "title": "Page Size Field Name"
+        "configModel" : {
+          "type": "object",
+          "properties": {
+            "customerIsCodeUnit": {
+              "type": "boolean",
+              "title": "Is your customer web service a code unit?"
+            },
+            "methodName": {
+              "type": "string",
+              "title": "What is the name of the method used to query customers on the customer web service?"
+            },
+            "keyFieldName": {
+              "type": "string",
+              "title": "Key Field Name"
+            },
+            "startDateProperty": {
+              "type": "string",
+              "title": "Start Date Field Name"
+            },
+            "endDateProperty": {
+              "type": "string",
+              "title": "End Date Field Name"
+            },
+            "remoteIDProperty": {
+              "type": "string",
+              "title": "Remote ID Field Name"
+            },
+            "pageProperty": {
+              "type": "string",
+              "title": "Page Field Name"
+            },
+            "pageSizeProperty": {
+              "type": "string",
+              "title": "Page Size Field Name"
+            }
           }
         },
         "configView" : [
@@ -839,7 +842,7 @@
             "condition": "model.customerIsCodeUnit==true"
           }
         ],
-        "configModel" : {
+        "configValues" : {
           "customerIsCodeUnit": false,
           "methodName": "",
           "keyFieldName": "",
@@ -867,38 +870,41 @@
         "defaultRuleValues": {}
       },
       "configDef": {
-        "configValues" : {
-          "customerIsCodeUnit": {
-            "type": "boolean",
-            "title": "Is your customer web service a code unit?"
-          },
-          "methodName": {
-            "type": "string",
-            "title": "What is the name of the method used to query customers on the customer web service?"
-          },
-          "keyFieldName": {
-            "type": "string",
-            "title": "Key Field Name"
-          },
-          "startDateProperty": {
-            "type": "string",
-            "title": "Start Date Field Name"
-          },
-          "endDateProperty": {
-            "type": "string",
-            "title": "End Date Field Name"
-          },
-          "remoteIDProperty": {
-            "type": "string",
-            "title": "Remote ID Field Name"
-          },
-          "pageProperty": {
-            "type": "string",
-            "title": "Page Field Name"
-          },
-          "pageSizeProperty": {
-            "type": "string",
-            "title": "Page Size Field Name"
+        "configModel" : {
+          "type": "object",
+          "properties": {
+            "customerIsCodeUnit": {
+              "type": "boolean",
+              "title": "Is your customer web service a code unit?"
+            },
+            "methodName": {
+              "type": "string",
+              "title": "What is the name of the method used to query customers on the customer web service?"
+            },
+            "keyFieldName": {
+              "type": "string",
+              "title": "Key Field Name"
+            },
+            "startDateProperty": {
+              "type": "string",
+              "title": "Start Date Field Name"
+            },
+            "endDateProperty": {
+              "type": "string",
+              "title": "End Date Field Name"
+            },
+            "remoteIDProperty": {
+              "type": "string",
+              "title": "Remote ID Field Name"
+            },
+            "pageProperty": {
+              "type": "string",
+              "title": "Page Field Name"
+            },
+            "pageSizeProperty": {
+              "type": "string",
+              "title": "Page Size Field Name"
+            }
           }
         },
         "configView" : [
@@ -932,7 +938,7 @@
             "condition": "model.customerIsCodeUnit==true"
           }
         ],
-        "configModel" : {
+        "configValues" : {
           "customerIsCodeUnit": false,
           "methodName": "",
           "keyFieldName": "",
